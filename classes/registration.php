@@ -1,0 +1,711 @@
+<?php
+
+/* File Name : registration.php
+ *  Description : Registration class and functions
+ *  Author  : Sushil Singh  Date: 14th,Nov,2010
+ */
+
+class registration {
+    /* Function Header :svrRegDflt()
+     *             Args: none
+     *           Errors: none
+     *     Return Value: none
+     *      Description: User Registration default function
+     */
+
+    function svrRegDflt() {
+
+        if (isset($_REQUEST['m']) && $_REQUEST['m'] != '') {
+            $mode = $_REQUEST['m'];
+        } else {
+            $mode = '';
+        }
+
+        switch ($mode) {
+
+            case 'savereg':
+                $this->saveAccountDetails();
+                break;
+
+            case 'savecomp':
+                $this->saveCompanyDetails();
+                break;
+
+			case 'saveregseller':
+                $this->saveResellerAccountDetails();
+                break;
+        }
+    }
+
+    /* Function Header :saveCreateAccount()
+     *             Args: none
+     *           Errors: none
+     *     Return Value: none
+     *      Description: Save details of registration process
+     */
+
+    function saveAccountDetails() {
+        $privatekey = "6Ldv8r4SAAAAAOIpAG7IaDQryd7rDtzMKhCug1DO";
+        $inoutObj = new inOut();
+        $db = new db();
+        $arrUser = array();
+        $error = '';
+        if ($_POST["recaptcha_response_field"]) {
+            $resp = recaptcha_check_answer($privatekey,
+                            $_SERVER["REMOTE_ADDR"],
+                            $_POST["recaptcha_challenge_field"],
+                            $_POST["recaptcha_response_field"]);
+
+            if ($resp->is_valid) {
+
+            } else {
+                # set the error code so that we can display it
+                $error.= ERROR_CAPTCHA; //$resp->error;
+                $_SESSION['MESSAGE'] = $error;
+                $_SESSION['post'] = $_POST;
+                $url = BASE_URL . 'registrationProcess.php';
+
+                $inoutObj->reDirect($url);
+                exit();
+            }
+        }
+
+        //echo $link = BASE_URL."reg_action.php?vcode=".md5(time()); die();
+        //Request all form details
+        $arrUser['email'] = $_POST['emailid'];
+        $arrUser['passwd'] = $_POST['pwd'];
+        $arrUser['fname'] = addslashes(trim($_POST['fname']));
+        $arrUser['lname'] = addslashes(trim($_POST['lname']));
+        $arrUser['role'] = "Store Admin"; //addslashes(trim($_POST['role']));
+        $arrUser['cprefix'] = $_POST['cprefix'];
+        $arrUser['phone'] = trim($_POST['phone']);
+        $arrUser['mobile_phone'] = trim($_POST['mob']);
+        //retailer session
+         $arrUser['retail'] = $_POST['$_SESSION["Retailers"]'];
+
+        $error.= ( $arrUser['email'] == '') ? ERROR_EMAIL : '';
+
+        $error.= ( $arrUser['passwd'] == '') ? ERROR_PASSWORD : '';
+
+        $error.= ( $arrUser['fname'] == '') ? ERROR_FNAME : '';
+
+        $error.= ( $arrUser['lname'] == '') ? ERROR_LNAME : '';
+
+        // $error.= ($arrUser['role']=='')?ERROR_ROLE:'';
+
+        $error.= ( $arrUser['phone'] == '' && $arrUser['mobile_phone'] == '') ? ERROR_PHONE_MOBILE : '';
+
+
+        if ($error != '') {
+            $_SESSION['MESSAGE'] = $error;
+            $_SESSION['post'] = $_POST;
+            $url = BASE_URL . 'registrationProcess.php';
+
+            $inoutObj->reDirect($url);
+            exit();
+        } else {
+            $_SESSION['post'] = "";
+            $rowUniqueId = uuid();
+            //$password_sha1 = sha1($arrUser['passwd']);
+            $password_sha256 = $arrUser['passwd'];
+           $password_hash = hash_hmac('sha256', $password_sha256, $rowUniqueId);
+       
+            $arrUser['email_varify_code'] = md5(time());
+			
+            $query = "INSERT INTO user(`u_id`, `email`, `passwd`, `fname`, `lname`, `role`, `phone`, `mobile_phone`,`email_varify_code`,`activ`)
+                VALUES ('" . $rowUniqueId . "', '" . $arrUser['email'] . "', '" . $password_hash . "', '" . $arrUser['fname'] . "', '" . $arrUser['lname'] . "','" . $arrUser['role'] . "', '" . $arrUser['cprefix'] . $arrUser['phone'] . "', '" . $arrUser['cprefix'] . $arrUser['mobile_phone'] . "','" . $arrUser['email_varify_code'] . "','8');";
+            $res = mysql_query($query) or die(mysql_error());
+
+            if ($res) {
+                $mailObj = new emails();
+                $mailObj->sendVarificationEmail($rowUniqueId, $arrUser['email_varify_code']);
+                // These session variable bea ctive if user has been complete his mail varification
+
+                $_SESSION['userid'] = $data['u_id'];
+                $_SESSION['userrole'] = $data['role'];
+                $_SESSION['username'] = $arrUser['fname'] . " " . $arrUser['lname'];
+                $_SESSION['userid'] = $rowUniqueId;
+            }
+
+            if($_SESSION['temp_campId'])
+            {
+                $temp_campId = $_SESSION['temp_campId'];
+                $temp_ccode = $_SESSION['temp_ccode'];
+                $temp_uId = $_SESSION['temp_uId'];
+
+             $temp_value = $temp_campId.'#'.$temp_ccode.'#'.$temp_uId;
+
+             $query = "UPDATE user SET temp='" . $temp_value . "' WHERE u_id = '" . $_SESSION['userid'] . "'";
+            $res = mysql_query($query) or die(mysql_error());
+              
+            }
+
+
+            $_SESSION['MESSAGE'] = REGISTER_EMAIL_VARIFICATION;
+            $_SESSION['REG_STEP'] = 8;
+            $_SESSION['active_state'] =8;
+
+
+            $url = BASE_URL . 'registrationStep.php';
+            $inoutObj->reDirect($url);
+            exit();
+        }
+    }
+
+    /* Function Header :isValidRegistrationStep()
+     *             Args: num (1,2,3,4,5)
+     *           Errors: none
+     *     Return Value: true/false
+     *      Description: Method will check if the current page is right in the registration process
+     */
+
+    function isValidRegistrationStep() {
+        //print_r($_SERVER); //['PHP_SELF'];
+
+        $page_name = explode("/", $_SERVER['PHP_SELF']);
+		if(!empty($page_name[2]))
+		{
+			$script_name = $page_name[2]; // for local server.
+		}
+		else
+		{
+			$script_name = $page_name[1]; // for online server.
+		}
+		
+		
+        //echo "<br>";
+		//print_r($page_name);
+		//echo $page_name[2];
+        //die();
+        $offer = array();
+        $offer[0] = "campaignOffer.php";
+        $offer[1] = "standardOffer.php";
+        $offer[2] = "activation.php";
+
+        $store = array();
+        $store[0] = "createStore.php";
+        $store[1] = "activation.php";
+
+        $inoutObj = new inOut();
+        $db = new db();
+        $inoutObj = new inOut();
+		//echo "session".$_SESSION['REG_STEP']."--TTTT".$page_name[1]."TTT-----";
+        if ((!$_SESSION['REG_STEP']) && ($script_name != "registrationProcess.php")) {
+            $url = BASE_URL . 'registrationStep.php'; //die();
+            $inoutObj->reDirect($url);
+            exit;
+        }
+        //echo "case1"; die();
+        if ($_SESSION['REG_STEP'] == 1 && ($script_name != "addCompany.php")) {
+            $url = BASE_URL . 'registrationStep.php?reg_step=1';
+            $inoutObj->reDirect($url);
+            exit;
+        } else if ($_SESSION['REG_STEP'] == 2 && (!in_array($script_name, $offer))) {
+            $url = BASE_URL . 'registrationStep.php?reg_step=2';
+            $inoutObj->reDirect($url);
+            exit;
+        } else if ($_SESSION['REG_STEP'] == 3 && (!in_array($script_name, $store))) {
+            $url = BASE_URL . 'registrationStep.php?reg_step=3';
+            $inoutObj->reDirect($url);
+            exit;
+        } else if ($_SESSION['REG_STEP'] == 4 && (!in_array($script_name, $store))) {
+            $url = BASE_URL . 'registrationStep.php?reg_step=3';
+            $inoutObj->reDirect($url);
+            exit;
+        } else if ($_SESSION['REG_STEP'] == 5 && ($script_name != "activation.php")) {
+            $url = BASE_URL . 'registrationStep.php?reg_step=5';
+            $inoutObj->reDirect($url);
+            exit;
+        }else if ($_SESSION['REG_STEP'] == 8) {
+            $_SESSION['MESSAGE']=EMAIL_VARIFICATION_CHECK;
+            //$_SESSION['MESSAGE'] = "Please confirm your email varificvation";
+			$url = BASE_URL . 'registrationStep.php?reg_step=8';
+            $inoutObj->reDirect($url);
+            exit;
+        }
+        //echo "Last case"; die();
+    }
+
+    /* Function Header :saveCompanyDetails()
+     *             Args: none
+     *           Errors: none
+     *     Return Value: none
+     *      Description: To store company detials of registered user, this is the second step of registration process
+     */
+
+    function saveCompanyDetails() {
+        //print_r($_POST); die();
+        $inoutObj = new inOut();
+        $db = new db();
+        $arrUser = array();
+        $error = '';
+        //echo $link = BASE_URL."reg_action.php?vcode=".md5(time()); die();
+        //Request all form details
+        $arrUser['tzcountries'] = $_POST['areatimezone'];
+        $arrUser['timezones'] = $_POST['timezone'];
+        $arrUser['currencies'] = addslashes(trim($_POST['currency']));
+        $arrUser['company_name'] = addslashes(trim($_POST['compname']));
+        $arrUser['orgnr'] = $_POST['orgcode'];
+        $arrUser['street'] = trim($_POST['streetadd']);
+        $arrUser['zip'] = trim($_POST['zipcode']);
+        $arrUser['city'] = trim($_POST['city']);
+        $arrUser['country'] = $_POST['country'];
+        $arrUser['lowLevel'] = $_POST['lowLevel'];
+        if($arrUser['lowLevel'] == '')
+        { 
+            $arrUser['lowLevel'] = '50'; 
+        }
+
+        $error.= ( $arrUser['tzcountries'] == '') ? ERROR_TZCOUNTRY : '';
+
+        $error.= ( $arrUser['timezones'] == '') ? ERROR_TIMEZONE : '';
+
+        $error.= ( $arrUser['currencies'] == '') ? ERROR_CURRENCIES : '';
+
+        $error.= ( $arrUser['company_name'] == '') ? ERROR_COMP_NAME : '';
+
+        $error.= ( $arrUser['orgnr'] == '') ? ERROR_COMP_ORG : '';
+
+        $error.= ( $arrUser['street'] == '') ? ERROR_COMP_STREET : '';
+
+        $error.= ( $arrUser['zip'] == '') ? ERROR_COMP_ZIP : '';
+
+        $error.= ( $arrUser['city'] == '') ? ERROR_COMP_CITY : '';
+
+        $error.= ( $arrUser['country'] == '') ? ERROR_COMP_COUNTRY : '';
+
+        if ($error != '') {
+            $_SESSION['MESSAGE'] = $error;
+            $_SESSION['post'] = $_POST;
+            $url = BASE_URL . 'addCompany.php';
+
+            $inoutObj->reDirect($url);
+            exit();
+        } else {
+            $_SESSION['post'] = "";
+
+            // Add company details in the database
+            $compUniqueId = uuid();
+            //echo $_SESSION['userid'];
+             $query = "INSERT INTO company(`company_id` ,`u_id` ,`company_name` ,`orgnr` ,`street` ,`zip` ,`city` ,`country` ,`tzcountries` ,`timezones` ,`currencies`,`low_level`)
+                VALUES ('" . $compUniqueId . "', '" . $_SESSION['userid'] . "', '" . $arrUser['company_name'] . "', '" . $arrUser['orgnr'] . "', '" . $arrUser['street'] . "', '" . $arrUser['zip'] . "', '" . $arrUser['city'] . "', '" . $arrUser['country'] . "', '" . $arrUser['tzcountries'] . "', '" . $arrUser['timezones'] . "', '" . $arrUser['currencies'] . "', '" . $arrUser['lowLevel'] . "');";
+            $res = mysql_query($query) or die(mysql_error());
+            $storeUniqueId = uuid();
+
+            $query = "UPDATE user SET activ='2' WHERE u_id = '" . $_SESSION['userid'] . "'";
+            $res = mysql_query($query) or die(mysql_error());
+
+             $query = "INSERT INTO employer(`u_id`,`company_id`)
+            VALUES ( '" . $_SESSION['userid'] . "','" . $compUniqueId . "')";
+            $res = mysql_query($query) or die("Employer : " . mysql_error());
+            // Add Default store by company registration
+            // Since we are not clear at company state whether to add these details as store.
+            // $query = "INSERT INTO store(`store_id` ,`u_id` ,`store_name` ,`street`,`city` ,`country`)
+            // VALUES ('".$storeUniqueId."', '".$_SESSION['userid']."', '".$arrUser['company_name']."', '".$arrUser['street']."', '".$arrUser['city']."', '".$arrUser['country']."');";
+            // $res = mysql_query($query) or die(mysql_error());
+
+
+            $_SESSION['MESSAGE'] = ADD_COUNTRY_SUCCESS;
+            $_SESSION['REG_STEP'] = 2;
+            $_SESSION['active_state'] = 2;
+            $url = BASE_URL . 'registrationStep.php';
+            $inoutObj->reDirect($url);
+            exit();
+        }
+    }
+
+    /* Function Header :emailValification()
+     *             Args: none
+     *           Errors: none
+     *     Return Value: none
+     *      Description: 
+     */
+
+    function emailVarification($get) {
+
+        $inoutObj = new inOut();
+        $url_recieved = base64_decode($get['ucode']);
+        $data = explode("&", $url_recieved);
+        //print_r($data); 
+		$uid = explode("=", $data[0]);
+        $vcode = explode("=", $data[1]);
+        $retailers = explode("=", $data[2]);
+        $_SESSION["Retailers"] = $retailers[1];
+
+        $query = "select * from user where u_id='" . $uid[1] . "'";
+        $res = mysql_query($query) or die(mysql_error());
+        $result = mysql_fetch_array($res);
+	//echo $result['email_varify_code']." VCODE ".$vcode['0']; die();
+        if ($result['email_varify_code'] == $vcode['1']) {
+            $query = "UPDATE user SET email_varify_code='0', activ='1' where  u_id='" . $uid[1] . "'";
+            $res = mysql_query($query) or die(mysql_error());
+
+            $_SESSION['userid'] = $result['u_id'];
+            $_SESSION['userrole'] = $result['role'];
+            $_SESSION['username'] = $result['fname'] . " " . $result['lname'];
+            $_SESSION['useremailid'] = $result['email'];
+
+            $_SESSION['MESSAGE'] = SUCCESS_EMAIL_VALID;
+            $_SESSION['REG_STEP'] = 1;
+///////////////////for testing
+                //  unset($_SESSION['userid']);
+		//unset($_SESSION['active_state']);
+		//unset($_SESSION['userrole']);
+		//unset($_SESSION['username']);
+		//unset($_SESSION['useremail']);
+		unset($_SESSION['usersessionid']);
+		//unset($_SESSION['REG_STEP']);
+		unset($_SESSION['MAIL_URL']);
+		unset($_SESSION['createStore']);
+                unset($_SESSION['ccode']);
+                unset($_SESSION['temp_campId']);
+                unset($_SESSION['temp_ccode']);
+                unset($_SESSION['temp_uId']);
+/////////////////////////
+
+            $url = BASE_URL . 'registrationStep.php';
+
+
+            $inoutObj->reDirect($url);
+        } else {
+            $_SESSION['MESSAGE'] = VALID_MATCH_ERROR;
+            $_SESSION['REG_STEP'] = 8;
+            $url = BASE_URL . 'registrationStep.php';
+            $inoutObj->reDirect($url);
+        }
+    }
+
+
+	function getCountryList()
+	{
+		$query = "select iso,printable_name from country where iso in('SE','IN')";
+		$result = mysql_query($query);
+		$countryList=array();
+		
+		while($row=mysql_fetch_array($result))
+		{
+			$countryList[$row['iso']]=$row['printable_name'];
+		}
+
+		return $countryList;
+	}
+
+
+	/* Function Header :saveResellerAccountDetails()
+     *             Args: none
+     *           Errors: none
+     *     Return Value: none
+     *      Description: Save details of reseller registration process
+     */
+
+    function saveResellerAccountDetails() {
+        $privatekey = "6Ldv8r4SAAAAAOIpAG7IaDQryd7rDtzMKhCug1DO";
+        $inoutObj = new inOut();
+        $db = new db();
+        $arrUser = array();
+        $error = '';
+        if ($_POST["recaptcha_response_field"]) {
+            $resp = recaptcha_check_answer($privatekey,
+                            $_SERVER["REMOTE_ADDR"],
+                            $_POST["recaptcha_challenge_field"],
+                            $_POST["recaptcha_response_field"]);
+
+            if ($resp->is_valid) {
+
+            } else {
+                # set the error code so that we can display it
+                $error.= ERROR_CAPTCHA; //$resp->error;
+                $_SESSION['MESSAGE'] = $error;
+                $_SESSION['post'] = $_POST;
+                $url = BASE_URL . 'registrationResellerProcess.php';
+
+                $inoutObj->reDirect($url);
+                exit();
+            }
+        }
+
+        //echo $link = BASE_URL."reg_action.php?vcode=".md5(time()); die();
+        //Request all form details
+        $arrUser['email'] = $_POST['emailid'];
+        $arrUser['passwd'] = $_POST['pwd'];
+        $arrUser['fname'] = addslashes(trim($_POST['fname']));
+        $arrUser['lname'] = addslashes(trim($_POST['lname']));
+        $arrUser['role'] = "Reseller"; //addslashes(trim($_POST['role']));
+        $arrUser['cprefix'] = $_POST['cprefix'];
+        $arrUser['phone'] = trim($_POST['phone']);
+        $arrUser['mobile_phone'] = trim($_POST['mob']);
+        $arrUser['street_addr'] = addslashes(trim($_POST['street_addr']));
+        $arrUser['city_addr'] = addslashes(trim($_POST['city_addr']));
+        $arrUser['home_zip'] = addslashes(trim($_POST['home_zip']));
+        $arrUser['country'] = $_POST['country'];
+		$arrUser['social_number'] = addslashes(trim($_POST['social_number']));
+		$arrUser['resellers_bank'] = addslashes(trim($_POST['resellers_bank']));
+                 
+		
+				
+		//retailer session
+        $arrUser['retail'] = $_POST['$_SESSION["Retailers"]'];
+
+        $error.= ( $arrUser['email'] == '') ? ERROR_EMAIL : '';
+
+        $error.= ( $arrUser['passwd'] == '') ? ERROR_PASSWORD : '';
+
+        $error.= ( $arrUser['fname'] == '') ? ERROR_FNAME : '';
+
+        $error.= ( $arrUser['lname'] == '') ? ERROR_LNAME : '';
+
+        $error.= ( $arrUser['phone'] == '' && $arrUser['mobile_phone'] == '') ? ERROR_PHONE_MOBILE : '';
+
+
+       $error.= ( $arrUser['street_addr'] == '') ? ERROR_STREET : '';
+       
+	   $error.= ( $arrUser['city_addr'] == '') ? ERROR_CITY : '';
+	   
+	   $error.= ( $arrUser['home_zip'] == '') ? ERROR_ZIP : '';
+	   
+	   $error.= ( $arrUser['country'] == '') ? ERROR_COUNTRY : '';
+	   
+	   $error.= ( $arrUser['social_number'] == '') ? ERROR_SOCIAL_NUMBER : '';
+	   
+	   $error.= ( $arrUser['resellers_bank'] == '') ? ERROR_BANK_AC_NUMBER : '';
+		
+		
+		
+		if ($error != '') {
+            $_SESSION['MESSAGE'] = $error;
+            $_SESSION['post'] = $_POST;
+            $url = BASE_URL . 'registrationResellerProcess.php';
+
+            $inoutObj->reDirect($url);
+            exit();
+        } else {
+            $_SESSION['post'] = "";
+            $rowUniqueId = uuid();
+            //$password_sha1 = sha1($arrUser['passwd']);
+
+            $password_sha256 = $arrUser['passwd'];
+           $password_hash = hash_hmac('sha256', $password_sha256, $rowUniqueId);
+            
+            $arrUser['email_varify_code'] = md5(time());
+			
+            $query = "INSERT INTO user(`u_id`, `email`, `passwd`, `fname`, `lname`, `role`, `phone`, `mobile_phone`,`email_varify_code`,`activ`,`street_addr`,`city_addr`,`home_zip`,`country`,`social_number`,`resellers_bank`)
+                VALUES ('" . $rowUniqueId . "', '" . $arrUser['email'] . "', '" . $password_hash . "', '" . $arrUser['fname'] . "', '" . $arrUser['lname'] . "','" . $arrUser['role'] . "', '" . $arrUser['cprefix'] . $arrUser['phone'] . "', '" . $arrUser['cprefix'] . $arrUser['mobile_phone'] . "','" . $arrUser['email_varify_code'] . "','8','" . $arrUser['street_addr'] . "','" . $arrUser['city_addr'] . "','" . $arrUser['home_zip'] . "','" . $arrUser['country'] . "','" . $arrUser['social_number'] . "','" . $arrUser['resellers_bank'] . "');";
+            $res = mysql_query($query) or die(mysql_error());
+
+            if ($res) {
+                $mailObj = new emails();
+                $mailObj->sendResellerVarificationEmail($rowUniqueId, $arrUser['email_varify_code']);
+                // These session variable bea ctive if user has been complete his mail varification
+
+                $_SESSION['userid'] = $data['u_id'];
+                $_SESSION['userrole'] = $data['role'];
+                $_SESSION['username'] = $arrUser['fname'] . " " . $arrUser['lname'];
+                $_SESSION['userid'] = $rowUniqueId;
+                  
+            }
+
+            $_SESSION['MESSAGE'] = REGISTER_EMAIL_VARIFICATION;
+            $_SESSION['REG_STEP'] = 8;
+            $_SESSION['active_state'] =8;
+
+            $url = BASE_URL . 'registrationResellerStep.php';
+            $inoutObj->reDirect($url);
+            exit();
+        }
+    }
+
+
+
+	 function emailVarificationReseller($get) {
+
+        $inoutObj = new inOut();
+        $url_recieved = base64_decode($get['ucode']);
+        $data = explode("&", $url_recieved);
+        //print_r($data); 
+		$uid = explode("=", $data[0]);
+        $vcode = explode("=", $data[1]);
+        $retailers = explode("=", $data[2]);
+        $_SESSION["Retailers"] = $retailers[1];
+
+        $query = "select * from user where u_id='" . $uid[1] . "'";
+        $res = mysql_query($query) or die(mysql_error());
+        $result = mysql_fetch_array($res);
+		//echo $result['email_varify_code']." VCODE ".$vcode['0']; die();
+        if ($result['email_varify_code'] == $vcode['1']) {
+            $query = "UPDATE user SET email_varify_code='0', activ='1' where  u_id='" . $uid[1] . "'";
+            $res = mysql_query($query) or die(mysql_error());
+
+            $_SESSION['userid'] = $result['u_id'];
+            $_SESSION['userrole'] = $result['role'];
+            $_SESSION['username'] = $result['fname'] . " " . $result['lname'];
+            $_SESSION['useremailid'] = $result['email'];
+
+            $_SESSION['MESSAGE'] = SUCCESS_EMAIL_VALID;
+            $_SESSION['REG_STEP'] = 1;
+            $url = BASE_URL . 'registrationResellerStep.php'; // We have to change it for reseller.
+
+
+            $inoutObj->reDirect($url);
+        } else {
+            $_SESSION['MESSAGE'] = VALID_MATCH_ERROR;
+            $_SESSION['REG_STEP'] = 8;
+            $url = BASE_URL . 'registrationResellerStep.php'; // We have to change it for reseller.
+            $inoutObj->reDirect($url);
+        }
+    }
+
+
+	 function isValidResellerRegistrationStep() {
+        //print_r($_SERVER); //['PHP_SELF'];
+
+        $page_name = explode("/", $_SERVER['PHP_SELF']);
+		if(!empty($page_name[2]))
+		{
+			$script_name = $page_name[2]; // for local server.
+		}
+		else
+		{
+			$script_name = $page_name[1]; // for online server.
+		}
+		
+		
+        //echo "<br>";
+		//print_r($page_name);
+		//echo $page_name[2];
+        //die();
+        $offer = array();
+        $offer[0] = "campaignOffer.php";
+        $offer[1] = "standardOffer.php";
+        $offer[2] = "resllerActivation.php";
+
+        $store = array();
+        $store[0] = "createStore.php";
+        $store[1] = "resllerActivation.php";
+
+        $inoutObj = new inOut();
+        $db = new db();
+        $inoutObj = new inOut();
+		//echo "session".$_SESSION['REG_STEP']."--TTTT".$page_name[1]."TTT-----";
+        if ((!$_SESSION['REG_STEP']) && ($script_name != "registrationResellerProcess.php")) {
+            $url = BASE_URL . 'registrationResellerStep.php'; //die();
+            $inoutObj->reDirect($url);
+            exit;
+        }
+        //echo "case1"; die();
+        if ($_SESSION['REG_STEP'] == 1 && ($script_name != "addCompany.php")) {
+            $url = BASE_URL . 'registrationResellerStep.php?reg_step=1';
+            $inoutObj->reDirect($url);
+            exit;
+        } else if ($_SESSION['REG_STEP'] == 2 && (!in_array($script_name, $offer))) {
+            $url = BASE_URL . 'registrationResellerStep.php?reg_step=2';
+            $inoutObj->reDirect($url);
+            exit;
+        } else if ($_SESSION['REG_STEP'] == 3 && (!in_array($script_name, $store))) {
+            $url = BASE_URL . 'registrationResellerStep.php?reg_step=3';
+            $inoutObj->reDirect($url);
+            exit;
+        } else if ($_SESSION['REG_STEP'] == 4 && (!in_array($script_name, $store))) {
+            $url = BASE_URL . 'registrationResellerStep.php?reg_step=3';
+            $inoutObj->reDirect($url);
+            exit;
+        } else if ($_SESSION['REG_STEP'] == 5 && ($script_name != "activation.php")) {
+            $url = BASE_URL . 'registrationResellerStep.php?reg_step=5';
+            $inoutObj->reDirect($url);
+            exit;
+        }else if ($_SESSION['REG_STEP'] == 8) {
+            $_SESSION['MESSAGE']=EMAIL_VARIFICATION_CHECK;
+            //$_SESSION['MESSAGE'] = "Please confirm your email varificvation";
+			$url = BASE_URL . 'registrationResellerStep.php?reg_step=8';
+            $inoutObj->reDirect($url);
+            exit;
+        }
+        //echo "Last case"; die();
+    }
+
+    function getCcode()
+    {
+        $inoutObj = new inOut();
+        $db = new db();
+        $arrUser = array();
+        $error = '';
+
+        $query = "SELECT * FROM ccode WHERE activ = '1'";
+        $res = mysql_query($query);
+         while($rs = mysql_fetch_array($res)) {
+        $data[] = $rs;
+       
+         }
+         return $data;
+    }
+
+function putCcode($d)
+    {
+        $inoutObj = new inOut();
+        $db = new db();
+        $arrUser = array();
+        $error = '';
+
+        $query = "SELECT * FROM ccode WHERE ccode = '" . $d . "'";
+        $res = mysql_query($query);
+        $rs = mysql_fetch_array($res);
+        $value = $rs['value'];
+
+         return $value;
+    }
+
+
+    function checkTempValue()
+    {
+        $inoutObj = new inOut();
+        $db = new db();
+        $arrUser = array();
+        $error = '';
+
+
+        $query = "SELECT * FROM user WHERE u_id = '" . $_SESSION['userid'] . "'";
+        $res = mysql_query($query);
+        $rs = mysql_fetch_array($res);
+        $tempValue = $rs['temp'];
+        return $tempValue;
+
+    }
+
+    function SaveResellerId($resellerId,$ccodeId)
+    {  //echo 'hereeeeeeeeeeeeeeeeee'; die();
+        $inoutObj = new inOut();
+        $db = new db();
+        $arrUser = array();
+        $error = '';
+
+       
+        $query = "SELECT * FROM ccode WHERE ccode = '" . $ccodeId . "'";
+        $res = mysql_query($query) or die(mysql_error());
+        $rs = mysql_fetch_array($res);
+        $ccValue = $rs['value'];
+
+         $date = date('Y-m-d H:i:s');
+         $query = "UPDATE company SET seller_id='" . $resellerId . "' , `seller_date` = '" . $date . "', `ccode` = '" . $ccodeId . "', `cc_value` = '" . $ccValue . "'  WHERE u_id = '" . $_SESSION['userid'] . "'";
+         $res = mysql_query($query) or die(mysql_error());
+
+             $query = "UPDATE user SET temp='' WHERE u_id = '" . $_SESSION['userid'] . "'";
+            $res = mysql_query($query) or die(mysql_error());
+    }
+
+    function getOwnerName($owner) {
+
+         $inoutObj = new inOut();
+        $db = new db();
+        $arrUser = array();
+        $error = '';
+
+
+        $query = "SELECT * FROM user WHERE u_id = '" . $owner . "'";
+        $res = mysql_query($query) or die(mysql_error());
+        $rs = mysql_fetch_array($res);
+        $ownerName[] = $rs;
+        return $ownerName;
+      
+    }
+
+}
+?>

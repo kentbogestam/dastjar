@@ -1,0 +1,95 @@
+/* ######### CSS for top level tabs ######### */
+
+textarea {
+    resize: none;
+}
+.tabsmenuclass ul{
+overflow: hidden;
+width: auto;
+margin: 0;
+padding: 0;
+list-style-type: none;
+background: #E8E8E8;
+}
+
+.tabsmenuclass li{
+float: left;
+}
+
+.tabsmenuclass a{
+display: block;
+padding: 5px 20px 5px 20px;
+background: #E8E8E8;
+color: black;
+margin-right: 1px;
+text-decoration: none;
+font: bold 18px Arial;
+width: auto;
+text-align:center;
+}
+
+.tabsmenuclass a:hover, .tabsmenuclass a.selected{
+background: black;
+color: white;
+text-decoration:none;
+}
+
+/* ######### CSS for sub menu container below ######### */
+
+.tabsmenucontentclass{
+clear: left;
+background: #E8E8E8;
+width: 100%;
+height: 30px;
+
+border: 1px solid silver;
+}
+
+.tabsmenucontentclass ul{
+margin: 0;
+padding: 0;
+list-style-type: none;
+}
+
+.tabsmenucontentclass li{
+float: left;
+margin-right: 1em;
+
+}
+.tabsmenucontentclass a{
+clear: left;
+background: #E8E8E8;
+width: 100%;
+height: 18px;
+display: block;
+color: black;
+text-decoration:none;
+padding: 5px 7px;
+}
+.tabsmenucontentclass a:hover, .tabsmenucontentclass a.selected{
+background: black;
+color: white;
+text-decoration:none;
+}
+.frm_cls{
+	color:#851B22;
+	font-weight:bold;
+	font-size:20px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+.frm_cls td{
+	color:#851B22;
+	font-weight:bold;
+	font-size:20px;
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+.frm_cls-2{color:#851B22; font-weight:bold; font-size:20px; margin-top: 20px; margin-bottom:20px;}
+.frm_cls-2 td{
+	color:#851B22;
+	font-weight:bold;
+	font-size:20px;
+	padding-top: 7px;
+	padding-bottom: 7px;
+}

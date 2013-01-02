@@ -1,0 +1,98 @@
+body {
+	margin-top:0px;
+	background-color:#CCCCCC;
+	color:#000000;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:12px;
+}
+img {
+	border:none;
+}
+textarea {
+	resize: none;
+}
+#container {
+	background-color:#FFFFFF;
+	width:900px;
+	margin-left:auto;
+	margin-right:auto;
+}
+/*===HEADER START FROM HERE ====*/
+#header {
+	width:900px;
+	height:97px;
+	background-image:url(images/headerbg.jpg);
+	background-repeat:repeat-x;
+}
+#logo {
+	height:89px;
+	width:233px;
+	float:left;
+}
+#nevi {
+	margin-left:250px;
+	height:97px;
+	color:#FFFFFF;
+	padding-left:230px;
+	padding-top:20px;
+}
+#nevi ul {
+	list-style:none;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:18px;
+	color:#96262d;
+	font-weight:bold;
+}
+#nevi li {
+	float:left;
+	padding-left:70px;
+}
+/*===MAIN START FROM HERE ====*/
+#main {
+	/*background-image:url(images/background_main.jpg);*/
+width:900px;
+}
+#main_color {
+	background-color:#FFFFFF;
+	width:900px;
+	/*background-image:url(images/bg.jpg);*/
+background-repeat:repeat;
+}
+#singbutton_portion {
+	width:900px;
+}
+.textbold {
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:25px;
+	color:#96262d;
+	font-weight:900;
+}
+.textnormal {
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#96262d;
+}
+#nevi a {
+	color:#96262d;
+	text-decoration:none;
+}
+#register_form {
+	font:Verdana, Arial, Helvetica, sans-serif;
+	font-size:12px;
+}
+.vtip {
+	color:#666666;
+	text-decoration:none;
+}
+#mainbutton {
+	/*background-image:url(images/bg_style.png);*/
+background-attachment:fixed;
+	background-repeat:no-repeat;
+	background-position:center;
+}
+/*===FOOTER START FROM HERE ====*/
+
+#footer {
+	width:900px;
+	background-color:#e1e1e1;
+}
