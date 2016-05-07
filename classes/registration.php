@@ -179,8 +179,9 @@ class registration {
         //die();
         $offer = array();
         $offer[0] = "campaignOffer.php";
-        $offer[1] = "standardOffer.php";
-        $offer[2] = "activation.php";
+        $offer[1] = "advertiseOffer.php";
+        $offer[2] = "standardOffer.php";
+        $offer[3] = "activation.php";
 
         $store = array();
         $store[0] = "createStore.php";
@@ -188,7 +189,7 @@ class registration {
 
         $inoutObj = new inOut();
         $db = new db();
-        $inoutObj = new inOut();
+       // $inoutObj = new inOut();
 		//echo "session".$_SESSION['REG_STEP']."--TTTT".$page_name[1]."TTT-----";
         if ((!$_SESSION['REG_STEP']) && ($script_name != "registrationProcess.php")) {
             $url = BASE_URL . 'registrationStep.php'; //die();
@@ -212,7 +213,11 @@ class registration {
             $url = BASE_URL . 'registrationStep.php?reg_step=3';
             $inoutObj->reDirect($url);
             exit;
-        } else if ($_SESSION['REG_STEP'] == 5 && ($script_name != "activation.php")) {
+        } 
+        
+        
+        
+        else if ($_SESSION['REG_STEP'] == 5 && ($script_name != "activation.php")) {
             $url = BASE_URL . 'registrationStep.php?reg_step=5';
             $inoutObj->reDirect($url);
             exit;
@@ -378,7 +383,7 @@ class registration {
 
 	function getCountryList()
 	{
-		$query = "select iso,printable_name from country where iso in('SE','IN')";
+		$query = "select iso,printable_name from country where iso in('SE','IN','DE')";
 		$result = mysql_query($query);
 		$countryList=array();
 		

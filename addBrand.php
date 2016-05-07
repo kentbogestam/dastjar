@@ -44,11 +44,12 @@ if (($_POST['submit'])) {
 <br />
 <body>
 <div class="center">
-<div style="height:93px; width:100%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+<div style="height:93px; width:100%">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="100%" height="93" class="redwhitebutton1234">Add User Details</td>
   </tr>
-</table>
+	</table>
 </div>
 
 <div align="center">
@@ -83,18 +84,18 @@ if (($_POST['submit'])) {
                 <td align="right" valign="top" ><a title="<?=BICON_TEXT
                                    ?>" class="vtip"><b><small>?</small></b></a> </td>
                 </tr>
-                <tr>
                     
                     <td align="left" valign="top" style="font-size:20px; font-weight:normal;">Amount:</td>
               <td align="left" valign="bottom" style="font-size:12px;">
-                    <INPUT class="text_field_new" type=text readonly="readonly" name="amount" id ="amount" value="<? echo $data['brand_fee'] ?>">
+                    <INPUT class="text_field_new" type=text  name="amount" id ="amount" value="<? echo $data['brand_fee'] ?>">
                     <br />
-                  <div style="float:left; margin-top:5px;"><table border="0" cellspacing="0" cellpadding="0">
+                  <div style="float:left; margin-top:5px;">
+			<table border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td style="padding-right:5px;">SEK </td>
     <td><img src="images/cards_visa.jpg" width="131" height="40" /></td>
   </tr>
-</table>
+			</table>
 </div></td>
                 <td align="right" valign="bottom" style="font-size:12px;">&nbsp;</td>
                 </tr>

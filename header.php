@@ -15,8 +15,9 @@ ob_start();
 </head>
 <body>
 <div id="container">
+<div style="float: right; font-size: 18px; right: 10px; position: absolute; right: 510px; padding-top: 5px; padding-right: 22px;"><a style="text-decoration:none" href="index.php" id="nevigation_color"></a></div>
   <div id="header">
-    <div id="logo" align="center"><a href="<?=_HOME_?>"><img src="images/logo.png" width="249" height="118" /></a></div>
+    <div id="logo" align="center"><a href="http://cumbari.com/index_org.php" ><img src="images/cmarkplatf.png" width="249" height="118" /></a></div>
     <div id="nevi">
       <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
         <tr>
@@ -59,8 +60,6 @@ else
             Reseller
             <? } ?>
             </a></td>
-          <td width="20%" align="center" id="nevigation_color"><a href="aboutUs.php">About Us</a></td>
-          <td width="21%" align="center" id="nevigation_color"><a href="contactus.php">Contact Us</a></td>
         </tr>
       </table>
     </div>

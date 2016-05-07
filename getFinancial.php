@@ -111,7 +111,7 @@ $_SESSION['MESSAGE']='';
 }
 ?>
 </div>
-<div class="bg_darkgray123">
+<!--<div class="bg_darkgray123">
 Load your Company Account</div>
 <form name="loadAccountForm" action="payment.php" id="loadAccountForm" method="get">
 <table  width="100%" BORDER=0  style="margin-top:10px;">
@@ -141,7 +141,7 @@ Load your Company Account</div>
 </table>
 </form>
 <h1><span class='mandatory'>* These Fields Are Mandatory </span></h1>
-</div>
+</div>-->
 <? include("footer.php"); ?>
 </body>
 </html>

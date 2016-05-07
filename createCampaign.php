@@ -4,7 +4,7 @@
  *  Author      : Himanshu Singh  Date: 12th,Nov,2010  Creation
 */
 
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $regObj = new registration();
 $inoutObj = new inOut();
@@ -14,6 +14,9 @@ if ($compcont == 'Sweden') {
     //echo $compcont;die;
     $lang = 'SWE';
     //echo $lang;die;
+}
+elseif ($compcont == 'Germany') {
+    $lang = 'GER';
 }
 else {
     $lang = 'ENG';
@@ -102,11 +105,12 @@ include("main.php");
                 <tr>
                   <td width="531" align="left" >Language:</td>
                   <td width="216" align="left" ><select style="width:406px; background-color:#e4e3dd; border:#abadb3 1px solid" onChange="getLangImage(this.value);" class="text_field_new" name="lang" id="lang" >
+                      <option <? if ($lang == "GER") echo "selected='selected'"; ?> value="GER">German</option>
                       <option <? if ($lang == "ENG") echo "selected='selected'"; ?> value="ENG">English</option>
                       <option <? if ($lang == "SWE") echo "selected='selected'"; ?> value="SWE">Swedish</option>
                     </select>
                     <div id='error_langStand' class="error"></div></td>
-                  <td align="right" >&nbsp;</td>
+                  <td align="right"><a title="<?=CLANGUAGE_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
                 </tr>
                 <tr>
                   <td width="531" align="left" class="inner_grid"> Campaign Title. Max. 19
@@ -114,15 +118,14 @@ include("main.php");
                   <td align="left"><INPUT class="text_field_new" type=text name="titleSlogan" id="titleSlogan" maxlength="19" onBlur="iconPreview(this.form);limitPreview(this.form);" value="<?=$_SESSION['post']['titleSlogan']
                                                    ?>">
                     <div id='error_titleSlogan' class="error"></div></td>
-                  <td align="right">&nbsp;</td>
+                  <td align="right"><a title="<?=TITEL_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
                 </tr>
                 <tr>
                   <td align="left" class="inner_grid"> Campaign Description. Max. 50 characters<span class='mandatory'>*</span>:</td>
                   <td align="left"><INPUT class="text_field_new" type=text name="subSlogan" id="subSlogan" maxlength="50" onBlur="iconPreview(this.form);limitPreview(this.form);" value="<?=$_SESSION['post']['subSlogan']
                                                    ?>">
                     <div id='error_subSlogan' class="error" style="display:none"></div></td>
-                  <td align="right"><a title="<?=DESCRIPTION_TEXT
-                                               ?>" class="vtip"><b><small>?</small></b></a> </td>
+                  <td align="right"><a title="<?=DESCRIPTION_TEXT ?>" class="vtip"><b><small>?</small></b></a> </td>
                 </tr>
                 <tr>
                   <td align="left" class="inner_grid">Category<span class='mandatory'>*</span>:</td>
@@ -138,7 +141,7 @@ include("main.php");
                     <input type="hidden" name="category_image" id="category_image" value="">
                     <div id="category_image_div" style="display:none;"></div>
                     <div id='error_linkedCat' class="error"></div></td>
-                  <td align="right">&nbsp;</td>
+                  <td align="right"><a title="<?=CCATEGORY_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
                 </tr>
                 <tr>
                   <td align="left" valign="top" class="inner_grid">Small icon <font size="2">(Icon must be in png format only e.g. icon.png.The size must be at least 45 x 60 pixels)</font></td>
@@ -154,8 +157,7 @@ include("main.php");
                     <div>
                       <input type="hidden" id="selected_image" name="selected_image" value="0">
                     </div></td>
-                  <td align="right"><a title="<?=ICON_TEXT
-                                               ?>" class="vtip"><b><small>?</small></b></a></td>
+                  <td align="right"><a title="<?=ICON_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
                 </tr>
                 <tr></tr>
                 <tr style="display:none;">
@@ -231,11 +233,19 @@ include("main.php");
                   <td align="right"><a title="<?=CAMPAIGNNAME_TEXT ?>" class="vtip"><b><small>?</small></b></a> </td>
                 </tr>
                 <tr>
-                  <td class="inner_grid">Keyword:</td>
+                  <td class="inner_grid">Keyword<span class='mandatory'>*</span>:</td>
                   <td><input class="text_field_new" type="text" name="searchKeyword" maxlength="90" value="<?=$_SESSION['post']['searchKeyword'] ?>" id="searchKeyword" />
                     <div id='error_searchKeyword' class="error"  style="display:none" ></div></td>
                   <td align="right"><a title="<?=KEYWORD_TEXT ?>" class="vtip"><b><small>?</small></b></a> </td>
                 </tr>
+                <tr>
+                  <td class="inner_grid">Campaign Value:<span class='mandatory'>*</span>:</td>
+                  <td><input class="text_field_new" type="text" name="discountValue" maxlength="90" value="<?=$_SESSION['post']['discountValue'] ?>" id="discountValue" />
+                    <div id='error_discountValue' class="error"></div></td>
+                  <td align="right"><a title="<?=DISCOUNTVALUE_TEXT ?>" class="vtip"><b><small>?</small></b></a> </td>
+                </tr>
+                
+                
                 <!--           <tr>
             <td class="inner_grid">Discount:</td>
             <td><select class="text_field_new"  name="ccode" id="ccode" >
@@ -328,7 +338,7 @@ include("main.php");
                                             )echo "selected='selected'"; ?>   value="23">23</option>
                     </select>
                     <div id='error_startDateLimitation'></div></td>
-                  <td align="right">&nbsp;</td>
+                 <td align="right"><a title="<?=DEAL_VALID_FROM_TEXT  ?>" class="vtip"><b><small>?</small></b></a></td>
                 </tr>
                 <tr>
                   <td class="inner_grid">Deal is only valid to an end time during a day:</td>
@@ -411,7 +421,7 @@ include("main.php");
                                             )echo "selected='selected'"; ?> value="23">23</option>
                     </select>
                     <div id='error_endDateLimitation'></div></td>
-                  <td align="right">&nbsp;</td>
+                  <td align="right"><a title="<?=DEAL_VALID_TO_TEXT  ?>" class="vtip"><b><small>?</small></b></a></td>
                 </tr>
                 <tr>
                   <td class="inner_grid">Deal is only valid to a limited set of days during the week:</td>
@@ -431,7 +441,7 @@ include("main.php");
                       <option value="ALL_WEEK">ALL WEEK</option>
                     </select>
                     <div id='error_limitDays'></div></td>
-                  <td align="right">&nbsp;</td>
+                 <td align="right"><a title="<?=DEAL_VALID_DAY_TEXT  ?>" class="vtip"><b><small>?</small></b></a></td>
                 </tr>
                 <tr>
                   <td  class="inner_grid"> Code:</td>
@@ -441,7 +451,7 @@ include("main.php");
                       <option value="CUSTOM">PINCODE</option>
                     </select>
                   </td>
-                  <td align="right" valign="top" >&nbsp;</td>
+                  <td align="right"><a title="<?=CCODEHELP_TEXT  ?>" class="vtip"><b><small>?</small></b></a></td>
                 </tr>
                 <tr  >
                   <td class="inner_grid" colspan="4"><table width="100%" border="0" align="left" id="ean_table" style="display:none">
@@ -459,6 +469,18 @@ include("main.php");
                     </table>
                   </td>
                 </tr>
+<!-- New View Option Kent  -->
+                <tr>
+                  <td width="515" class="inner_grid">Select View Option
+                  <td width="229"><select style="width:406px; background-color:#e4e3dd; border:#abadb3 1px solid" class="text_field_new" id="viewopt" name="viewopt">
+                      <option <? if ($_SESSION['post']['viewopt'] == 'ST' )echo "selected='selected'"; ?> value="ST">Standard</option>
+                      <option <? if ($_SESSION['post']['viewopt'] == 'CD' )echo "selected='selected'"; ?> value="CD">Count down</option>
+                      <option <? if ($_SESSION['post']['viewopt'] == 'SC' )echo "selected='selected'"; ?> value="SC">Scratch Cards</option>
+                    </select>
+                    <div id='error_viewopt' class="error"></div></td>
+                  <td align="right" valign="top"><a title="<?=VIEWOPT_TEXT ?>" class="vtip"><b><small>?</small></b></a></td>
+                </tr>
+<!-- End new function -->
               </table>
           </tr>
         </table>
@@ -480,7 +502,7 @@ include("main.php");
                         ?>
               <INPUT class="text_field_new" type="file" name="picture" id="picture">
               <div id='error_picture' class="error" style="display:none"></div></td>
-            <td align="right"><a title="<?=SICON_TEXT
+            <td align="right"><a title="<?=ICON_TEXT
                                    ?>" class="vtip"><b><small>?</small></b></a> </td>
           </tr>
           <tr>
@@ -489,7 +511,7 @@ include("main.php");
                                     ?>
 </TEXTAREA>
               <div id='error_descriptive' class="error" style="display:none"></div></td>
-            <td align="right" ><a title="<?=SLINK_TEXT
+            <td align="right" ><a title="<?=LINK_TEXT
                                    ?>" class="vtip"><b><small>?</small></b></a></td>
           </tr>
         </table>

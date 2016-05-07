@@ -4,7 +4,7 @@
  *  Author      : Himanshu Singh  Date: 12th,Nov,2010  Creation
 */
 
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $regObj = new registration();
 $inoutObj = new inOut();
@@ -14,6 +14,9 @@ if ($compcont == 'Sweden') {
     //echo $compcont;die;
     $lang = 'SWE';
     //echo $lang;die;
+}
+elseif ($compcont == 'Germany') {
+    $lang = 'GER';
 }
 else {
     $lang = 'ENG';
@@ -90,18 +93,21 @@ include("mainReseller.php");
             <td width="90%" align="center"><table BORDER=0  width="100%" class="inner_grid" cellspacing="15">
                 <tr>
                   <td width="531" align="left" >Language:</td>
-                  <td width="447" colspan="2" align="left" ><select style="width:406px; background-color:#e4e3dd;" onChange="getLangImage(this.value);" class="text_field_new" name="lang" id="lang" >
+                  <td width="447" align="left" ><select style="width:406px; background-color:#e4e3dd;" onChange="getLangImage(this.value);" class="text_field_new" name="lang" id="lang" >
+                      <option <? if ($lang == "GER") echo "selected='selected'"; ?> value="GER">German</option>
                       <option <? if ($lang == "ENG") echo "selected='selected'"; ?> value="ENG">English</option>
                       <option <? if ($lang == "SWE") echo "selected='selected'"; ?> value="SWE">Swedish</option>
                     </select>
                     <div id='error_langStand' class="error"></div></td>
+                   <td align="right"><a title="<?=CLANGUAGE_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
                 </tr>
                 <tr>
                   <td width="531" align="left" class="inner_grid"> Campaign Title. Max. 19 <br />
                     characters <span class='mandatory'>*</span>:</td>
-                  <td colspan="2" align="left"><INPUT class="text_field_new" type=text name="titleSlogan" id="titleSlogan" maxlength="19" onBlur="iconPreview(this.form);limitPreview(this.form);" value="<?=$_SESSION['post']['titleSlogan']
+                  <td align="left"><INPUT class="text_field_new" type=text name="titleSlogan" id="titleSlogan" maxlength="19" onBlur="iconPreview(this.form);limitPreview(this.form);" value="<?=$_SESSION['post']['titleSlogan']
                                                    ?>">
                     <div id='error_titleSlogan' class="error"></div></td>
+                  <td align="right"><a title="<?=TITEL_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
                 </tr>
                 <tr>
                   <td align="left" class="inner_grid"> Campaign Description. Max. 50 characters<span class='mandatory'>*</span>:</td>
@@ -113,7 +119,7 @@ include("mainReseller.php");
                 </tr>
                 <tr>
                   <td align="left" class="inner_grid">Category<span class='mandatory'>*</span>:</td>
-                  <td colspan="2" align="left"><div id="category_lang_div">
+                  <td align="left"><div id="category_lang_div">
                       <select style="width:406px; background-color:#e4e3dd;" onChange="getCatImage(this.value, this.form);" class="text_field_new" tabindex="27" id="linkedCat" name="linkedCat" value="<?=$_SESSION['post']['linkedCat']
                                                         ?>">
                         <option <? if ($data[0]['category'] == ''
@@ -125,6 +131,7 @@ include("mainReseller.php");
                     <input type="hidden" name="category_image" id="category_image" value="">
                     <div id="category_image_div" style="display:none;"></div>
                     <div id='error_linkedCat' class="error"></div></td>
+                    <td align="right"><a title="<?=CCATEGORY_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
                 </tr>
                 <tr>
                   <td align="left" valign="top" class="inner_grid">Small icon <font size="2">(Icon must be in png format only e.g. icon.png.The size must be at least 45 x 60 pixels)</font></td>
@@ -140,8 +147,7 @@ include("mainReseller.php");
                     <div>
                       <input type="hidden" id="selected_image" name="selected_image" value="0">
                     </div></td>
-                  <td align="right" valign="top"><a title="<?=ICON_TEXT
-                                               ?>" class="vtip"><b><small>?</small></b></a> </td>
+                  <td align="right" valign="top"><a title="<?=ICON_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
                 </tr>
                 <tr>
                   <td colspan="5" align="center" height="20">&nbsp;</td>
@@ -222,9 +228,15 @@ include("mainReseller.php");
                   <div id='error_searchKeyword' class="error" ></div></td>
                 <td align="right" valign="top"><a title="<?=KEYWORD_TEXT ?>" class="vtip"><b><small>?</small></b></a> </td>
               </tr>
+               <tr>
+                  <td class="inner_grid">Campaign Value:</td>
+                  <td><input class="text_field_new" type="text" name="discountValue" maxlength="90" value="<?=$_SESSION['post']['discountValue'] ?>" id="discountValue" />
+                    <div id='error_discountValue' class="error" ></div></td>
+                  <td align="right"><a title="<?=DISCOUNTVALUE_TEXT ?>" class="vtip"><b><small>?</small></b></a> </td>
+                </tr>
               <tr>
                 <td class="inner_grid">Deal is only valid from start time during a day:</td>
-                <td colspan="2"><select style="width:406px; background-color:#e4e3dd;" class="text_field_new" name="startDateLimitation" id="startDateLimitation" onBlur="limitPreview(this.form);" value="<?=$_SESSION['post']['startDateLimitation'] ?>">
+                <td ><select style="width:406px; background-color:#e4e3dd;" class="text_field_new" name="startDateLimitation" id="startDateLimitation" onBlur="limitPreview(this.form);" value="<?=$_SESSION['post']['startDateLimitation'] ?>">
                     <option <? if ($_SESSION['post']['startDateLimitation'] == ''
 
                                             )echo "selected='selected'"; ?> value="">Select Start Time</option>
@@ -302,10 +314,11 @@ include("mainReseller.php");
                                             )echo "selected='selected'"; ?>   value="23">23</option>
                     </select>
                     <div id='error_startDateLimitation'></div></td>
+                 <td align="right"><a title="<?=DEAL_VALID_FROM_TEXT  ?>" class="vtip"><b><small>?</small></b></a></td>
                 </tr>
                 <tr>
                   <td class="inner_grid">Deal is only valid to an end time during a day:</td>
-                  <td colspan="2"><!--<INPUT type=text name="endDateLimitation" id="endDateLimitation">-->
+                  <td ><!--<INPUT type=text name="endDateLimitation" id="endDateLimitation">-->
                     <select style="width:406px; background-color:#e4e3dd;" class="text_field_new" name="endDateLimitation" id="endDateLimitation" onBlur="limitPreview(this.form);" value="<?=$_SESSION['post']['endDateLimitation'] ?>">
                       <option <? if ($_SESSION['post']['endDateLimitation'] == ''
 
@@ -384,10 +397,11 @@ include("mainReseller.php");
                                             )echo "selected='selected'"; ?> value="23">23</option>
                     </select>
                     <div id='error_endDateLimitation'></div></td>
+                    <td align="right"><a title="<?=DEAL_VALID_TO_TEXT  ?>" class="vtip"><b><small>?</small></b></a></td>
                 </tr>
                 <tr>
                   <td class="inner_grid">Deal is only valid to a limited set of days during the week:</td>
-                  <td colspan="2"><!--<INPUT type=text name="limitDays" id="limitDays">-->
+                  <td ><!--<INPUT type=text name="limitDays" id="limitDays">-->
                     <select style="width:406px; background-color:#e4e3dd;" class="text_field_new" name="limitDays" id="limitDays" onBlur="limitPreview(this.form);">
                       <option <? if ($_SESSION['post']['valid_day'] == ''
 
@@ -403,6 +417,7 @@ include("mainReseller.php");
                     <option value="ALL_WEEK">ALL WEEK</option>
                   </select>
                   <div id='error_limitDays'></div></td>
+                   <td align="right"><a title="<?=DEAL_VALID_DAY_TEXT  ?>" class="vtip"><b><small>?</small></b></a></td>
               </tr>
               <tr>
                   <td  class="inner_grid"> Code:</td>
@@ -412,7 +427,7 @@ include("mainReseller.php");
                       <option value="CUSTOM">PINCODE</option>
                     </select>
                   </td>
-                  <td align="right" valign="top" >&nbsp;</td>
+                   <td align="right"><a title="<?=CCODEHELP_TEXT  ?>" class="vtip"><b><small>?</small></b></a></td>
                 </tr>
                 <tr  > <td colspan="2">
                   <table width="100%" border="0" align="left" id="ean_table" style="display:none">
@@ -465,7 +480,7 @@ include("mainReseller.php");
                                     ?>
 </TEXTAREA>
               <div id='error_descriptive' class="error"></div></td>
-            <td align="right" valign="top" ><a title="<?=SLINK_TEXT
+            <td align="right" valign="top" ><a title="<?=LINK_TEXT
                                    ?>" class="vtip"><b><small>?</small></b></a></td>
           </tr>
         </table>

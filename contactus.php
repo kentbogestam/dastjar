@@ -37,10 +37,10 @@ include_once("header.php");
                 <td><strong>Contact address</strong></td>
               </tr>
               <tr>
-                <td>Linnégatan 20</td>
+                <td>H&auml;gerstensvägen 175 </td>
               </tr>
               <tr>
-                <td>114 47 Stockholm </td>
+                <td>126 53 H&auml;gersten </td>
               </tr>
               <tr>
                 <td>Stockholm, <br>
@@ -50,7 +50,7 @@ include_once("header.php");
                 <td>e-mail <a href="mailto:info@cumbari.com" target="_blank">info@cumbari.com</a><br></td>
               </tr>
               <tr>
-                <td>Phone: 0733-86 69 20</td>
+                <td>Phone: +46 703770250</td>
               </tr>
               <tr>
                 <td>&nbsp;</td>

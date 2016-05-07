@@ -84,10 +84,9 @@ $data = $standardObj->viewStandardDetailById($productid,$lang);
             <td width="50%" class="inner_grid"><b>Language:</b> </td>
       <td width="50%" colspan="2">
                 <select style="width:406px; background-color:#e4e3dd; border: 1px solid #abadb3;" onChange="getLangImage('<?=$data[0]['category']?>',this.value);" class="text_field_new" name="lang" id="lang">
-                    <option <? if ($lang == "ENG"
-                        )echo "selected='selected'"; ?> value="ENG">English</option>
-                    <option <? if ($lang == "SWE"
-                        )echo "selected='selected'"; ?> value="SWE">Swedish</option>
+                    <option <? if ($lang == "GER")echo "selected='selected'"; ?> value="GER">German</option>
+                    <option <? if ($lang == "ENG")echo "selected='selected'"; ?> value="ENG">English</option>
+                    <option <? if ($lang == "SWE")echo "selected='selected'"; ?> value="SWE">Swedish</option>
                 </select>
       <div id='error_langStand' class="error"></div>            </td>
 </tr>

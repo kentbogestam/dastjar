@@ -3,7 +3,7 @@
  *  Description : View campaign Form
  *  Author      : Himanshu Singh  Date: 22nd,dec,2010  Creation
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 include("mainSupport.php");
 $offerObj = new offer();
@@ -87,10 +87,9 @@ Your Campaign View</div>
         <tr>
           <td width="50%" class="td_pad_left">View According To Your Language:</td>
           <td width="50%" class="td_pad_right"><select style="width:250px; background-color:#e4e3dd; border:#abadb3 solid 1px" onChange="langChange(this.value,'<?=$_GET['campaignId']?>','<?=$reseller?>','<?=$uid?>');" class="text_field_new" name="lang2" id="lang2" >
-            <option <? if ($lang == "ENG"
-                        )echo "selected='selected'"; ?> value="ENG">English</option>
-            <option <? if ($lang == "SWE"
-                        )echo "selected='selected'"; ?> value="SWE">Swedish</option>
+            <option <? if ($lang == "GER")echo "selected='selected'"; ?> value="GER">German</option>
+            <option <? if ($lang == "ENG")echo "selected='selected'"; ?> value="ENG">English</option>
+            <option <? if ($lang == "SWE")echo "selected='selected'"; ?> value="SWE">Swedish</option>
           </select></td>
         </tr>
         <tr>
@@ -138,7 +137,7 @@ Your Campaign View</div>
                 <?=$end_date ?></td>
         </tr>
         <tr>
-            <td width="50%" class="td_pad_left"><b>Campiagn Name:</b></td>
+            <td width="50%" class="td_pad_left"><b>Campaign Name:</b></td>
             <td width="50%">
                 <?=$data[0]['campaign_name'] ?></td>
         </tr>
@@ -156,6 +155,12 @@ Your Campaign View</div>
                 else
                     echo $d; ?>            </td>
       </tr>
+<tr >
+  <td width="50%" class="td_pad_left"><b>Campaign Value:</b>        </td>
+  <td width="50%" class="td_pad_right"> <?=$data[0]['value']?> </td>
+</tr>      
+      
+      
       <? if($reseller == '') { ?>
 <tr>
   <td width="50%" class="td_pad_left"><b> Discount:</b>        </td>
@@ -267,11 +272,18 @@ Your Campaign View</div>
                    $storeid = $data1['storeDetails']['store_id'];
                    $storeObj = new store();
                     $barcode = $storeObj->getCouponDeliveryById($storeid);
+                     $dps = $storeObj->getCouponDeliveryByIdDPS($storeid);
                     if($barcode == 'BARCODE')
                     {
                         $coupon_dil = $barcode;
                     }else {
                         $coupon_dil = 'PINCODE';
+                    }
+                    
+                    if($dps == "DPS")
+                    {
+                        
+                        $coupon_dil = ($coupon_dil == ""?$dps:$coupon_dil.",".$dps);
                     }
                     ?>
 

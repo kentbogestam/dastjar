@@ -1,9 +1,9 @@
 <?php
-/*  File Name  : viewCampaign.php
- *  Description : View campaign Form
+/*  File Name  : viewAdvertise.php
+ *  Description : View advertise Form
  *  Author      : Himanshu Singh  Date: 22nd,dec,2010  Creation
  */
-header('Content-Type: text/html; charset=uft-8');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $offerObj = new offer();
 $storeObj = new store();
@@ -11,27 +11,13 @@ $storeObj = new store();
 //    $offerObj->svrOfferDflt();
 //} else {
 
-$campaignid = $_GET['campaignId'];
-//echo $ccode = $_GET['ccode'];
-//echo "_____";
- $uId = $_GET['uId'];
- $ccode = $_GET['ccode'];
 
- /////////////temp session value
- $_SESSION['temp_campId'] = $_GET['campaignId'];
- $_SESSION['temp_ccode'] = $_GET['ccode'];
- $_SESSION['temp_uId'] = $_GET['uId'];
- //////////////////////////////////
- 
-//echo $campaignid;
- /////////////alt is for only one reseller
-if($_REQUEST['alt'] == 'alt')
-{
-   // echo "not allowed";die();
-    $_SESSION['MESSAGE'] = NOT_ALLOWED;
-}
-$_SESSION['MAIL_URL'] = "viewResellerCampaign.php?campaignId=" . $campaignid.'&ccode='.$ccode.'&uId='.$uId;
-$_SESSION['MESSEAGE_MAIL'] = MESSEAGE_MAIL;
+$advertiseid = $_GET['advertiseId'];
+
+//echo $advertiseid;
+$_SESSION['MAIL_URL'] = "viewAdvertiseRetailer.php?advertiseId=".$advertiseid;
+ $_SESSION['MESSEAGE_MAIL'] = MESSEAGE_MAIL;
+ include_once("main.php");
 $stores = $storeObj->totalStoreDetails();
 //echo "<pre>";print_r($stores); echo "</pre>";
 
@@ -41,14 +27,14 @@ $stores = $storeObj->totalStoreDetails();
      $_SESSION['createStore'] = 1;
  }
 
-$lang = $offerObj->getLang($campaignid);
+$lang = $offerObj->getAdvertiseLang($advertiseid);
 
 $selectLanguage = $_GET['lang'];
 if(!empty($selectLanguage))
     {
         $lang = $selectLanguage;
     }
-$data = $offerObj->viewcampaignDetailById($campaignid,$lang);
+$data = $offerObj->viewadvertiseDetailById($advertiseid,$lang);
 //echo "<pre>";print_r($data); echo "</pre>";
 if($data[0] == '')
     {
@@ -58,25 +44,20 @@ if($data[0] == '')
      $inoutObj->reDirect($url);
       exit();
 }
-if (isset($_POST['accept'])) {
-   // echo sdds;die();
-    $offerObj->acceptCampaignReseller($campaignid,$uId,$ccode);
-}
-
-if(isset($_POST['reject'])) {
-   
-    $offerObj->rejectCampaignReseller($campaignid,$uId,$ccode);
+if (isset($_POST['continue'])) {
+    $offerObj->svrOfferDflt();
 }
 //create session
 session_start();
 $_SESSION["Retailers"] = "123";
-$menu = "campaign";
-$campaign = 'class="selected"';
-if ($_GET['m'] == "showcampoffer")
-    $outdated = 'class="selected"';
+$menu = "advertise";
+$advertise = 'class="selected"';
+if ($_GET['m'] == "showadvtoffer")
+    $outdatedadvertise = 'class="selected"';
 else
-    $show = 'class="selected"';
-include_once("main.php");
+    $showadvertise = 'class="selected"';
+
+
 
 
 //unset($_SESSION["Retailers"]);
@@ -106,7 +87,7 @@ include_once("main.php");
 <script language="JavaScript" src="client/js/jsAddCoupon.js" type="text/javascript"></script>
 <script language="JavaScript" src="lib/grid/js/grid.js" type="text/javascript"></script>
 
-<!--<script language="JavaScript" src="client/js/jsCampaignOffer.js" type="text/javascript"></script>-->
+<!--<script language="JavaScript" src="client/js/jsAdvertiseOffer.js" type="text/javascript"></script>-->
 <style type="text/css">
     <!--
     .style4 {
@@ -130,21 +111,21 @@ include_once("main.php");
         </tr>
   </table>
 <form name="register" action="" id="registerform" method="Post" enctype="multipart/form-data">
-    <input type="hidden" name="campaignId" value="$_GET['campaignId']">
-   
-    <h1><b>View Campaign offers</b></h1> &nbsp;&nbsp;&nbsp;
+    <input type="hidden" name="advertiseId" value="$_GET['advertiseId']">
+    <input type="hidden" name="m" value="saveNewCouponRetailer">
+    <h1><b>View Advertise offers</b></h1> &nbsp;&nbsp;&nbsp;
     <div align="center">  <?php
                                                             if ($_SESSION['MESSAGE']) {
                                                                 echo $_SESSION['MESSAGE'];
                                                                 $_SESSION['MESSAGE'] = ""; } ?> </div>
     <div class="bg_darkgray1" align="center" ><h3><b>
-    		Campaign Offer View</b></h3>
+    		Advertise Offer View</b></h3>
     </div>
     <table BORDER=0 width="100%">
         <tr>
           <td>&nbsp;</td>
          <td>View According To Your Language:</td>
-          <td><select style="width:250px; background-color:#e4e3dd;" onChange="langChange(this.value,'<?=$_GET['campaignId']?>','<?=$_REQUEST['uId']?>','<?=$_REQUEST['ccode']?>');" class="text_field_new" name="lang" id="lang" >
+          <td><select style="width:250px; background-color:#e4e3dd;" onChange="langChange(this.value,'<?=$_GET['advertiseId']?>');" class="text_field_new" name="lang" id="lang" >
             <option <? if ($lang == "GER")echo "selected='selected'"; ?> value="GER">German</option>
             <option <? if ($lang == "ENG")echo "selected='selected'"; ?> value="ENG">English</option>
             <option <? if ($lang == "SWE")echo "selected='selected'"; ?> value="SWE">Swedish</option>
@@ -152,13 +133,13 @@ include_once("main.php");
         </tr>
         <tr>
             <td width="29%">&nbsp;</td>
-            <td width="29%" align="left"> <b>Title Slogan for your Campaign:</b>            </td>
+            <td width="29%" align="left"> <b>Title Slogan for your Advertise:</b>            </td>
             <td width="42%">
 <?=$data[0]['slogan'] ?></td>
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td align="left"><b> Sub Slogan for your Campaign:</b>            </td>
+            <td align="left"><b> Sub Slogan for your Advertise:</b>            </td>
 
             <td><?=$data[0]['subslogen'] ?></td>
         </tr>
@@ -208,9 +189,9 @@ include_once("main.php");
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td><b>Campaign Name:</b></td>
+            <td><b>Advertise Name:</b></td>
             <td>
-<?=$data[0]['campaign_name']
+<?=$data[0]['advertise_name']
                 ?></td>
         </tr>
     </table>
@@ -231,54 +212,6 @@ include_once("main.php");
 
             </td>
         </tr>
-         <tr >
-            <td width="29%">&nbsp;</td>
-            <td width="29%"><b> Campaign Value:</b>        </td>
-            <td width="42%"><?=$data[0]['value'] ?></td>
-        </tr>
-
-    </table>
-
-    <table BORDER=0  width="100%">
-        <tr>
-            <td width="29%" height="30">&nbsp;</td>
-            <td width="29%"><b>Start Time for the Campaign Limitation:</b>        </td>
-            <td width="42%"><? $d=$data[0]['start_time']
-                ?>
-            <?php if ($d == '')
-                    echo "Not Specified";
-                else
-                    echo $d; ?>
-
-            </td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td><b>End Time for the Limitation:</b>        </td>
-            <td><? $d=$data[0]['end_time']
-                ?>
-            <?php if ($d == '')
-                    echo "Not Specified";
-                else
-                    echo $d; ?>
-
-
-
-            </td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td><b>Limit Campaign:</b></td>
-            <td><? $d=$data[0]['valid_day']
-                ?>
-
-            <?php if ($d == '')
-                    echo "Not Specified";
-                else
-                    echo $d; ?>
-
-            </td>
-        </tr>
 
     </table>
     <div align="center" class="bg_darkgray1"><h3><b>
@@ -287,10 +220,10 @@ include_once("main.php");
     <table BORDER=0 width="100%" >
         <tr>
             <td width="29%">&nbsp;</td>
-            <td width="29%"> <b>Picture:</b></td>
+            <td width="29%"> <b>Picture:</b>        </td>
             <td width="42%">
                 <img src="<?=$data[0]['large_image']
-                ?>" width="150"></td>
+                ?>" width="150">        </td>
         </tr>
 
 
@@ -301,7 +234,7 @@ include_once("main.php");
         <tr>
             <td width="29%">&nbsp;</td>
 
-            <td width="29%" valign="bottom"><b>Link:</b></td>
+            <td width="29%" valign="bottom"><b>Link:</b>        </td>
             <td width="42%">
                 <? $d = $data[0]['infopage'] ?>
                 <?php
@@ -312,45 +245,8 @@ include_once("main.php");
                 ?>        </td>
 
         </tr>
-    </table>
-    <!--    <div align="center" class="bg_darkgray1"><h3><b>Store Information</b></h3></div>
-        <table BORDER=0  id="store" width="100%" >
-            <tr>
-                <td width="10%" align="center"><b>S No:</b></td>
-                <td width="21%" align="center"><b>Store Name:</b></td>
-                <td width="12%" align="center"><b>Street:</b></td>
-                <td width="11%" align="center"><b>city:</b></td>
-                <td width="20%" align="center"><b>country:</b></td>
-                <td width="26%" align="center"><b>Coupon Delivery type:</b></td>
-            </tr>
-            <tr>
-    <?php if (isset($data['storeDetails'])) {
-    ?>
-    <?php
-                    $i = 1;
-                    foreach ($data['storeDetails'] as $data1['storeDetails']) {
-    ?>
-                                                                                        <td height="32" align="center"><?php echo $i; ?> </td>
-                                                                                        <td align="center"><?php echo $data1['storeDetails']['store_name']; ?> </td>
-                                                                                        <td align="center"><?php echo $data1['storeDetails']['street']; ?> </td>
-                                                                                        <td align="center"><?php echo $data1['storeDetails']['city']; ?> </td>
-                                                                                        <td align="center"><?php echo $data1['storeDetails']['country']; ?> </td>
-                                                                                        <td align="center"><?php echo $data1['storeDetails']['coupon_delivery_type']; ?></td>
-                                                                                    </tr>
-    <?
-                        $i++;
-                    }
-    ?>
-    <?php } else {
-    ?>
-    <?php echo "No Records Found";
-                } ?>
-   
-    </table>-->
-
-<!--  for reseller comment//////////////////
-    
- <div align="center" class="bg_darkgray1"><h3><b><br />
+    </table>  
+ <div align="center" class="bg_darkgray1"><h3><b>
  		Select Location</b></h3>
  </div>
    <table BORDER=0  id="infopage" width="100%" >
@@ -380,28 +276,25 @@ include_once("main.php");
 
 <? } ?></td>
         </tr>
-    </table>//////////////////////////////////-->
-           <? if($_REQUEST['alt'] != 'alt') { ?>
+    </table>
 
                  <div align="center"><br />
 <br />
 
-        <INPUT type="submit" value="Accept" name="accept" id="accept" class="button" >
-        &nbsp;&nbsp;
-         <INPUT type="submit" value="Reject" name="reject" id="reject" class="button" ><br />
+        <INPUT type="submit" value="Continue" name="continue" id="continue" class="button" ><br />
 <br />
 
     </div>
 
-<? } ?>
+
 
 </form>
 </div>
 <? include("footer.php"); ?>
 </body>
 <script>
-    function langChange(lang,campId,uId,ccode)
+    function langChange(lang,advtId)
 {
-  javascript:location.href = "viewResellerCampaign.php?lang="+lang+"&campaignId="+campId+"&uId="+uId+"&ccode="+ccode;
+    javascript:location.href = "viewAdvertiseRetailer.php?lang="+lang+"&advertiseId="+advtId;
 }
 </script>

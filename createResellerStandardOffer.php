@@ -3,7 +3,7 @@
  *  Description : Standard Offer Form
  *  Author      : Himanshu Singh  Date: 25th,Nov,2010  Creation
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 //echo $_SESSION['userid'];
 $standardObj = new offer();
@@ -12,6 +12,10 @@ if ($compcont == 'Sweden') {
     $lang = 'SWE';
     //echo $lang;die;
 }
+elseif ($compcont == 'Germany') {
+    $lang = 'GER';
+}
+else {
 else {
     $lang = 'ENG';
 }
@@ -103,44 +107,40 @@ if (isset($_GET['reedit'])) {
 
                     <td><table BORDER=0 width="100%"  cellspacing="15">
                             <tr>
-                                <td width="4" class="inner_grid">&nbsp;</td>
-
                                 <td width="515" class="inner_grid">Language:</td>
                                 <td width="469">
                                     <select style="width:406px; background-color:#e4e3dd;" onchange="getLangImage(this.value);" class="text_field_new" name="lang" id="lang" >
 
-                                        <option <? if ($lang == "ENG"
-                                            )echo "selected='selected'"; ?> value="ENG">English</option>
-                                        <option <? if ($lang == "SWE"
-                                            )echo "selected='selected'"; ?> value="SWE">Swedish</option>
+                                        <option <? if ($lang == "GER")echo "selected='selected'"; ?> value="GER">German</option>
+                                        <option <? if ($lang == "ENG")echo "selected='selected'"; ?> value="ENG">English</option>
+                                        <option <? if ($lang == "SWE")echo "selected='selected'"; ?> value="SWE">Swedish</option>
                                     </select>
                                     <div id='error_langStand' class="error"></div>                                </td>
+                                     <td align="right" valign="middle"><a title="<?=SLANGUAGE_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
                             </tr>
                             <tr>
-                                <td  class="inner_grid">&nbsp;</td>
+                               
 
                                 <td  class="inner_grid">Product Name<span class='mandatory'>*</span>:<br>                                </td>
                                 <td >
                                     <INPUT class="text_field_new" type=text name="titleSloganStand" id="titleSloganStand" onblur="iconPreview(this.form); getTitleForProduct(this.form);standardPreview(this.form);" value="<?=$_SESSION['post']['titleSloganStand']
                                                    ?>">
-                                    <a title="<?=STITLE_TEXT
-                                               ?>" class="vtip"><b><small>?</small></b></a></br>
+                                   <br/>
                                     <div id='error_titleSloganStand' class="error"></div>                                </td>
+                                     <td align="right" valign="middle" ><a title="<?=STITLE_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
                             </tr>
                             <tr style="display:none;">                                </tr>
                             <tr style="display:none;">
-                                <td class="inner_grid">&nbsp;</td>
+                               
 
 
                                 <td class="inner_grid">Price(with currency):</td>
                                 <td>
                                     <INPUT class="text_field_new" type=text name="price" id="price">
-                                    <a title="<?=PRICE_TEXT
-                                               ?>" class="vtip"><b><small>?</small></b></a></br>                                </td>
+                                    </td>
+                                   <td align="right" valign="middle"><a title="<?=PRICE_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
                             </tr>
                             <tr>
-                                <td class="inner_grid">&nbsp;</td>
-
                                 <td class="inner_grid">Category<span class='mandatory'>*</span>:</td>
                                 <td>
                                     <div id="category_lang_div">
@@ -155,11 +155,11 @@ if (isset($_GET['reedit'])) {
                                     <input type="hidden" name="category_image" id="category_image" value="">
                                     <div id="category_image_div" style="display:none;"></div>
                                     <div id='error_linkedCatStand' class="error"></div></td>
+                                    <td align="right" valign="middle"><a title="<?=SCATEGORY_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
                             </tr>
                             <!-- <form action="" method="post" name="standard_use" id="standard_use" enctype="multipart/form-data">-->
 
                             <tr>
-                                <td class="inner_grid" style="line-height:25px;">&nbsp;</td>
 
                                 <td class="inner_grid" style="line-height:25px;">Small icon:</td>
                                 <td>
@@ -178,14 +178,15 @@ if (isset($_GET['reedit'])) {
 
 
                                     <INPUT class="text_field_new" type=file name="icon" id="icon" onblur="iconPreview(this.form);" >
-                                    <a title="<?=ICON_TEXT
-                                               ?>" class="vtip"><b><small>?</small></b></a></br>
+                                   <br/>
                                     <div id='error_icon' class="error"></div>
 
 
                                     <div>
                                         <input class="text_field_new" type="hidden" id="selected_image" name="selected_image" value="0">
                                     </div>                                    </td>
+                                 <td align="right" valign="top"><a title="<?=SICON_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
+                                
                             </tr>
                             <tr style="display:none;">
                                 <td colspan="4" align="center" height="20"><strong>
@@ -259,19 +260,20 @@ if (isset($_GET['reedit'])) {
                                     <div id='error_searchKeywordStand' class="error"></div></td>
                             </tr>
                              <tr>
-                <td class="inner_grid">&nbsp;</td>
                 <td class="inner_grid">EAN Code:<br>            </td>
             <td>
                 <INPUT class="text_field_new" type=text name="eanCode" id="eanCode" value="<?=$_SESSION['post']['eanCode']
                                ?>"><div id='error_eanCode' class="error"></div></td>
+                 <td align="right" valign="middle"><a title="<?=SEAN_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>               
             </tr>
             <tr>
-                <td class="inner_grid">&nbsp;</td>
+               
                 <td class="inner_grid">Product Number:<br>            </td>
             <td>
                 <INPUT class="text_field_new" type=text name="productNumber" value="<?=$_SESSION['post']['productNumber']
                                ?>" id="productNumber"><div id='error_productNumber' class="error">
                 </div></td>
+                 <td align="right" valign="middle"><a title="<?=PRODUCTNUMBER_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
             </tr>
                         </table>
             </table> 
@@ -310,7 +312,7 @@ if (isset($_GET['reedit'])) {
                                 ?>
                                 <INPUT type=file name="picture" id="picture" onblur="picturePreview(this.form);">
                                 <a title="<?=SPICTURE_TEXT
-                                           ?>" class="vtip"><b><small>?</small></b></a></br>
+                                           ?>" class="vtip"><b><small>?</small></b></a><br/>
                                 <div id='error_picture' class="error"></div></td>
                         </tr>
                         <tr>
@@ -321,8 +323,8 @@ if (isset($_GET['reedit'])) {
                             <td class="inner_grid">Release date of product<span class='mandatory'>*</span>:</td>
                 <td><input style="width:380px; "  type="text" name="startDateStand" readonly="readonly" value="<? echo $d;
                                    ?>" id="startDateStand" class="startDateStand dp-applied text_field_new" />
-                    <a title="<?=START_TEXT
-                               ?>" class="vtip"><b><small>?</small></b></a></br>
+                    <a title="<?=RELEASE_DATE_OF_PRODUCT
+                               ?>" class="vtip"><b><small>?</small></b></a><br/>
                     <div id='error_startDateStand' class="error"></div></td>
             </tr>
             <tr>
@@ -332,7 +334,7 @@ if (isset($_GET['reedit'])) {
                 <INPUT class="text_field_new" type="hidden" id="productName" name="productName" value="<?=$_SESSION['post']['productName']
                                ?>" >
                <!-- <a title="<?=PRODUCTNAME_TEXT
-                           ?>" class="vtip"><b><small>?</small></b></a></br>-->
+                           ?>" class="vtip"><b><small>?</small></b></a><br/>-->
                 <div id='error_productName' class="error"></div>            </td>
             </tr>
            
@@ -391,7 +393,7 @@ if (isset($_GET['reedit'])) {
                                             <input type="text" class="text_field_new" name="link" id="link" value="<?=$_SESSION['post']['link']
                                                    ?>"></input>
                                             <a title="<?=SDESCRIPTION_TEXT
-                                                       ?>" class="vtip"><b><small>?</small></b></a></br>
+                                                       ?>" class="vtip"><b><small>?</small></b></a><br/>
                                             <div id='error_link' class="error"></div></td>
                                     </tr>
                                 </table></td>

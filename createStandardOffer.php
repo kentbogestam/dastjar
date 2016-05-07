@@ -103,33 +103,31 @@ img {
             <td height="53"><table width="100%" BORDER=0 cellpadding="0"  cellspacing="15">
                 <tr>
                   <td width="515" align="left" valign="top" class="inner_grid">Language:</td>
-                  <td width="469" colspan="2" align="left" valign="top"><select style="width:406px; background-color:#e4e3dd;" onChange="getLangImage(this.value);" class="text_field_new" name="lang" id="lang" >
-                      <option <? if ($lang == "ENG"
-                                            )echo "selected='selected'"; ?> value="ENG">English</option>
-                      <option <? if ($lang == "SWE"
-                                            )echo "selected='selected'"; ?> value="SWE">Swedish</option>
+                  <td width="469"  align="left" valign="top"><select style="width:406px; background-color:#e4e3dd;" onChange="getLangImage(this.value);" class="text_field_new" name="lang" id="lang" >
+                      <option <? if ($lang == "GER")echo "selected='selected'"; ?> value="GER">German</option>
+                      <option <? if ($lang == "ENG")echo "selected='selected'"; ?> value="ENG">English</option>
+                      <option <? if ($lang == "SWE")echo "selected='selected'"; ?> value="SWE">Swedish</option>
                     </select>
                     <div id='error_langStand' class="error"></div></td>
+                   <td align="right" valign="middle"><a title="<?=SLANGUAGE_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
                 </tr>
                 <tr>
                   <td align="left" valign="top"  class="inner_grid">Product Name<span class='mandatory'>*</span>:<br>
                   </td>
                   <td align="left" valign="top" ><INPUT class="text_field_new" type=text name="titleSloganStand" id="titleSloganStand" maxlength="19" onBlur="iconPreview(this.form); getTitleForProduct(this.form);standardPreview(this.form);" value="<?=$_SESSION['post']['titleSloganStand']
                                                    ?>">
-                    <div id='error_titleSloganStand' class="error" style="display:none"></div></td>
-                  <td align="right" valign="middle" ><a title="<?=STITLE_TEXT
-                                               ?>" class="vtip"><b><small>?</small></b></a> </td>
+                    <div id='error_titleSloganStand' class="error" ></div></td>
+                  <td align="right" valign="middle" ><a title="<?=STITLE_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
                 </tr>
                 <tr style="display:none;"> </tr>
                 <tr style="display:none;">
                   <td align="left" valign="top" class="inner_grid">Price(with currency):</td>
                   <td align="left" valign="top"><INPUT class="text_field_new" type=text name="price" id="price"></td>
-                  <td align="right" valign="middle"><a title="<?=PRICE_TEXT
-                                               ?>" class="vtip"><b><small>?</small></b></a> </td>
+                  <td align="right" valign="middle"><a title="<?=PRICE_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
                 </tr>
                 <tr>
                   <td align="left" valign="top" class="inner_grid">Category<span class='mandatory'>*</span>:</td>
-                  <td colspan="2" align="left" valign="top"><div id="category_lang_div">
+                  <td  align="left" valign="top"><div id="category_lang_div">
                       <select  class="text_field_new" onChange="getCatImage(this.value, this.form);" style="width:406px; background-color:#e4e3dd;" tabindex="27" id="linkedCatStand" name="linkedCatStand" value="<?=$_SESSION['post']['linkedCat']
                                                          ?>">
                         <option <? if ($data[0]['category'] == ''
@@ -141,6 +139,7 @@ img {
                     <input type="hidden" name="category_image" id="category_image" value="">
                     <div id="category_image_div" style="display:none;"></div>
                     <div id='error_linkedCatStand' class="error"></div></td>
+                   <td align="right" valign="middle"><a title="<?=SCATEGORY_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
                 </tr>
                 <!-- <form action="" method="post" name="standard_use" id="standard_use" enctype="multipart/form-data">-->
                 <tr>
@@ -160,8 +159,7 @@ img {
                     <div>
                       <input class="text_field_new" type="hidden" id="selected_image" name="selected_image" value="0">
                     </div></td>
-                  <td align="right" valign="top"><a title="<?=ICON_TEXT
-                                               ?>" class="vtip"><b><small>?</small></b></a> </td>
+                  <td align="right" valign="top"><a title="<?=SICON_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
                 </tr>
                 <tr style="display:none;">
                   <td colspan="5" align="center" height="20"><strong>
@@ -215,27 +213,30 @@ img {
               </table>
               <table width="100%" BORDER=0 cellpadding="0" cellspacing="0"  >
                 <tr>
-                  <td width="50%" align="left" valign="top" class="td_pad_left">Keyword:</td>
+                  <td width="50%" align="left" valign="top" class="td_pad_left">Keyword<span class='mandatory'>*</span></td>
                   <td width="50%" align="left" valign="top" class="td_pad_right"><table border="0" cellspacing="0" cellpadding="0">
                       <tr>
-                        <td><INPUT class="text_field_new" type=text name="searchKeywordStand" id="searchKeywordStand" maxlength="90"></td>
-                        <td style="padding-left:10px;"><a title="<?=SKEYWORD_TEXT
-                                               ?>" class="vtip"><b><small>?</small></b></a>
-                          <div id='error_searchKeywordStand' class="error" style="display:none"></div></td>
+                        <td><INPUT class="text_field_new" type=text name="searchKeywordStand" id="searchKeywordStand" maxlength="90">                             
+                          <div id='error_searchKeywordStand' class="error" ></div></td>
+                       
                       </tr>
                     </table></td>
+                     <td align="right" valign="middle"><a title="<?=SKEYWORD_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
                 </tr>
                 <tr>
                   <td width="50%" align="left" valign="top" class="td_pad_left">EAN Code:</td>
-                  <td width="50%" align="left" valign="top" class="td_pad_right"><INPUT class="text_field_new" type=text name="eanCode" id="eanCode" value="<?=$_SESSION['post']['eanCode']
+                  <td width="40%" align="left" valign="top" class="td_pad_right"><INPUT class="text_field_new" type=text name="eanCode" id="eanCode" value="<?=$_SESSION['post']['eanCode']
                                ?>">
                     <div id='error_eanCode' class="error" style="display:none"></div></td>
+                  
+                   <td align="right" valign="middle"><a title="<?=SEAN_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
                 </tr>
                 <tr>
                   <td width="50%" align="left" valign="top" class="td_pad_left">Product Number:</td>
-                  <td width="50%" align="left" valign="top" class="td_pad_right"><INPUT class="text_field_new" type=text name="productNumber" value="<?=$_SESSION['post']['productNumber']
+                  <td width="40%" align="left" valign="top" class="td_pad_right"><INPUT class="text_field_new" type=text name="productNumber" value="<?=$_SESSION['post']['productNumber']
                                ?>" id="productNumber">
                     <div id='error_productNumber' class="error" style="display:none"> </div></td>
+                   <td align="right" valign="middle"><a title="<?=PRODUCTNUMBER_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
                 </tr>
               </table>
         </table>
@@ -262,10 +263,29 @@ img {
                               <INPUT type=file name="picture" id="picture" onBlur="picturePreview(this.form);" class="text_field_new123"></td>
                             <td align="left" valign="middle" style="padding-left:10px;"><a title="<?=SPICTURE_TEXT
                                            ?>" class="vtip"><b><small>?</small></b></a>
-                              <div id='error_picture' class="error" style="display:none"></div></td>
+                              <div id='error_picture' class="error" ></div></td>
                           </tr>
                         </table></td>
                     </tr>
+                      <!--
+                      
+                      <tr>
+                  <td width="50%" align="left" valign="top" class="td_pad_left">Product Link:</td>
+                  <td width="50%" align="left" valign="top" class="td_pad_right"><table border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td><INPUT class="text_field_new" type=text name="descriptiveStand" id="descriptiveStand" maxlength="90"></td>
+                        <td style="padding-left:10px;"><a title="<?=SLINK_TEXT
+                                               ?>" class="vtip"><b><small>?</small></b></a>
+                          <div id='error_descriptive' class="error" style="display:none"></div></td>
+                      </tr>
+                    </table></td>
+                </tr>
+                      -->
+                      
+                      
+                      
+                      
+                      
                     <tr>
                       <?php
                            $d = date("Y/m/d");
@@ -275,7 +295,7 @@ img {
                           <tr>
                             <td><input type="text" name="startDateStand" readonly="readonly" value="<? echo $d;
                                    ?>" id="startDateStand" class="startDateStand dp-applied text_field_new123" /></td>
-                            <td style="padding-left:10px;"><a title="<?=START_TEXT
+                            <td style="padding-left:10px;"><a title="<?=RELEASE_DATE_OF_PRODUCT
                                ?>" class="vtip"><b><small>?</small></b></a></td>
                           </tr>
                         </table>
@@ -285,7 +305,7 @@ img {
                       <td colspan="4"><INPUT class="text_field_new" type="hidden" id="productName" name="productName" value="<?=$_SESSION['post']['productName']
                                ?>" >
                         <!-- <a title="<?=PRODUCTNAME_TEXT
-                           ?>" class="vtip"><b><small>?</small></b></a></br>-->
+                           ?>" class="vtip"><b><small>?</small></b></a><br/>-->
                         <div id='error_productName' class="error"></div></td>
                     </tr>
                     <tr>
@@ -312,16 +332,15 @@ img {
           <div class="redwhitebutton_small123"><span style="cursor:pointer;" onClick="showAdvancedInfoPageStnad();">Add your Info Page</span></div>
         </tr>
         <tr>
-          <td ><table width="100%" BORDER=0 cellpadding="0" cellspacing="0" id="infopageStand"  style="display:none;">
+          <td ><table width="100%" BORDER=0 cellpadding="0" cellspacing="0" id="infopageStand"  style="display:inline;">
               <tr>
                 <td width="50%" align="left" class="td_pad_left">Link:</td>
                 <td width="50%" align="left" class="td_pad_right"><table border="0" cellspacing="0" cellpadding="0">
                     <tr>
                       <td><input type="text" class="text_field_new" name="link" id="link" value="<?=$_SESSION['post']['link']
                                                    ?>">
-                        <div id='error_link' class="error" style="display:none;"></div></td>
-                      <td style="padding-left:15px;"><a title="<?=SDESCRIPTION_TEXT
-                                                       ?>" class="vtip"><b><small>?</small></b></a> </td>
+                        <div id='error_link' class="error" ></div></td>
+                      <td style="padding-left:15px;"><a title="<?=SLINK_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
                     </tr>
                   </table></td>
               </tr>

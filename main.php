@@ -33,7 +33,7 @@ $selected_tab_css = ' style="background-color:#ADDFFF" ';
 <script language="javascript" src="client/js/mouseovertabs.js" type="text/javascript" ></script>
 
 
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <style type="text/css">
 <!--
 .center{width:900px; margin-left:auto; margin-right:auto;}
@@ -73,39 +73,45 @@ $selected_tab_css = ' style="background-color:#ADDFFF" ';
   <tr>
     <td nowrap><input type="radio" <?=$show?> onClick="javascript:window.location.href='showCampaign.php'" name="deals">
 Campaign Offer </td>
-    <td width="20">&nbsp;</td>
     <td nowrap><input type="radio" <?=$outdated?> onClick="javascript:window.location.href='showCampaign.php?m=showcampoffer'" name="deals">
       Show Outdated Campaign </td>
-  </tr>
-  <tr>
-    <td><input type="radio" <?=$showstandard?> onClick="javascript:window.location.href='showStandard.php'" name="deals">
-      Standard Offer </td>
-    <td width="20">&nbsp;</td>
-    <td><input type="radio" <?=$showdeletestand?> onClick="javascript:window.location.href='showDeleteStandard.php'" name="deals">
-Show Deleted Standard </td>
-  </tr>
-  <tr>
     <td nowrap><input type="radio" <?=$showdelete?> onClick="javascript:window.location.href='showDeleteCampaign.php'" name="deals">
       Show Deleted Campaign </td>
-    <td width="20">&nbsp;</td>
-    <td>&nbsp;</td>
+    
+    
+   
   </tr>
+  <tr>
+    <td nowrap><input type="radio" <?=$showadvertise?> onClick="javascript:window.location.href='showAdvertise.php'" name="deals">
+      Advertise Offer </td>  
+      
+     <td nowrap><input type="radio" <?=$outdatedadvertise?> onClick="javascript:window.location.href='showAdvertise.php?m=showadvtoffer'" name="deals">
+      Show Outdated Advertise </td>
+      
+     <td><input type="radio" <?=$showdeleteadvertise?> onClick="javascript:window.location.href='showDeleteAdvertise.php'" name="deals">
+Show Deleted Advertise </td>
+      </tr>
+  <tr> 
+     
+    <td><input type="radio" <?=$showstandard?> onClick="javascript:window.location.href='showStandard.php'" name="deals">
+      Standard Offer </td>
+    
+    <td><input type="radio" <?=$showdeletestand?> onClick="javascript:window.location.href='showDeleteStandard.php'" name="deals">
+Show Deleted Standard </td>
+    
+    
+ 
+    
+    <td width="20">&nbsp;</td>
+
+    
+  </tr>
+  
 </table>
 
 </div>
 <? } ?>
-<? if($menu=="store"){?>
-<!--<div id="yoursubmenuarea" class="tabsmenucontentclass">
-<div style="display: inline;" class="tabsmenucontent" id="step2">
-<ul>
-<li><a <?=$add?> href="newCreateStore.php">Add Store</a></li>
-<li><a <?=$show?> href="showStore.php">Show Store</a></li>
-<li><a <?=$deleted?> href="showStore.php?m=showOutdatedStore">Show Deleted Store</a></li>
-
-</ul>
-</div>
-</div>-->
-<?
+<? if($menu=="store"){
 if (basename($_SERVER['SCRIPT_FILENAME']) == 'newCreateStore.php')
 {
 	$show = 'checked="checked"';

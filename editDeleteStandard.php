@@ -3,7 +3,7 @@
  *  Description : Standard Offer Form
  *  Author      : Himanshu Singh  Date: 25th,Nov,2010  Creation
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $menu = "standard";
 $standard = 'class="selected"';
@@ -106,13 +106,12 @@ img {
       <tr >
         <td width="515"  >Language: </td>
         <td width="224"><select style="background-color:#e4e3dd; width:406px;" onChange="getLangImage(this.value);" class="text_field_new" name="lang" id="lang" >
-            <option <? if ($data[0]['lang'] == "ENG"
-                        )echo "selected='selected'"; ?> value="ENG">English</option>
-            <option <? if ($data[0]['lang'] == "SWE"
-                        )echo "selected='selected'"; ?> value="SWE">Swedish</option>
+            <option <? if ($data[0]['lang'] == "GER")echo "selected='selected'"; ?> value="GER">German</option>
+            <option <? if ($data[0]['lang'] == "ENG")echo "selected='selected'"; ?> value="ENG">English</option>
+            <option <? if ($data[0]['lang'] == "SWE")echo "selected='selected'"; ?> value="SWE">Swedish</option>
           </select>
           <div id='error_langStand' class="error"></div></td>
-        <td>&nbsp;</td>
+          <td align="right" valign="middle"><a title="<?=SLANGUAGE_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
       </tr>
       <tr>
         <td >Product Name<span class='mandatory'>*</span>:</td>
@@ -217,7 +216,7 @@ img {
     <div class="redwhitebutton_small123">Advanced Options-Optional</div>
     <table   style="display:inline_row;" cellspacing="15" id="advancedSearchStand" width="100%">
       <tr>
-        <td width="515">Keywords:</td>
+        <td width="515">Keywords<span class='mandatory'>*</span>:</td>
         <td width="227"><INPUT class="text_field_new" type=text name="searchKeywordStand" id="searchKeywordStand" maxlength="90" value="<?=$data[0]['keyword']
                                ?>">
           <div id='error_searchKeywordStand' class="error"></div></td>
@@ -229,14 +228,14 @@ img {
         <td><INPUT class="text_field_new" type=text name="eanCode" id="eanCode" value="<?=$data[0]['ean_code']
                                ?>">
           <div id='error_eanCode' class="error"></div></td>
-        <td>&nbsp;</td>
+        <td align="right" valign="middle"><a title="<?=SEAN_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
       </tr>
       <tr>
         <td>Product Number:</td>
         <td><INPUT class="text_field_new" type=text name="productNumber" value="<?=$data[0]['product_number']
                                ?>" id="productNumber">
           <div id='error_productNumber' class="error"> </div></td>
-        <td>&nbsp;</td>
+        <td align="right" valign="middle"><a title="<?=PRODUCTNUMBER_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
       </tr>
       <tr>
     </table>
@@ -275,14 +274,14 @@ img {
           <input  type="text" style="width:380px;" name="startDateStand" readonly="readonly" value="<?=$start_date
                                 ?>" id="startDateStand" class="startDateStand dp-applied text_field_new" />
           <div id='error_startDateStand' class="error"></div></td>
-        <td align="right"><a title="<?=START_TEXT
+        <td align="right"><a title="<?=RELEASE_DATE_OF_PRODUCT
                            ?>" class="vtip"><b><small>?</small></b></a> </td>
       </tr>
       <tr>
         <td colspan="2"><INPUT class="text_field_new" type="hidden" name="productName" value="<?=$data[0]['product_name']
                                ?>" id="productName">
           <!--  <a title="<?=PRODUCTNAME_TEXT
-                           ?>" class="vtip"><b><small>?</small></b></a></br>-->
+                           ?>" class="vtip"><b><small>?</small></b></a><br/>-->
           <div id='error_productName' class="error"></div></td>
       </tr>
       <tr>

@@ -3,7 +3,7 @@
  *  Description : Standard Offer Form
  *  Author      : Himanshu Singh  Date: 25th,Nov,2010  Creation
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $menu = "standard";
 $standard = 'class="selected"';
@@ -117,13 +117,13 @@ img {
   <table border="0"   width="100%" cellspacing="15">
     <tr>
       <td width="515" align="left" valign="top" class="inner_grid">Edit According To Your Language: </td>
-      <td width="469" colspan="2" align="left" valign="top"><select style="width:406px; background-color:#e4e3dd;" onChange="getLangImage(this.value),langChange(this.value,'<?=$_GET['productId']?>','<?=$reseller?>');" class="text_field_new" name="lang" id="lang" value="<?=$data[0]['lang']?>">
-          <option <? if ($lang == "ENG"
-                        )echo "selected='selected'"; ?> value="ENG">English</option>
-          <option <? if ($lang == "SWE"
-                        )echo "selected='selected'"; ?> value="SWE">Swedish</option>
+      <td width="469" align="left" valign="top"><select style="width:406px; background-color:#e4e3dd;" onChange="getLangImage(this.value),langChange(this.value,'<?=$_GET['productId']?>','<?=$reseller?>');" class="text_field_new" name="lang" id="lang" value="<?=$data[0]['lang']?>">
+          <option <? if ($lang == "GER")echo "selected='selected'"; ?> value="GER">German</option>
+          <option <? if ($lang == "ENG")echo "selected='selected'"; ?> value="ENG">English</option>
+          <option <? if ($lang == "SWE")echo "selected='selected'"; ?> value="SWE">Swedish</option>
         </select>
         <div id='error_langStand' class="error"></div></td>
+       <td align="right" valign="middle"><a title="<?=SLANGUAGE_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
     </tr>
     <tr>
       <td align="left" valign="top"  class="inner_grid">Product Name<span class='mandatory'>*</span>:</td>
@@ -135,7 +135,7 @@ img {
     </tr>
     <tr>
       <td align="left" valign="top" class="inner_grid">Category<span class='mandatory'>*</span>:</td>
-      <td colspan="2" align="left" valign="top"><div id="category_lang_div">
+      <td  align="left" valign="top"><div id="category_lang_div">
           <select class="text_field_new" onChange="getCatImage(this.value, this.form);" style="width:406px; background-color:#e4e3dd; " tabindex="27" id="linkedCatStand" name="linkedCatStand" value="<?=$_SESSION['post']['linkedCatStand']
                                 ?>">
             <option <? if ($data[0]['category'] == ''
@@ -146,7 +146,8 @@ img {
         </div>
         <input type="hidden" name="category_image" id="category_image" value="">
         <div id="category_image_div" style="display:none;"></div>
-        <div id='error_linkedCat' class="error"></div></td>
+        <div id='error_linkedCatStand' class="error"></div></td>
+      <td align="right" valign="middle"><a title="<?=SCATEGORY_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
     </tr>
     <tr>
       <td align="left" valign="top" class="inner_grid">Small icon <font size="2">(Icon must be in png format only e.g. icon.png.The size must be at least 45 x 60 pixels)</font></td>
@@ -217,14 +218,14 @@ img {
         <td ><INPUT class="text_field_new" type=text name="link" id="link" value="<?=$data[0]['link']
                                        ?>">
             <a title="<?=SLINK_TEXT
-                       ?>" class="vtip"><b><small>?</small></b></a></br>
+                       ?>" class="vtip"><b><small>?</small></b></a><br/>
             <div id='error_link' class="error"></div></td>
         </tr>-->
   </table>
   <div class="redwhitebutton_small123">Advanced Options-Optional</div>
   <table cellspacing="15"   style="display:inline_row;" id="advancedSearchStand" width="100%">
     <tr>
-      <td width="515" align="left" valign="top" class="inner_grid">Keywords:</td>
+      <td width="515" align="left" valign="top" class="inner_grid">Keywords<span class='mandatory'>*</span>:</td>
       <td width="227" align="left" valign="top"><INPUT class="text_field_new" type=text name="searchKeywordStand" id="searchKeywordStand" maxlength="90" value="<?=$data[0]['keyword']
                                ?>">
         <div id='error_searchKeywordStand' class="error"></div></td>
@@ -233,15 +234,17 @@ img {
     </tr>
     <tr>
       <td align="left" valign="top" class="inner_grid">EAN Code:<br></td>
-      <td colspan="2" align="left" valign="top"><INPUT class="text_field_new" type=text name="eanCode" id="eanCode" value="<?=$data[0]['ean_code']
+      <td  align="left" valign="top"><INPUT class="text_field_new" type=text name="eanCode" id="eanCode" value="<?=$data[0]['ean_code']
                            ?>">
         <div id='error_eanCode' class="error"></div></td>
+       <td align="right" valign="middle"><a title="<?=SEAN_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
     </tr>
     <tr>
       <td align="left" valign="top" class="inner_grid">Product Number:<br></td>
-      <td colspan="2" align="left" valign="top"><INPUT class="text_field_new" type=text name="productNumber" value="<?=$data[0]['product_number']
+      <td  align="left" valign="top"><INPUT class="text_field_new" type=text name="productNumber" value="<?=$data[0]['product_number']
                            ?>" id="productNumber">
         <div id='error_productNumber' class="error"> </div></td>
+       <td align="right" valign="middle"><a title="<?=PRODUCTNUMBER_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
     </tr>
     <tr>
   </table>
@@ -280,14 +283,13 @@ img {
         <input type="text"  style="width:380px;" name="startDateStand" readonly="readonly" value="<?=$start_date
                            ?>" id="startDateStand" class="startDateStand dp-applied text_field_new" />
         <div id='error_startDateStand' class="error"></div></td>
-      <td align="right" valign="top"><a title="<?=START_TEXT
-                       ?>" class="vtip"><b><small>?</small></b></a> </td>
+      <td align="right" valign="top"><a title="<?=RELEASE_DATE_OF_PRODUCT?>" class="vtip"><b><small>?</small></b></a> </td>
     </tr>
     <tr>
       <td colspan="2"><INPUT class="text_field_new" type="hidden" name="productName" value="<?=$data[0]['product_name']
                            ?>" id="productName">
         <!--<a title="<?=PRODUCTNAME_TEXT
-                       ?>" class="vtip"><b><small>?</small></b></a></br>-->
+                       ?>" class="vtip"><b><small>?</small></b></a><br/>-->
         <div id='error_productName' class="error"></div></td>
     </tr>
     <tr>

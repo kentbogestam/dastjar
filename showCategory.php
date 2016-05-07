@@ -3,7 +3,7 @@
 *   Description : Login form
 *   
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $menu = "cat";
 $cat = 'class="selected"';
@@ -140,10 +140,9 @@ else
                  <input type="hidden" name="m" value="support_in">
 
                    <select style="width:406px; background-color:#e4e3dd;" onChange="langChange(this.value);" class="text_field_new" name="lang" id="lang" >
-                    <option <? if ($lang == "ENG"
-                        )echo "selected='selected'"; ?> value="ENG">English</option>
-                    <option <? if ($lang == "SWE"
-                        )echo "selected='selected'"; ?> value="SWE">Swedish</option>
+                    <option <? if ($lang == "GER")echo "selected='selected'"; ?> value="GER">German</option>
+                    <option <? if ($lang == "ENG")echo "selected='selected'"; ?> value="ENG">English</option>
+                    <option <? if ($lang == "SWE")echo "selected='selected'"; ?> value="SWE">Swedish</option>
                 </select>
                 <div id='error_langStand' class="error"></div>            </td>
         </tr>

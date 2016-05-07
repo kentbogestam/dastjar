@@ -33,7 +33,7 @@ $selected_tab_css = ' style="background-color:#ADDFFF" ';
 <script language="javascript" src="client/js/mouseovertabs.js" type="text/javascript" ></script>
 
 
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"><style type="text/css">
 <!--
 .center{width:900px; margin-left:auto; margin-right:auto;}
 -->
@@ -69,18 +69,28 @@ $selected_tab_css = ' style="background-color:#ADDFFF" ';
 <div class="frm_cls">
 <table border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <td><input type="radio" <?=$show?> onClick="javascript:window.location.href='showResellerCampaign.php'" name="deals">
+    <td nowrap><input type="radio" <?=$show?> onClick="javascript:window.location.href='showResellerCampaign.php'" name="deals">
       Campaign Offer </td>
-    <td width="20">&nbsp;</td>
-    <td><input type="radio" <?=$outdated?> onClick="javascript:window.location.href='showResellerCampaign.php?m=showcampoffer'" name="deals">
+    <td nowrap><input type="radio" <?=$outdated?> onClick="javascript:window.location.href='showResellerCampaign.php?m=showcampoffer'" name="deals">
       Show Outdated Campaign </td>
+    <td nowrap><input type="radio" <?=$showdelete?> onClick="javascript:window.location.href='showDeleteResellerCampaign.php'" name="deals">
+      Show Deleted Campaign </td>                
   </tr>
   <tr>
-    <td><input type="radio" <?=$showdelete?> onClick="javascript:window.location.href='showDeleteResellerCampaign.php'" name="deals">
-      Show Deleted Campaign </td>
-    <td width="20">&nbsp;</td>
-    <td>&nbsp;</td>
+      
+       <td nowrap><input type="radio" <?=$showadvertise?> onClick="javascript:window.location.href='showResellerAdvertise.php'" name="deals">
+      Advertise Offer </td>  
+      
+     <td nowrap><input type="radio" <?=$outdatedadvertise?> onClick="javascript:window.location.href='showResellerAdvertise.php?m=showadvtoffer'" name="deals">
+      Show Outdated Advertise </td>
+      
+     <td><input type="radio" <?=$showdeleteadvertise?> onClick="javascript:window.location.href='showDeleteResellerAdvertise.php'" name="deals">
+Show Deleted Advertise </td>
+      
+      
   </tr>
+  
+  
 </table>
 
 <!--<input style="margin-left:130px; margin-top:20px;"  type="radio" <?=$showstandard?> onClick="javascript:window.location.href='showResellerStandard.php'" name="deals">Standard Offer-->

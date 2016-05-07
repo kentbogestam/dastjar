@@ -3,36 +3,35 @@
  *  Description : Add Language Form
  *  Author      : Tanvi vyas  Date:
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $offerObj = new offer();
 $regObj = new registration();
 
 $reseller = $_GET['from'];
-//echo $_GET['campaignId'];die;
+//echo $_GET['advertiseId'];die;
 if (isset($_POST['continue'])) {
-  ///  echo $campaignid = $_POST['campaignId'];echo "here";die;
-    $offerObj->addSaveLang($_POST['campaignId'],$reseller);
+    //echo $advertiseid = $_POST['advertiseId'];echo "here";die;
+    $offerObj->addSaveAdvertiseLang($_POST['advertiseId'],$reseller);
 }
-$menu = "campaign";
-$campaign = 'class="selected"';
-if ($_GET['m'] == "showcampoffer")
-    $outdated = 'class="selected"';
+$menu = "advertise";
+$advertise = 'class="selected"';
+if ($_GET['m'] == "showadvtoffer")
+    $outdatedadvertise = 'class="selected"';
 else
-    $show = 'class="selected"';
+    $showadvertise = 'class="selected"';
 
 if($reseller == '')
 { include_once("main.php"); }
 else
 { include_once("mainReseller.php"); }
- $campaignid = $_GET['campaignId']; 
- $lang = $offerObj->getLang($campaignid);
+ $advertiseid = $_GET['advertiseId']; 
+ $lang = $offerObj->getAdvertiseLang($advertiseid);
   //print_r($lang)
 
 //die();
-$data = $offerObj->viewcampaignDetailById($campaignid,$lang);
-//echo "<pre>"; print_r($data); print "</pre>";
-
+$data = $offerObj->viewadvertiseDetailById($advertiseid,$lang);
+//echo "<pre>"; print_r($data); print "</pre>";die();
 
 
 ?>
@@ -44,7 +43,7 @@ $data = $offerObj->viewcampaignDetailById($campaignid,$lang);
 <script language="JavaScript" src="client/js/jquery.bgiframe.js" type="text/javascript"></script>
 <script language="JavaScript" src="client/js/jquery.datePicker.js" type="text/javascript"></script>
 <script language="JavaScript" src="client/js/ajaxupload.js" type="text/javascript"></script>
-<script language="JavaScript" src="client/js/jslang.js" type="text/javascript"></script>
+<script language="JavaScript" src="client/js/jsAdvertiselang.js" type="text/javascript"></script>
 <META http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
 
 <style type="text/css">
@@ -59,7 +58,7 @@ $data = $offerObj->viewcampaignDetailById($campaignid,$lang);
 <body>
 <div class="center">
 <form name="registerform" action="" id="registerform" method="Post" target="_self" enctype="multipart/form-data">
-    <input type="hidden" name="campaignId" value="<?=$_GET['campaignId']
+    <input type="hidden" name="advertiseId" value="<?=$_GET['advertiseId']
                    ?>">
     <input type="hidden" name="preview" value="1">
     <input type="hidden" name="m" value="addSaveLang">
@@ -83,7 +82,7 @@ $data = $offerObj->viewcampaignDetailById($campaignid,$lang);
 
     </div>
   <div class="blackbutton" style="padding-top: 50px;">ADD LANGUAGE</div>
-    <div class="redwhitebutton_small123">Basic Campaign Information</div>
+    <div class="redwhitebutton_small123">Basic Advertise Information</div>
 
 
     <table border="0" width="100%" cellspacing="15" align="center" >
@@ -102,25 +101,23 @@ $data = $offerObj->viewcampaignDetailById($campaignid,$lang);
         <tr>
         		
 
-            <td width="50%"  class="inner_grid">Campaign Title. Max. 19 characters<span class='mandatory'>*</span>:</td>
+            <td width="50%"  class="inner_grid">Advertise Title. Max. 19 characters<span class='mandatory'>*</span>:</td>
         <td colspan="2" >
-            <INPUT class="text_field_new"  maxlength="19" type=text name="titleSlogan" id="titleSlogan" onBlur="iconPreview(this.form);limitPreview(this.form);" value="<?=$data[0]['slogan'] ?>">
+            <INPUT class="text_field_new" maxlength="19" type=text name="titleSlogan" id="titleSlogan" onBlur="iconPreview(this.form);limitPreview(this.form);" value="<?=$data[0]['slogan'] ?>">
 
             <div id='error_titleSlogan' class="error"></div></td>
         </tr>
         <tr>
         		
 
-            <td width="50%" class="inner_grid">Campaign Description. Max. 50 characters<span class='mandatory'>*</span>:</td>
+            <td width="50%" class="inner_grid">Advertise Description. Max. 50 characters<span class='mandatory'>*</span>:</td>
         <td>
             <INPUT class="text_field_new" maxlength="50" type=text name="subSlogan" id="subSlogan" onBlur="iconPreview(this.form);limitPreview(this.form);" value="<?=$data[0]['subslogen']
                            ?>">
             <div id='error_subSlogan' class="error"></div></td>
-        <td align="right"><a title="<?=DESCRIPTION_TEXT
-                       ?>" class="vtip"><b><small>?</small></b></a> </td>
+        <td align="right"><a title="<?=ADESCRIPTION_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
       </tr>
-        <!--<?php /* ?>
-                         <form action="" method="post" name="standard_use" id="standard_use" enctype="multipart/form-data"><?php */ ?>-->
+   
            <tr>
          
             <td width="50%">Category:<td colspan="2">
@@ -135,16 +132,11 @@ $data = $offerObj->viewcampaignDetailById($campaignid,$lang);
            
             <td width="50%">Icon:</td>
             <td colspan="2">
-            <img src="<?=$data[0]['small_image'] ?>" width="50">        </tr>
-       
-      
-       <!-- <tr>
-            <td colspan="4" align="center" height="20"><strong><button onclick="ajaxUpload(this.form,'classes/ajx/ajxUpload.php?filename=icon&amp;maxW=200','upload_area'); return false;">Click here</button> to check how your short campaign proposal looks like</strong></td>
-        </tr> -->
+            <img src="<?=$data[0]['small_image'] ?>" width="50">        </tr>                 
     </table>
     
-  <div class="redwhitebutton_small123">Campaign Behaviour</div>
-    <table BORDER=0 width="100%" cellspacing="15" id="CampaignBehavior" align="center" >
+  <div class="redwhitebutton_small123">Advertise Behaviour</div>
+    <table BORDER=0 width="100%" cellspacing="15" id="AdvertiseBehavior" align="center" >
 
 
 <tr>
@@ -178,54 +170,24 @@ $data = $offerObj->viewcampaignDetailById($campaignid,$lang);
 
        <tr>
            
-            <td width="50%">Campaign Name:</td>
+            <td width="50%">Advertise Name:</td>
 <td width="52%" colspan="2">
-                <?=$data[0]['campaign_name'] ?></td>
+                <?=$data[0]['advertise_name'] ?></td>
       </tr>
     </table>
 <table BORDER=0   id="advancedSearch" width="100%" cellspacing="15" align="center" >
 <tr >
+        		
+
             <td width="50%" class="inner_grid"> Keywords<span class='mandatory'>*</span>:</td>
 <td width="50%">
 <INPUT class="text_field_new" type=text name="searchKeyword" value="<?=$data[0]['keyword']
                                ?>" id="searchKeyword">
                 <div id='error_searchKeyword' class="error" ></div></td>
-            <td align="right"><a title="<?=KEYWORD_TEXT ?>" class="vtip"><b><small>?</small></b></a> </td>
-        </tr>
-           
-<tr>            
-        <td width="50%">Value:</td>
-        <td colspan="2">  <?=$data[0]['value']?> </td>
-</tr>
-        
-<tr>           
-            <td width="50%">Start Time for the Campaign Limitation:</td>
-           <td colspan="2"><? $d=$data[0]['start_time'] ?>
-             <?php if ($d == '')
-                    echo "Not Specified";
-                else
-                    echo $d; ?>            </td>
-        </tr>
-        <tr>
-           
-            <td width="50%">End Time for the Limitation:</td>
-            <td colspan="2"><? $d=$data[0]['end_time'] ?>
-              <?php if ($d == '')
-                    echo "Not Specified";
-                else
-                    echo $d; ?>            </td>
-        </tr>
-        <tr>
-            
-            <td width="50%">Limit Campaign:</td>
-            <td colspan="2"><?$d=$data[0]['valid_day'] ?>
-            <?php if ($d == '')
-                    echo "Not Specified";
-                else
-                    echo $d; ?>            </td>
-        </tr>
+            <td align="right"><a title="<?=AKEYWORD_TEXT ?>" class="vtip"><b><small>?</small></b></a> </td>
+        </tr>       
     </table>
-  <div class="redwhitebutton_small123">Extended Campaign Behaviour</div>
+  <div class="redwhitebutton_small123">Extended Advertise Behaviour</div>
     <table width="100%" BORDER=0 align="center" cellspacing="15">
 <tr>
            
@@ -255,10 +217,10 @@ $data = $offerObj->viewcampaignDetailById($campaignid,$lang);
 <br />
         <?if($reseller == '') {?>
         <INPUT type="submit" value="Save" name="continue" id="continue" class="button" >
-       <INPUT type="button" value="Back" name="continue" id="continue" class="button" onClick="javascript:location.href='showCampaign.php';" >
+       <INPUT type="button" value="Back" name="continue" id="continue" class="button" onClick="javascript:location.href='showAdvertise.php';" >
            <?} else {?>
        <INPUT type="submit" value="Save" name="continue" id="continue" class="button" >
-       <INPUT type="button" value="Back" name="continue" id="continue" class="button" onClick="javascript:location.href='showResellerCampaign.php';" >
+       <INPUT type="button" value="Back" name="continue" id="continue" class="button" onClick="javascript:location.href='showResellerAdvertise.php';" >
        <?}?>
         <br />
         <br />

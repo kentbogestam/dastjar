@@ -5,7 +5,7 @@
  */
 ob_start();
 //$_SESSION['REG_STEP'] = 2;
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $inoutObj = new inOut();
 //$inoutObj->validSteps();
@@ -32,7 +32,7 @@ include_once("header.php");
 <script type="text/javascript" src="lib/vtip/js/vtip.js"></script>
 <link rel="stylesheet" type="text/css" href="lib/vtip/css/vtip.css" />
 <script language="JavaScript" src="client/js/jsAddCompany.js" type="text/javascript"></script>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /><style type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><style type="text/css">
 <!--
 body,td,th {
 	.center{width:900px; margin-left:auto; margin-right:auto;}
@@ -78,8 +78,8 @@ body,td,th {
             <td align="left">Select a Country </td>
             <td>
                 <select class="text_field_new" style="background-color:#e4e3dd; width:406px; height:36px;border: 1px solid #abadb3;"  tabindex="27" id="areatimezone" name="areatimezone">
-
                     <option value="SE">Sweden</option>
+                    <option value="DE">Germany</option>
                 </select>            </td>
         </tr>
         <tr>
@@ -88,6 +88,7 @@ body,td,th {
             <td>
                 <select class="text_field_new" style="background-color:#e4e3dd; width:406px; height:36px;border: 1px solid #abadb3;" tabindex="27" id="timezone" name="timezone">
 
+                    <option value="Europe/Berlin">(GMT+01:00) Berlin</option>
                     <option value="Europe/Stockholm">(GMT+01:00) Stockholm</option>
                 </select>            </td>
         </tr>
@@ -96,6 +97,7 @@ body,td,th {
             <td height="42" align="left">Select a Currency                </td>
             <td>
                 <select class="text_field_new" style="background-color:#e4e3dd; width:406px; height:36px;border: 1px solid #abadb3;" tabindex="27" id="currency" name="currency">
+                    <option value="EUR">euro (EUR)</option>
                     <option value="SEK">svensk krona (SEK kr)</option>
                 </select>            </td>
         </tr>
@@ -161,7 +163,7 @@ body,td,th {
 						$countryCode=$_SESSION['post']['country'];
 						if(empty($countryCode))
 						{
-							$countryCode='SE';
+							$countryCode='DE';
 						}
 
 						foreach($countryList as $key=>$value)

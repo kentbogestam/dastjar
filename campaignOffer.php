@@ -3,7 +3,7 @@
 *  Description : Add Campaign Offer Form
 *  Author      : Himanshu Singh  Date: 12th,Nov,2010  Creation
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 ob_start();
 include_once("cumbari.php");
 $regObj = new registration();
@@ -15,6 +15,11 @@ $compcont = $offerObj->companycountry();
 if ($compcont == 'Sweden') {
     //echo $compcont;die;
     $lang = 'SWE';
+    //echo $lang;die;
+}
+elseif ($compcont == 'Germany') {
+    //echo $compcont;die;
+    $lang = 'GER';
     //echo $lang;die;
 }
 else {
@@ -105,34 +110,36 @@ if ($_SESSION['MESSAGE']) {
           <td align="left"><!-- <form action="" method="post" name="standard_use" id="standard_use" enctype="multipart/form-data">-->
             <table   width="100%"  border="0" cellpadding="0" cellspacing="0">
               <tr>
-                <td width="4">&nbsp;</td>
+               
                 <td width="50%" align="left" valign="top" class="td_pad_left">Language: </td>
                 <td width="50%" align="left" valign="top" class="td_pad_right"><select  onchange="getLangImage(this.value);" style="width:406px; background-color:#e4e3dd;" class="text_field_new" name="lang" id="lang" >
-                    <option <? if ($lang == "ENG"
-                                                )echo "selected='selected'"; ?> value="ENG">English</option>
-                    <option <? if ($lang == "SWE"
-                                                )echo "selected='selected'"; ?> value="SWE">Swedish</option>
+                    <option <? if ($lang == "GER")echo "selected='selected'"; ?> value="GER">German</option>
+                    <option <? if ($lang == "ENG")echo "selected='selected'"; ?> value="ENG">English</option>
+                    <option <? if ($lang == "SWE")echo "selected='selected'"; ?> value="SWE">Swedish</option>
                   </select>
                   <div id='error_langStand' class="error"></div></td>
+                 <td align="right"><a title="<?=CLANGUAGE_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
+                
               </tr>
               <tr>
-                <td  align="left">&nbsp;</td>
+               
                 <td width="50%"  align="left" valign="top" class="td_pad_left"> Campaign Title. Max. 19 characters<span class='mandatory'>*</span>:</td>
                 <td width="50%"  align="left" valign="top" class="td_pad_right"><INPUT class="text_field_new" type=text name="titleSlogan" id="titleSlogan" maxlength="19" onBlur="iconPreview(this.form);;limitPreview(this.form);" value="<?=$_SESSION['post']['titleSlogan']
                                                        ?>">
                   <div id='error_titleSlogan' class="error"></div></td>
+                 <td align="right"><a title="<?=TITEL_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
               </tr>
               <tr>
-                <td align="left">&nbsp;</td>
+               
                 <td width="50%" align="left" valign="top" class="td_pad_left"> Campaign Description. Max. 50 characters <span class='mandatory'>*</span>:</td>
                 <td width="50%" align="left" valign="top" class="td_pad_right"><INPUT class="text_field_new" type=text name="subSlogan" id="subSlogan" maxlength="50" onBlur="iconPreview(this.form);;limitPreview(this.form);" value="<?=$_SESSION['post']['subSlogan']
                                                        ?>">
-                  <a title="<?=DESCRIPTION_TEXT
-                                                   ?>" class="vtip"><b><small>?</small></b></a></br>
                   <div id='error_subSlogan' class="error"></div></td>
+                 <td align="right"><a title="<?=DESCRIPTION_TEXT ?>" class="vtip"><b><small>?</small></b></a> </td>
+                
               </tr>
               <tr>
-                <td align="left">&nbsp;</td>
+               
                 <td width="50%" align="left" valign="top" class="td_pad_left">Category<span class='mandatory'>*</span>:</td>
                 <td width="50%" align="left" valign="top" class="td_pad_right"><div id="category_lang_div">
                     <select class="text_field_new" style="width:406px;  background-color:#e4e3dd; " onChange="getCatImage(this.value, this.form);"  tabindex="27" id="linkedCat" name="linkedCat" value="<?=$_SESSION['post']['linkedCat']
@@ -146,9 +153,10 @@ if ($_SESSION['MESSAGE']) {
                   <input type="hidden" name="category_image" id="category_image" value="">
                   <div id="category_image_div" style="display:none;"></div>
                   <div id='error_linkedCat' class="error"></div></td>
+                  <td align="right"><a title="<?=CCATEGORY_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
               </tr>
               <tr>
-                <td>&nbsp;</td>
+               
                 <td width="50%" align="left" valign="top" class="td_pad_left">Small icon <font size="2">(Icon must be in png format only e.g. icon.png.The size must be at least 45 x 60 pixels)</font></td>
                 <td width="50%" align="left" valign="top" class="td_pad_right"><?php if ($_SESSION['preview']['small_image']) { ?>
                   <img style="display:none;" src="upload/category/<?=$_SESSION['preview']['small_image'] ?>">
@@ -157,13 +165,12 @@ if ($_SESSION['MESSAGE']) {
                   <?
                                         }
                                         ?>
-                  <INPUT class="text_field_new" type="file" name="icon" id="icon" onBlur="iconPreview(this.form);">
-                  <a title="<?=ICON_TEXT
-                                                   ?>" class="vtip"><b><small>?</small></b></a></br>
+                  <INPUT class="text_field_new" type="file" name="icon" id="icon" onBlur="iconPreview(this.form);">                
                   <div id='error_icon' class="error"></div>
                   <div>
                     <input type="hidden" id="selected_image" name="selected_image" value="0">
                   </div></td>
+                   <td align="right"><a title="<?=ICON_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
               </tr>
               <tr style="display:none;">
                 <td colspan="4" align="right" height="20"><strong>
@@ -205,7 +212,7 @@ if ($_SESSION['MESSAGE']) {
       </table>
       <table  width="100%" border="0" cellpadding="0" cellspacing="0" id="CampaignBehavior"   style="display:inline-table;">
         <tr>
-          <td width="1">&nbsp;</td>
+         
           <td width="50%" align="left" valign="top" class="td_pad_left">Sponsored
             Campaign <span class='mandatory'>*</span>:</td>
           <td  width="50%" align="left" valign="top" class="td_pad_right"><select style="width:406px; background-color:#e4e3dd; height:36px; border: 1px solid #abadb3;" class="text_field_new"  id="sponsor" name="sponsor">
@@ -215,39 +222,55 @@ if ($_SESSION['MESSAGE']) {
               <option <? if ($_SESSION['post']['sponsor'] == '1'
 
                                 )echo "selected='selected'"; ?> value="1">Yes</option>
-            </select>
-            <a title="<?=SPONSOR_TEXT ?>" class="vtip"><b><small>?</small></b></a></br>
+            </select>            
             <span style="font-size:12px;"> (Price per view 0.01 kr)</span>
             <div id='error_sponsor' class="error"></div></td>
+           <td align="right" valign="top"><a title="<?=SPONSOR_TEXT ?>" class="vtip"><b><small>?</small></b></a></td>
         </tr>
         <tr>
-          <td>&nbsp;</td>
+          
           <td width="50%" align="left" valign="top" class="td_pad_left">Start date of Campaign<span class='mandatory'>*</span> :</td>
           <td colspan="2" align="left" valign="top" class="td_pad_right"  ><input  type="text" style="width:382px;" name="startDate" readonly="readonly" value="<?=$_SESSION['post']['startDate'] ?>" id="startDate" class="startDate dp-applied text_field_new" />
-            <a  title="<?=START_TEXT ?>" class="vtip"><b><small>?</small></b></a>
+            
             <div id='error_startDate' class="error"></div></td>
+           <td align="right"><a title="<?=START_TEXT ?>" class="vtip"><b><small>?</small></b></a> </td>
         </tr>
         <tr>
-          <td >&nbsp;</td>
+          
           <td width="50%" align="left" valign="top" class="td_pad_left" >End date of Campaign<span class='mandatory'>*</span> :</td>
           <td colspan="2" align="left" valign="top" class="td_pad_right"><input style="width:382px;"  type="text" name="endDate" readonly="readonly" value="<?=$_SESSION['post']['endDate'] ?>" id="endDate" class="endDate dp-applied text_field_new" />
-            <a  title="<?=END_TEXT ?>" class="vtip"><b><small>?</small></b></a>
+           
             <div id='error_endDate' class="error"></div></td>
+            <td align="right"><a title="<?=END_TEXT ?>" class="vtip"><b><small>?</small></b></a> </td>
         </tr>
         <tr>
-          <td>&nbsp;</td>
+         
           <td width="50%" align="left" valign="top" class="td_pad_left">Campaign Name.Not displayed to end user.Only for internal use.<span class='mandatory'>*</span>:</td>
           <td colspan="2" align="left" valign="top" class="td_pad_right"><input class="text_field_new" type="text" name="campaignName" value="<?=$_SESSION['post']['campaignName'] ?>" id="campaignName" />
-            <a title="<?=CAMPAIGNNAME_TEXT ?>" class="vtip"><b><small>?</small></b></a></br>
+           
             <div id='error_campaignName' class="error"></div></td>
+           <td align="right"><a title="<?=CAMPAIGNNAME_TEXT ?>" class="vtip"><b><small>?</small></b></a> </td>
         </tr>
         <tr>
-          <td>&nbsp;</td>
+         
           <td width="50%" align="left" valign="top" class="td_pad_left">Keyword:</td>
           <td colspan="2" align="left" valign="top" class="td_pad_right"><input class="text_field_new" type="text" name="searchKeyword" maxlength="90" value="<?=$_SESSION['post']['searchKeyword'] ?>" id="searchKeyword" />
-            <a title="<?=KEYWORD_TEXT ?>" class="vtip"><b><small>?</small></b></a></br>
+            
             <div id='error_searchKeyword' class="error" ></div></td>
+           <td align="right"><a title="<?=KEYWORD_TEXT ?>" class="vtip"><b><small>?</small></b></a> </td>
         </tr>
+        <tr>
+        
+          <td width="50%" align="left" valign="top" class="td_pad_left">Campaign Value:</td>
+          <td colspan="2" align="left" valign="top" class="td_pad_right"><input class="text_field_new" type="text" name="discountValue" maxlength="90" value="<?=$_SESSION['post']['discountValue'] ?>" id="discountValue" />
+           
+            <div id='error_discountValue' class="error" ></div></td>
+            <td align="right"><a title="<?=DISCOUNTVALUE_TEXT ?>" class="vtip"><b><small>?</small></b></a> </td>
+        </tr>
+        
+        
+        
+        
         <!--         <tr>
           <td>&nbsp;</td>
           <td width="50%" align="left" valign="top" class="td_pad_left">Discount:</td>
@@ -262,7 +285,7 @@ if ($_SESSION['MESSAGE']) {
                        ?>" class="vtip"><b><small> ?</small></b></a></td>
         </tr>-->
         <tr>
-          <td>&nbsp;</td>
+         
           <td width="50%" align="left" valign="top" class="td_pad_left">Deal is only valid from start time during a day:</td>
           <td colspan="2" align="left" valign="top" class="td_pad_right"><select style="width:406px; background-color:#e4e3dd; height:36px; border: 1px solid #abadb3;" class="text_field_new" name="startDateLimitation" id="startDateLimitation" onBlur="limitPreview(this.form);" value="<?=$_SESSION['post']['startDateLimitation'] ?>">
               <option <? if ($_SESSION['post']['startDateLimitation'] == ''
@@ -342,9 +365,10 @@ if ($_SESSION['MESSAGE']) {
                                 )echo "selected='selected'"; ?>   value="23">23</option>
             </select>
             <div id='error_startDateLimitation'></div></td>
+           <td align="right"><a title="<?=DEAL_VALID_FROM_TEXT  ?>" class="vtip"><b><small>?</small></b></a></td>
         </tr>
         <tr>
-          <td>&nbsp;</td>
+        
           <td width="50%" align="left" valign="top" class="td_pad_left">Deal is only valid to an end time during a day:</td>
           <td colspan="2" align="left" valign="top" class="td_pad_right"><!--<INPUT type=text name="endDateLimitation" id="endDateLimitation">-->
             <select style="width:406px; background-color:#e4e3dd; height:36px; border: 1px solid #abadb3;" class="text_field_new" name="endDateLimitation" id="endDateLimitation" onBlur="limitPreview(this.form);" value="<?=$_SESSION['post']['endDateLimitation'] ?>">
@@ -425,9 +449,10 @@ if ($_SESSION['MESSAGE']) {
                                 )echo "selected='selected'"; ?> value="23">23</option>
             </select>
             <div id='error_endDateLimitation'></div></td>
+            <td align="right"><a title="<?=DEAL_VALID_TO_TEXT  ?>" class="vtip"><b><small>?</small></b></a></td>
         </tr>
         <tr>
-          <td>&nbsp;</td>
+          
           <td width="50%" align="left" valign="top" class="td_pad_left">Deal is only valid to a limited set of days during the week:</td>
           <td colspan="2" align="left" valign="top" class="td_pad_right"><!--<INPUT type=text name="limitDays" id="limitDays">-->
             <select style="width:406px; background-color:#e4e3dd; height:36px; border: 1px solid #abadb3;" class="text_field_new" name="limitDays" id="limitDays" onBlur="limitPreview(this.form);">
@@ -445,9 +470,10 @@ if ($_SESSION['MESSAGE']) {
               <option value="ALL_WEEK">ALL WEEK</option>
             </select>
             <div id='error_limitDays'></div></td>
+           <td align="right"><a title="<?=DEAL_VALID_DAY_TEXT  ?>" class="vtip"><b><small>?</small></b></a></td>
         </tr>
         <tr>
-          <td  class="inner_grid">&nbsp;</td>
+          
           <td width="50%" align="left" valign="top"  class="td_pad_left"> Code:</td>
           <td width="50%" align="left" valign="top" class="td_pad_right" ><select class="text_field_new" name="codes" id="codes"  onChange="changeIntoText(this.value);">
               <option value="">Select</option>
@@ -455,6 +481,7 @@ if ($_SESSION['MESSAGE']) {
                <option value="CUSTOM">PINCODE</option>
             </select>
           </td>
+           <td align="right"><a title="<?=CCODEHELP_TEXT  ?>" class="vtip"><b><small>?</small></b></a></td>
         </tr>
         <tr>
           <td class="inner_grid" colspan="3">&nbsp;
@@ -495,7 +522,7 @@ if ($_SESSION['MESSAGE']) {
                     ?>
             <INPUT class="text_field_new" type=file name="picture" id="picture" onBlur="picturePreview(this.form);">
             <a title="<?=SICON_TEXT
-                               ?>" class="vtip"><b><small>?</small></b></a></br>
+                               ?>" class="vtip"><b><small>?</small></b></a><br/>
             <div id='error_picture' class="error"></div></td>
         </tr>
         <tr>
@@ -505,7 +532,7 @@ if ($_SESSION['MESSAGE']) {
             <?=$_SESSION['post']['descriptive']
                                 ?>
             </input>
-            <a title="<?=SLINK_TEXT
+            <a title="<?=LINK_TEXT
                                    ?>" class="vtip"><b><small>?</small></b></a>
             <div id='error_descriptive' class="error"></div></td>
         </tr>

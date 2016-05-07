@@ -1,16 +1,16 @@
 <?php
-/*  File Name  : viewCampaign.php
- *  Description : View campaign Form
+/*  File Name  : viewAdvertise.php
+ *  Description : View advertise Form
  *  Author      : Himanshu Singh  Date: 22nd,dec,2010  Creation
 */
 header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $offerObj = new offer();
- $campaignid = $_GET['campaignId'];
+ $advertiseid = $_GET['advertiseId'];
 if (isset($_POST['continue'])) {
     $offerObj->svrOfferDflt();
 }
-$lang = $offerObj->getLang($campaignid);
+$lang = $offerObj->getAdvertiseLang($advertiseid);
 
 $selectLanguage = $_GET['lang'];
 if(!empty($selectLanguage))
@@ -18,7 +18,7 @@ if(!empty($selectLanguage))
         $lang = $selectLanguage;
     }
    
-    $data = $offerObj->viewPublicCampaignDetailById($campaignid,$lang);
+    $data = $offerObj->viewPublicAdvertiseDetailById($advertiseid,$lang);
 
 //echo "<pre>";print_r($data);echo "</pre>";
     if($data[0] == '')
@@ -29,17 +29,17 @@ if(!empty($selectLanguage))
      $inoutObj->reDirect($url);
       exit();
 }
-$menu = "campaign";
-$campaign = 'class="selected"';
-if ($_GET['m'] == "showcampoffer")
-    $outdated = 'class="selected"';
+$menu = "advertise";
+$advertise = 'class="selected"';
+if ($_GET['m'] == "showadvtoffer")
+    $outdatedadvertise = 'class="selected"';
 else
-    $show = 'class="selected"';
+    $showadvertise = 'class="selected"';
 include_once("main.php");
 ?>
 <?php include 'config/defines.php'; ?>
 <script type="text/javascript" src="lib/vtip/js/jquery.js"></script>
-<script language="JavaScript" src="client/js/jsCampaignOffer.js" type="text/javascript"></script>
+<script language="JavaScript" src="client/js/jsAdvertiseOffer.js" type="text/javascript"></script>
 <script type="text/javascript" src="lib/vtip/js/vtip.js"></script>
 <link rel="stylesheet" type="text/css" href="lib/vtip/css/vtip.css" />
 
@@ -58,7 +58,7 @@ include_once("main.php");
 <script language="JavaScript" src="client/js/jquery.datePicker.js" type="text/javascript"></script>
 <script language="JavaScript" src="client/js/ajaxupload.js" type="text/javascript"></script>
 <META http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
-<!--<script language="JavaScript" src="client/js/jsCampaignOffer.js" type="text/javascript"></script>-->
+<!--<script language="JavaScript" src="client/js/jsAdvertiseOffer.js" type="text/javascript"></script>-->
 <style type="text/css">
     <!--
     .style4 {
@@ -78,20 +78,20 @@ include_once("main.php");
         </tr>
   </table>
 <form name="register" action="" id="registerform" method="Post" enctype="multipart/form-data">
-    <h1><b>View Campaign Offers</b></h1>
+    <h1><b>View Advertise Offers</b></h1>
     <div id="msg" align="center">  <?php
                                                             if ($_SESSION['MESSAGE']) {
                                                                 echo $_SESSION['MESSAGE'];
                                                                 $_SESSION['MESSAGE'] = ""; } ?> </div>
     <div class="bg_darkgray1" align="center" ><h3><b>
-Your Campaign View</b></h3>
+Your Advertise View</b></h3>
      
     </div>
     <table BORDER=0 width="100%">
         <tr>     
           <td>&nbsp;</td>
           <td>View According To Your Language:</td>
-          <td><select style="width:250px; background-color:#e4e3dd;" onchange="langChange(this.value,'<?=$_GET['campaignId']?>');" class="text_field_new" name="lang" id="lang" >
+          <td><select style="width:250px; background-color:#e4e3dd;" onchange="langChange(this.value,'<?=$_GET['advertiseId']?>');" class="text_field_new" name="lang" id="lang" >
                     <option <? if ($lang == "GER")echo "selected='selected'"; ?> value="GER">German</option>
                     <option <? if ($lang == "ENG")echo "selected='selected'"; ?> value="ENG">English</option>
                     <option <? if ($lang == "SWE")echo "selected='selected'"; ?> value="SWE">Swedish</option>
@@ -99,13 +99,13 @@ Your Campaign View</b></h3>
         </tr>
         <tr>
             <td width="29%">&nbsp;</td>
-            <td width="29%"> <b>Title Slogan for your Campaign:</b>            </td>
+            <td width="29%"> <b>Title Slogan for your Advertise:</b>            </td>
             <td width="42%">
                 <?=$data[0]['slogan'] ?></td>
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td><b> Sub Slogan for your Campaign:</b>            </td>
+            <td><b> Sub Slogan for your Advertise:</b>            </td>
 
             <td><?=$data[0]['subslogen'] ?></td>
         </tr>
@@ -151,9 +151,9 @@ Your Campaign View</b></h3>
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td><b>Campaign Name:</b></td>
+            <td><b>Advertise Name:</b></td>
             <td>
-                <?=$data[0]['campaign_name'] ?></td>
+                <?=$data[0]['advertise_name'] ?></td>
         </tr>
     </table>
     <div align="center" class="bg_darkgray1"><h3><b>
@@ -172,46 +172,8 @@ Your Campaign View</b></h3>
 
             </td>
         </tr>
-        <tr >
-            <td width="29%">&nbsp;</td>
-            <td width="29%"><b> Campaign Value:</b>        </td>
-            <td width="42%"><?=$data[0]['value'] ?></td>
-        </tr>
-    </table>
-    <table BORDER=0  width="100%">
-        <tr>
-            <td width="29%" height="30">&nbsp;</td>
-            <td width="29%"><b>Start Time for the Campaign Limitation:</b>        </td>
-            <td width="42%"><? $d=$data[0]['start_time'] ?>
-             <?php if ($d == '')
-                    echo "Not Specified";
-                else
-                    echo $d; ?>
 
-            </td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td><b>End Time for the Limitation:</b>        </td>
-            <td><? $d=$data[0]['end_time'] ?>
-              <?php if ($d == '')
-                    echo "Not Specified";
-                else
-                    echo $d; ?>
-            </td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td><b>Limit Campaign:</b>        </td>
-            <td><?$d=$data[0]['valid_day'] ?>
-            <?php if ($d == '')
-                    echo "Not Specified";
-                else
-                    echo $d; ?>
-            </td>
-        </tr>
-
-    </table>
+    </table>    
     <div align="center" class="bg_darkgray1"><h3><b>
     		Your Coupon View</b></h3>
     </div>
@@ -264,22 +226,7 @@ Your Campaign View</b></h3>
             <?php if (isset($data['storeDetails'])) { ?>
                 <?php $i = 1;
                 foreach ($data['storeDetails'] as $data1['storeDetails']) { 
-                      $storeid = $data1['storeDetails']['store_id'];
-                   $storeObj = new store();
-                    $barcode = $storeObj->getCouponDeliveryById($storeid);
-                     $dps = $storeObj->getCouponDeliveryByIdDPS($storeid);
-                    if($barcode == 'BARCODE')
-                    {
-                        $coupon_dil = $barcode;
-                    }else {
-                        $coupon_dil = 'PINCODE';
-                    }
-                    
-                    if($dps == "DPS")
-                    {
-                        
-                        $coupon_dil = ($coupon_dil == ""?$dps:$coupon_dil.",".$dps);
-                    }
+                      $storeid = $data1['storeDetails']['store_id'];              
                     
                     ?>
 
@@ -290,7 +237,7 @@ Your Campaign View</b></h3>
             <td align="center"><?php echo $data1['storeDetails']['country']; ?> </td>
             <td align="center"><?php echo $coupon_dil; ?></td>
             <? if($data[0]['end_of_publishing'] >$current_date ){ ?>
-             <td height="32" align="center"><a href="javascript:delete_campStore('storeId=<?=$data1['storeDetails']['store_id']?>&campaignId=<?=$data[0]['campaign_id']?>' )" onClick="" class="a2" title="Delete">
+             <td height="32" align="center"><a href="javascript:delete_advtStore('storeId=<?=$data1['storeDetails']['store_id']?>&advertiseId=<?=$data[0]['advertise_id']?>' )" onClick="" class="a2" title="Delete">
                                                                 <img src="lib/grid/images/delete.gif"></a> </td>
                                                                 <?}?>
         </tr>
@@ -320,9 +267,9 @@ Your Campaign View</b></h3>
 </div>
 <? include("footer.php"); ?>
 <script>
-    function langChange(lang,campId)
+    function langChange(lang,advtId)
 {
-    javascript:location.href = "viewPublicCampaign.php?lang="+lang+"&campaignId="+campId;
+    javascript:location.href = "viewPublicAdvertise.php?lang="+lang+"&advertiseId="+advtId;
 }
 </script>
 

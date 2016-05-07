@@ -33,7 +33,7 @@ $selected_tab_css = ' style="background-color:#ADDFFF" ';
 <script language="javascript" src="client/js/mouseovertabs.js" type="text/javascript" ></script>
 
 
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"><style type="text/css">
 <!--
 .center{width:900px; margin-left:auto; margin-right:auto;}
 

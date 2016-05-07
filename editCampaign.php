@@ -150,31 +150,31 @@ if($data[0] == '')
     <table border="0" width="100%" cellspacing="15" >
       <tr>
         <td  class="inner_grid">Edit According To Your Language:</td>
-        <td colspan="2" ><select style="width:406px; background-color:#e4e3dd;" onChange="getLangImage(this.value),langChange(this.value,'<?=$_GET['campaignId']?>','<?=$reseller?>');" class="text_field_new" name="lang" id="lang" value="<?=$data[0]['lang']?>">
-            <option <? if ($lang == "ENG"
-                        )echo "selected='selected'"; ?> value="ENG">English</option>
-            <option <? if ($lang == "SWE"
-                        )echo "selected='selected'"; ?> value="SWE">Swedish</option>
+        <td ><select style="width:406px; background-color:#e4e3dd;" onChange="getLangImage(this.value),langChange(this.value,'<?=$_GET['campaignId']?>','<?=$reseller?>');" class="text_field_new" name="lang" id="lang" value="<?=$data[0]['lang']?>">
+            <option <? if ($lang == "GER")echo "selected='selected'"; ?> value="GER">German</option>
+            <option <? if ($lang == "ENG")echo "selected='selected'"; ?> value="ENG">English</option>
+            <option <? if ($lang == "SWE")echo "selected='selected'"; ?> value="SWE">Swedish</option>
           </select></td>
+           <td align="right"><a title="<?=CLANGUAGE_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
       </tr>
       <tr>
         <td  class="inner_grid">Campaign Title. Max. 19 characters<span class='mandatory'>*</span>:</td>
-        <td colspan="2" ><INPUT class="text_field_new" type=text name="titleSlogan" id="titleSlogan" maxlength="19" onBlur="iconPreview(this.form);limitPreview(this.form);" value="<?=$data[0]['slogan'] ?>">
+        <td  ><INPUT class="text_field_new" type=text name="titleSlogan" id="titleSlogan" maxlength="19" onBlur="iconPreview(this.form);limitPreview(this.form);" value="<?=$data[0]['slogan'] ?>">
           <div id='error_titleSlogan' class="error"></div></td>
+          <td align="right"><a title="<?=TITEL_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
       </tr>
       <tr>
         <td class="inner_grid">Campaign Description. Max. 50 characters<span class='mandatory'>*</span>:</td>
         <td><INPUT class="text_field_new" type=text name="subSlogan" id="subSlogan" maxlength="50" onBlur="iconPreview(this.form);limitPreview(this.form);" value="<?=$data[0]['subslogen']
                            ?>">
           <div id='error_subSlogan' class="error"></div></td>
-        <td align="right" valign="middle"><a title="<?=DESCRIPTION_TEXT
-                       ?>" class="vtip"><b><small>?</small></b></a> </td>
+        <td align="right" ><a title="<?=DESCRIPTION_TEXT    ?>" class="vtip"><b><small>?</small></b></a> </td>
       </tr>
       <!--<?php /* ?>
                          <form action="" method="post" name="standard_use" id="standard_use" enctype="multipart/form-data"><?php */ ?>-->
       <tr>
         <td class="inner_grid">Category<span class='mandatory'>*</span>:</td>
-        <td colspan="2"><div id="category_lang_div">
+        <td ><div id="category_lang_div">
             <select style="width:406px; background-color:#e4e3dd;" class="text_field_new" onChange="getCatImage(this.value, this.form);"  tabindex="27" id="linkedCat" name="linkedCat" >
               <option <? if ($data[0]['category'] == ''
 
@@ -185,6 +185,7 @@ if($data[0] == '')
           <input type="hidden" name="category_image" id="category_image" value="">
           <div id="category_image_div" style="display:none;"></div>
           <div id='error_linkedCat' class="error"></div></td>
+        <td align="right"><a title="<?=CCATEGORY_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
       </tr>
       <tr>
         <td class="inner_grid">Small icon <font size="2">(Icon must be in png format only e.g. icon.png.The size must be at least 45 x 60 pixels)</font></td>
@@ -310,11 +311,17 @@ if($data[0] == '')
     </table>
     <table BORDER=0   id="advancedSearch" width="100%" cellspacing="15" >
       <tr >
-        <td width="515" class="inner_grid"> Keywords: </td>
+        <td width="515" class="inner_grid"> Keywords<span class='mandatory'>*</span>: </td>
         <td width="227"><INPUT class="text_field_new" type=text name="searchKeyword" maxlength="90" value="<?=$data[0]['keyword']
                                ?>" id="searchKeyword">
           <div id='error_searchKeyword' class="error" ></div></td>
         <td align="right"><a title="<?=KEYWORD_TEXT ?>" class="vtip"><b><small>?</small></b></a> </td>
+      </tr>
+        <tr>
+        <td width="515" class="inner_grid">Campaign Value: </td>
+        <td width="227"><INPUT class="text_field_new" type=text name="discountValue" maxlength="90" value="<?=$data[0]['value']?>" id="discountValue">
+          <div id='error_discountValue' class="error" ></div></td>
+        <td align="right"><a href="" title="<?=DISCOUNTVALUE_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
       </tr>
       <!--   <? if($reseller == '') { ?>
         <tr >
@@ -393,7 +400,7 @@ else $selected = '';
                                 ?> value="23">23</option>
           </select>
           <div id='error_startDateLimitation'></div></td>
-        <td>&nbsp;</td>
+        <td align="right"><a title="<?=DEAL_VALID_FROM_TEXT  ?>" class="vtip"><b><small>?</small></b></a></td>
       </tr>
       <tr>
         <td class="inner_grid">Deal is only valid to an end time during a day:</td>
@@ -450,7 +457,7 @@ else $selected = '';
                                 ?> value="23">23</option>
           </select>
           <div id='error_endDateLimitation'></div></td>
-        <td>&nbsp;</td>
+        <td align="right"><a title="<?=DEAL_VALID_TO_TEXT  ?>" class="vtip"><b><small>?</small></b></a></td>
       </tr>
       <tr>
         <td class="inner_grid">Deal is only valid to a limited set of days during the week:</td>
@@ -479,7 +486,7 @@ else $selected = '';
                                 ?> value="ALL_WEEK">ALL WEEK</option>
           </select>
           <div id='error_limitDays'></div></td>
-        <td>&nbsp;</td>
+        <td align="right"><a title="<?=DEAL_VALID_DAY_TEXT  ?>" class="vtip"><b><small>?</small></b></a></td>
       </tr>
       <tr>
         <td  class="inner_grid"> Code:</td>
@@ -496,7 +503,7 @@ else $selected = '';
                             }?> value="CUSTOM">PINCODE</option>
           </select>
         </td>
-        <td valign="top" >&nbsp;</td>
+         <td align="right"><a title="<?=CCODEHELP_TEXT  ?>" class="vtip"><b><small>?</small></b></a></td>
       </tr>
       <?php
                 $code_type = $data[0]['code_type'];
@@ -568,7 +575,7 @@ else $selected = '';
             ?>
           <INPUT  type=file name="picture" class="text_field_new"  id="picture" onBlur="picturePreview(this.form);">
           <div id='error_picture' class="error"></div></td>
-        <td align="right" valign="middle"><a title="<?=SICON_TEXT
+        <td align="right" valign="middle"><a title="<?=ICON_TEXT
                        ?>" class="vtip"><b><small>?</small></b></a> </td>
       </tr>
     </table>
@@ -579,8 +586,7 @@ else $selected = '';
                             ?>
 </TEXTAREA>
           <div id='error_descriptive' class="error"></div></td>
-        <td align="right" valign="middle"><a title="<?=SLINK_TEXT
-                           ?>" class="vtip"><b><small>?</small></b></a></td>
+        <td align="right" valign="middle"><a title="<?=LINK_TEXT  ?>" class="vtip"><b><small>?</small></b></a></td>
       </tr>
     </table>
     <table width="100%" border="0">

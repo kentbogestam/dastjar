@@ -6,9 +6,11 @@
  */
 header('Content-Type: text/html; charset=ISO-8859-15');
 //header ('Content-type: text/html; charset=utf-8');
+
+
 include('lib/resizer/resizer.php');
 
-class offer {
+class offer extends advertiseoffer{
     /* Function Header :svrOfferDflt()
      *             Args: none
      *           Errors: none
@@ -16,6 +18,7 @@ class offer {
      *      Description: User Campaign Offer default function
      */
 
+//    exit("<pre>".$_REQUEST['m']."</pre>");
     function svrOfferDflt($paging_limit='0 , 10') {
 
         if (isset($_REQUEST['m']) && $_REQUEST['m'] != '') {
@@ -25,7 +28,6 @@ class offer {
         }
 
         switch ($mode) {
-
             case 'saveoffer':
                 $this->saveCampaignOffersDetails();
                 break;
@@ -97,6 +99,38 @@ class offer {
                 $this->saveNewCouponStandDetails();
                 break;
 
+// Line Added  for Advertise
+            case 'saveAdvertiseoffer':
+                $this->saveAdvertiseOffersDetails();
+                break; 
+            
+            
+	   case 'saveNewAdvertise':
+		$reseller = $_REQUEST['reseller'];
+                $this->saveNewAdvertiseOffersDetails($reseller);
+                break;				
+
+           case 'deleteAdvertise':                
+                $this->deleteAdvertise();
+                break; 
+            
+            case 'showDeleteAdvertise':
+                return $this->showDeleteAdvertise($paging_limit);
+                break;
+            
+            
+           case 'editSaveAdvertise':
+                return $this->editSaveAdvertise($advertiseid);
+                break;          
+
+            case 'deleteOutdatedAdvertise':
+                return $this->deleteOutdatedAdvertise();
+                break;
+
+        
+            case 'showadvtoffer':
+                return $this->showadvtoffer($paging_limit);
+                break;
 
 
             default:
@@ -113,7 +147,6 @@ class offer {
      */
 
     function saveCampaignOffersDetails($reseller= '') {
-
         //print_r($_POST); die();
         $inoutObj = new inOut();
         //$_SESSION['campaign_for_edit'] = serialize($_POST);
@@ -136,6 +169,8 @@ class offer {
         $arrUser['end_of_publishing'] = $_POST['endDate'];
         $arrUser['campaign_name'] = addslashes($_POST['campaignName']);
         $arrUser['keywords'] = addslashes($_POST['searchKeyword']);
+        $arrUser['discountValue'] = addslashes($_POST['discountValue']);
+        
         $arrUser['start_time'] = $_POST['startDateLimitation'];
         $arrUser['end_time'] = $_POST['endDateLimitation'];
         $arrUser['valid_day'] = $_POST['limitDays'];
@@ -188,6 +223,7 @@ class offer {
 //      $error.= ( $arrUser['end_of_publishing'] == '') ? ERROR_END_OF_PUBLISHING : '';
 
         $error.= ( $arrUser['campaign_name'] == '') ? ERROR_CAMPAIGN_NAME : '';
+        $error.= ( $arrUser['discountValue'] == '') ? ERROR_DISCOUNT_VALUE : '';
 
         $_SESSION['post'] = "";
         // Print_r($_POST); die();
@@ -212,7 +248,7 @@ class offer {
                         $size = 'iphone4_cat';
                         $path = UPLOAD_DIR . "category/";
                         $fileThumbnail = $path . $cat_filename;
-                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                         $arrUser['small_image'] = $cat_filename;
                     }
                 } else {
@@ -274,7 +310,7 @@ class offer {
                     $size = 'iphone4';
                     $path = UPLOAD_DIR . "coupon/";
                     $fileThumbnail = $path . $coupon_filename;
-                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                     //////////////////////////
                     $arrUser['large_image'] = $coupon_filename;
                 }
@@ -344,8 +380,8 @@ class offer {
         $cpnImg = _UPLOAD_URLDIR_ . "coupon/" . $arrUser['large_image'];
 
         $arrUser['u_id'] = $_SESSION['userid'];
-        $query = "INSERT INTO campaign(`campaign_id`,`company_id`,`u_id`, `small_image`,`large_image`, `spons`, `category`, `start_of_publishing`,`end_of_publishing`,`campaign_name`,`infopage`,`code`,`code_type`)
-                VALUES ('" . $campaignId . "','" . $companyId . "','" . $_SESSION['userid'] . "', '" . $catImg . "', '" . $copImg . "','" . $arrUser['spons'] . "','" . $arrUser['category'] . "','" . $arrUser['start_of_publishing'] . "','" . $arrUser['end_of_publishing'] . "','" . $arrUser['campaign_name'] . "','" . $arrUser['infopage'] . "','" . $arrUser['etanCode'] . "','" . $arrUser['codes'] . "');";
+        $query = "INSERT INTO campaign(`campaign_id`,`company_id`,`u_id`, `small_image`,`large_image`, `spons`, `category`, `start_of_publishing`,`end_of_publishing`,`campaign_name`,`view_opt`,`infopage`,`code`,`code_type`,`value`)
+                VALUES ('" . $campaignId . "','" . $companyId . "','" . $_SESSION['userid'] . "', '" . $catImg . "', '" . $copImg . "','" . $arrUser['spons'] . "','" . $arrUser['category'] . "','" . $arrUser['start_of_publishing'] . "','" . $arrUser['end_of_publishing'] . "','" . $arrUser['campaign_name'] . "','" . $arrUser['viewopt'] . "','" . $arrUser['infopage'] . "','" . $arrUser['etanCode'] . "','" . $arrUser['codes'] . "','".$arrUser['discountValue']."');";
         $res = mysql_query($query) or die("Inset campaign : " . mysql_error());
 
         if ($arrUser['codes'] == '') {
@@ -370,9 +406,41 @@ class offer {
 
         ////////Sub Slogen entry///////
         $keywordId = uuid();
+         if(trim($arrUser['keywords']) != "")
+         {
         $_SQL = "insert into lang_text(id,lang,text) values('" . $keywordId . "','" . $arrUser['lang'] . "','" . $arrUser['keywords'] . "')";
         $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
 
+        
+          $_SQL = "insert into campaign_keyword(`campaign_id`,`offer_keyword`) values('" . $campaignId . "','" . $keywordId . "')";
+        $res = mysql_query($_SQL) or die("keyword in relational table : " . mysql_error());
+         }
+         
+         
+ 
+         
+         $SystemkeyId = uuid();
+         $_SQL = "insert into lang_text(id,lang,text) values('" . $SystemkeyId . "','" . $arrUser['lang'] . "','" . $campaignId . "')";
+         $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+
+
+         $_SQL = "insert into campaign_keyword(`campaign_id`,`system_key`) values('" . $campaignId . "','" . $SystemkeyId . "')";
+         $res = mysql_query($_SQL) or die("keyword in relational table : " . mysql_error());
+         
+         
+          $Systemkey_companyId = uuid();
+         $_SQL = "insert into lang_text(id,lang,text) values('" . $Systemkey_companyId . "','" . $arrUser['lang'] . "','" . $companyId . "')";
+         $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+
+
+         $_SQL = "insert into campaign_keyword(`campaign_id`,`system_key`) values('" . $campaignId . "','" . $Systemkey_companyId . "')";
+         $res = mysql_query($_SQL) or die("keyword in relational table : " . mysql_error());
+         
+         
+         
+         
+         
+         
         ///Slogan and language table relation entry ///
         $_SQL = "insert into campaign_offer_slogan_lang_list(`campaign_id`,`offer_slogan_lang_list`) values('" . $campaignId . "','" . $sloganLangId . "')";
         $res = mysql_query($_SQL) or die("Tital slogan id in relational table : " . mysql_error());
@@ -381,10 +449,6 @@ class offer {
         ///Sub slogan and language table relation entry ///
         $_SQL = "insert into campaign_offer_sub_slogan_lang_list(`campaign_id`,`offer_sub_slogan_lang_list`) values('" . $campaignId . "','" . $subSloganLangId . "')";
         $res = mysql_query($_SQL) or die("Sub slogan id in relational table : " . mysql_error());
-
-        ///keyword ///
-        $_SQL = "insert into campaign_keyword(`campaign_id`,`offer_keyword`) values('" . $campaignId . "','" . $keywordId . "')";
-        $res = mysql_query($_SQL) or die("keyword in relational table : " . mysql_error());
 
         if ($arrUser['valid_day'] != '') {
 ///Start date and End Date and Valid days entry ///
@@ -542,7 +606,7 @@ class offer {
       $size = 'iphone4_cat';
       $path = UPLOAD_DIR . "category/";
       $fileThumbnail = $path . $cat_filename;
-      createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+      createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
       $arrUser['small_image'] = $cat_filename;
       }
       } else {
@@ -571,7 +635,7 @@ class offer {
       $path = UPLOAD_DIR . "category/";
       $fileThumbnail = $path . $cat_filename;
       copy($fileOriginal, $fileThumbnail);
-      //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+      //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
       $arrUser['small_image'] = $cat_filename;
       } else {
       if ($_SESSION['preview']['small_image'] != "") {
@@ -602,7 +666,7 @@ class offer {
       $size = 'iphone4';
       $path = UPLOAD_DIR . "coupon/";
       $fileThumbnail = $path . $coupon_filename;
-      createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+      createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
       //////////////////////////
       $arrUser['large_image'] = $coupon_filename;
       }
@@ -738,10 +802,15 @@ class offer {
         $arrUser['end_of_publishing'] = $_POST['endDate'];
         $arrUser['campaign_name'] = addslashes($_POST['campaignName']);
         $arrUser['keywords'] = addslashes($_POST['searchKeyword']);
+        $arrUser['discountValue'] = addslashes($_POST['discountValue']);
+        
         $arrUser['start_time'] = $_POST['startDateLimitation'];
         $arrUser['end_time'] = $_POST['endDateLimitation'];
         $arrUser['valid_day'] = $_POST['limitDays'];
         $arrUser['large_image'] = $_POST['picture'];
+// new viewopt Kent
+        $arrUser['viewopt'] = $_POST['viewopt'];
+//  end new viewopt Kent
         $arrUser['infopage'] = $_POST['descriptive'];
         $arrUser['codes'] = $_POST['codes'];
         // $arrUser['ccode'] = $_POST['ccode'];
@@ -787,6 +856,8 @@ class offer {
         $error.= ( $arrUser['end_of_publishing'] == '') ? ERROR_END_OF_PUBLISHING : '';
 
         $error.= ( $arrUser['campaign_name'] == '') ? ERROR_CAMPAIGN_NAME : '';
+
+        $error.= ( $arrUser['discountValue'] == '') ? ERROR_DISCOUNT_VALUE : '';
 
         $_SESSION['post'] = "";
 
@@ -855,7 +926,7 @@ class offer {
                         $size = 'iphone4_cat';
                         $path = UPLOAD_DIR . "category/";
                         $fileThumbnail = $path . $cat_filename;
-                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                         $arrUser['small_image'] = $cat_filename;
                     }
                 } else {
@@ -884,7 +955,7 @@ class offer {
                 $path = UPLOAD_DIR . "category/";
                 $fileThumbnail = $path . $cat_filename;
                 copy($fileOriginal, $fileThumbnail);
-                //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                 $arrUser['small_image'] = $cat_filename;
             } else {
                 if ($_SESSION['preview']['small_image'] != "") {
@@ -923,7 +994,7 @@ class offer {
                     $size = 'iphone4';
                     $path = UPLOAD_DIR . "coupon/";
                     $fileThumbnail = $path . $coupon_filename;
-                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                     //////////////////////////
                     $arrUser['large_image'] = $coupon_filename;
                 }
@@ -1008,9 +1079,11 @@ class offer {
             $companyId = $empCompId;
         }
 
-        $query = "INSERT INTO campaign(`campaign_id`,`company_id`,`u_id`, `small_image`,`large_image`, `spons`, `category`, `start_of_publishing`,`end_of_publishing`,`campaign_name`,`infopage`,`code`,`code_type`)
-                VALUES ('" . $campaignId . "','" . $companyId . "','" . $_SESSION['userid'] . "', '" . $catImg . "', '" . $copImg . "','" . $arrUser['spons'] . "','" . $arrUser['category'] . "','" . $arrUser['start_of_publishing'] . "','" . $arrUser['end_of_publishing'] . "','" . $arrUser['campaign_name'] . "','" . $arrUser['infopage'] . "','" . $arrUser['etanCode'] . "','" . $arrUser['codes'] . "');";
+// New viewopt Kent
+        $query = "INSERT INTO campaign(`campaign_id`,`company_id`,`u_id`, `small_image`,`large_image`, `spons`, `category`, `start_of_publishing`,`end_of_publishing`,`campaign_name`, `view_opt`,`infopage`,`code`,`code_type`,`value`)
+                VALUES ('" . $campaignId . "','" . $companyId . "','" . $_SESSION['userid'] . "', '" . $catImg . "', '" . $copImg . "','" . $arrUser['spons'] . "','" . $arrUser['category'] . "','" . $arrUser['start_of_publishing'] . "','" . $arrUser['end_of_publishing'] . "','" . $arrUser['campaign_name']  . "','" . $arrUser['viewopt'] . "','" . $arrUser['infopage'] . "','" . $arrUser['etanCode'] . "','" . $arrUser['codes'] . "','".$arrUser['discountValue']."');";
         $res = mysql_query($query) or die(mysql_error());
+// End  New viewopt Kent
 
         if ($arrUser['codes'] == '') {
             $query = "update campaign set `code` = NULL,`code_type` = NULL where campaign_id = '" . $campaignId . "'";
@@ -1035,19 +1108,43 @@ class offer {
 
         //////keywords
         $keywordId = uuid();
+         if(trim($arrUser['keywords']) != "")
+         {
         $_SQL = "insert into lang_text(id,lang,text) values('" . $keywordId . "','" . $arrUser['lang'] . "','" . $arrUser['keywords'] . "')";
         $res = mysql_query($_SQL) or die(mysql_error());
 
+             ///keyword
+            $_SQL = "insert into campaign_keyword(`campaign_id`,`offer_keyword`) values('" . $campaignId . "','" . $keywordId . "')";
+            $res = mysql_query($_SQL) or die(mysql_error());
+         }
+         
+         
+         $SystemkeyId = uuid();
+         $_SQL = "insert into lang_text(id,lang,text) values('" . $SystemkeyId . "','" . $arrUser['lang'] . "','" . $campaignId . "')";
+         $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+
+
+         $_SQL = "insert into campaign_keyword(`campaign_id`,`system_key`) values('" . $campaignId . "','" . $SystemkeyId . "')";
+         $res = mysql_query($_SQL) or die("keyword in relational table : " . mysql_error());
+         
+         
+         
+         
+         $Systemkey_companyId = uuid();
+         $_SQL = "insert into lang_text(id,lang,text) values('" . $Systemkey_companyId . "','" . $arrUser['lang'] . "','" . $companyId . "')";
+         $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+
+
+         $_SQL = "insert into campaign_keyword(`campaign_id`,`system_key`) values('" . $campaignId . "','" . $Systemkey_companyId . "')";
+         $res = mysql_query($_SQL) or die("keyword in relational table : " . mysql_error());
+         
+         
         /// SLogen anf language table relation entry ////
         $_SQL = "insert into campaign_offer_slogan_lang_list(`campaign_id`,`offer_slogan_lang_list`) values('" . $campaignId . "','" . $sloganLangId . "')";
         $res = mysql_query($_SQL) or die(mysql_error());
 
         ///Sub slogan and language table relation entry ///
         $_SQL = "insert into campaign_offer_sub_slogan_lang_list(`campaign_id`,`offer_sub_slogan_lang_list`) values('" . $campaignId . "','" . $subSloganLangId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
-
-        ///keyword
-        $_SQL = "insert into campaign_keyword(`campaign_id`,`offer_keyword`) values('" . $campaignId . "','" . $keywordId . "')";
         $res = mysql_query($_SQL) or die(mysql_error());
 
 
@@ -1166,7 +1263,7 @@ class offer {
                         $size = 'iphone4_cat';
                         $path = UPLOAD_DIR . "category/";
                         $fileThumbnail = $path . $cat_filename;
-                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                         $arrUser['small_image'] = $cat_filename;
                     }
                 } else {
@@ -1195,7 +1292,7 @@ class offer {
                 $path = UPLOAD_DIR . "category/";
                 $fileThumbnail = $path . $cat_filename;
                 copy($fileOriginal, $fileThumbnail);
-                //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                 $arrUser['small_image'] = $cat_filename;
             } else {
                 if ($_SESSION['preview']['small_image'] != "") {
@@ -1232,7 +1329,7 @@ class offer {
                     $size = 'iphone4';
                     $path = UPLOAD_DIR . "coupon/";
                     $fileThumbnail = $path . $coupon_filename;
-                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                     //////////////////////////
                     $arrUser['large_image'] = $coupon_filename;
                 }
@@ -1325,13 +1422,34 @@ class offer {
 
 
         ////////keyword entry///////
+         if(trim($arrUser['keywords']) != "")
+         {
         $keywordId = uuid();
         $_SQL = "insert into lang_text(id,lang,text) values('" . $keywordId . "','" . $arrUser['lang'] . "','" . $arrUser['keywords'] . "')";
         $res = mysql_query($_SQL) or die(mysql_error());
 
         $_SQL = "insert into product_keyword(`product_id`,`offer_keyword`) values('" . $standUniqueId . "','" . $keywordId . "')";
         $res = mysql_query($_SQL) or die(mysql_error());
+         }
 
+         $SystemkeyId = uuid();
+            $_SQL = "insert into lang_text(id,lang,text) values('" . $SystemkeyId . "','" . $arrUser['lang'] . "','" . $standUniqueId . "')";
+            $res = mysql_query($_SQL) or die(mysql_error());
+
+            $_SQL = "insert into product_keyword(`product_id`,`system_key`) values('" . $standUniqueId . "','" . $SystemkeyId . "')";
+            $res = mysql_query($_SQL) or die(mysql_error());
+         
+         $Systemkey_companyId = uuid();
+        $_SQL = "insert into lang_text(id,lang,text) values('" . $Systemkey_companyId . "','" . $arrUser['lang'] . "','" . $companyId . "')";
+        $res = mysql_query($_SQL) or die(mysql_error());
+
+        $_SQL = "insert into product_keyword(`product_id`,`system_key`) values('" . $standUniqueId . "','" . $Systemkey_companyId . "')";
+        $res = mysql_query($_SQL) or die(mysql_error());
+         
+      
+            
+            
+            
 
         ///////Update user table activ field/////////////////////////////
         $query = "UPDATE user SET activ='3' WHERE u_id = '" . $_SESSION['userid'] . "'";
@@ -1479,7 +1597,7 @@ class offer {
                         $size = 'iphone4_cat';
                         $path = UPLOAD_DIR . "category/";
                         $fileThumbnail = $path . $cat_filename;
-                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                         $arrUser['small_image'] = $cat_filename;
                     }
                 } else {
@@ -1508,7 +1626,7 @@ class offer {
                 $path = UPLOAD_DIR . "category/";
                 $fileThumbnail = $path . $cat_filename;
                 copy($fileOriginal, $fileThumbnail);
-                //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                 $arrUser['small_image'] = $cat_filename;
             } else {
                 if ($_SESSION['preview']['small_image'] != "") {
@@ -1545,7 +1663,7 @@ class offer {
                     $size = 'iphone4';
                     $path = UPLOAD_DIR . "coupon/";
                     $fileThumbnail = $path . $coupon_filename;
-                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                     //////////////////////////
                     $arrUser['large_image'] = $coupon_filename;
                 }
@@ -1650,14 +1768,34 @@ class offer {
 //        $_SQL = "insert into product_offer_slogan_lang_list(`product_id `,`offer_slogan_lang_list`) values('" . $productId . "','" . $sloganLangId . "')";
 //        $res = mysql_query($_SQL) or die(mysql_error());
         ////////keyword entry///////
+         if(trim($arrUser['keywords']) != "")
+         {
         $keywordId = uuid();
         $_SQL = "insert into lang_text(id,lang,text) values('" . $keywordId . "','" . $arrUser['lang'] . "','" . $arrUser['keywords'] . "')";
         $res = mysql_query($_SQL) or die(mysql_error());
 
         $_SQL = "insert into product_keyword(`product_id`,`offer_keyword`) values('" . $standUniqueId . "','" . $keywordId . "')";
         $res = mysql_query($_SQL) or die(mysql_error());
+         }
+
+        $SystemkeyId = uuid();
+        $_SQL = "insert into lang_text(id,lang,text) values('" . $SystemkeyId . "','" . $arrUser['lang'] . "','" . $standUniqueId . "')";
+        $res = mysql_query($_SQL) or die(mysql_error());
+
+        $_SQL = "insert into product_keyword(`product_id`,`system_key`) values('" . $standUniqueId . "','" . $SystemkeyId . "')";
+        $res = mysql_query($_SQL) or die(mysql_error());
 
 
+        $Systemkey_companyId = uuid();
+        $_SQL = "insert into lang_text(id,lang,text) values('" . $Systemkey_companyId . "','" . $arrUser['lang'] . "','" . $companyId . "')";
+        $res = mysql_query($_SQL) or die(mysql_error());
+
+        $_SQL = "insert into product_keyword(`product_id`,`system_key`) values('" . $standUniqueId . "','" . $Systemkey_companyId . "')";
+        $res = mysql_query($_SQL) or die(mysql_error());
+        
+        
+        
+         
         $_SESSION['askforstoreStand'] = 1;
         $_SESSION['MESSAGE'] = STANDARD_OFFER_SUCCESS;
         if ($reseller == '') {
@@ -1853,7 +1991,8 @@ class offer {
                         LEFT JOIN  category_names_lang_list  ON category.category_id = category_names_lang_list.category
                         LEFT JOIN  lang_text   ON lang_text.id = category_names_lang_list.names_lang_list
                         WHERE
-                        campaign.company_id='" . $companyId . "' AND $set_keywords  end_of_publishing < CURDATE() AND s_activ!='2' AND lang_text.lang = subsloganT.lang AND (reseller_status = 'A' OR reseller_status = '') GROUP BY campaign_id " . $limit;
+                        campaign.company_id='" . $companyId . "' AND $set_keywords  end_of_publishing < CURDATE() AND s_activ!='2' AND (reseller_status = 'A' OR reseller_status = '') GROUP BY campaign_id " . $limit;
+// Removed AND lang_text.lang = subsloganT.lang
         } else {
             $QUE = "SELECT campaign.*,sloganT.text as slogan,subsloganT.text as subslogen,keyw.text as keyword, campaign.infopage,lang_text.text as category  FROM campaign
                         LEFT JOIN   campaign_offer_slogan_lang_list ON  campaign_offer_slogan_lang_list.campaign_id = campaign.campaign_id
@@ -1867,7 +2006,8 @@ class offer {
                         LEFT JOIN  lang_text   ON lang_text.id = category_names_lang_list.names_lang_list
 
                         WHERE
-                        campaign.company_id='" . $companyId . "' AND $set_keywords 1 AND end_of_publishing >= CURDATE() AND (s_activ='0' or s_activ='3') AND lang_text.lang = subsloganT.lang AND (reseller_status = 'A' OR reseller_status = '') GROUP BY campaign_id " . $limit;
+                        campaign.company_id='" . $companyId . "' AND $set_keywords 1 AND end_of_publishing >= CURDATE() AND (s_activ='0' or s_activ='3') AND (reseller_status = 'A' OR reseller_status = '') GROUP BY campaign_id " . $limit;
+// Removed AND lang_text.lang = subsloganT.lang
         }
         /*
           (campaign.u_id='".$_SESSION['userid']."' AND ".$set_keywords.") OR
@@ -2419,6 +2559,8 @@ class offer {
         $arrUser['campaign_name'] = $_POST['campaignName'];
         $arrUser['keywords'] = $_POST['searchKeyword'];
         $arrUser['start_time'] = $_POST['startDateLimitation'];
+        $arrUser['discountValue'] = addslashes($_POST['discountValue']);
+        
         $arrUser['end_time'] = $_POST['endDateLimitation'];
         $arrUser['large_image'] = $_POST['picture'];
         $arrUser['infopage'] = $_POST['descriptive'];
@@ -2447,6 +2589,7 @@ class offer {
         $error.= ( $arrUser['end_time'] == '') ? ERROR_END_DATE : '';
 
         $error.= ( $arrUser['valid_day'] == '') ? ERROR_LIMIT_DAYS : '';
+        $error.= ( $arrUser['discountValue'] == '') ? ERROR_DISCOUNT_VALUE : '';
         //echo $error; die();
 
         $_SESSION['post'] = "";
@@ -2469,7 +2612,7 @@ class offer {
                     $size = 'iphone4_cat';
                     $path = UPLOAD_DIR . "Category/";
                     $fileThumbnail = $path . $coupon_filename;
-                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                     $arrUser['small_image'] = $cat_filename;
                 }
             } else {
@@ -2492,7 +2635,7 @@ class offer {
                     $size = 'iphone4';
                     $path = UPLOAD_DIR . "coupon/";
                     $fileThumbnail = $path . $coupon_filename;
-                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                     $arrUser['large_image'] = $coupon_filename;
                 }
             } else {
@@ -2526,8 +2669,10 @@ class offer {
         $storeId = $row['store_id'];
 
         $arrUser['u_id'] = $_SESSION['userid'];
-        $query = "INSERT INTO campaign(`campaign_id`,`company_id`,`u_id`, `small_image`,`large_image`, `spons`, `category`, `start_of_publishing`,`end_of_publishing`,`campaign_name`,`keywords`,`infopage`)
-                VALUES ('" . $campaignId . "','" . $companyId . "','" . $_SESSION['userid'] . "', '" . $catImg . "', '" . $copImg . "','" . $arrUser['spons'] . "','" . $arrUser['category'] . "','" . $arrUser['start_of_publishing'] . "','" . $arrUser['end_of_publishing'] . "','" . $arrUser['campaign_name'] . "','" . $arrUser['keywords'] . "','" . $arrUser['infopage'] . "');";
+// New viewopt Kent
+        $query = "INSERT INTO campaign(`campaign_id`,`company_id`,`u_id`, `small_image`,`large_image`, `spons`, `category`, `start_of_publishing`,`end_of_publishing`,`campaign_name`,`view_opt`,`keywords`,`infopage`,`value`)
+                VALUES ('" . $campaignId . "','" . $companyId . "','" . $_SESSION['userid'] . "', '" . $catImg . "', '" . $copImg . "','" . $arrUser['spons'] . "','" . $arrUser['category'] . "','" . $arrUser['start_of_publishing'] . "','" . $arrUser['end_of_publishing'] . "','" . $arrUser['campaign_name'] . "','" . $arrUser['viewopt'] . "','" . $arrUser['keywords'] . "','" . $arrUser['infopage'] . "','".$arrUser['discountValue']."');";
+//  End New viewopt Kent
         $res = mysql_query($query) or die(mysql_error());
         ////////Slogen entry///////
         $sloganLangId = uuid();
@@ -2546,8 +2691,10 @@ class offer {
         $couponId = uuid();
         // $query = "INSERT INTO coupon(`coupon_id`,`campaign_id`,`store_id`,`brand_name`, `small_image`, `large_image`, `is_sponsored`, `startValidity`, `endOfPublishing`, `offer_type`)
         //          VALUES ('".$couponId."','".$campaignId."','".$storeId."','".$arrUser['brand_name']."', '".$arrUser['small_image']."','".$arrUser['large_image']."','".$arrUser['spons']."','".$arrUser['start_time']."','".$arrUser['end_time']."','0');";
-        $query = "INSERT INTO coupon(`coupon_id`,`campaign_id`,`brand_name`, `small_image`, `large_image`, `is_sponsored`, `startValidity`, `endOfPublishing`, `offer_type`)
-                 VALUES ('" . $couponId . "','" . $campaignId . "','" . $arrUser['brand_name'] . "', '" . $catImg . "','" . $copImg . "','" . $arrUser['spons'] . "','" . $arrUser['start_of_publishing'] . "','" . $arrUser['end_of_publishing'] . "','0');";
+//  New viewopt Kent
+        $query = "INSERT INTO coupon(`coupon_id`,`campaign_id`,`brand_name`, `small_image`, `large_image`, `is_sponsored`, `startValidity`, `endOfPublishing`,`view_opt`, `offer_type`)
+                 VALUES ('" . $couponId . "','" . $campaignId . "','" . $arrUser['brand_name'] . "', '" . $catImg . "','" . $copImg . "','" . $arrUser['spons'] . "','" . $arrUser['start_of_publishing'] . "','" . $arrUser['end_of_publishing']  . "','" . $arrUser['viewopt'] . "','0');";
+//  End New viewopt Kent
 
         $res = mysql_query($query) or die(mysql_error());
 
@@ -2574,7 +2721,7 @@ class offer {
      */
 
     function viewcampaignDetailById($campaignid, $lang='ENG') {
-//echo "here";echo $campaignid;die;
+//echo "here ";echo $campaignid; echo "*".$lang ;die;
         $db = new db();
         $db->makeConnection();
         $data = array();
@@ -2593,8 +2740,9 @@ class offer {
                         LEFT JOIN  category_names_lang_list  ON category.category_id = category_names_lang_list.category
                         LEFT JOIN  lang_text  ON lang_text.id = category_names_lang_list.names_lang_list
 
-                        WHERE  campaign.campaign_id='" . $campaignid . "' AND lang_text.lang = '" . $lang . "' AND lang_text.lang = subsloganT.lang AND
-                         lang_text.lang = sloganT.lang AND lang_text.lang = keyw.lang  GROUP BY campaign.campaign_id");
+                        WHERE  campaign.campaign_id='" . $campaignid . "' AND lang_text.lang = '" . $lang . "' AND lang_text.lang = subsloganT.lang AND lang_text.lang = subsloganT.lang AND
+                         lang_text.lang = keyw.lang  GROUP BY campaign.campaign_id");
+// Removed And restored ND lang_text.lang = subsloganT.lang
         while ($rs = mysql_fetch_array($q)) {
             $data[] = $rs;
             // print_r($data);
@@ -2779,7 +2927,7 @@ class offer {
                         $size = 'iphone4_cat';
                         $path = UPLOAD_DIR . "category/";
                         $fileThumbnail = $path . $cat_filename;
-                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                         $arrUser['small_image'] = $cat_filename;
                     }
                 } else {
@@ -2839,7 +2987,7 @@ class offer {
                     $size = 'iphone4';
                     $path = UPLOAD_DIR . "coupon/";
                     $fileThumbnail = $path . $coupon_filename;
-                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                     //////////////////////////
                     $arrUser['large_image'] = $coupon_filename;
                     $_SESSION['preview']['large_image'] = $arrUser['large_image'];
@@ -2989,7 +3137,7 @@ class offer {
                         $size = 'iphone4_cat';
                         $path = UPLOAD_DIR . "category/";
                         $fileThumbnail = $path . $cat_filename;
-                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                         $arrUser['small_image'] = $cat_filename;
                     }
                 } else {
@@ -3019,7 +3167,7 @@ class offer {
                 $path = UPLOAD_DIR . "category/";
                 $fileThumbnail = $path . $cat_filename;
                 copy($fileOriginal, $fileThumbnail);
-                //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                 $arrUser['small_image'] = $cat_filename;
             } else {
                 if ($_SESSION['preview']['small_image'] != "") {
@@ -3543,7 +3691,7 @@ class offer {
           $size = 'iphone4';
           $path = UPLOAD_DIR . "coupon/";
           $fileThumbnail = $path . $coupon_filename;
-          createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+          createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
           $arrUser['large_image'] = $coupon_filename;
           $_SESSION['preview']['large_image'] = $coupon_filename;
           }
@@ -3568,7 +3716,7 @@ class offer {
                     $size = 'iphone4';
                     $path = UPLOAD_DIR . "coupon/";
                     $fileThumbnail = $path . $coupon_filename;
-                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                     //////////////////////////
                     $arrUser['large_image'] = $coupon_filename;
                     $_SESSION['preview']['large_image'] = $arrUser['large_image'];
@@ -3688,7 +3836,7 @@ class offer {
                         $size = 'iphone4_cat';
                         $path = UPLOAD_DIR . "category/";
                         $fileThumbnail = $path . $cat_filename;
-                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                         $arrUser['small_image'] = $cat_filename;
                     }
                 } else {
@@ -3718,7 +3866,7 @@ class offer {
                 $path = UPLOAD_DIR . "category/";
                 $fileThumbnail = $path . $cat_filename;
                 copy($fileOriginal, $fileThumbnail);
-                //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                 $arrUser['small_image'] = $cat_filename;
             } else {
                 if ($_SESSION['preview']['small_image'] != "") {
@@ -3755,7 +3903,7 @@ class offer {
                     $size = 'iphone4';
                     $path = UPLOAD_DIR . "coupon/";
                     $fileThumbnail = $path . $coupon_filename;
-                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                     //////////////////////////
                     $arrUser['large_image'] = $coupon_filename;
                 }
@@ -4771,7 +4919,7 @@ class offer {
                         $size = 'iphone4_cat';
                         $path = UPLOAD_DIR . "category/";
                         $fileThumbnail = $path . $cat_filename;
-                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                         $arrUser['small_image'] = $cat_filename;
                     }
                 } else {
@@ -4800,7 +4948,7 @@ class offer {
                 $path = UPLOAD_DIR . "category/";
                 $fileThumbnail = $path . $cat_filename;
                 copy($fileOriginal, $fileThumbnail);
-                //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                 $arrUser['small_image'] = $cat_filename;
             } else {
                 if ($_SESSION['preview']['small_image'] != "") {
@@ -4831,7 +4979,7 @@ class offer {
                     $size = 'iphone4';
                     $path = UPLOAD_DIR . "coupon/";
                     $fileThumbnail = $path . $coupon_filename;
-                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                     //////////////////////////
                     $arrUser['large_image'] = $coupon_filename;
                 }
@@ -5159,7 +5307,7 @@ class offer {
           $size = 'iphone4_cat';
           $path = UPLOAD_DIR . "category/";
           $fileThumbnail = $path . $cat_filename;
-          createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+          createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
           $arrUser['small_image'] = $cat_filename;
           }
           } else {
@@ -5210,7 +5358,7 @@ class offer {
                     $size = 'iphone4';
                     $path = UPLOAD_DIR . "coupon/";
                     $fileThumbnail = $path . $coupon_filename;
-                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                     //////////////////////////
                     $arrUser['large_image'] = $coupon_filename;
                     $_SESSION['preview']['large_image'] = $arrUser['large_image'];
@@ -5268,6 +5416,8 @@ class offer {
         $arrUser['end_of_publishing'] = $endDate;
         $arrUser['campaign_name'] = addslashes($campaignName);
         $arrUser['keywords'] = addslashes($searchKeyword);
+        $arrUser['discountValue'] = addslashes($_POST['discountValue']);
+        
         $arrUser['start_time'] = $startDateLimitation;
         $arrUser['end_time'] = $endDateLimitation;
         $arrUser['infopage'] = $descriptive;
@@ -5315,6 +5465,7 @@ class offer {
         $error.= ( $arrUser['end_of_publishing'] == '') ? ERROR_END_OF_PUBLISHING : '';
 
         $error.= ( $arrUser['campaign_name'] == '') ? ERROR_CAMPAIGN_NAME : '';
+        $error.= ( $arrUser['discountValue'] == '') ? ERROR_DISCOUNT_VALUE : '';
 
 //        $error.= ( $arrUser['start_time'] == '') ? ERROR_START_DATE : '';
 //
@@ -5387,7 +5538,7 @@ class offer {
                         $size = 'iphone4_cat';
                         $path = UPLOAD_DIR . "category/";
                         $fileThumbnail = $path . $cat_filename;
-                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                         $arrUser['small_image'] = $cat_filename;
                     }
                 } else {
@@ -5417,7 +5568,7 @@ class offer {
                 $path = UPLOAD_DIR . "category/";
                 $fileThumbnail = $path . $cat_filename;
                 copy($fileOriginal, $fileThumbnail);
-                //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                 $arrUser['small_image'] = $cat_filename;
             } else {
                 if ($_SESSION['preview']['small_image'] != "") {
@@ -5490,8 +5641,10 @@ class offer {
         $copImg = IMAGE_AMAZON_PATH . 'coupon/' . $arrUser['large_image'];
 
         $arrUser['u_id'] = $_SESSION['userid'];
-        $query = "INSERT INTO campaign(`campaign_id`,`company_id`,`u_id`, `small_image`,`large_image`, `spons`, `category`, `start_of_publishing`,`end_of_publishing`,`campaign_name`,`infopage`,`s_activ`,`code`,`code_type`)
-                VALUES ('" . $campaignId . "','" . $companyId . "','" . $_SESSION['userid'] . "', '" . $catImg . "', '" . $copImg . "','" . $arrUser['spons'] . "','" . $arrUser['category'] . "','" . $arrUser['start_of_publishing'] . "','" . $arrUser['end_of_publishing'] . "','" . $arrUser['campaign_name'] . "','" . $arrUser['infopage'] . "','0','" . $arrUser['etanCode'] . "','" . $arrUser['codes'] . "');";
+// New viewopt Kent
+        $query = "INSERT INTO campaign(`campaign_id`,`company_id`,`u_id`, `small_image`,`large_image`, `spons`, `category`, `start_of_publishing`,`end_of_publishing`,`campaign_name`,`view_opt`,`infopage`,`s_activ`,`code`,`code_type`,`value`)
+                VALUES ('" . $campaignId . "','" . $companyId . "','" . $_SESSION['userid'] . "', '" . $catImg . "', '" . $copImg . "','" . $arrUser['spons'] . "','" . $arrUser['category'] . "','" . $arrUser['start_of_publishing'] . "','" . $arrUser['end_of_publishing'] . "','" . $arrUser['campaign_name'] . "','" . $arrUser['viewopt']  . "','" . $arrUser['infopage'] . "','0','" . $arrUser['etanCode'] . "','" . $arrUser['codes'] . "','".$arrUser['discountValue']."');";
+//  End New viewopt Kent
         $res = mysql_query($query) or die("Inset campaign : " . mysql_error());
 
 
@@ -5535,9 +5688,37 @@ class offer {
 
         ////keyword
         $keywordId = uuid();
+         if(trim($arrUser['keywords']) != "")
+         {
         $_SQL = "insert into lang_text(id,lang,text) values('" . $keywordId . "','" . $arrUser['lang'] . "','" . $arrUser['keywords'] . "')";
         $res = mysql_query($_SQL) or die("title slogan in lang_text : " . mysql_error());
 
+         ///keyword ///
+        $_SQL = "insert into campaign_keyword(`campaign_id`,`offer_keyword`) values('" . $campaignId . "','" . $keywordId . "')";
+        $res = mysql_query($_SQL) or die("Sub slogan id in relational table : " . mysql_error());
+         }
+         
+         
+           $SystemkeyId = uuid();
+         $_SQL = "insert into lang_text(id,lang,text) values('" . $SystemkeyId . "','" . $arrUser['lang'] . "','" . $campaignId . "')";
+         $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+
+
+         $_SQL = "insert into campaign_keyword(`campaign_id`,`system_key`) values('" . $campaignId . "','" . $SystemkeyId . "')";
+         $res = mysql_query($_SQL) or die("keyword in relational table : " . mysql_error());
+         
+         
+         $Systemkey_companyId = uuid();
+         $_SQL = "insert into lang_text(id,lang,text) values('" . $Systemkey_companyId . "','" . $arrUser['lang'] . "','" . $companyId . "')";
+         $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+
+
+         $_SQL = "insert into campaign_keyword(`campaign_id`,`system_key`) values('" . $campaignId . "','" . $Systemkey_companyId . "')";
+         $res = mysql_query($_SQL) or die("keyword in relational table : " . mysql_error());
+
+         
+         
+         
         ///Slogan and language table relation entry ///
         $_SQL = "insert into campaign_offer_slogan_lang_list(`campaign_id`,`offer_slogan_lang_list`) values('" . $campaignId . "','" . $sloganLangId . "')";
         $res = mysql_query($_SQL) or die("Tital slogan id in relational table : " . mysql_error());
@@ -5547,9 +5728,6 @@ class offer {
         $_SQL = "insert into campaign_offer_sub_slogan_lang_list(`campaign_id`,`offer_sub_slogan_lang_list`) values('" . $campaignId . "','" . $subSloganLangId . "')";
         $res = mysql_query($_SQL) or die("Sub slogan id in relational table : " . mysql_error());
 
-        ///keyword ///
-        $_SQL = "insert into campaign_keyword(`campaign_id`,`offer_keyword`) values('" . $campaignId . "','" . $keywordId . "')";
-        $res = mysql_query($_SQL) or die("Sub slogan id in relational table : " . mysql_error());
 
         ///Start date and End Date and Valid days entry ///
 
@@ -5610,6 +5788,8 @@ class offer {
         $arrUser['end_of_publishing'] = $endDate;
         $arrUser['campaign_name'] = $campaignName;
         $arrUser['keywords'] = $searchKeyword;
+        $arrUser['discountValue'] = addslashes($_POST['discountValue']);
+        
         $arrUser['start_time'] = $startDateLimitation;
         $arrUser['end_time'] = $endDateLimitation;
         $arrUser['infopage'] = $descriptive;
@@ -5629,6 +5809,7 @@ class offer {
         $error.= ( $arrUser['end_of_publishing'] == '') ? ERROR_END_OF_PUBLISHING : '';
 
         $error.= ( $arrUser['campaign_name'] == '') ? ERROR_CAMPAIGN_NAME : '';
+        $error.= ( $arrUser['discountValue'] == '') ? ERROR_DISCOUNT_VALUE : '';
 
 //        $error.= ( $arrUser['start_time'] == '') ? ERROR_START_DATE : '';
 //
@@ -5659,7 +5840,7 @@ class offer {
                         $size = 'iphone4_cat';
                         $path = UPLOAD_DIR . "category/";
                         $fileThumbnail = $path . $cat_filename;
-                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                         $arrUser['small_image'] = $cat_filename;
                     }
                 } else {
@@ -5689,7 +5870,7 @@ class offer {
                 $path = UPLOAD_DIR . "category/";
                 $fileThumbnail = $path . $cat_filename;
                 copy($fileOriginal, $fileThumbnail);
-                //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                 $arrUser['small_image'] = $cat_filename;
             } else {
                 if ($_SESSION['preview']['small_image'] != "") {
@@ -5749,10 +5930,32 @@ class offer {
         $copImg = IMAGE_AMAZON_PATH . 'coupon/' . $arrUser['large_image'];
 
         $arrUser['u_id'] = $_SESSION['userid'];
-        $query = "INSERT INTO campaign(`campaign_id`,`company_id`,`u_id`, `small_image`,`large_image`, `spons`, `category`, `start_of_publishing`,`end_of_publishing`,`campaign_name`,`keywords`,`infopage`,`s_activ`)
-                VALUES ('" . $campaignId . "','" . $companyId . "','" . $_SESSION['userid'] . "', '" . $catImg . "', '" . $copImg . "','" . $arrUser['spons'] . "','" . $arrUser['category'] . "','" . $arrUser['start_of_publishing'] . "','" . $arrUser['end_of_publishing'] . "','" . $arrUser['campaign_name'] . "','" . $arrUser['keywords'] . "','" . $arrUser['infopage'] . "','0');";
+        $query = "INSERT INTO campaign(`campaign_id`,`company_id`,`u_id`, `small_image`,`large_image`, `spons`, `category`, `start_of_publishing`,`end_of_publishing`,`campaign_name`,`keywords`,`infopage`,`s_activ`,`value`)
+                VALUES ('" . $campaignId . "','" . $companyId . "','" . $_SESSION['userid'] . "', '" . $catImg . "', '" . $copImg . "','" . $arrUser['spons'] . "','" . $arrUser['category'] . "','" . $arrUser['start_of_publishing'] . "','" . $arrUser['end_of_publishing'] . "','" . $arrUser['campaign_name'] . "','" . $arrUser['keywords'] . "','" . $arrUser['infopage'] . "','0', '".$arrUser['discountValue']."');";
         $res = mysql_query($query) or die("Inset campaign : " . mysql_error());
 
+        
+         $SystemkeyId = uuid();
+         $_SQL = "insert into lang_text(id,lang,text) values('" . $SystemkeyId . "','" . $arrUser['lang'] . "','" . $campaignId . "')";
+         $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+
+
+         $_SQL = "insert into campaign_keyword(`campaign_id`,`system_key`) values('" . $campaignId . "','" . $SystemkeyId . "')";
+         $res = mysql_query($_SQL) or die("keyword in relational table : " . mysql_error());        
+
+
+	
+         $Systemkey_companyId = uuid();
+         $_SQL = "insert into lang_text(id,lang,text) values('" . $Systemkey_companyId . "','" . $arrUser['lang'] . "','" . $companyId . "')";
+         $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+
+
+         $_SQL = "insert into campaign_keyword(`campaign_id`,`system_key`) values('" . $campaignId . "','" . $Systemkey_companyId . "')";
+         $res = mysql_query($_SQL) or die("keyword in relational table : " . mysql_error());
+
+        
+        
+        
         // echo $arrUser['large_image'];
         // die();
         ////////Slogan entry///////
@@ -5808,6 +6011,14 @@ class offer {
         exit();
     }
 
+/*
+* Function Name     : createCoupons()
+* Description       : add new column `group_id` in coupon table
+*                     to insert campaignId/StandardId/AdvertiseId
+*                     while generating coupon.
+*                     Add new entry into coupon_keywords_lang_list as system_key
+* Author            : Prashant kr. Awasthi  Date: 16th,Feb,2013  Creation
+*/
     function createCoupons() {
         //echo "here";
         $db = new db();
@@ -5822,6 +6033,7 @@ class offer {
         while ($row = mysql_fetch_array($res_rel)) {
             $campaignId = $row['campaign_id'];
             $productId = $row['product_id'];
+            $advertiseId = $row['advertise_id'];
             $storeId = $row['store_id'];
             $csrelStartDate = $row['start_of_publishing'];
 
@@ -5853,6 +6065,8 @@ class offer {
 //                $row = mysql_fetch_array($res);
 //                $coupon_delivery_type = $row['coupon_delivery_type'];
                         $coupon_delivery_type = 'PINCODE';
+                    } else if ($delivery_method == 'AUTO'){
+                        $coupon_delivery_type = 'AUTO';
                     } else {
                         $coupon_delivery_type = 'BARCODE';
                     }
@@ -5870,7 +6084,6 @@ class offer {
 //                $row = mysql_fetch_array($res);
 //                $coupon_delivery_type = $row['coupon_delivery_type'];
                 // echo "here"; die();
-
 
 
                 if (!$couponId) {
@@ -5902,11 +6115,12 @@ class offer {
                     while ($rs = mysql_fetch_array($q)) {
                         $data = $rs;
 
-                        // echo"<pre>";print_r($data);echo"</pre>";
+//echo"<pre>";print_r($data);echo"</pre>";
 
                         $sloganLangId = $data['offer_slogen'];
                         $subSloganLangId = $data['offer_sub_slogen'];
                         $keywordId = $data['offer_keyword'];
+                        
                         $limitId = $data['limit_period'];
 
 //                    $sloganLangId = uuid();
@@ -5925,8 +6139,10 @@ class offer {
                         if (!$couponFlag) {
                             // We have change start date to c_s_rel table start , according to new logic. Earlier it was campaign table start date.
 
-                            $_SQL = "insert into coupon(`coupon_id`,`store`,`small_image`, `large_image`, category, `is_sponsored`, `valid_from`, `end_of_publishing`, `offer_type`,`product_info_link`,`brand_name`,`brand_icon`,`coupon_delivery_type`,`code`,`code_type`,`value`)
-                    values('" . $couponId . "','" . $storeId . "','" . $data['small_image'] . "','" . $data['large_image'] . "','" . $data['category'] . "','" . $data['spons'] . "','" . $csrelStartDate . "','" . $data['end_of_publishing'] . "','ONCE','" . $data['infopage'] . "','" . $data['brand_name'] . "','" . $data['icon'] . "','" . $coupon_delivery_type . "','" . $data['code'] . "','" . $data['code_type'] . "','" . $data['value'] . "');";
+// new viewopt Kent
+                            $_SQL = "insert into coupon(`coupon_id`,`group_id`,`store`,`small_image`, `large_image`, category, `is_sponsored`, `valid_from`, `end_of_publishing`, `offer_type`,`product_info_link`,`view_opt`,`brand_name`,`brand_icon`,`coupon_delivery_type`,`code`,`code_type`,`value`)
+                    values('" . $couponId . "','".$campaignId."','" . $storeId . "','" . $data['small_image'] . "','" . $data['large_image'] . "','" . $data['category'] . "','" . $data['spons'] . "','" . $csrelStartDate . "','" . $data['end_of_publishing'] . "','ONCE','" . $data['infopage'] . "','" . $data['view_opt'] . "','" . $data['brand_name'] . "','" . $data['icon'] . "','" . $coupon_delivery_type . "','" . $data['code'] . "','" . $data['code_type'] . "','" . $data['value'] . "');";
+// end new viewopt Kent
                             //echo $error."Innnnnnn here";die();
                             $res = mysql_query($_SQL) or die("Insert coupon : " . mysql_error());
 
@@ -5950,6 +6166,15 @@ class offer {
                         $_SQL = "insert into coupon_keywords_lang_list(`coupon`,`keywords_lang_list`) values('" . $couponId . "','" . $keywordId . "')";
                         $res = mysql_query($_SQL) or die("Sub slogan id in relational table : " . mysql_error());
 
+                        ///system_key
+						$sqlSysKey = "SELECT system_key FROM campaign_keyword WHERE campaign_id='".$data['campaign_id']."' AND system_key<>''";
+						$resSysKey = mysql_query($sqlSysKey) or die("Get campaign system_key : " . mysql_error());
+                        while($rowSysKey = mysql_fetch_array($resSysKey))
+						{
+							$_SQL = "insert into coupon_keywords_lang_list(`coupon`,`keywords_lang_list`) values('" . $couponId . "','" . $rowSysKey['system_key'] . "')";
+							$res = mysql_query($_SQL) or die("system_key id in relational table 1:" . mysql_error());
+						}
+
                         ///Start date and End Date and Valid days entry ///
                         if (!$limitFlag) {
                             if ($data['limitPeriod']) {
@@ -5964,6 +6189,93 @@ class offer {
                         }
 
                         $_SQL = "update c_s_rel SET `coupon_id`='" . $couponId . "' WHERE campaign_id='$campaignId' AND store_id='" . $storeId . "'";
+                        $res = mysql_query($_SQL) or die("limitttt id in relational table : " . mysql_error());
+                    }
+                }
+            }else if ($advertiseId) {
+                
+                $QUE = "select * from c_s_rel where advertise_id='" . $advertiseId . "' AND store_id='" . $storeId . "'";
+                $res = mysql_query($QUE) or die("Get Coupon : " . mysql_error());
+                while ($row = mysql_fetch_array($res)) {
+                    $couponId = $row['coupon_id'];
+                    $StoreCouponId = $row['store_id'];
+                }
+                
+                if (!$couponId) {
+
+                    $que_camp = "SELECT advertise.*,sloganT.text as slogan,keyw.text as keyword,keyw.lang as lang3,sloganT.lang as lang1,subsloganT.text as subslogen,subsloganT.lang as lang2,advertise.infopage,cat_lng .text as categoryName,brands.*,advertise_offer_slogan_lang_list.offer_slogan_lang_list as offer_slogen,advertise_offer_sub_slogan_lang_list.offer_sub_slogan_lang_list as offer_sub_slogen,advertise_keyword.offer_keyword as offer_keyword FROM advertise
+                        LEFT JOIN  advertise_offer_slogan_lang_list          ON  advertise_offer_slogan_lang_list.advertise_id = advertise.advertise_id
+                        LEFT JOIN  advertise_keyword       ON  advertise_keyword.advertise_id = advertise.advertise_id
+                        LEFT JOIN    advertise_offer_sub_slogan_lang_list    ON  advertise_offer_sub_slogan_lang_list.advertise_id = advertise.advertise_id
+                        LEFT JOIN  lang_text as sloganT             ON  advertise_offer_slogan_lang_list.offer_slogan_lang_list = sloganT.id
+                        LEFT JOIN    lang_text as subsloganT        ON  advertise_offer_sub_slogan_lang_list.offer_sub_slogan_lang_list = subsloganT.id
+                        LEFT JOIN    lang_text as keyw        ON  advertise_keyword.offer_keyword  = keyw.id                        
+                        LEFT JOIN  brands                           ON  brands.company_id=advertise.company_id
+                        LEFT JOIN  category_names_lang_list  as cat_rel        ON  (cat_rel.category=advertise.category)
+                        LEFT JOIN  lang_text as cat_lng        ON  (cat_lng.id=cat_rel.names_lang_list)
+                      WHERE  advertise.advertise_id='" . $advertiseId . "' AND cat_lng.lang = keyw.lang
+                    AND cat_lng.lang = sloganT.lang
+                    AND cat_lng.lang = subsloganT.lang group by lang1";
+
+                    $q = $db->query($que_camp);
+                    $couponId = uuid();
+                    $couponFlag = 0;
+                    
+                    while ($rs = mysql_fetch_array($q)) {
+                        $data = $rs;
+
+                        // echo"<pre>";print_r($data);echo"</pre>";
+
+                        $sloganLangId = $data['offer_slogen'];
+                        $subSloganLangId = $data['offer_sub_slogen'];
+                        $keywordId = $data['offer_keyword'];
+                        
+                        //$limitId = $data['limit_period'];
+
+//                    $sloganLangId = uuid();
+//                    $_SQL = "insert into lang_text(id,lang,text) values('" . $sloganLangId . "','" . $data['lang1'] . "','" . $data['slogan'] . "')";
+//                    $res = mysql_query($_SQL) or die("title slogan in lang_text : " . mysql_error());
+//                    ////////Sub Slogen entry///////
+//                    $subSloganLangId = uuid();
+//                    $_SQL = "insert into lang_text(id,lang,text) values('" . $subSloganLangId . "','" . $data['lang2'] . "','" . $data['subslogen'] . "')";
+//                    $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+//
+//                   ///////keyword
+//                    $keywordId = uuid();
+//                    $_SQL = "insert into lang_text(id,lang,text) values('" . $keywordId . "','" . $data['lang3'] . "','" . $data['keyword'] . "')";
+//                    $res = mysql_query($_SQL) or die("keyword in lang_text : " . mysql_error());
+                        if (!$couponFlag) {
+                            
+                            $_SQL = "insert into coupon(`coupon_id`,`group_id`,`store`,`small_image`, `large_image`, category, `is_sponsored`, `valid_from`, `end_of_publishing`, `offer_type`,`product_info_link`,`view_opt`,`brand_name`,`brand_icon`,`coupon_delivery_type`,`value`)
+                   values('" . $couponId . "','".$advertiseId."','" . $storeId . "','" . $data['small_image'] . "','" . $data['large_image'] . "','" . $data['category'] . "','" . $data['spons'] . "','" . $csrelStartDate . "','" . $data['end_of_publishing'] . "','ADVERTISE','" . $data['infopage'] . "','" . $data['view_opt'] . "','" . $data['brand_name'] . "','" . $data['icon'] . "','MANUAL_SWIPE','" . $data['value'] . "');"; 
+                            //echo $error."Innnnnnn here";die();
+                            $res = mysql_query($_SQL) or die("Insert coupon : " . mysql_error());                           
+
+                            $couponFlag++;
+                        }
+                        // echo $arrUser['small_image'];  echo $arrUser['large_image']; die();
+                        /// SLogen anf language table relation entry ////
+                        $_SQL = "insert into coupon_offer_title_lang_list(`coupon`,`offer_title_lang_list`) values('" . $couponId . "','" . $sloganLangId . "')";
+                        $res = mysql_query($_SQL) or die("Title slogan id in relational table : " . mysql_error());
+
+                        ///Sub slogan and language table relation entry ///
+                        $_SQL = "insert into coupon_offer_slogan_lang_list(`coupon`,`offer_slogan_lang_list`) values('" . $couponId . "','" . $subSloganLangId . "')";
+                        $res = mysql_query($_SQL) or die("Sub slogan id in relational table : " . mysql_error());
+
+                        ///keyword
+                        $_SQL = "insert into coupon_keywords_lang_list(`coupon`,`keywords_lang_list`) values('" . $couponId . "','" . $keywordId . "')";
+                        $res = mysql_query($_SQL) or die("Sub slogan id in relational table : " . mysql_error());                        
+
+                        ///system_key
+						$sqlSysKey = "SELECT system_key FROM advertise_keyword WHERE advertise_id='".$data['advertise_id']."' AND system_key<>''";
+						$resSysKey = mysql_query($sqlSysKey) or die("Get advertise system_key : " . mysql_error());
+						while($rowSysKey = mysql_fetch_array($resSysKey))
+						{
+							$_SQL = "insert into coupon_keywords_lang_list(`coupon`,`keywords_lang_list`) values('" . $couponId . "','" . $rowSysKey['system_key'] . "')";
+							$res = mysql_query($_SQL) or die("system_key id in relational table 2: " . mysql_error());
+						}
+                        
+                        $_SQL = "update c_s_rel SET `coupon_id`='" . $couponId . "' WHERE advertise_id='".$advertiseId."' AND store_id='" . $storeId . "'";
                         $res = mysql_query($_SQL) or die("limitttt id in relational table : " . mysql_error());
                     }
                 }
@@ -5994,7 +6306,7 @@ class offer {
             LEFT JOIN  lang_text as cat  ON cat.id = category_names_lang_list.names_lang_list
             LEFT JOIN  brands         ON  brands.company_id=product.company_id
             
-                WHERE product.product_id='$productId' AND cat.lang = lang_text.lang AND cat.lang = keyw.lang group by lang1";
+                WHERE product.product_id='".$productId."' AND cat.lang = lang_text.lang AND cat.lang = keyw.lang group by lang1";
 
                     $q1 = $db->query($query1);
                     $couponId = uuid();
@@ -6031,8 +6343,8 @@ class offer {
 //                    $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
 
                         if (!$couponFlag) {
-                            $query = "INSERT INTO coupon(`coupon_id`,`store`,`small_image`, `large_image`, `is_sponsored`,`offer_type`,`product_info_link`, category,`valid_from`,`end_of_publishing`,`brand_name`,`brand_icon`,`coupon_delivery_type`,`code`,`code_type`)
-                    VALUES ('" . $couponId . "','" . $storeId . "','" . $data['small_image'] . "','" . $data['large_image'] . "','" . $data['is_sponsored'] . "','ADVERTISE','" . $data['product_info_page'] . "','" . $data['category'] . "','" . $data['start_of_publishing'] . "','2020-03-09','" . $data['brand_name'] . "','" . $data['icon'] . "','MANUAL_SWIPE','" . $data['code'] . "','" . $data['code_type'] . "');";
+                            $query = "INSERT INTO coupon(`coupon_id`,`group_id`,`store`,`small_image`, `large_image`, `is_sponsored`,`offer_type`,`product_info_link`, category,`valid_from`,`end_of_publishing`,`brand_name`,`brand_icon`,`coupon_delivery_type`,`code`,`code_type`)
+                    VALUES ('" . $couponId . "','".$productId."','" . $storeId . "','" . $data['small_image'] . "','" . $data['large_image'] . "','" . $data['is_sponsored'] . "','ADVERTISE','" . $data['product_info_page'] . "','" . $data['category'] . "','" . $data['start_of_publishing'] . "','2020-03-09','" . $data['brand_name'] . "','" . $data['icon'] . "','MANUAL_SWIPE','" . $data['code'] . "','" . $data['code_type'] . "');";
                             $res = mysql_query($query) or die(mysql_error());
                             $couponFlag++;
                         }
@@ -6053,7 +6365,14 @@ class offer {
                         $_SQL = "insert into coupon_keywords_lang_list(`coupon`,`keywords_lang_list`) values('" . $couponId . "','" . $keywordId . "')";
                         $res = mysql_query($_SQL) or die("Sub slogan id in relational table : " . mysql_error());
 
-
+                        ///system_key
+						$sqlSysKey = "SELECT system_key FROM product_keyword WHERE product_id='".$data['product_id']."' AND system_key<>''";
+						$resSysKey = mysql_query($sqlSysKey) or die("Get product system_key : " . mysql_error());
+                        while($rowSysKey = mysql_fetch_array($resSysKey))
+						{
+							$_SQL = "insert into coupon_keywords_lang_list(`coupon`,`keywords_lang_list`) values('" . $couponId . "','" . $rowSysKey['system_key'] . "')";
+							$res = mysql_query($_SQL) or die("system key id in relational table 3:".mysql_error());
+						}
 
 
                         $_SQL = "update  c_s_rel SET `coupon_id`= '" . $couponId . "',`end_of_publishing`= '2020-03-09'  WHERE product_id='$productId' AND store_id='" . $storeId . "'";
@@ -6220,6 +6539,7 @@ class offer {
         $error = '';
 
         $QUE = "select country from company where u_id = '" . $_SESSION['userid'] . "'";
+//	echo "<pre>";echo $QUE ; echo "</pre>"; die;
         $res = mysql_query($QUE) or die(mysql_error());
         $row = mysql_fetch_array($res);
         $compcont = $row['country'];
@@ -6342,7 +6662,7 @@ class offer {
           $size = 'iphone4';
           $path = UPLOAD_DIR . "coupon/";
           $fileThumbnail = $path . $coupon_filename;
-          createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+          createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
           $arrUser['large_image'] = $coupon_filename;
           $_SESSION['preview']['large_image'] = $coupon_filename;
           }
@@ -6367,7 +6687,7 @@ class offer {
                     $size = 'iphone4';
                     $path = UPLOAD_DIR . "coupon/";
                     $fileThumbnail = $path . $coupon_filename;
-                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                     //////////////////////////
                     $arrUser['large_image'] = $coupon_filename;
                     $_SESSION['preview']['large_image'] = $arrUser['large_image'];
@@ -6522,7 +6842,7 @@ class offer {
                         $size = 'iphone4_cat';
                         $path = UPLOAD_DIR . "category/";
                         $fileThumbnail = $path . $cat_filename;
-                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                         $arrUser['small_image'] = $cat_filename;
                     }
                 } else {
@@ -6551,7 +6871,7 @@ class offer {
                 $path = UPLOAD_DIR . "category/";
                 $fileThumbnail = $path . $cat_filename;
                 copy($fileOriginal, $fileThumbnail);
-                //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                 $arrUser['small_image'] = $cat_filename;
             } else {
                 if ($_SESSION['preview']['small_image'] != "") {
@@ -6588,7 +6908,7 @@ class offer {
                     $size = 'iphone4';
                     $path = UPLOAD_DIR . "coupon/";
                     $fileThumbnail = $path . $coupon_filename;
-                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                     //////////////////////////
                     $arrUser['large_image'] = $coupon_filename;
                 }
@@ -6695,12 +7015,31 @@ class offer {
 //        $_SQL = "insert into product_offer_slogan_lang_list(`product_id `,`offer_slogan_lang_list`) values('" . $productId . "','" . $sloganLangId . "')";
 //        $res = mysql_query($_SQL) or die(mysql_error());
 
+         if(trim($arrUser['keywords']) != "")
+         {
         $keywordId = uuid();
         $_SQL = "insert into lang_text(id,lang,text) values('" . $keywordId . "','" . $arrUser['lang'] . "','" . $arrUser['keywords'] . "')";
         $res = mysql_query($_SQL) or die(mysql_error());
         $_SQL = "insert into product_keyword(`product_id`,`offer_keyword`) values('" . $standUniqueId . "','" . $keywordId . "')";
         $res = mysql_query($_SQL) or die(mysql_error());
+         }
+         
+         $SystemkeyId = uuid();
+        $_SQL = "insert into lang_text(id,lang,text) values('" . $SystemkeyId . "','" . $arrUser['lang'] . "','" . $standUniqueId . "')";
+        $res = mysql_query($_SQL) or die(mysql_error());
 
+        $_SQL = "insert into product_keyword(`product_id`,`system_key`) values('" . $standUniqueId . "','" . $SystemkeyId . "')";
+        $res = mysql_query($_SQL) or die(mysql_error());
+
+        
+         $Systemkey_companyId = uuid();
+        $_SQL = "insert into lang_text(id,lang,text) values('" . $Systemkey_companyId . "','" . $arrUser['lang'] . "','" . $companyId . "')";
+        $res = mysql_query($_SQL) or die(mysql_error());
+
+        $_SQL = "insert into product_keyword(`product_id`,`system_key`) values('" . $standUniqueId . "','" . $Systemkey_companyId . "')";
+        $res = mysql_query($_SQL) or die(mysql_error());
+        
+         
         $_SESSION['MESSAGE'] = STANDARD_OFFER_SUCCESS;
         if ($reseller == '') {
             $url = BASE_URL . 'showStandard.php';
@@ -6750,6 +7089,8 @@ class offer {
         $lang = $rs['lang'];
         return $lang;
     }
+
+    
 
     function getLangProduct($productid) {
 
@@ -6973,7 +7314,7 @@ class offer {
         $res = mysql_query($query) or die('1' . mysql_error());
         $row = mysql_fetch_array($res);
         $text = $row['text'];
-
+        $companyId = $row['company_id'];
 
 
         if ($text) {
@@ -6990,13 +7331,39 @@ class offer {
         }
 
 
-
-
-
+        if($arrUser['searchKeyword'] != "")
+        {
         $keyId = uuid();
         $query = "INSERT INTO campaign_keyword(`campaign_id`,`offer_keyword`)
                 VALUES ('" . $campaignid . "','" . $keyId . "');";
         $res = mysql_query($query) or die("Inset campaign : " . mysql_error());
+
+             $query = "INSERT INTO lang_text(`id`,`lang`,`text`)
+                    VALUES ('" . $keyId . "','" . $arrUser['lang'] . "','" . $arrUser['searchKeyword'] . "');";
+            $res = mysql_query($query) or die("Inset campaign : " . mysql_error());
+        }
+        
+        
+         $SystemkeyId = uuid();
+         $_SQL = "insert into lang_text(id,lang,text) values('" . $SystemkeyId . "','" . $arrUser['lang'] . "','" . $campaignid . "')";
+         $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+
+
+         $_SQL = "insert into campaign_keyword(`campaign_id`,`system_key`) values('" . $campaignid . "','" . $SystemkeyId . "')";
+         $res = mysql_query($_SQL) or die("keyword in relational table : " . mysql_error());
+        
+        
+         $Systemkey_companyId = uuid();
+         $_SQL = "insert into lang_text(id,lang,text) values('" . $Systemkey_companyId . "','" . $arrUser['lang'] . "','" . $companyId . "')";
+         $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+
+
+         $_SQL = "insert into campaign_keyword(`campaign_id`,`system_key`) values('" . $campaignid . "','" . $Systemkey_companyId . "')";
+         $res = mysql_query($_SQL) or die("keyword in relational table : " . mysql_error());
+        
+
+         
+         
 
         $slogenId = uuid();
         $query = "INSERT INTO campaign_offer_slogan_lang_list(`campaign_id`,`offer_slogan_lang_list`)
@@ -7009,9 +7376,7 @@ class offer {
         $res = mysql_query($query) or die("Inset campaign : " . mysql_error());
 
 
-        $query = "INSERT INTO lang_text(`id`,`lang`,`text`)
-                VALUES ('" . $keyId . "','" . $arrUser['lang'] . "','" . $arrUser['searchKeyword'] . "');";
-        $res = mysql_query($query) or die("Inset campaign : " . mysql_error());
+       
 
         $query = "INSERT INTO lang_text(`id`,`lang`,`text`)
                 VALUES ('" . $slogenId . "','" . $arrUser['lang'] . "','" . $arrUser['titleSlogan'] . "');";
@@ -7053,7 +7418,7 @@ class offer {
         $res = mysql_query($query) or die('1' . mysql_error());
         $row = mysql_fetch_array($res);
         $text = $row['text'];
-
+          $companyId = $row['company_id'];
 
 
         if ($text) {
@@ -7072,21 +7437,41 @@ class offer {
 
 
 
-
+        if($arrUser['searchKeywordStand']!= "")
+        {
         $keyId = uuid();
         $query = "INSERT INTO product_keyword(`product_id`,`offer_keyword`)
                 VALUES ('" . $productid . "','" . $keyId . "');";
         $res = mysql_query($query) or die("Inset campaign : " . mysql_error());
 
+             $query = "INSERT INTO lang_text(`id`,`lang`,`text`)
+                    VALUES ('" . $keyId . "','" . $arrUser['lang'] . "','" . $arrUser['searchKeywordStand'] . "');";
+            $res = mysql_query($query) or die("Inset campaign : " . mysql_error());
+        }
+        
+        $SystemkeyId = uuid();
+        $_SQL = "insert into lang_text(id,lang,text) values('" . $SystemkeyId . "','" . $arrUser['lang'] . "','" . $productid . "')";
+        $res = mysql_query($_SQL) or die(mysql_error());
+
+        $_SQL = "insert into product_keyword(`product_id`,`system_key`) values('" . $productid . "','" . $SystemkeyId . "')";
+        $res = mysql_query($_SQL) or die(mysql_error());
+        
+        
+         $Systemkey_companyId = uuid();
+        $_SQL = "insert into lang_text(id,lang,text) values('" . $Systemkey_companyId . "','" . $arrUser['lang'] . "','" . $companyId . "')";
+        $res = mysql_query($_SQL) or die(mysql_error());
+
+        $_SQL = "insert into product_keyword(`product_id`,`system_key`) values('" . $productid . "','" . $Systemkey_companyId . "')";
+        $res = mysql_query($_SQL) or die(mysql_error());
+        
+        
         $slogenId = uuid();
         $query = "INSERT INTO product_offer_slogan_lang_list(`product_id`,`offer_slogan_lang_list`)
                 VALUES ('" . $productid . "','" . $slogenId . "');";
         $res = mysql_query($query) or die("Inset campaign : " . mysql_error());
 
 
-        $query = "INSERT INTO lang_text(`id`,`lang`,`text`)
-                VALUES ('" . $keyId . "','" . $arrUser['lang'] . "','" . $arrUser['searchKeywordStand'] . "');";
-        $res = mysql_query($query) or die("Inset campaign : " . mysql_error());
+       
 
         $query = "INSERT INTO lang_text(`id`,`lang`,`text`)
                 VALUES ('" . $slogenId . "','" . $arrUser['lang'] . "','" . $arrUser['titleSloganStand'] . "');";
@@ -7387,7 +7772,7 @@ WHERE ltext.text='Other' AND ltext.id=llist.names_lang_list AND llist.category=c
             $fileThumbnail = $path . $CategoryIconName;
             $crop = '5';
             $size = 'smallImg';
-            createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+            createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
 
 //@file_put_contents($imageNameRandom,$img);
 
@@ -7493,6 +7878,11 @@ VALUES ('" . $campaignId . "','" . $stoId . "','" . $validFrom . "','" . $validT
 
 //////////////////////////////////
 ///////////////////function for batch for financial service
+/*
+* Function Name     : saveFinancialService()
+* Description       : Charge for transaction is done in relation (in percentage ) to discount. 
+* Author            : Prashant kr. Awasthi  Date: 16th,Feb,2013  Creation
+*/
     function saveFinancialService() {
         $inoutObj = new inOut();
         $db = new db();
@@ -7530,6 +7920,7 @@ VALUES ('" . $campaignId . "','" . $stoId . "','" . $validFrom . "','" . $validT
                 $res3 = mysql_query($query3);
                 $rs3 = mysql_fetch_array($res3, 1);
                 $companyId = $rs3['company_id'];
+                $discountValue = $rs3['value']; // fetch value as discount from campaign 
 
                 //////fetch country /////////
                 $query4 = "select country.printable_name,company.cc_value,company.pre_loaded_value from company left join country on country.iso = company.country
@@ -7544,7 +7935,9 @@ VALUES ('" . $campaignId . "','" . $stoId . "','" . $validFrom . "','" . $validT
                 $query9 = "select usage_fee from cost where country = '" . $countryName . "'";
                 $res9 = mysql_query($query9);
                 $rs9 = mysql_fetch_array($res9);
-                $usageFee = $rs9['usage_fee'];
+                
+                // Charge for transaction is done in relation (in percentage ) to discount
+                $usageFee = $discountValue * ($rs9['usage_fee']/100);
 
 //////////conditon
                 if ((($ccValue == '') or ($ccValue == 0)) and ($preLoadedValue > $usageFee)) {
@@ -7725,6 +8118,181 @@ VALUES ('" . $campaignId . "','" . $stoId . "','" . $validFrom . "','" . $validT
         }
     }
 
+
+//////////////////////// for clicks coupon
+/* Function Header :saveClicksCoupon()
+*             Args: none
+*           Errors: none
+*     Return Value: none
+*      Description: Function for batch for financial service.
+*                   Calculate deduction amount for total click.
+*           Author: Prashant kr. Awasthi  Date: 16th,Feb,2013  Creation
+*/
+    function saveClicksCoupon() {
+
+        $inoutObj = new inOut();
+        $db = new db();
+        $arrUser = array();
+        $error = '';
+        
+        $query = "select * from coupon_usage_statistics";
+        $res = mysql_query($query);
+        
+        while ($rs = mysql_fetch_array($res)) {
+            $couponId = $rs['coupon_id'];
+            $numClicks = $rs['num_loads'];
+
+            $query2 = "select * from c_s_rel where coupon_id = '" . $couponId . "'";
+            $res2 = mysql_query($query2);
+            $rs2 = mysql_fetch_array($res2, 1);
+            $campaignId = $rs2['campaign_id'];
+
+
+            /////////fetch campany id from campaign id////
+            $query3 = "select * from campaign where campaign_id = '" . $campaignId . "'";
+            $res3 = mysql_query($query3);
+            $rs3 = mysql_fetch_array($res3, 1);
+            $companyId = $rs3['company_id'];            
+
+            //////fetch country /////////
+            $query4 = "select country.printable_name,company.cc_value,company.pre_loaded_value,company.low_level from company left join country on country.iso = company.country
+     where company.company_id = '" . $companyId . "'";           
+            
+            $res4 = mysql_query($query4);
+            $rs4 = mysql_fetch_array($res4);
+            $countryName = $rs4['printable_name'];
+            $preLoadedValue = $rs4['pre_loaded_value'];
+            $lowLevelAlert = $rs4['low_level'];
+
+            ////////// fetch Clicks
+            $query8 = "select clicks from cost where country = '" . $countryName . "'";
+            $res8 = mysql_query($query8);
+            $rs8 = mysql_fetch_array($res8);
+            $clicksFee = $rs8['clicks'];
+
+            /////////check campaign is sponserd or not
+            if ($preLoadedValue > $clicksFee) {
+
+                $deductValue = $clicksFee * $numClicks;                
+                $finPreValue = $preLoadedValue - $deductValue;
+                $query5 = "update company set `pre_loaded_value` = '" . $finPreValue . "' where company_id = '" . $companyId . "'";
+                $res5 = mysql_query($query5);
+            } else if (($preLoadedValue < $lowLevelAlert) and ($preLoadedValue > $clicksFee)) {
+
+                $query6 = "select u_id from company where company_id = '" . $companyId . "'";
+                $res6 = mysql_query($query6);
+                $rs6 = mysql_fetch_array($res6);
+                $uId = $rs6['u_id'];
+                $mailObj = new emails();
+                $mailObj->sendLessPreloadedValueMail($uId);
+            } else if ($preLoadedValue < $clicksFee ) {
+
+                $query7 = "select * from company where company_id = '" . $companyId . "'";
+                $res7 = mysql_query($query7);
+                $rs7 = mysql_fetch_array($res7);
+                $uId = $rs7['u_id'];
+                $mailObj = new emails();
+                $mailObj->sendDeactivateCampaignPreloadedMail($uId);
+
+
+                /////deactivate campaign table
+                $query9 = "update campaign set `s_activ` = '3' where campaign_id = '" . $campaignId . "'";
+                $res9 = mysql_query($query9);
+
+                /////deactivate c_s_rel table
+                $query10 = "update c_s_rel set `activ` = '3' where campaign_id = '" . $campaignId . "'";
+                $res10 = mysql_query($query10);                
+            }
+        }
+    }
+    
+//////////////////////// for views coupon
+/* Function Header :saveViewsCoupon()
+*             Args: none
+*           Errors: none
+*     Return Value: none
+*      Description: Function for batch for financial service.
+*                   Calculate deduction amount for total views.
+*           Author: Prashant kr. Awasthi  Date: 16th,Feb,2013  Creation
+*/
+    function saveViewsCoupon() {
+
+        $inoutObj = new inOut();
+        $db = new db();
+        $arrUser = array();
+        $error = '';
+        
+        $query = "select * from coupon_usage_statistics";
+        $res = mysql_query($query);
+        
+        while ($rs = mysql_fetch_array($res)) {
+            $couponId = $rs['coupon_id'];
+            $numViews = $rs['num_views'];
+
+            $query2 = "select * from c_s_rel where coupon_id = '" . $couponId . "'";
+            $res2 = mysql_query($query2);
+            $rs2 = mysql_fetch_array($res2, 1);
+            $campaignId = $rs2['campaign_id'];
+
+
+            /////////fetch campany id from campaign id////
+            $query3 = "select * from campaign where campaign_id = '" . $campaignId . "'";
+            $res3 = mysql_query($query3);
+            $rs3 = mysql_fetch_array($res3, 1);
+            $companyId = $rs3['company_id'];            
+
+            //////fetch country /////////
+            $query4 = "select country.printable_name,company.cc_value,company.pre_loaded_value,company.low_level from company left join country on country.iso = company.country
+     where company.company_id = '" . $companyId . "'";
+            $res4 = mysql_query($query4);
+            $rs4 = mysql_fetch_array($res4);
+            $countryName = $rs4['printable_name'];
+            $preLoadedValue = $rs4['pre_loaded_value'];
+            $lowLevelAlert = $rs4['low_level'];
+
+            ////////// fetch Views
+            $query8 = "select views from cost where country = '" . $countryName . "'";
+            $res8 = mysql_query($query8);
+            $rs8 = mysql_fetch_array($res8);
+            $viewsFee = $rs8['views'];
+
+
+            /////////check campaign is sponserd or not
+            if ($preLoadedValue > $viewsFee) {
+
+                $deductValue = $viewsFee * $numViews;
+                $finPreValue = $preLoadedValue - $deductValue;
+                $query5 = "update company set `pre_loaded_value` = '" . $finPreValue . "' where company_id = '" . $companyId . "'";
+                $res5 = mysql_query($query5);
+            } else if (($preLoadedValue < $lowLevelAlert) and ($preLoadedValue > $viewsFee)) {
+
+                $query6 = "select u_id from company where company_id = '" . $companyId . "'";
+                $res6 = mysql_query($query6);
+                $rs6 = mysql_fetch_array($res6);
+                $uId = $rs6['u_id'];
+                $mailObj = new emails();
+                $mailObj->sendLessPreloadedValueMail($uId);
+            } else if ($preLoadedValue < $viewsFee ) {
+
+                $query7 = "select * from company where company_id = '" . $companyId . "'";
+                $res7 = mysql_query($query7);
+                $rs7 = mysql_fetch_array($res7);
+                $uId = $rs7['u_id'];
+                $mailObj = new emails();
+                $mailObj->sendDeactivateCampaignPreloadedMail($uId);
+
+
+                /////deactivate campaign table
+                $query9 = "update campaign set `s_activ` = '3' where campaign_id = '" . $campaignId . "'";
+                $res9 = mysql_query($query9);
+
+                /////deactivate c_s_rel table
+                $query10 = "update c_s_rel set `activ` = '3' where campaign_id = '" . $campaignId . "'";
+                $res10 = mysql_query($query10);                
+            }
+        }
+    }
+    
 ///////////////////// transaction history
     function saveTransactionHistory() {
         $inoutObj = new inOut();
@@ -7784,6 +8352,8 @@ VALUES ('" . $campaignId . "','" . $stoId . "','" . $validFrom . "','" . $validT
                 $_SQL = "insert into coupon_usage_statistics_history(coupon_id,num_consumes,num_loads,num_views,store_id,sum_consume_dist_to_store,sum_load_dist_to_store,sum_view_dist_to_store,version)
         values('" . $rs['coupon_id'] . "','" . $rs['num_consumes'] . "','" . $rs['num_loads'] . "','" . $rs['num_views'] . "','" . $rs['store_id'] . "','" . $rs['sum_consume_dist_to_store'] . "','" . $rs['sum_load_dist_to_store'] . "','" . $rs['sum_view_dist_to_store'] . "','" . $rs['version'] . "')";
                 mysql_query($_SQL);
+                $_DELSQL = "DELETE FROM coupon_usage_statistics WHERE coupon_id='".$rs['coupon_id']."'";
+                mysql_query($_DELSQL);
             } else {
 
                 $finNumConsumes = $numConsumes + $numConsumes2;
@@ -7796,6 +8366,8 @@ VALUES ('" . $campaignId . "','" . $stoId . "','" . $validFrom . "','" . $validT
                 $_SQL = "UPDATE coupon_usage_statistics_history SET `num_consumes` = '" . $finNumConsumes . "',`num_loads` = '" . $finNumLoads . "',`num_views` = '" . $finNumViews . "'
        ,`sum_consume_dist_to_store` = '" . $finSumConsumeDistToStore . "',`sum_load_dist_to_store` = '" . $finSumLoadDistToStore . "' ,`sum_view_dist_to_store` = '" . $finSumViewDistToStore . "'  WHERE coupon_id = '" . $couponId . "'";
                 $res2 = mysql_query($_SQL);
+                $_DELSQL = "DELETE FROM coupon_usage_statistics WHERE coupon_id='".$couponId."'";
+                mysql_query($_DELSQL);
             }
         }
     }
@@ -7898,6 +8470,7 @@ VALUES ('" . $campaignId . "','" . $stoId . "','" . $validFrom . "','" . $validT
         $inoutObj->reDirect($url);
         exit();
     }
+
 
 
 

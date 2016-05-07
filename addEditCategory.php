@@ -87,15 +87,18 @@ if (isset($_POST['continue']) AND $editId != '') {
                 </tr>
 
                 <tr>
-
-                    <td width="50%" align="left" class="inner_grid"> Category Name In English<span class='mandatory'>*</span>
-                    		:</td>
+                    <td width="50%" align="left" class="inner_grid"> Category Name In German<span class='mandatory'>*</span> :</td>
+                    <td width="50%" align="left">
+                         <INPUT class="text_field_new" type="text" name="cNGer" id="cNGer" value="<?=$data[0]['text']?>">
+                       <a title="<?=CAT_NAME_GER?>" class="vtip"><b><small>?</small></b></a><br/>
+                        <div id='error_cnger' class="error"></div></td>
+                </tr>
+                <tr>
+                    <td width="50%" align="left" class="inner_grid"> Category Name In English<span class='mandatory'>*</span> :</td>
                     <td width="50%" align="left">
                          <INPUT class="text_field_new" type="text" name="cNEng" id="cNEng" value="<?=$data[0]['text']?>">
-                       <a title="<?=CAT_NAME_ENG?>" class="vtip"><b><small>?</small></b></a></br>
+                       <a title="<?=CAT_NAME_ENG?>" class="vtip"><b><small>?</small></b></a><br/>
                         <div id='error_cneng' class="error"></div></td>
-
-                        
                 </tr>
 
                 <tr>
@@ -103,7 +106,7 @@ if (isset($_POST['continue']) AND $editId != '') {
                     <td align="left" class="inner_grid">Category Name In Swedish<span class='mandatory'>*</span>:</td>
                     <td align="left">
                         <INPUT class="text_field_new" type="test" name="cNSwe" id="cNSwe" value="<?=$data[1]['text']?>"/>
-                        <a title="<?=CAT_NAME_SWE?>" class="vtip"><b><small>?</small></b></a></br>
+                        <a title="<?=CAT_NAME_SWE?>" class="vtip"><b><small>?</small></b></a><br/>
                         <div id='error_cnswe' class="error"></div></td>
                 </tr>
 
@@ -116,7 +119,7 @@ if (isset($_POST['continue']) AND $editId != '') {
                     <td align="left">
                         <input type="file" name="icon" id="icon" />
                         <img src="<?=$data[0]['small_image']?>"/>
-                         <a title="<?=ICON?>" class="vtip"><b><small>?</small></b></a></br>
+                         <a title="<?=ICON?>" class="vtip"><b><small>?</small></b></a><br/>
                         <div id='error_icon' class="error"></div></td>
                 </tr>
                                                <? }  else { ?>
@@ -126,7 +129,7 @@ if (isset($_POST['continue']) AND $editId != '') {
                     <td align="left">
                         <input type="file" name="icon" id="icon" />
                         <img src="<?=$data[0]['small_image']?>"/>
-                         <a title="<?=ICON?>" class="vtip"><b><small>?</small></b></a></br>
+                         <a title="<?=ICON?>" class="vtip"><b><small>?</small></b></a><br/>
                         <div id='error_icon' class="error"></div></td>
                 </tr>
                                                <? } ?> 

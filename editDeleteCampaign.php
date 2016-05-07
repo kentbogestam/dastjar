@@ -115,10 +115,9 @@ $data[0]['lang'] = $lang;
         <td width="498" class="inner_grid">Language:<br>
         </td>
         <td  width="229" ><select style="background-color:#e4e3dd; width:406px;" onChange="getLangImage(this.value);" class="text_field_new" name="lang" id="lang" value="<?=$data[0]['lang']?>">
-            <option <? if ($data[0]['lang'] == "ENG"
-                        )echo "selected='selected'"; ?> value="ENG">English</option>
-            <option <? if ($data[0]['lang'] == "SWE"
-                        )echo "selected='selected'"; ?> value="SWE">Swedish</option>
+            <option <? if ($data[0]['lang'] == "GER")echo "selected='selected'"; ?> value="GER">German</option>
+            <option <? if ($data[0]['lang'] == "ENG")echo "selected='selected'"; ?> value="ENG">English</option>
+            <option <? if ($data[0]['lang'] == "SWE")echo "selected='selected'"; ?> value="SWE">Swedish</option>
           </select>
           <div id='error_langStand' class="error"></div></td>
         <td >&nbsp;</td>
@@ -266,11 +265,19 @@ $data[0]['lang'] = $lang;
     </table>
     <table BORDER=0   id="advancedSearch" width="100%" cellspacing="15">
       <tr>
-        <td width="515" class="normalfont"> Keywords: </td>
+        <td width="515" class="normalfont"> Keywords<span class='mandatory'>*</span>: </td>
         <td width="227"><INPUT class="text_field_new" type=text name="searchKeyword" maxlength="90" value="<?=$data[0]['keyword']
                                ?>" id="searchKeyword">
           <div id='error_searchKeyword' class="error" ></div></td>
         <td align="right"><a href="" title="<?=KEYWORD_TEXT
+                           ?>" class="vtip"><b><small>?</small></b></a> </td>
+      </tr>
+       <tr>
+        <td width="515" class="normalfont"> Campaign Value:</td>
+        <td width="227"><INPUT class="text_field_new" type=text name="discountValue" maxlength="90" value="<?=$data[0]['value']
+                               ?>" id="discountValue">
+          <div id='error_discountValue' class="error" ></div></td>
+        <td align="right"><a href="" title="<?=DISCOUNTVALUE_TEXT
                            ?>" class="vtip"><b><small>?</small></b></a> </td>
       </tr>
       <!-- <? if($reseller == '') { ?>
@@ -351,11 +358,11 @@ else $selected = '';
                                 ?> value="23">23</option>
           </select>
           <div id='error_startDateLimitation'></div></td>
-        <td align="left">&nbsp;</td>
+        <td align="right"><a title="<?=DEAL_VALID_FROM_TEXT  ?>" class="vtip"><b><small>?</small></b></a></td>
       </tr>
       <tr>
         <td class="normalfont">Deal is only valid to an end time during a day:</td>
-        <td colspan="2" align="left"><select style="width:406px; background-color:#e4e3dd;" class="text_field_new" name="endDateLimitation" id="endDateLimitation" onBlur="limitPreview(this.form);" >
+        <td align="left"><select style="width:406px; background-color:#e4e3dd;" class="text_field_new" name="endDateLimitation" id="endDateLimitation" onBlur="limitPreview(this.form);" >
             <option <? if ($data[0]['end_time'] == ''
 
                         )echo "selected='selected'"; ?> value="">Select End Time</option>
@@ -409,10 +416,11 @@ else $selected = '';
                                 ?> value="23">23</option>
           </select>
           <div id='error_endDateLimitation'></div></td>
+         <td align="right"><a title="<?=DEAL_VALID_TO_TEXT  ?>" class="vtip"><b><small>?</small></b></a></td>
       </tr>
       <tr>
         <td class="normalfont">Deal is only valid to a limited set of days during the weak:</td>
-        <td colspan="2" align="left"><!--<INPUT type=text name="limitDays" id="limitDays" value="<?=$_SESSION['post']['limitDays']
+        <td  align="left"><!--<INPUT type=text name="limitDays" id="limitDays" value="<?=$_SESSION['post']['limitDays']
                         ?>">-->
           <select style="width:406px; background-color:#e4e3dd;" class="text_field_new" name="limitDays" id="limitDays" onBlur="limitPreview(this.form);">
             <option <? if ($data[0]['valid_day'] == ''
@@ -438,10 +446,11 @@ else $selected = '';
                                 ?> value="ALL_WEEK">ALL WEEK</option>
           </select>
           <div id='error_limitDays'></div></td>
+          <td align="right"><a title="<?=DEAL_VALID_DAY_TEXT  ?>" class="vtip"><b><small>?</small></b></a></td>
       </tr>
       <tr>
         <td  class="inner_grid"> Code:</td>
-        <td colspan="2" align="left" valign="top" ><select class="text_field_new" name="codes" id="codes"  onchange="changeIntoText(this.value);">
+        <td  align="left" valign="top" ><select class="text_field_new" name="codes" id="codes"  onchange="changeIntoText(this.value);">
            
             <option <? if($data[0]['code_type'] == '') {
                                 echo "selected = 'selected'";
@@ -453,6 +462,7 @@ else $selected = '';
                                 echo "selected = 'selected'";
                             }?> value="CUSTOM">PINCODE</option>
           </select></td>
+           <td align="right"><a title="<?=CCODEHELP_TEXT  ?>" class="vtip"><b><small>?</small></b></a></td>
       </tr>
       <tr>
             <?php
