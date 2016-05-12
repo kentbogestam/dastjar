@@ -29,7 +29,7 @@ class emails {
         
         $to =$result['email']; // Recipent email Id
 
-        $headers  = "From: Cumbari Admin <admin@cumbari.com> \r\n"; // header of mail content
+        $headers  = "From: Cumbari Admin <admin@moblyo.com> \r\n"; // header of mail content
         $headers .= "Content-type: text/html\r\n";
         $subject = "Cumbari: Email varification"; // subject of mail
 
@@ -63,10 +63,10 @@ class emails {
 
         $to =$result['email']; // Recipent email Id
 
-        $headers  = "From: Cumbari Admin<admin@cumbari.com> \r\n"; // header of mail content
+        $headers  = "From: Moblyo Admin<admin@cumbari.com> \r\n"; // header of mail content
         $headers .= "Content-type: text/html\r\n";
         $subject = "Invitation To Retailers"; // subject of mail
-      echo $message =$messages;die();
+       $message =$messages;
         //echo $headers;
         $ok = mail($emails,$subject,$message,$headers);//Send mail
 
@@ -90,12 +90,12 @@ class emails {
 
         $link = BASE_URL."changeForgotPassword.php?email=$mail";
         $fmsg = "<a href=".$link.">".$link."</a>";
-      echo  $message = "Hi,$name <br>
-        Please click on the following link $fmsg "; die();
+        $message = "Hi,$name <br>
+        Please click on the following link $fmsg "; 
 
         $to = $result['email'];
 
-       $headers  = "From: Cumbari Admin<admin@cumbari.com> \r\n"; // header of mail content
+       $headers  = "From: Moblyo Admin<admin@cumbari.com> \r\n"; // header of mail content
         $headers .= "Content-type: text/html\r\n";
         $subject = "Change Password"; //
 
@@ -128,7 +128,7 @@ class emails {
         
         $to =$result['email']; // Recipent email Id
 
-        $headers  = "From: Cumbari Admin <admin@cumbari.com> \r\n"; // header of mail content
+        $headers  = "From: Moblyo Admin <admin@cumbari.com> \r\n"; // header of mail content
         $headers .= "Content-type: text/html\r\n";
         $subject = "Cumbari: Email varification"; // subject of mail
 
@@ -151,10 +151,10 @@ function sendCategoryAdminMail($category)
     $result = mysql_fetch_array($res);
     $to = $result['email'];
 
-    $headers  = "From: Cumbari Admin<admin@cumbari.com> \r\n"; // header of mail content
+    $headers  = "From: Moblyo Admin<admin@cumbari.com> \r\n"; // header of mail content
     $headers .= "Content-type: text/html\r\n";
     $subject = "CATEGORY"; // subject of mail
-   $messages = "We Found New Category i.e. ".$category;
+   $messages = "We Found New Category on adv. i.e. ".$category;
        $message =$messages;
         //echo $headers;
         $ok = mail($to,$subject,$message,$headers);//Send mail
@@ -176,7 +176,7 @@ function sendLessPreloadedValueMail($uId)
     $result = mysql_fetch_array($res);
     $to = $result['email'];
 
-    $headers  = "From: Cumbari Admin<admin@cumbari.com> \r\n"; // header of mail content
+    $headers  = "From: Moblyo Admin<admin@cumbari.com> \r\n"; // header of mail content
     $headers .= "Content-type: text/html\r\n";
     $subject = "PRE LOADED VALUE"; // subject of mail
    $messages = "We Have Deactivate Your account due to less balance";
@@ -201,7 +201,7 @@ function sendDeactivateCampaignPreloadedMail($uId)
     $result = mysql_fetch_array($res);
     $to = $result['email'];
 
-    $headers  = "From: Cumbari Admin<admin@cumbari.com> \r\n"; // header of mail content
+    $headers  = "From: Moblyo Admin<admin@cumbari.com> \r\n"; // header of mail content
     $headers .= "Content-type: text/html\r\n";
     $subject = "PRE LOADED VALUE"; // subject of mail
    $messages = "Your Campaign are deactivate due to less balance";
