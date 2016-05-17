@@ -25,13 +25,13 @@ class emails {
                Please click on the following link or Copy and Paste in your browser to validate your e-mail address:<br>
               ".$fMsg."
           <br>
-        Cumbari Team";
+        Moblyo Team";
         
         $to =$result['email']; // Recipent email Id
 
-        $headers  = "From: Cumbari Admin <admin@moblyo.com> \r\n"; // header of mail content
+        $headers  = "From: Moblyo Admin <admin@moblyo.com> \r\n"; // header of mail content
         $headers .= "Content-type: text/html\r\n";
-        $subject = "Cumbari: Email varification"; // subject of mail
+        $subject = "Moblyo: Email varification"; // subject of mail
 
         $message =$message;
         $ok = mail($to,$subject,$message,$headers);//Send mail
@@ -124,13 +124,13 @@ class emails {
                Please click on the following link or Copy and Paste in your browser to validate your e-mail address:<br>
               ".$fMsg."
           <br>
-        Cumbari Team";
+        Moblyo Team";
         
         $to =$result['email']; // Recipent email Id
 
         $headers  = "From: Moblyo Admin <admin@cumbari.com> \r\n"; // header of mail content
         $headers .= "Content-type: text/html\r\n";
-        $subject = "Cumbari: Email varification"; // subject of mail
+        $subject = "Moblyo: Email varification"; // subject of mail
 
         $message =$message;
         $ok = mail($to,$subject,$message,$headers);//Send mail
@@ -223,3 +223,4 @@ function sendDeactivateCampaignPreloadedMail($uId)
 }
 
 ?>
+
