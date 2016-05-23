@@ -177,7 +177,7 @@ class support {
                         $size = 'new_cat_icon';
                         $path = UPLOAD_DIR . "category_lib/";
                         $fileThumbnail = $path . $cat_filename;
-                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                         $arrUser['small_image'] = $cat_filename;
                     }
                 } else {
@@ -342,7 +342,7 @@ class support {
                         $size = 'new_cat_icon';
                         $path = UPLOAD_DIR . "category_lib/";
                         $fileThumbnail = $path . $cat_filename;
-                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                         $arrUser['small_image'] = $cat_filename;
                     }
                 } else {

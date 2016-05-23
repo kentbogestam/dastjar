@@ -154,7 +154,7 @@ class brandView {
                     $size = 'brand';
                     $path = UPLOAD_DIR . "brands/";
                     $fileThumbnail = $path . $coupon_filename;
-                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
 //echo "Done"; die();
                     $arrUser['icon'] = $coupon_filename;
                 }
@@ -192,8 +192,25 @@ class brandView {
             $inoutObj->reDirect($url);
             exit();
         }
-
-
+        
+        /*Start Implemented To skip Payment Option*/
+        $query = "SELECT company_id FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
+        $res = mysql_query($query) or die(mysql_error());
+        $row = mysql_fetch_array($res);
+        $compId = $row['company_id'];
+        
+        $brandImg = IMAGE_AMAZON_PATH.'brands/'.$arrUser['icon'];
+        $brandId = uuid();
+        $_SQL = "INSERT into brands(`id`,`company_id`,`brand_name`,`icon`,active) VALUES('" . $brandId . "','" . $compId . "','" . $arrUser['brand_name'] . "','" . $brandImg . "','1')";
+        $res = mysql_query($_SQL) or die(mysql_error());   
+        $_SESSION['MESSAGE'] = BRAND_REGISTER_SUCCESS;
+        $url = BASE_URL . 'getBrandView.php';
+        $inoutObj->reDirect($url);
+        exit();
+        /*End Implemented To skip Payment Option*/
+        
+        /*Start skip Old Payment Option*/
+        /*
         $query = "SELECT company_id,pre_loaded_value FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
         $res = mysql_query($query) or die(mysql_error());
         $row = mysql_fetch_array($res);
@@ -240,7 +257,8 @@ class brandView {
             $url = BASE_URL . 'payment.php?action=registerBrand&amount='.$_POST['amount'].'&userId='.$_SESSION['userid'].'&brandId='.$brandId;
             $inoutObj->reDirect($url);
             exit();
-        }
+        }*/
+        /*End skip Old Payment Option*/
         
     }
 
@@ -269,7 +287,7 @@ class brandView {
                     $size = 'brand';
                     $path = UPLOAD_DIR . "brands/";
                     $fileThumbnail = $path . $coupon_filename;
-                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, &$errorMsg);
+                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                     $arrUser['icon'] = $coupon_filename;
                 }
             } else {
@@ -390,4 +408,3 @@ class brandView {
 
 }
 ?>
-

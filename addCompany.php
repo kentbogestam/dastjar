@@ -68,12 +68,12 @@ body,td,th {
     <input type="hidden" name="m" value="savecomp">
     <input type="hidden" name="checkResult" id="checkResult" value="yes"/>
     <table BORDER=0 width="100%" cellspacing="10">
-        <tr>
+        <tr style="display:none;">
         		
             <th align="left" width="50%"> Time Zone</th>
 		  <th align="left" width="50%">&nbsp;</th>
         </tr>
-        <tr>
+        <tr style="display:none;">
         		
             <td align="left">Select a Country </td>
             <td>
@@ -119,7 +119,7 @@ body,td,th {
                 <div id='error_orgcode' class="error"></div>            </td>
         </tr>
 
-        <tr>
+        <tr style="display:none;">
 
             <td align="left">Account Low Alert Level</td>
             <td>

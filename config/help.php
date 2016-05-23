@@ -88,7 +88,7 @@ define("PHONE_NUMBER_TEXT","The phone number where your customer can reach you."
 define("METHOD_FOR_RECEIVING_COUPON_DATA_TEXT","
 Enter the methods your location support for receiving coupon data. When applicable the appropriate method will be used in your location.
 1. DPS
-Cumbari automatically transfers coupon data to the cash register
+Moblyo automatically transfers coupon data to the cash register
 2. BARCODE
 If your store has a barcode reader able to read from a mobile screen (a laser scanner normally can not do this but an image scanner might)
 3. PINCODE

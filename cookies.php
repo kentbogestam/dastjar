@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Cumbari</title>
+<title>Moblyo</title>
 
 
 <link href="client/css/stylesheet123.css" rel="stylesheet" type="text/css" />
@@ -20,7 +20,7 @@
 </tr>
 <tr>
 
-<td style="line-height:22px;">A “cookie” is a small data file transferred by a website to your computer’s hard drive. Cumbari  send cookies when you surf our site or sites where our ads appear, make purchases, request or personalize information, or register yourself for certain services. Accepting the cookies used on our site or sites where our ads appear may give us access to information about your browsing behavior, which we may use to personalize your experience. Cookies are typically classified as either “session” cookies or “persistent” cookies.
+<td style="line-height:22px;">A “cookie” is a small data file transferred by a website to your computer’s hard drive. Moblyo  send cookies when you surf our site or sites where our ads appear, make purchases, request or personalize information, or register yourself for certain services. Accepting the cookies used on our site or sites where our ads appear may give us access to information about your browsing behavior, which we may use to personalize your experience. Cookies are typically classified as either “session” cookies or “persistent” cookies.
 
 <br />
 <br />

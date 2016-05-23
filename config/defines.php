@@ -124,7 +124,7 @@ define("DELETE_PARTNER","<li class='notice_success'>Your Partner has been delete
 define("ADD_CCODE","<li class='notice_success'>You have successfully added your CCODE. </li>");
 define("EDIT_CCODE","<li class='notice_success'>Your CCODE has been updated. </li>");
 
-define("NOT_ALLOWED","<li class='notice_error'>This service is currently only available for companies not previously registered in Cumbari. </li>");
+define("NOT_ALLOWED","<li class='notice_error'>This service is currently only available for companies not previously registered in Moblyo. </li>");
 define("NOT_ALLOWED_RETALER","<li class='notice_error'>This retailer already have his own reseller</li>");
 define("NOT_ALLOWED_PATNER","<li class='notice_error'>This is a patner </li>");
 define("ALREADYCCODE","<li class='notice_error'>CCode Already Exist </li>");
