@@ -54,9 +54,32 @@ class activate {
         $rs = mysql_fetch_array($res);
         $data = $rs;
 
-        if (mysql_num_rows($res)) {
-            $actArr['camp'] = 1;
-        } else {
+        if (mysql_num_rows($res)) 
+        {        
+            $actArr['camp'] = 1;            
+            $actArr['advt'] = 0;
+            $actArr['prod'] = 0;
+        } 
+        else                                                                        
+        {                                    
+            $res = $db->query("Select advertise.*,lang_text.text,keyw.text as keyword FROM advertise
+            LEFT JOIN  category_names_lang_list ON  category_names_lang_list.category = advertise.category
+            LEFT JOIN  lang_text ON  lang_text.id = category_names_lang_list.names_lang_list
+            LEFT JOIN  advertise_offer_slogan_lang_list   ON  advertise_offer_slogan_lang_list.advertise_id = advertise.advertise_id
+            LEFT JOIN  advertise_keyword   ON  advertise_keyword.advertise_id = advertise.advertise_id
+            LEFT JOIN  lang_text as sloganT ON  advertise_offer_slogan_lang_list.offer_slogan_lang_list = sloganT.id
+            LEFT JOIN  lang_text as keyw ON  advertise_keyword.offer_keyword = keyw.id
+
+            WHERE u_id='" . $_SESSION['userid'] . "' AND sloganT.lang = lang_text.lang");
+           $rs = mysql_fetch_array($res);
+           $data = $rs;
+             if (mysql_num_rows($res)) {
+                    $actArr['advt'] = 1;
+                    $actArr['camp'] = 0;            
+                    $actArr['prod'] = 0;
+                    
+                }
+            else {
             //echo "Product";
             $query = ("SELECT product.*,lang_text.text as lang,sloganT.text,keyw.text as keyword FROM product
             LEFT JOIN  category_names_lang_list ON  category_names_lang_list.category = product.category
@@ -79,8 +102,11 @@ class activate {
 
             //echo "here"; die();
             $actArr['camp'] = 0;
+            $actArr['advt'] = 0;
+        }
         }
         $data['act_camp'] = $actArr['camp'];
+        $data['act_advt'] = $actArr['advt'];
         $data['act_prod'] = $actArr['prod'];
         return $data;
         exit();

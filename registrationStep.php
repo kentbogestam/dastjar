@@ -3,7 +3,7 @@
 *  Description : To check the state of the user.
 *  Author      : Himanshu Singh  Date: 12th,Nov,2010  Creation
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 if (isset($_SESSION['msg'])) {
 
@@ -113,6 +113,51 @@ buttonLinkAction('<?=$_SESSION['REG_STEP']
                 }
                 ?>
       </div>
+      
+      
+      
+      
+       <div style=" padding:10px;">
+      <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="center"> <b>Would you like to add an Advertise Offer?</b> <a title="<?=ADVERTISE_TEXT?>" class="vtip"><b><small>( ? )</small></b></a></td>
+  </tr>
+</table></div>
+      <table width="100%" border="0">
+        <tr>
+          <td style="padding-top:5px; text-align:center;" align="center" width="63%" id="step3" onClick="javascript:window.location.href='advertiseOffer.php'" class="redwhitebutton_small">Add Advertise Offer</td>
+        </tr>
+      </table>
+      <br>
+      <div id="offer4" style="display: inline;">
+        <?
+                if (isset($_SESSION['MESSAGE']) && $_SESSION['REG_STEP'] == 3) {
+                    echo "!!!!!!!!!!!!!!!";
+                    echo $_SESSION['MESSAGE'];
+                    $_SESSION['MESSAGE']='';
+                    ?>
+        <!--  <script>
+        buttonLinkAction('<?=$_SESSION['REG_STEP']
+                            ?>');
+        </script> -->
+        <?
+                }
+                ?>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       <div>
       <table border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>

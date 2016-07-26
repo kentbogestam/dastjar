@@ -3,7 +3,7 @@
  *  Description : view Store Form
  *  Author      : Deo  Date: 20th,Dec,2010  Creation
  */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $storeObj = new store();
 if (isset($_POST['continue'])) {
@@ -12,7 +12,7 @@ if (isset($_POST['continue'])) {
 } else {
     $storeid = $_GET['storeId']; //die();
     $data = $storeObj->viewStoreDetailById($storeid);
-//echo "<pre>";print_r($data);echo "</pre>";
+//echo "<pre>";print_r($data);echo "</pre>";die();
 }
 $menu = "store";
 $menu = 'class="selected"';
@@ -58,7 +58,7 @@ include_once("main.php");
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td><b>Street Adress:</b></td>
+            <td><b>Street Address:</b></td>
             <td>
                 <?=$data[0]['street'] ?>            </td>
         </tr>
@@ -97,9 +97,7 @@ include_once("main.php");
         <tr>
             <td>&nbsp;</td>
             <td><b>Coupon data:</b></td>
-            <td><?=$data[0]['delivery_method']?>&nbsp;&nbsp;<?=$data[1]['delivery_method']?>&nbsp;&nbsp;
-                <?=$data[2]['delivery_method']?>&nbsp;&nbsp;<?=$data[3]['delivery_method']?>
-
+            <td><?=$data[0]['delivery_method']?>                
             </td>
         </tr>
         <tr>

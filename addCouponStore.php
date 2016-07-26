@@ -3,7 +3,7 @@
  *  Description : Add Campaign Offer Form
  *  Author      : Himanshu Singh  Date: 12th,Nov,2010  Creation
  */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $regObj = new registration();
 $inoutObj = new inOut();
@@ -68,7 +68,7 @@ include("main.php");
                 <INPUT type=text name="titleSlogan" id="titleSlogan" value="<?=$_SESSION['post']['titleSlogan']
     ?>">
                 <a title="<?=TITEL_TEXT
-    ?>" class="vtip"><b><small>see example</small></b></a></br>
+    ?>" class="vtip"><b><small>see example</small></b></a><br/>
                     <div id='error_titleSlogan' class="error"></div></td>
             </tr>
             <tr>
@@ -78,7 +78,7 @@ include("main.php");
                     <INPUT type=text name="subSlogan" id="subSlogan" value="<?=$_SESSION['post']['subSlogan']
     ?>">
                 <a title="<?=DESCRIPTION_TEXT
-    ?>" class="vtip"><b><small>see example</small></b></a></br>
+    ?>" class="vtip"><b><small>see example</small></b></a><br/>
                     <div id='error_subSlogan' class="error"></div></td>
             </tr>
             <tr>
@@ -114,7 +114,7 @@ include("main.php");
 
                     <INPUT type=file name="icon" id="icon">
                     <a title="<?=ICON_TEXT
-                    ?>" class="vtip"><b><small>see example</small></b></a></br>
+                    ?>" class="vtip"><b><small>see example</small></b></a><br/>
                     <div id='error_icon' class="error"></div>
 
                     <div>
@@ -168,7 +168,7 @@ include("main.php");
                         <option <? if ($_SESSION['post']['sponsor'] == 1
 
                                 )echo "selected='selected'"; ?> value="1">Yes</option>
-                    </select> <a title="<?=SPONSOR_TEXT ?>" class="vtip"><b><small>see example</small></b></a></br></td>
+                    </select> <a title="<?=SPONSOR_TEXT ?>" class="vtip"><b><small>see example</small></b></a><br/></td>
             </tr>
 
             <tr>
@@ -176,7 +176,7 @@ include("main.php");
                 <td>Start date of your Coupon :</td>
                 <td>
                     <input type="Text" name="startDate" readonly="readonly" value="<?=$_SESSION['post']['startDate'] ?>" id="startDate" class="startDate dp-applied">
-                    <a title="<?=START_TEXT ?>" class="vtip"><b><small>see example</small></b></a></br>
+                    <a title="<?=START_TEXT ?>" class="vtip"><b><small>see example</small></b></a><br/>
                     <div id='error_startDate' class="error"></div></td>
             </tr>
             <tr>
@@ -184,7 +184,7 @@ include("main.php");
                 <td>End date of your Coupon :</td>
                 <td>
                     <input type="Text" name="endDate" readonly="readonly" value="<?=$_SESSION['post']['endDate'] ?>" id="endDate" class="endDate dp-applied">
-                    <a title="<?=END_TEXT ?>" class="vtip"><b><small>see example</small></b></a></br>
+                    <a title="<?=END_TEXT ?>" class="vtip"><b><small>see example</small></b></a><br/>
                     <div id='error_endDate' class="error"></div></td>
             </tr>
             <tr>

@@ -55,6 +55,7 @@ function buttonLinkAction(regStep)
         document.getElementById("offer1").style.display='inline';
         document.getElementById("thanks").style.display='inline';
         document.getElementById("offer3").style.display='inline';
+        document.getElementById("offer4").style.display='inline';
     }
     else
     if(regStep==4)
@@ -77,6 +78,7 @@ function buttonLinkAction(regStep)
         document.getElementById("offer2").style.display='inline';
         document.getElementById("thanks").style.display='inline';
         document.getElementById("offer3").style.display='inline';
+        document.getElementById("offer4").style.display='inline';
     }else
     if(regStep==5)
     {
@@ -96,6 +98,8 @@ function buttonLinkAction(regStep)
         document.getElementById("offer").style.display='none';
         document.getElementById("offer2").style.display='none';
         document.getElementById("offer3").style.display='none';
+        document.getElementById("offer4").style.display='none';
+        
         document.getElementById("thanks").style.display='none';
         document.getElementById("store").style.display='inline';
         document.getElementById("step7").style.display='none';

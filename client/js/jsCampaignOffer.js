@@ -29,12 +29,13 @@ $(document).ready(function(){
         $("#error_subSlogan").html('');
         $("#error_icon").html('');
         //        $("#error_cat_icon").html('');
-        $("#error_brandName").html('');
+       // $("#error_brandName").html('');
         $("#error_startDate").html('');
         $("#error_endDate").html('');
-        $("#error_linkedCat").html('');
+        //$("#error_linkedCat").html('');
         $("#error_campaignName").html('');
         $("#error_searchKeyword").html('');
+        $("#error_discountValue").html('');
         // $("#error_limitDays").html('');
         $("#error_picture").html('');
         $("#error_descriptive").html('');
@@ -195,6 +196,20 @@ $(document).ready(function(){
             $("#error_searchKeyword").html(errorMsg);
             error = "true";
         }
+	 if(($.trim($("#searchKeyword").val()).length == 0))
+        {
+            var errorMsg = "Please enter one or more Search Keyword<br />";
+            $("#error_searchKeyword").html(errorMsg);
+            error = "true";
+        }
+
+
+        if(($.trim($("#discountValue").val()).length < 1))
+        {
+            var errorMsg = "Please enter discount value.<br />";
+            $("#error_discountValue").html(errorMsg);
+            error = "true";
+        }    
 
 
         //
@@ -583,7 +598,7 @@ function getLangImage(langId){
     $.post('classes/ajx/ajxCommon.php',{
         langId:langId,
         m:"getLangImg",
-        contentType: "application/x-www-form-urlencoded;charset=ISO-8859-15",
+        contentType: "application/x-www-form-urlencoded;charset=utf-8",
     },
     function(data){
 
@@ -678,7 +693,7 @@ function picturePreview(form)
 // delete view campaign
 function delete_campStore(id)
 {
-    if(confirm('Are you sure you want to delete this record?')) {
+    if(confirm('Are you sure you want to delete this record ?')) {
         var url ='commonAction.php?act=deleteViewStore&'+id;
         window.location = url;
     }

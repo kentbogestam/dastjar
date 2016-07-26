@@ -14,7 +14,6 @@ $inoutObj = new inOut();
 
 
 
-
 //$inoutObj = new inOut();
 //if(!isset($_SESSION['userid'])) {
 //    $url = BASE_URL.'login.php';
@@ -50,7 +49,8 @@ $selected_tab_css = ' style="background-color:#ADDFFF" ';
 <li><a <?=$ccode?> href="showCcode.php">CCode</a></li>
 <li><a <?=$import?> href="import.php">Import</a>
 <li><a <?=$delete?> href="showPermntDeleteCampaign.php">Delete</a>
-<li><a <?=$location?> href="locationSupport.php">Add Location</a>
+<li><a <?=$location?> href="locationSupport.php">Location</a>
+<li><a <?=$account?> href="accountSupport.php">Account</a>
 
 
 </ul>

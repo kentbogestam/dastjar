@@ -3,7 +3,7 @@
 *  Description : Edit New User Form
 *  Author      : Deo  Date: 31st,Jan,2011  Creation
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $menu = "user";
 $user = 'class="selected"';
@@ -509,7 +509,7 @@ the link you just just received on your mailbox                    </th>
 <td align="left"class="inner_grid">Phone Number<span class='mandatory'>*</span>:</td>
 <td align="left">
 <INPUT class="text_field_new" type=text name="phone" id="phone"  value="<?=$data[0]['phone']?>">
-<a  title="<?=PHONE_TEXT?>" class="vtip" ><b><small>?</small></b></a></br>
+<a  title="<?=PHONE_TEXT?>" class="vtip" ><b><small>?</small></b></a><br/>
 <div id='error_phone' class="error"></div></td>
 </tr>
 <tr>

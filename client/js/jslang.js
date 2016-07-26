@@ -15,6 +15,7 @@ $(document).ready(function(){
         $("#error_titleSlogan").html('');
         $("#error_subSlogan").html('');
         $("#error_searchKeyword").html('');
+       // $("#error_discountValue").html('');
         
 
 //
@@ -66,7 +67,8 @@ $(document).ready(function(){
             var errorMsg = "Please Enter Your Keyword.<br />";
             $("#error_searchKeyword").html(errorMsg);
             error = "true";
-        }else
+        }
+        else
         if(($.trim($("#searchKeyword").val()).length > 91))
         {
             var errorMsg = "Your Search Keyword exceeds the limit.<br />";
@@ -74,13 +76,7 @@ $(document).ready(function(){
             error = "true";
         }
 
- 
-
-
-
-
-
-        
+                  
 
         if(error=="true")
         {
@@ -333,7 +329,7 @@ function getLangImage($selectedId,langId){
         langId:langId,
         $selectedId:$selectedId,
         m:"getLangSingleImg",
-        contentType: "application/x-www-form-urlencoded;charset=ISO-8859-15",
+        contentType: "application/x-www-form-urlencoded;charset=utf-8",
     },
     function(data){
 

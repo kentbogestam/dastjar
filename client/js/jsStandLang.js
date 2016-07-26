@@ -315,7 +315,7 @@ function getLangImage($selectedId,langId){
         langId:langId,
         $selectedId:$selectedId,
         m:"getLangSingleImg",
-        contentType: "application/x-www-form-urlencoded;charset=ISO-8859-15",
+        contentType: "application/x-www-form-urlencoded;charset=utf-8",
     },
     function(data){
 

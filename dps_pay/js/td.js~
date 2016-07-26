@@ -1,0 +1,62 @@
+
+var service;
+var target_id;
+var rt_time;
+var detection_mode;
+var sequence_id;
+var message={};
+
+
+function getRD(){
+device="td";
+service="coupon, payment, valuecheck";
+storeId="d76d54db2c04778a012c0477ef910029";
+rt_time=0.1;
+detection_mode="mouseDown";
+sequence_id=1;
+target_id=storeId;
+// Check if there is an ID in the request if not add storeID 
+//target_id==SharedId || storeId
+message={ "posID" : 24356677};
+//getLocation();
+
+var mylat=59.3049227;
+var mylong=17.9918352;
+var myaccuracy=1;
+
+xmlhttp=new XMLHttpRequest();
+var url="td_dps.php";
+url=url+"?long=";
+url=url+mylong;
+url=url+"&lat="+ mylat;
+url=url+"&acc="+ myaccuracy + "&service=" + service + "&device=" + device + "&target_id=" + target_id + "&rt_time=" + rt_time + "&detection_mode=" + detection_mode + "&sequence_id=" + sequence_id;
+xmlhttp.open("POST",url,false);
+xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+xmlhttp.send(JSON.stringify(message));
+var respons=JSON.parse(xmlhttp.responseText);
+var card=respons.card[0].cardId;
+var card1=respons.card[1].cardId;
+var target_id=respons.target_id;
+document.getElementById('res').innerHTML="<p>Received: card: " + card + " , " + card1 + "</p>";
+
+if (target_id){
+	var key2='h&+iye[5GwmSPaD+#9Ca$A*bf&#vKnHS';
+	var key1='Kaf(U9}kNzYWM2A.t^r~qF1rh1dQcZ3h';
+
+//	var MYKEY="<?php $key2='h&+iye[5GwmSPaD+#9Ca$A*bf&#vKnHS'; $key1='Kaf(U9}kNzYWM2A.t^r~qF1rh1dQcZ3h'; $MYKEY=md5($key2 . md5($key1 . "merchant=90053980&orderid=400&currency=752&amount=10000")); echo $MYKEY ?>";
+	//var MYKEY=rstr2hex(key2 + rstr2hex(key1 + "merchant=90053980&orderid=491&currency=752&amount=125"));
+xmlhttp=new XMLHttpRequest();
+var sequence_id=3;
+var accept="yes" ;
+var url="td_respons.php";
+url=url + "?accept=" +accept + "&sequence_id=" + sequence_id + "&target_id=" + target_id + "&device=" + device;
+//message={ "service" : "payment", "posID" : 24356677, "url" : "https://payment.architrade.com/paymentweb/start.action", "method" : "post", "merchant" : 90053980, "amount" : 125, "accepturl" : "deva.cumbari.com/test/makePayment.php", "orderid" : 491, "currency" : 752, "test" : "yes", "lang" : "se", "md5key" : MYKEY};
+message={ "service" : "payment", "posID" : 24356677, "url" : "makeFastPayment.php", };
+
+xmlhttp.open("POST",url,false);
+xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+xmlhttp.send(JSON.stringify(message));
+var answer=xmlhttp.responseText;
+}
+
+}

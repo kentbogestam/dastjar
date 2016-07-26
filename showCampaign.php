@@ -6,12 +6,16 @@
 *   Date        : 27th,Dec,2010  Creation
 */
 ob_start();
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
+
+
 //////////////////check temp value
 $regObj = new registration();
 
 $tempValue = $regObj->checkTempValue();
+
+
 if($tempValue)
 {
   $tempValueArray = explode('#',$tempValue);
@@ -34,17 +38,28 @@ if ($_GET['m'] == "showcampoffer")
     $outdated = 'checked="checked"';
 else
     $show = 'checked="checked"';
+
+
+
+
 include("main.php");
 include("Paging.php");
 #$pager = new pager(10,10 , @$_GET['_p']); 
 
 ob_start();
 //echo "In"; die();
+
+
+
 if ($_SESSION['userid']) {
+
     $offerObj = new offer();
+	
     $records_per_page = PAGING;
     $total_records = $offerObj->showCampaignOffersDetailsRows();
-//echo $total_records;
+
+
+
     $pager = new pager($total_records, $records_per_page, @$_GET['_p']);
     $paging_limit = $pager->get_limit();
     $data = $offerObj->showCampaignOffersDetails($paging_limit);
@@ -60,6 +75,7 @@ if ($_SESSION['userid']) {
 <link href="lib/grid/css/grid.css" rel="stylesheet" type="text/css" />
 <link href="client/css/stylesheet123.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" src="lib/grid/js/grid.js" type="text/javascript"></script>
+<script language="JavaScript" src="client/js/account.js" type="text/javascript"></script>
 <body class="center">
 <div class="center">
     <div id="msg" align="center" class="center">
@@ -149,7 +165,7 @@ if ($_SESSION['userid']) {
                                                                 </tr>
 
                                                             </table>                                                      </td>
-                                                        <td width="24%" align="left" valign="top"><div align="center" class="main_bg"  ><a href="createCampaign.php" >ADD CAMPAIGN OFFER</a></div>                                                        </td>
+                                                        <td width="24%" align="left" valign="top"><div align="center" class="main_bg"  ><a onClick="checkStatus('createCampaign.php')" href="#"  >ADD CAMPAIGN OFFER</a></div>                                                        </td>
                                                   </tr>
                                                     
                                                 </table>
@@ -198,7 +214,7 @@ if ($_SESSION['userid']) {
 
 <!--<td width="8%" class="bg_darkgray1"><strong>Keywords</strong></td>
 <td width="6%" height="25" class="bg_darkgray1" align="center"><strong>Category</strong></td>-->
-                                                        <td width="12%" height="20" align="center" class="bg_darkgray1">Sponsored</td>
+                                                       <!-- <td width="8%" height="20" align="center" class="bg_darkgray1">Sponsored</td>-->
                                                         <td width="11%" height="20" class="bg_darkgray1">Start Date</td>
                                                     <td width="11%" height="20" class="bg_darkgray1">End Date</td>
                                                     <td width="11%" height="20" class="bg_darkgray1">Keywords</td>
@@ -207,7 +223,7 @@ if ($_SESSION['userid']) {
 
 
 
-                                                    <td width="14%" height="20" align="center" class="bg_darkgray1">Action</td>
+                                                    <td width="28%" height="20" align="center" class="bg_darkgray1">Action</td>
                                                   </tr>
 
     <?php
@@ -227,7 +243,7 @@ if ($_SESSION['userid']) {
                                                         <td align="center"><img src="<?php echo $data1['small_image'] ?>" height="30" width="30"/></td>
                                                         <!--<td align="center"><?php echo $data1['keyword']; ?></td>
                                                         <td align="center"><?php echo $data1['category']; ?></td>-->
-                                                        <td align="center"><?=($data1['spons'] == 0 ? "No" : "Yes"); ?></td>
+                                                      <!--  <td align="center"><?=($data1['spons'] == 0 ? "No" : "Yes"); ?></td>-->
         <?  $d=$data1['start_of_publishing'];
                                                                 //$date = date_create($d);
                                                                 $timeStamp = explode(" ",$d);
@@ -257,15 +273,13 @@ if ($_SESSION['userid']) {
                                                         <td align="center" valign="middle" class="bg_lightgray" >
                                                         
                                                         <table border="0" align="center" cellpadding="0" cellspacing="0">
-                                                  <tr>
+                                                   <tr>
                                                     <td><div class="action-btn1"><a href="viewCampaign.php?campaignId=<?=$data1['campaign_id'];
         ?>" class="a2" title="View"><img src="lib/grid/images/view.gif" width="11" height="11"></a></div><div class="action-btn1"><a href="editCampaign.php?campaignId=<?=$data1['campaign_id'];
-            ?>" class="a2" title="Edit"> <img src="lib/grid/images/edite.gif" width="15" height="15"></a></div><div class="action-btn2"><a href="<?=BASE_URL . 'addStore.php?campaignId=' . $data1['campaign_id']?>" class="a2" title="Add Location"> <img src="lib/grid/images/active.gif" width="14" height="12"></a></div></td>
-                                                  </tr>
-                                                  <tr>
-                                                    <td><div class="action-btn1"><a href="<?=BASE_URL . 'inviteRetailersCamp.php?campaignId=' . $data1['campaign_id']?>" class="a2" title="Mail To Retailers"> <img src="lib/grid/images/deactive.gif" width="14" height="12"></a></div><div class="action-btn1"><a href="javascript:delete_rec('campaignId=<?=$data1['campaign_id']; ?>')" onClick="" class="a2" title="Delete">
+            ?>" class="a2" title="Edit"> <img src="lib/grid/images/edite.gif" width="15" height="15"></a></div><div class="action-btn1"><a href="<?=BASE_URL . 'addStore.php?campaignId=' . $data1['campaign_id']?>" class="a2" title="Add Location"> <img src="lib/grid/images/active.gif" width="14" height="12"></a></div><div class="action-btn1"><a href="<?=BASE_URL . 'inviteRetailersCamp.php?campaignId=' . $data1['campaign_id']?>" class="a2" title="Mail To Retailers"> <img src="lib/grid/images/deactive.gif" width="14" height="12"></a></div><div class="action-btn1"><a href="javascript:delete_rec('campaignId=<?=$data1['campaign_id']; ?>')" onClick="" class="a2" title="Delete">
                                                                 <img src="lib/grid/images/delete.gif" width="11" height="11"></a></div><div class="action-btn2"><a href="<?=BASE_URL . 'addLanguage.php?campaignId=' . $data1['campaign_id']?>" class="a2" title="Add Language"> <img src="lib/grid/images/lang.png" width="16" height="16"></a></div></td>
                                                   </tr>
+                                                 
                                                 </table></td>
                                                   </tr>
         <?

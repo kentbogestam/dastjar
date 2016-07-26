@@ -3,7 +3,7 @@
  *  Description : Add Campaign Offer Form
  *  Author      : Himanshu Singh  Date: 12th,Nov,2010  Creation
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $offerObj = new offer();
 
@@ -64,7 +64,7 @@ $data[0]['lang'] = $lang;
 <script language="JavaScript" src="client/js/jquery.datePicker.js" type="text/javascript"></script>
 <script language="JavaScript" src="client/js/ajaxupload.js" type="text/javascript"></script>
 <script language="JavaScript" src="client/js/jsCampaignOffer.js" type="text/javascript"></script>
-<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+<META http-equiv="Content-Type" content="text/html; charset=utf-8">
 <style type="text/css">
 <!--
 .style4 {

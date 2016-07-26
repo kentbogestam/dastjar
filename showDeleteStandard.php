@@ -3,7 +3,7 @@
 *  Description : Show Standard Form
 *  Author      : Himanshu Singh
 * Date         : 6th,Dec,2010  Creation
-*/header('Content-Type: text/html; charset=ISO-8859-15');
+*/header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $menu = "offer";
 $offer = 'class="selected"';

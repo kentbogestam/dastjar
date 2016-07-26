@@ -196,14 +196,3 @@ img { border: none; }
 .top_h3 { margin-top:20px; font-size: 22px; color: #851B22; font-weight: bold; margin-bottom: 10px; float: left; width: 100%; text-align: left; }
 .td_pad_left { padding-top:5px; padding-bottom:5px; padding-left:20px; text-align:left; }
 .td_pad_right { padding-top:5px; padding-bottom:5px; padding-right:20px; text-align:left; }
-input.button {
-    background-image: url("../../images/buttons.png");
-    background-repeat: no-repeat;
-    border: medium none;
-    color: #FFFFFF;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-    height: 41px;
-    width: 151px;
-}

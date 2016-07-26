@@ -63,7 +63,7 @@ else
 <script language="JavaScript" src="client/js/jquery.bgiframe.js" type="text/javascript"></script>
 <script language="JavaScript" src="client/js/jquery.datePicker.js" type="text/javascript"></script>
 <script language="JavaScript" src="client/js/ajaxupload.js" type="text/javascript"></script>
-<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+<META http-equiv="Content-Type" content="text/html; charset=utf-8">
 <!--<script language="JavaScript" src="client/js/jsCampaignOffer.js" type="text/javascript"></script>-->
 <style type="text/css">
     <!--

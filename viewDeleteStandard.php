@@ -3,7 +3,7 @@
 *  Description : To view Product created by a Particular User
 *  Author      : Himanshu Singh  Date: 12th,Nov,2010  Creation
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $menu = "standard";
 $standard = 'class="selected"';
@@ -40,7 +40,7 @@ else {
 <script type="text/javascript" src="lib/see example/js/vtip.js"></script>
 <link rel="stylesheet" type="text/css" href="lib/see example/css/vtip.css" />
 <link href="lib/grid/css/grid.css" rel="stylesheet" type="text/css" />
-<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+<META http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 <style type="text/css">
     body { margin: 100px }

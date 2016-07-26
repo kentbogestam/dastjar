@@ -419,9 +419,9 @@ class inOut {
 		unset($_SESSION['MAIL_URL']);
 		unset($_SESSION['createStore']);
         unset($_SESSION['ccode']);
-        //unset($_SESSION['temp_campId']);
-        //unset($_SESSION['temp_ccode']);
-        //unset($_SESSION['temp_uId']);
+        unset($_SESSION['temp_campId']);
+        unset($_SESSION['temp_ccode']);
+        unset($_SESSION['temp_uId']);
       
         $_SESSION['MESSAGE']=LOGOUT_MESSAGE;
         $url = BASE_URL.'index.php';

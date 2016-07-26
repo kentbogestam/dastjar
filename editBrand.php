@@ -3,7 +3,7 @@
  *  Description : Edit Brand Form
  *  Author      : Deo  Date: 31th,march,2011  Creation
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 ob_start();
 include_once("cumbari.php");
 $menu = "brand";
@@ -73,7 +73,7 @@ if (($_POST['submit'])) {
                     ?>
                     <INPUT type=file name="picture" id="picture">
                     <a  title="<?=BRANDICON_TEXT
-                                ?>" class="vtip"><b><small>?</small></b></a></br>
+                                ?>" class="vtip"><b><small>?</small></b></a><br/>
                     <div id='error_picture' class="error"></div></td>
                 <td><img></td>
             </tr>

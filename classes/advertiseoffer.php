@@ -1,6 +1,6 @@
 <?php
 
-//header('Content-Type: text/html; charset=ISO-8859-15');
+//header('Content-Type: text/html; charset=utf-8');
 //include('lib/resizer/resizer.php');
 
 class advertiseoffer {
@@ -227,7 +227,7 @@ class advertiseoffer {
             }
         }
 
-        #  Print_r($_POST); die();
+         // print_r($_POST); die();
         // Upload category icon file////
         $CategoryIconName = "cat_icon_" . time();
         $info = pathinfo($_FILES["icon"]["name"]);

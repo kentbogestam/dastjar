@@ -3,7 +3,7 @@
  *  Description : Add Company Form
  *  Author      : Himanshu Singh  Date: 12th,Nov,2010  Creation
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $regObj = new registration();
 $regObj->isValidRegistrationStep();
@@ -104,6 +104,7 @@ include_once("header.php");
                                                     <INPUT class="text_field_new" type=text name="storeName" id ="storeName" value="<?=$data[0]['company_name']
                                                                    ?>">
                                                     <div id='error_storeName' class="error"></div>          </td>
+                                                 <td align="right"><a title="<?=NAME_OF_LOCATION_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
                                             </tr>
                                             <tr>
 
@@ -112,7 +113,9 @@ include_once("header.php");
                                                 <td width="47%" align="left">
                                                     <INPUT class="text_field_new" type=text name="email" id ="email" value="<?=$data1[0]['email']
                                                                    ?>">
-                                                    <div id='error_email' class="error"></div>                                    </td>
+                                                    <div id='error_email' class="error"></div></td>
+                                                 <td align="right"><a title="<?=STORE_EMAIL_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
+                                                
                                             </tr>
                                             <tr>
 
@@ -120,6 +123,7 @@ include_once("header.php");
                                                 <td align="left">
                                                     <INPUT class="text_field_new" type=text name="link" id ="link" >
                                                     <div id='error_link' class="error"></div>                                    </td>
+                                                 <td align="right"><a title="<?=LINK_TO_THE_LOCATION_HOME_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
                                             </tr>
                                             <tr>
 
@@ -127,16 +131,36 @@ include_once("header.php");
                                                 <td align="left">
                                                     <INPUT class="text_field_new" type=text name="phoneNo" id ="phoneNo">
                                                     <div id='error_phoneNo' class="error"></div>                                    </td>
+                                                
+                                                <td align="right"><a title="<?=PHONE_NUMBER_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
                                             </tr>
                                             <tr>
 
                                                 <td >Select a method for receiving Coupon data:</td>
                                                 <td>
-            <input type="checkbox" name="BARCODE" value="BARCODE"/>BARCODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <table border="0" cellspacing="0" cellpadding="0">
+                                                    <tr>
+                                                      <td><input type="checkbox" name="BARCODE" value="BARCODE"/>BARCODE</td>
+                                                      <td><input type="checkbox" name="DPS" value="DPS" />DPS</td>
+                                                      <td><input type="checkbox" name="PINCODE" value="PINCODE" disabled  checked />PINCODE</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td nowrap="nowrap"><input type="checkbox" name="MANUAL_SWIPE" value="MANUAL_SWIPE" disabled checked />MANUAL SWIPE</td>    
+                                                      <td nowrap="nowrap"><input type="checkbox" name="TIME_LIMIT" value="TIME_LIMIT" disabled checked />TIME LIMIT</td>
+                                                      <td >&nbsp;</td>
+                                                    </tr>
+
+                                                  </table>    
+                                                    
+                                                    
+                                            <!--  <input type="checkbox" name="BARCODE" value="BARCODE"/>BARCODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                              <input type="checkbox" name="DPS" value="DPS" />DPS&nbsp;&nbsp;
             <input type="checkbox" name="PINCODE" value="PINCODE" disabled  checked />PINCODE&nbsp;&nbsp;<br/>
             <input type="checkbox" name="MANUAL_SWIPE" value="MANUAL_SWIPE" disabled checked />MANUAL SWIPE&nbsp;&nbsp;
             <input type="checkbox" name="TIME_LIMIT" value="TIME_LIMIT" disabled checked />TIME LIMIT&nbsp;&nbsp;
+                                              -->
             </td>
+                                               <td align="right"><a title="<?=METHOD_FOR_RECEIVING_COUPON_DATA_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
                                             </tr>
                                             
                                         </table></td>
@@ -152,12 +176,14 @@ include_once("header.php");
                                                 <td width="47%" align="left"><input class="text_field_new" type="text" name="streetaddStore" id ="streetaddStore" value="<?=$data[0]['street']
                                                                                ?>" onChange="initialize()" />
                                                  		<div id='error_address' class="error"></div>                                                </td>
+                                                 <td align="right"><a title="<?=STREET_ADDRESS_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
                                             </tr>
                                             <tr>
                                                 <td height="32">City<span class='mandatory'>*</span>:</td>
                                                 <td align="left"><input class="text_field_new" type="text" name="cityStore" id ="cityStore" value="<?=$data[0]['city']
                                                                    ?>" onChange="initialize()" />
                                                		<div id='error_cityStore' class="error"></div>                                                </td>
+                                                     <td align="right"><a title="<?=CITY_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
                                             </tr>
                                             <tr>
                                                 <td height="22">Country<span class='mandatory'>*</span>:</td>
@@ -186,6 +212,7 @@ include_once("header.php");
 
 
                                                 <div id='error_countryStore' class="error"></div>                                                </td>
+                                                 <td align="right"><a title="<?=COUNTRY_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
                                             </tr>
 
                                              <tr>
@@ -193,6 +220,7 @@ include_once("header.php");
                                                 <td align="left"><input class="text_field_new" type="text" name="chain" id ="chain" value="<?=$data[0]['chain']
                                                                    ?>" />
                                                		<div id='error_chain' class="error"></div>                                                </td>
+                                                <td align="right"><a title="<?=CHAIN_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
                                             </tr>
 
                                              <tr>
@@ -200,6 +228,7 @@ include_once("header.php");
                                                 <td align="left"><input class="text_field_new" type="text" name="block" id ="block" value="<?=$data[0]['block']
                                                                    ?>" />
                                                		<div id='error_block' class="error"></div>                                                </td>
+                                                <td align="right"><a title="<?=BLOCK_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
                                             </tr>
 
                                              <tr>
@@ -207,11 +236,13 @@ include_once("header.php");
                                                 <td align="left"><input class="text_field_new" type="text" name="zip" id ="zip" value="<?=$data[0]['zip']
                                                                    ?>" />
                                                		<div id='error_zip' class="error"></div>                                                </td>
+                                                 <td align="right"><a title="<?=ZIP_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
                                             </tr>
                                             
                                             <tr>
                                             		<td height="22" valign="top">Map<span class='mandatory'>*</span>:</td>
                                             		<td><table width="71%" border="0">
+                                                             
                                             <tr>
 
                                                 <td width="100%"><div id="map_msg"></div></td>
@@ -219,6 +250,7 @@ include_once("header.php");
                                             <tr>
 
                                                 <td><div id="map_canvas" style="height:320px; width:400px;  border: solid 1px;"></div></td>
+                                                 <td align="right" valign="top"><a title="<?=MAP_TEXT?>" class="vtip"><b><small>?</small></b></a></td>   
                                             </tr>
                                             
                                          <!--   <tr>

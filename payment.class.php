@@ -11,7 +11,7 @@ class payment_class {
        
       // initialization constructor.  Called when class is created.
       
-      $this->action_url = 'https://payment.architrade.com/paymentweb/start.action';
+//      $this->action_url = 'https://payment.architrade.com/paymentweb/start.action';
       
       $this->last_error = '';
       $this->ipn_log_file = 'ipn_log.txt';

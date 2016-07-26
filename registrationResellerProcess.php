@@ -6,7 +6,7 @@
  *  Author      : Himanshu Singh  Date: 12th,Nov,2010  Creation
 */
 ob_start();
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 require_once('lib/captcha/recaptchalib.php');
 //echo "sdsad"; die();
@@ -126,7 +126,7 @@ if (!isset($_SESSION['userid']) && !isset($_SESSION['REG_STEP'])) {
                 <td align="left">Password <font size="2">(Password should have atleast six characters, with atleast one number or one Upper case character)</font><span class='mandatory'>*</span></td>
             <td align="left">
                 <INPUT class="text_field_new" type=password name="pwd" id="pwd"  value="<? echo $_SESSION['post']['pwd']; ?>">
-                <a  title="<?=PASS_TEXT ?>" class="vtip"><b><small>?</small></b></a></br>
+                <a  title="<?=PASS_TEXT ?>" class="vtip"><b><small>?</small></b></a><br/>
                 <div id='error_pwd' class="error"></div></td>
             </tr>
             <tr>
@@ -574,7 +574,7 @@ if (!isset($_SESSION['userid']) && !isset($_SESSION['REG_STEP'])) {
                 <td align="left">Phone Number<span class='mandatory'>*</span></td>
             <td align="left">
                 <INPUT class="text_field_new" type=text name="phone" id="phone"  value="<?=$_SESSION['post']['phone'] ?>">
-                <a  title="<?=PHONE_TEXT ?>" class="vtip" ><b><small>?</small></b></a></br>
+                <a  title="<?=PHONE_TEXT ?>" class="vtip" ><b><small>?</small></b></a><br/>
                 <div id='error_phone' class="error"></div></td>
             </tr>
             

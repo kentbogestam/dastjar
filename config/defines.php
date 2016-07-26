@@ -22,7 +22,7 @@ define("ERROR_PHONE_MOBILE","<li class='notice_error'>Please Enter atleast one n
 define("ERROR_STREET","<li class='notice_error'>Please Enter Street Address. </li>");
 define("ERROR_CITY","<li class='notice_error'>Please Enter City. </li>");
 define("ERROR_ZIP","<li class='notice_error'>Please Enter Zip. </li>");
-define("ERROR_COUNTRY","<li class='notice_error'>Please Select Country. </li>");
+define("ERROR_COUNTRY_SELECT","<li class='notice_error'>Please Select Country. </li>");
 define("ERROR_SOCIAL_NUMBER","<li class='notice_error'>Please Enter Social Number. </li>");
 define("ERROR_BANK_AC_NUMBER","<li class='notice_error'>Please Enter Bank Account Number. </li>");
 
@@ -48,6 +48,9 @@ define("ERROR_CATEGORY","<li class='notice_error'>Please select a Category that 
 define("ERROR_START_OF_PUBLISHING","<li class='notice_error'>Please enter the start date of your Campaign.</li>");
 define("ERROR_END_OF_PUBLISHING","<li class='notice_error'>Please enter the end date of your Campaign.</li>");
 define("ERROR_CAMPAIGN_NAME","<li class='notice_error'>Please enter a Campaign name.</li>");
+define("ERROR_DISCOUNT_VALUE","<li class='notice_error'>Please enter a Campaign Value.</li>");
+
+
 define("ERROR_START_DATE","<li class='notice_error'>Please enter a start time for your Campaign Limitation.</li>");
 define("ERROR_END_DATE","<li class='notice_error'>Please enter a end time for your Campaign Limitation.</li>");
 define("ERROR_LIMIT_DAYS","<li class='notice_error'>Please limit the Campaign to following days.</li>");
@@ -80,6 +83,8 @@ define("DEACTIVE_DELETE","<li class='notice_error'>You cannot Delete this Locati
 
 
 define("CAMPAIGN_OFFER_SUCCESS","<li class='notice_success'>You have successfully submited your campaign offer details.</li>");
+// Added 
+define("ADVERTISE_OFFER_SUCCESS","<li class='notice_success'>You have successfully submited your advertise offer details.</li>");
 define("INSUFFICIENT_BALANCE","<li class='notice_error'>You have insufficient balance to add a Sponsored Offer.</li>");
 define("COUPON_OFFER_SUCCESS","<li class='notice_success'>You have successfully added your Location.</li>");
 define("LOGIN_PLEASE","<li class='notice_error'>Please login to the next process.</li>");
@@ -128,5 +133,16 @@ define("NOT_ALLOWED","<li class='notice_error'>This service is currently only av
 define("NOT_ALLOWED_RETALER","<li class='notice_error'>This retailer already have his own reseller</li>");
 define("NOT_ALLOWED_PATNER","<li class='notice_error'>This is a patner </li>");
 define("ALREADYCCODE","<li class='notice_error'>CCode Already Exist </li>");
+
+
+//Related to advertise .
+
+define("ERROR_ADVERTISE_SPONSORS","<li class='notice_error'>Do you want to sponsor your Advertise 'Yes' or 'No'.</li>");
+define("ERROR_ADVERTISE_START_OF_PUBLISHING","<li class='notice_error'>Please enter the start date of your Advertise.</li>");
+define("ERROR_ADVERTISE_END_OF_PUBLISHING","<li class='notice_error'>Please enter the end date of your Advertise.</li>");
+define("ERROR_ADVERTISE_NAME","<li class='notice_error'>Please enter a Advertise name.</li>");
+//define("ERROR_ADVERTISE_START_DATE","<li class='notice_error'>Please enter a start time for your Advertise Limitation.</li>");
+//define("ERROR_ADVERTISE_END_DATE","<li class='notice_error'>Please enter a end time for your Advertise Limitation.</li>");
+//define("ERROR_ADVERTISE_LIMIT_DAYS","<li class='notice_error'>Please limit the Advertise to following days.</li>");
 
 ?>

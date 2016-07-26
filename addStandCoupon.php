@@ -3,7 +3,7 @@
  *  Description : Standard Offer Form
  *  Author      : Himanshu Singh  Date: 25th,Nov,2010  Creation
  */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $menu = "standard";
 $standard = 'class="selected"';
@@ -77,7 +77,7 @@ include_once("header.php");
                                 <INPUT class="text_field_new" type=text name="titleSloganStand" id="titleSloganStand" value="<?=$_SESSION['post']['titleSloganStand']
     ?>">
                                 <a title="<?=STITLE_TEXT
-    ?>" class="vtip"><b><small>?</small></b></a></br>
+    ?>" class="vtip"><b><small>?</small></b></a><br/>
                                     <div id='error_titleSloganStand' class="error"></div></td>
                                 <td>&nbsp;</td>
                             </tr>
@@ -87,7 +87,7 @@ include_once("header.php");
                                     <INPUT class="text_field_new" type=text name="price" id="price" value="<?=$_SESSION['post']['price']
     ?>">
                                 <a title="<?=PRICE_TEXT
-    ?>" class="vtip"><b><small>?</small></b></a></br></td>
+    ?>" class="vtip"><b><small>?</small></b></a><br/></td>
                                 <td>&nbsp;</td>
                             </tr>
                             <tr>
@@ -119,7 +119,7 @@ include_once("header.php");
                                     </div>
                                     <INPUT class="text_field_new" type=file name="icon" id="icon">
                                     <a title="<?=ICON_TEXT
-                                        ?>" class="vtip"><b><small>?</small></b></a></br>
+                                        ?>" class="vtip"><b><small>?</small></b></a><br/>
                                      <div id='error_icon' class="error"></div>
                                      <div>
                                          <input class="text_field_new" type="hidden" id="selected_image" name="selected_image" value="0">
@@ -193,7 +193,7 @@ include_once("header.php");
                             ?>
                             <INPUT class="text_field_new" type=file name="picture" id="picture">
                             <a title="<?=SPICTURE_TEXT
-                            ?>" class="vtip"><b><small>?</small></b></a></br>
+                            ?>" class="vtip"><b><small>?</small></b></a><br/>
                             <div id='error_picture' class="error"></div></td>
                     </tr>
                     <tr>
@@ -203,7 +203,7 @@ include_once("header.php");
                             <TEXTAREA class="text_field_new" NAME="descriptiveStand" id="descriptiveStand" COLS=30 ROWS=4 value="<?=$_SESSION['post']['descriptiveStand']
                             ?>"></TEXTAREA>
                             <a title="<?=SDESCRIPTION_TEXT
-                            ?>" class="vtip"><b><small>?</small></b></a></br>
+                            ?>" class="vtip"><b><small>?</small></b></a><br/>
                                    <div id='error_descriptiveStand' class="error"></div></td>
                            </tr>
                            <tr>

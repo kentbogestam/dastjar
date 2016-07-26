@@ -3,7 +3,7 @@
  *  Description : Edit Store Form
  *  Author      : Deo  Date: 17th,Dec,2010  Creation
  */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $inoutObj = new inOut();
 $storeObj = new store();
@@ -62,6 +62,7 @@ include_once("main.php");
       <td width="415" >
         <INPUT class="text_field_new"  type=text name="storeName" id ="storeName" value="<?=$data[0]['store_name']
 ?>"><div id='error_storeName' class="error"></div>            </td>
+       <td align="right"><a title="<?=NAME_OF_LOCATION_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
       </tr>
         <tr>
           
@@ -69,6 +70,7 @@ include_once("main.php");
             <td>
                 <INPUT class="text_field_new" type=text name="email" value="<?=$data[0]['email']
 ?>" id ="email"><div id='error_email' class="error"></div>            </td>
+            <td align="right"><a title="<?=STORE_EMAIL_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
         </tr>
         <tr>
        
@@ -76,6 +78,8 @@ include_once("main.php");
             <td>
                 <INPUT class="text_field_new" type=text name="phoneNo"  value="<?=$data[0]['phone']
 ?>" id ="phoneNo"><div id='error_phoneNo' class="error"></div>            </td>
+             <td align="right"><a title="<?=PHONE_NUMBER_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
+            
         </tr>
         <tr>
             
@@ -83,6 +87,7 @@ include_once("main.php");
             <td>
                 <INPUT class="text_field_new" type=text name="streetaddStore" id ="streetaddStore" value="<?=$data[0]['street']
 ?>" onChange="initialize()"><div id='error_streetaddStore' class="error" ></div>            </td>
+            <td align="right"><a title="<?=STREET_ADDRESS_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
         </tr>
         <tr>
             
@@ -90,6 +95,7 @@ include_once("main.php");
             <td>
                 <INPUT class="text_field_new" type=text name="cityStore" id ="cityStore" value="<?=$data[0]['city']
 ?>" onChange="initialize()"><div id='error_cityStore' class="error" ></div>            </td>
+             <td align="right"><a title="<?=CITY_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
         </tr>
         <tr>
             
@@ -118,6 +124,7 @@ include_once("main.php");
 					 </select>
 
                 <div id='error_countryStore' class="error" ></div>            </td>
+             <td align="right"><a title="<?=COUNTRY_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
         </tr>
 
         <tr>
@@ -126,6 +133,7 @@ include_once("main.php");
             <td>
                 <INPUT class="text_field_new" type=text name="chain" id ="chain" value="<?=$data[0]['chain']
 ?>" ><div id='error_chain' class="error" ></div>            </td>
+            <td align="right"><a title="<?=CHAIN_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
         </tr>
 
         <tr>
@@ -134,6 +142,7 @@ include_once("main.php");
             <td>
                 <INPUT class="text_field_new" type=text name="block" id ="block" value="<?=$data[0]['block']
 ?>" ><div id='error_block' class="error" ></div>            </td>
+              <td align="right"><a title="<?=BLOCK_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
         </tr>
 
         <tr>
@@ -142,27 +151,46 @@ include_once("main.php");
             <td>
                 <INPUT class="text_field_new" type=text name="zip" id ="zip" value="<?=$data[0]['zip']
 ?>" ><div id='error_zip' class="error" ></div>            </td>
+             <td align="right"><a title="<?=ZIP_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
         </tr>
         <tr>
             
             <td class="inner_grid"> Select a method for receiving <br />
             		Coupon data<span class='mandatory'>*</span>:
 			</td>
-        <?  $barcode = $storeObj->getCouponDeliveryById($storeid);?>
-                 
-            <td>
-              <? if( $barcode == 'BARCODE')
+        <?  $barcode = $storeObj->getCouponDeliveryById($storeid);
+            $dps = $storeObj->getCouponDeliveryByIdDPS($storeid); 
+          if( $barcode == 'BARCODE')
               {
                   $check = 'checked';
               }else
               {
                   $check = '';
-              } ?>
-            <input type="checkbox" name="BARCODE" value="BARCODE" <? echo $check; ?>/>BARCODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="checkbox" name="PINCODE" value="PINCODE" disabled  checked />PINCODE&nbsp;&nbsp;<br/>
-            <input type="checkbox" name="MANUAL_SWIPE" value="MANUAL_SWIPE" disabled checked />MANUAL SWIPE&nbsp;&nbsp;
-            <input type="checkbox" name="TIME_LIMIT" value="TIME_LIMIT" disabled checked />TIME LIMIT&nbsp;&nbsp;
+              } 
+         ?>
+        
+                 
+            <td>
+            <table border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td><input type="checkbox" name="BARCODE" value="BARCODE"  <? echo $check; ?> />BARCODE</td>
+                  <td><input type="checkbox" name="DPS" value="DPS" <?=($dps == "DPS"?"checked":"")?> />DPS</td>
+                  <td><input type="checkbox" name="PINCODE" value="PINCODE" disabled  checked />PINCODE</td>
+                </tr>
+                <tr>
+                  <td nowrap="nowrap"><input type="checkbox" name="MANUAL_SWIPE" value="MANUAL_SWIPE" disabled checked />MANUAL SWIPE</td>    
+                  <td nowrap="nowrap"><input type="checkbox" name="TIME_LIMIT" value="TIME_LIMIT" disabled checked />TIME LIMIT</td>
+                  <td >&nbsp;</td>
+                </tr>
+
+              </table>                                                    
+                
+                
+             
+       
             </td>
+             <td align="right"><a title="<?=METHOD_FOR_RECEIVING_COUPON_DATA_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
+            
             </tr>
         <tr>
             
@@ -170,6 +198,7 @@ include_once("main.php");
             <td>
                 <INPUT class="text_field_new" type=text name="link"  value="<?=$data[0]['store_link']
 ?>" id ="link" ><div id='error_link' class="error"></div>            </td>
+             <td align="right"><a title="<?=LINK_TO_THE_LOCATION_HOME_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
         </tr>
                         <tr>
              
@@ -186,6 +215,7 @@ include_once("main.php");
             <td width="592" valign="top">Map
             		<span class='mandatory'>*</span>:</td>
           <td><div id="map_canvas" style="height:320px; width:400px; border: 1px solid #99999b;"></div></td>
+           <td align="right" valign="top"><a title="<?=MAP_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
           
         </tr>
        <tr> <td></td>

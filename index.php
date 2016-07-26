@@ -1,4 +1,5 @@
 <?php
+
 //phpinfo();
 /*  File Name   : index.php
  *  Description : index file 
@@ -10,4 +11,3 @@
     include_once("home.php");
 	 
 ?>
-

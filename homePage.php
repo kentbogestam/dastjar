@@ -3,7 +3,7 @@
 *  Description : Add Company Form
 *  Author  :Himanshu Singh  Date: 25th,Nov,2010  Creation
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 include_once("header.php");
 ?>

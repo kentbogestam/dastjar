@@ -4,7 +4,7 @@
  *  Author      : Himanshu Singh  Date: 12th,Nov,2010  Creation
 */
 ob_start();
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 require_once('lib/captcha/recaptchalib.php');
 //echo "sdsad"; die();
@@ -32,7 +32,7 @@ $que = "select * from lang_text";
  {
  	print_r($row);
  }
-
+ 
  $que = "insert into category_names_lang_list(category_id,names_lang_list) values('','')";
 //$res = mysql_query($que);   */
 /////////////////////////////////////////
@@ -100,12 +100,12 @@ if (!isset($_SESSION['userid']) && !isset($_SESSION['REG_STEP'])) {
                             <td colspan="3" class="blackbutton" align="left">1 Register</td>
                         </tr>
                         <tr >
-
+                           
                             <td align="left"></td>
                             <td align="left"></td>
                         </tr>
                         <tr>
-
+                            
                             <td width="50%" align="left" nowrap="nowrap">Enter e-mail address to be used as user name <span class='mandatory'>*</span></td>
           <td width="50%" align="left">
                     <INPUT class="text_field_new" type=text name="emailid" id ="emailid" value="<?=$_SESSION['post']['emailid']
@@ -115,15 +115,15 @@ if (!isset($_SESSION['userid']) && !isset($_SESSION['REG_STEP'])) {
                     <div id="error_emailid" class="error"></div></td>
             </tr>
             <tr>
-
+               
                 <td align="left">Password (min. 6 characters)<span class='mandatory'>*</span></td>
             <td align="left">
                 <INPUT class="text_field_new" type=password name="pwd" id="pwd"  value="<? echo $_SESSION['post']['pwd']; ?>">
-                <a  title="<?=PASS_TEXT ?>" class="vtip"><b><small>?</small></b></a></br>
+                <a  title="<?=PASS_TEXT ?>" class="vtip"><b><small>?</small></b></a><br/>
                 <div id="error_pwd" class="error"></div></td>
             </tr>
             <tr>
-
+               
                 <td align="left">Verify Password<span class='mandatory'>*</span></td>
             <td align="left">
                 <INPUT class="text_field_new" type=Password name="c_pwd" id="c_pwd" value="<?=$_SESSION['post']['pwd'] ?>">
@@ -136,14 +136,14 @@ if (!isset($_SESSION['userid']) && !isset($_SESSION['REG_STEP'])) {
                     the link you just just received on your mailbox </th>
             </tr>
             <tr style="display: none;">
-
+               
                 <td align="left">Enter your verification number:</td>
                 <td align="left">
                     <INPUT class="text_field_new" type=text name="verification_code" id="verification_code"  value="<?=$_SESSION['post']['verification_code'] ?>">
                     <div id="error_verification_code" class="error"></div></td>
             </tr>
             <tr>
-
+               
                 <td align="left">First Name<span class='mandatory'>*</span></td>
             <td align="left">
                 <INPUT class="text_field_new" type=text name="fname" id="fname"  value="<?=$_SESSION['post']['fname'] ?>">
@@ -151,14 +151,14 @@ if (!isset($_SESSION['userid']) && !isset($_SESSION['REG_STEP'])) {
                 <div id="error_fname" class="error"></div></td>
             </tr>
             <tr>
-
+               
                 <td align="left">Last Name<span class='mandatory'>*</span></td>
             <td align="left">
                 <INPUT class="text_field_new" type=text name="lname" id="lname"  value="<?=$_SESSION['post']['lname'] ?>">
                 <div id="error_lname" class="error"></div></td>
             </tr>
             <tr>
-
+                
                 <td align="left">Country Phone Number Prefix<span class='mandatory'>*</span></td>
             <td align="left">
                 <select class="text_field_new" style="width:406px; background-color:#e4e3dd; height:36px; margin-top:2px; margin-bottom:1px; border: 1px solid #abadb3;"  tabindex="27" id="cprefix" name="cprefix">
@@ -563,15 +563,15 @@ if (!isset($_SESSION['userid']) && !isset($_SESSION['REG_STEP'])) {
                 </select>          <div id='error_cprefix' class="error"></div>          </td>
             </tr>
             <tr>
-
+               
                 <td align="left">Phone Number<span class='mandatory'>*</span></td>
             <td align="left">
                 <INPUT class="text_field_new" type=text name="phone" id="phone"  value="<?=$_SESSION['post']['phone'] ?>">
-                <a  title="<?=PHONE_TEXT ?>" class="vtip" ><b><small>?</small></b></a></br>
+                <a  title="<?=PHONE_TEXT ?>" class="vtip" ><b><small>?</small></b></a><br/>
                 <div id="error_phone" class="error"></div></td>
             </tr>
             <tr>
-
+                
                 <td align="left">Mobile phone</td>
                 <td align="left">
                     <INPUT class="text_field_new" type=text name="mob" id="mob" value="<?=$_SESSION['post']['mob'] ?>">
@@ -599,12 +599,12 @@ if (!isset($_SESSION['userid']) && !isset($_SESSION['REG_STEP'])) {
             <tr>
                 <td height="37" align="center">                    </td>
             <td height="37" align="left"><INPUT style="margin-left:160px;"  type="submit" name="Continue" value="Submit" class="button" id="Continue"></td>
-
+           
             </tr>
             <tr>
                 <td height="15" colspan='3' align="left" ><span class='mandatory'>* These Fields Are Mandatory</span></td>
             </tr>
-
+          
             <tr>
                 <td height="34" colspan='3' align="left" class="redgraybutton">2 Add Company</td>
             </tr>

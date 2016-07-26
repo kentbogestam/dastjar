@@ -1,0 +1,68 @@
+
+var service;
+var targeted_id;
+var rt_time;
+var detection_mode;
+var sequence_id;
+var message={};
+
+function getRD(){
+service="coupon";
+rt_time=0.1;
+detection_mode="mouseDown";
+sequence_id=1;
+targeted_id="-----BEGIN CERTIFICATE REQUEST-----";
+//targeted_id="-----BEGIN CERTIFICATE REQUEST-----
+MIIC0zCCAbsCAQAwgY0xCzAJBgNVBAYTAlNFMRIwEAYDVQQIEwlTdG9ja2hvbG0x
+EjAQBgNVBAcTCVN0b2NraG9sbTETMBEGA1UEChMKQ3VtYmFyaSBBQjEWMBQGA1UE
+AxMNS2VudCBCb2dlc3RhbTEpMCcGCSqGSIb3DQEJARYaa2VudC5ib2dleHN0YW1A
+Y3VtYmFyaS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDH7lm8
+4gQNRQatCErt6D+8fpaz+lDezf9i6VbQeJmEXRk+xGMrBij3mdJbLlfrF2i/oKEf
+CP2w9KtM6KbKFLl9jKka9ODWZg0P6PdpCIxkhFn7SNXzbCapBZCgJwvGh+LBku0d
+9rRBjPEACodC5x2xtvETeowYLRcn7atqX+0i5ETU4ezquOnLR04mMNrcR5ODVLGX
+VWoJEFH/16jj+s0L5Pw8W+bLMUE+N+6EAzscoaUr+tQDFETFb5FYMolVTjJ0HUIJ
+xcTgJ/UuSmV1Gr1LK8jCz7QZfd8Zwv4qgaR4gadqkfSEQNpAYNygQe94v82as5mZ
+GyUme6RKVLiY/9kXAgMBAAGgADANBgkqhkiG9w0BAQUFAAOCAQEANUpjSIojgepW
+bzvgqRk/g4IjL2VaWZg01ZEyTq1HQkRswNyren0qVTKvtmYM9XmLj6nm6NExqCSB
+idtudX4ihk0MSQ0AnKBI44+UICepTuJSGzNhL65irJWLwCSWZmYpr9UG4hc+6Ik6
+NP9GL7d5Izz6mDMFUe9FulQQCOSOLE8FULFZICB55INm7AqZ1CDJorAcId5WpGeC
+4aGFl7hz7PQvGXXBEFHVQnXMdAIRDHUa5tcfIcpo/N4cQjMIf0oWbxve3KsVlcDh
+YVWCMw+fohjpbuOweFHti3ufdp/yngFA6xuQ9NAK0EvvrCBx093/L15KL3eBxaZ6
+lA+3bbhVDA==
+-----END CERTIFICATE REQUEST-----";
+
+getLocation();
+
+}
+
+function getLocation() {
+// Get location no more than 1 minutes old. 60000 ms = 1 minutes.
+        navigator.geolocation.getCurrentPosition(getTarget, showError, {enableHighAccuracy:true,maximumAge:60000,timeout:0});
+}
+
+function showError(error) {
+        altert(error.code + ' ' + error.message);
+}
+
+function getTarget(position)
+{
+var mylat=position.coords.latitude;
+var mylong=position.coords.longitude;
+var myaccuracy=position.coords.accuracy;
+//service="coupon";
+//target_id="76a456d2-bff7-4e9e-87de-021027080342";
+//rt_time=0.4;
+//detection_mode="button";
+//sequence_id=1;
+//message="5bcc4d1a-cb5b-41ba-b549-95da9934009e";
+
+xmlhttp=new XMLHttpRequest();
+var url="connect.php";
+url=url+"?long=";
+url=url+mylong;
+url=url+"&lat="+ mylat;
+url=url+"&acc="+ myaccuracy + "&service=" + service + "&targeted_id=" + targeted_id + "&rt_time=" + rt_time + "&detection_mode=" + detection_mode + "&sequence_id=" + sequence_id;
+xmlhttp.open("GET",url,false);
+xmlhttp.send(null);
+document.getElementById('tres').innerHTML=xmlhttp.responseText;
+}

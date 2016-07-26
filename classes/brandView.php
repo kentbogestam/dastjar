@@ -287,7 +287,7 @@ class brandView {
                     $size = 'brand';
                     $path = UPLOAD_DIR . "brands/";
                     $fileThumbnail = $path . $coupon_filename;
-                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
+		    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                     $arrUser['icon'] = $coupon_filename;
                 }
             } else {

@@ -8,12 +8,16 @@ session_start();
 
 /* Include  Config DB  Files */
 //error_reporting(E_ALL); 
-ini_set('display_errors', 0);
+//ini_set('display_errors', 1);
+error_reporting(E_ALL & ~E_NOTICE);
 
-require_once('config/defines.php');
-require_once('config/dbConfig.php');
-require_once('config/config.php');
-require_once('config/help.php');
+require('config/defines.php');
+require('config/dbConfig.php');
+
+
+require('config/config.php');
+
+require('config/help.php');
 //require('classes/db.php');
 
 
@@ -21,7 +25,7 @@ function __autoload($class_name) {
     include "classes/".$class_name . '.php';
 }
 
-
+//exit("Wess 34");
 /* This is a general function which we are using to generate 36 Char unique id. */
 function uuid()
 {

@@ -6,7 +6,7 @@
 *   Date        : 6th,Dec,2010  Creation
 */
 
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 
 ob_start();
 include_once("cumbari.php");

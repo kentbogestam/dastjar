@@ -1,5 +1,5 @@
 <?php
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 header('Content-Type: text/html; charset=UTF-8');
 ob_start();
 
@@ -194,9 +194,8 @@ if (isset($_POST['continue'])) {
         }
 
         $cumbari = "cumbari_log_" . time();
-        $path = 'upload/log/'.$cumbari.'.log';
-        append_file($path,$line);
-        }
+      $path = '../../../var/cumbari/logs/'.$cumbari.'.log';      
+        append_file($path,$line);        }
         
         if ($storenameIncmt != '') {
             $_SESSION['MESSAGE_2'] = $storenameIncmt . "<b> Store name are not Available </b>";
@@ -219,7 +218,7 @@ if (isset($_POST['continue'])) {
         <link href="lib/grid/css/grid.css" rel="stylesheet" type="text/css" />
         <link href="client/css/stylesheet123.css" rel="stylesheet" type="text/css" />
         <script language="JavaScript" src="lib/grid/js/grid.js" type="text/javascript"></script>
-       <META http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+       <META http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     </head>
 

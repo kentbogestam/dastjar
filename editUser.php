@@ -3,7 +3,7 @@
  *  Description : Edit Company Form
  *  Author      : Himanshu Singh  Date: 12th,Nov,2010  Creation
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 //$menu = "account";
 //$account = 'class="selected"';
@@ -111,7 +111,7 @@ include_once("header.php");
                                 <INPUT class="text_field_new" type=text name="phone" id="phone"  value="<?=$data[0]['phone']
                                                ?>">
                                 <a  title="<?=PHONE_TEXT
-                                           ?>" class="vtip" ><b><small>?</small></b></a></br>
+                                           ?>" class="vtip" ><b><small>?</small></b></a><br/>
                                 <div id='error_phone' class="error"></div></td>
                         </tr>
                         <tr>

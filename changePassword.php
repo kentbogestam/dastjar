@@ -3,7 +3,7 @@
  *  Description : Change Password Form
  *  Author      : Deo  Date: 28th,Jan,2011  Creation
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $reseller =$_REQUEST['from'];
 if($reseller == '')
@@ -78,7 +78,7 @@ include_once("header.php");
                     		<span class='mandatory'>*</span>:</td>
                     <td width="50%" align="left">
                         <INPUT class="text_field_new" type=password name="opwd" id="opwd"  value="">
-                        <a title="<?=PASS_TEXT?>" class="vtip"><b><small>?</small></b></a></br>
+                        <a title="<?=PASS_TEXT?>" class="vtip"><b><small>?</small></b></a><br/>
                         <div id='error_opwd' class="error"></div></td>
                 </tr>
 			
@@ -87,7 +87,7 @@ include_once("header.php");
                     <td align="left" class="inner_grid">Password<span class='mandatory'>*</span>:</td>
                     <td align="left">
                         <INPUT class="text_field_new" type=password name="pwd" id="pwd"  value="<? echo $_SESSION['post']['pwd']; ?>">
-                        <a title="<?=PASS_TEXT?>" class="vtip"><b><small>?</small></b></a></br>
+                        <a title="<?=PASS_TEXT?>" class="vtip"><b><small>?</small></b></a><br/>
                         <div id='error_pwd' class="error"></div></td>
                 </tr>
                 <tr>

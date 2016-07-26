@@ -99,7 +99,7 @@ h1 {
     <p>13.5 If any court of law, having the jurisdiction to  decide on this matter, rules that any provision of the Agreement is invalid,  then that provision will be removed from the Agreement without affecting the  rest of the Terms. The remaining provisions of the Agreement will continue to  be valid and enforceable. </p>
     <p>13.6 You acknowledge and agree that each member of the  group of companies of which Moblyo is the parent shall be third party beneficiaries  to the Agreement and that such other companies shall be entitled to directly  enforce, and rely upon, any provision of the Agreement which confers a benefit  on (or rights in favor of) them. Other than this, no other person or company  shall be third party beneficiaries to the Agreement. </p>
     <p>13.7 The Agreement, and your relationship with Moblyo  under the Terms, shall be governed by the laws of Germany without regard to its  conflict of laws provisions. You and Moblyo agree to submit to the exclusive  jurisdiction of the courts located within the county of Mülheim an der Ruhr, Grmany to  resolve any legal matter arising from the Agreement. Notwithstanding this, you  agree that Moblyo shall still be allowed to apply for injunctive remedies (or  an equivalent type of urgent legal relief) in any jurisdiction. </p>
-    <p>If you have any questions regarding the Agreement,  please contact us at any time: Moblyo Mobile Ad Market Agreement C/o Moblyo  GmbH, Zehntweg 223, 45475 Mülheim an der Ruhr, Germany</p>
+    <p>If you have any questions regarding the Agreement,  please contact us at any time: Moblyo Mobile Ad Market Agreement C/o Moblyo  GmbH, Zehntweg 223, 45475 Mülheim an der Ruhr,Germany</p>
   </div>
 </div>
 </body>

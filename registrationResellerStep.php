@@ -4,7 +4,7 @@
 *  Description : To check the state of the user.
 *  
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 if (isset($_SESSION['msg'])) {
 
@@ -115,7 +115,7 @@ buttonLinkAction('<?=$_SESSION['REG_STEP']
     </div>
     <div id="offer" style="display: none; ">
         <div style=" "><b>Would you like to add a time limited Campaign Offer?</b> <a title="<?=CAMPAIGN_TEXT
-                                                                                                  ?>" class="vtip"><b><small>( ? )</small></b></a></br></div><br>
+                                                                                                  ?>" class="vtip"><b><small>( ? )</small></b></a><br/></div><br>
         <table width="100%" border="0">
             <tr>
                

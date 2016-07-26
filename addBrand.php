@@ -3,7 +3,7 @@
  *  Description : Edit Brand Form
  *  Author      : Deo  Date: 31th,march,2011  Creation
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 
 ob_start();
 include_once("cumbari.php");
@@ -84,9 +84,9 @@ if (($_POST['submit'])) {
                 <td align="right" valign="top" ><a title="<?=BICON_TEXT
                                    ?>" class="vtip"><b><small>?</small></b></a> </td>
                 </tr>
-                    
+ <!--                   
                     <td align="left" valign="top" style="font-size:20px; font-weight:normal;">Amount:</td>
-              <td align="left" valign="bottom" style="font-size:12px;">
+              		<td align="left" valign="bottom" style="font-size:12px;">
                     <INPUT class="text_field_new" type=text  name="amount" id ="amount" value="<? echo $data['brand_fee'] ?>">
                     <br />
                   <div style="float:left; margin-top:5px;">
@@ -96,7 +96,7 @@ if (($_POST['submit'])) {
     <td><img src="images/cards_visa.jpg" width="131" height="40" /></td>
   </tr>
 			</table>
-</div></td>
+</div></td>-->
                 <td align="right" valign="bottom" style="font-size:12px;">&nbsp;</td>
                 </tr>
                 <tr>

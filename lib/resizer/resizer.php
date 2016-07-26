@@ -1,4 +1,4 @@
-<?
+<?php
 include('imagemagic.php');
 include('renderprocess.php');
 function getThumbnailResize($size = 'all') {	

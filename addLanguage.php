@@ -3,7 +3,7 @@
  *  Description : Add Language Form
  *  Author      : Tanvi vyas  Date:
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $offerObj = new offer();
 $regObj = new registration();
@@ -45,7 +45,7 @@ $data = $offerObj->viewcampaignDetailById($campaignid,$lang);
 <script language="JavaScript" src="client/js/jquery.datePicker.js" type="text/javascript"></script>
 <script language="JavaScript" src="client/js/ajaxupload.js" type="text/javascript"></script>
 <script language="JavaScript" src="client/js/jslang.js" type="text/javascript"></script>
-<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+<META http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 <style type="text/css">
     <!--

@@ -6,7 +6,7 @@
 *   Date        : 1/13/2013  Creation
 */
 ob_start();
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 
 
@@ -65,7 +65,8 @@ exit;
 <link href="lib/grid/css/grid.css" rel="stylesheet" type="text/css" />
 <link href="client/css/stylesheet123.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" src="lib/grid/js/grid.js" type="text/javascript"></script>
-<body class="center">
+<script language="JavaScript" src="client/js/account.js" type="text/javascript"></script>
+<body class="center" >
 <div class="center">
     <div id="msg" align="center" class="center">
     </div>
@@ -144,8 +145,8 @@ exit;
                                                                 </tr>
 
                                                             </table>                                                      </td>
-                                                        <td width="24%" align="left" valign="top"><div align="center" class="main_bg"  >
-														<a href="createAdvertise.php" >ADD ADVERTISE OFFER</a></div>                                                        </td>
+                                                        <td width="24%" align="left" valign="top" ><div align="center" class="main_bg" >
+														<a onClick="checkStatus('createAdvertise.php')" href="#" >ADD ADVERTISE OFFER</a></div>                                                        </td>
                                                   </tr>
                                                     
                                                 </table>

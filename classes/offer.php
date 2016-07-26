@@ -4,7 +4,7 @@
  *  Description : Add Company Form
  *  Author  :Himanshu Singh  Date: 23rd,Nov,2010  Creation
  */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 //header ('Content-type: text/html; charset=utf-8');
 
 
@@ -1023,7 +1023,8 @@ class offer extends advertiseoffer{
         $file2 = _UPLOAD_IMAGE_ . 'coupon/' . $arrUser['large_image'];
         $dir2 = "coupon";
         $command2 = IMAGE_DIR_PATH . $file2 . " " . $dir2;
-        system($command2);
+        //echo $command2; die();
+		system($command2);
 
 //        echo "<pre>"; print_r($_POST);
 //         print_r($_FILES);
@@ -1817,10 +1818,10 @@ class offer extends advertiseoffer{
      */
 
     function getCategoryList($selectedId=0, $lang='eng') {
-
         if ($lang == '') {
             $lang = 'ENG';
         }
+
 
         $options = "";
         $query = "SELECT cat.category_id, ltext.text, cat.small_image FROM category as cat left join category_names_lang_list as cat_lang
@@ -1837,7 +1838,6 @@ class offer extends advertiseoffer{
             }
             $options.="<option value='" . $rs['category_id'] . "' " . $selected . " >" . $rs['text'] . "</option>";
         }
-
         return $options;
     }
 
@@ -6528,7 +6528,7 @@ class offer extends advertiseoffer{
             $data = $rs;
         }
         echo "<pre>";
-        print_r($data);
+        //print_r($data);
         echo "</pre>";
     }
 
@@ -7709,8 +7709,8 @@ class offer extends advertiseoffer{
 //$category = 'Julgåvor';
         $category = trim($category);
         $categoryKeyword = $category;
-
-        if (($category == 'Dryck') OR ($category == 'Tuggummi') OR ($category == 'Choklad') OR ($category == 'Ost') OR ($category == 'Godis')
+// The code below is in comment as this code is likely from our first version and will likely never be used - Kent
+/*	if (($category == 'Dryck') OR ($category == 'Tuggummi') OR ($category == 'Choklad') OR ($category == 'Ost') OR ($category == 'Godis')
                 OR ($category == 'Glass') OR ($category == 'Mejeri') OR ($category == 'Kaffe')) {
             $category = 'Mat & Snacks';
         }
@@ -7723,9 +7723,10 @@ class offer extends advertiseoffer{
 
         if (($category == 'Julgåvor') OR ($category == 'Valentin')) {
             $category = 'Other';
-        }
+        }*/
 
 ///////////////////////////query for select category
+// The code below alwas returns "" so something is wrong  - Kent
         $query = "SELECT cat.category_id FROM category AS cat, category_names_lang_list AS llist, lang_text AS ltext
 WHERE ltext.text='" . $category . "' AND ltext.id=llist.names_lang_list AND llist.category=cat.category_id";
         $res = mysql_query($query);
@@ -7737,8 +7738,9 @@ WHERE ltext.text='" . $category . "' AND ltext.id=llist.names_lang_list AND llis
         if ($catId == '') {
 
             ////////////mail to admin for new category
-            $mailObj = new emails();
-            $mailObj->sendCategoryAdminMail($category);
+// No point in sending this mail - Kent
+           // $mailObj = new emails();
+            //$mailObj->sendCategoryAdminMail($category);
 
             $query = "SELECT cat.category_id FROM category AS cat, category_names_lang_list AS llist, lang_text AS ltext
 WHERE ltext.text='Other' AND ltext.id=llist.names_lang_list AND llist.category=cat.category_id";

@@ -3,7 +3,7 @@
 *  Description : To show map
 *  Author      : Sushil Singh Date: 22th,Dec,2010  Creation
  */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 require_once('cumbari.php');
 //$objComp = new users();
 //$objconnection = new connection();

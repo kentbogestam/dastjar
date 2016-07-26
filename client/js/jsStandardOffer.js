@@ -14,19 +14,19 @@ $(document).ready(function(){
 	$("#continue").click(function(){
 
         var error = 'false';
-        $("#MsgError").html('');
-        $("#step1_error").hide();
-        $("#msg_error").hide();
+        //$("#MsgError").html('');
+        //$("#step1_error").hide();
+        //$("#msg_error").hide();
         $("#error_titleSloganStand").html('');
         $("#error_icon").html('');
         $("#error_standOfferName").html('');
         $("#error_searchKeywordStand").html('');
         $("#error_picture").html('');
         $("#error_linkedCatStand").html('');
-        $("#error_descriptiveStand").html('');
+        //$("#error_descriptiveStand").html('');
        
         $("#error_startDateStand").html('');
-        $("#error_cat_icon").html('');
+        //$("#error_cat_icon").html('');
         $("#error_link").html('');
          $("#error_sponsStand").html('');
          
@@ -79,6 +79,13 @@ $(document).ready(function(){
             $("#error_searchKeywordStand").html(errorMsg);
             error = "true";
         }
+	 if(($.trim($("#searchKeywordStand").val()).length == 0))
+        {
+            var errorMsg = "Please enter one or more Search Keyword<br />";
+            $("#error_searchKeywordStand").html(errorMsg);
+            error = "true";
+        }
+
 
 
         if($.trim($("#largeimage").val()).length==0){
@@ -254,12 +261,13 @@ function showAdvancedSearchStand(){
 
 
 function showAdvancedInfoPageStnad(){
+   // alert("rrrr");
     var id = document.getElementById("infopageStand");
     if(id.style.display == "none"){
-        id.style.display = "inline-table";
+        id.style.display = "inline";
     }
     else
-    if(id.style.display == "inline-table"){
+    if(id.style.display == "inline"){
         id.style.display = "none";
     }
 
@@ -412,7 +420,7 @@ function getLangImage(langId){
     $.post('classes/ajx/ajxCommon.php',{
         langId:langId,
         m:"getLangImg",
-        contentType: "application/x-www-form-urlencoded;charset=ISO-8859-15",
+        contentType: "application/x-www-form-urlencoded;charset=utf-8",
     },
     function(data){
 

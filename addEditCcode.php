@@ -3,7 +3,7 @@
  *  Description : addEditCategory
  *
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $menu = "ccode";
 $ccode = 'class="selected"';
@@ -90,7 +90,7 @@ if (isset($_POST['continue']) AND $editId != '') {
 
                                 <td class="inner_grid">Start of validity<span class='mandatory'>*</span>:</td>
                                 <td><input style="width: 380px;" type="text" name="startDate" readonly="readonly" value="<?=$start_date?>" id="startDate" class="startDate text_field_new" />
-                                    <a title="<?=START_TEXT ?>" class="vtip"><b><small>?</small></b></a></br>
+                                    <a title="<?=START_TEXT ?>" class="vtip"><b><small>?</small></b></a><br/>
                                     <div id='error_startDate' class="error"></div>                                </td>
                             </tr>
 
@@ -101,7 +101,7 @@ if (isset($_POST['continue']) AND $editId != '') {
 
                                 <td class="inner_grid">Start of validity<span class='mandatory'>*</span>:</td>
                                 <td><input style="width: 380px;" type="text" name="endDate" readonly="readonly" value="<?=$end_date?>" id="endDate" class="endDate dp-applied text_field_new" />
-                                    <a title="<?=END_TEXT ?>" class="vtip"><b><small>?</small></b></a></br>
+                                    <a title="<?=END_TEXT ?>" class="vtip"><b><small>?</small></b></a><br/>
                                     <div id='error_endDate' class="error"></div>                                </td>
                             </tr>
              
@@ -111,7 +111,7 @@ if (isset($_POST['continue']) AND $editId != '') {
                     <td align="left" class="inner_grid">Value<span class='mandatory'>*</span>:</td>
                     <td align="left">
                         <INPUT class="text_field_new" type="text" name="value" id="value" value="<?=$data[0]['value']?>"/>
-                        <a title="<?=CCODE_TEXT?>" class="vtip"><b><small>?</small></b></a></br>
+                        <a title="<?=CCODE_TEXT?>" class="vtip"><b><small>?</small></b></a><br/>
                         <div id='error_value' class="error"></div></td>
                 </tr>
 

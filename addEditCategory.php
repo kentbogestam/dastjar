@@ -3,7 +3,7 @@
  *  Description : addEditCategory
  *  
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $menu = "cat";
 $cat = 'class="selected"';

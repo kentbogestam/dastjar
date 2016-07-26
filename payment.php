@@ -3,7 +3,7 @@
 *  Description : redirect all requests for the payment on DIBS.
 *  Author  : Sushil Singh  Date: 16th,Feb,2011  Added Header
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 require_once("cumbari.php");
 require_once('payment.class.php');
 //print_r($_POST); //die();
@@ -38,7 +38,7 @@ case 'loadAccount':
 	$p->add_field('accepturl', $accepturl);
 	$p->add_field('orderid', $orderid);
 	$p->add_field('currency', $currency);
-	$p->add_field('test', 'yes');
+	//$p->add_field('test', 'yes');
 	$p->add_field('lang', 'se');
 	$p->add_field('md5key', $MYKEY);
 	$p->add_field('action', 'loadAccountResp');
@@ -72,13 +72,13 @@ case 'registerBrand':
 	$p->add_field('accepturl', $accepturl);
 	$p->add_field('orderid', $orderid);
 	$p->add_field('currency', $currency);
-	$p->add_field('test', 'yes');
+	//$p->add_field('test', 'yes');
 	$p->add_field('lang', 'se');
 	$p->add_field('md5key', $MYKEY);
 	$p->add_field('action', 'registerBrandResp');
 	
 	
-	$p->submit_payment_post();
+//	$p->submit_payment_post();
 	//submit_post();
 	break; 
 
@@ -105,7 +105,7 @@ case 'loadAccountAct':
 	$p->add_field('accepturl', $accepturl);
 	$p->add_field('orderid', $orderid);
 	$p->add_field('currency', $currency);
-	$p->add_field('test', 'yes');
+	//$p->add_field('test', 'yes');
 	$p->add_field('lang', 'se');
 	$p->add_field('md5key', $MYKEY);
 	$p->add_field('action', 'loadAccountActResp');

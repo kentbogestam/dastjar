@@ -1356,5 +1356,237 @@ function permanentDeleteStandard($productId,$uId){
 
    }
 
+   
+   
+   //*************************************** Advertise Option ********************************************
+   
+   function getTotalAdvertise($uId) {
+
+        //$inoutObj = new inOut();
+        $db = new db();
+        $db->makeConnection();
+        $data = array();
+
+        $res = $this->searchAllAdvertise($paging_limit='',$uId);
+
+        $total_records = $db->numRows($res);
+
+        return $total_records;
+    }
+    
+function getAdvertiseDetails($paging_limit='0 , 10',$uId) {
+
+        //$inoutObj = new inOut();
+        $db = new db();
+        $db->makeConnection();
+        $data = array();
+
+        $q = $this->searchAllAdvertise($paging_limit,$uId);
+
+        while ($rs = mysql_fetch_array($q)) {
+            $data[] = $rs;
+        }
+        return $data;
+    }
+
+function searchAllAdvertise($paging_limit=0,$uId) {
+
+        if (isset($_REQUEST['keyword']) OR isset($_REQUEST['key']) OR isset($_REQUEST['ke'])) {
+            // $qstr1 = " store_name REGEXP '[[:<:]]".trim($_REQUEST['keyword'])."[[:>:]]' ";
+            // $qstr2 = " email REGEXP '[[:<:]]".trim($_REQUEST['key'])."[[:>:]]' ";
+            $set_keywords = "";
+            if ($_REQUEST['keyword']) {
+                $set_keywords.= 'keyw.text LIKE "%' . trim($_REQUEST['keyword']) . '%" AND ';
+            }
+            if ($_REQUEST['key']) {
+                $set_keywords.= 'subsloganT.text LIKE "%' . trim($_REQUEST['key']) . '%" AND ';
+            }
+            if ($_REQUEST['ke']) {
+                $set_keywords.= 'sloganT.text LIKE "%' . trim($_REQUEST['ke']) . '%" AND ';
+            }
+            // $set_keywords = "(u_id='".$_SESSION['userid']."' AND ".$qstr1.") OR
+        }
+        else
+            $set_keywords = " 1 AND ";
+
+        if($paging_limit)
+            $limit = "limit ".$paging_limit;
+
+        $query = "select * from employer where u_id = '" . $uId . "'";
+        $res = mysql_query($query);
+        $rs = mysql_fetch_array($res);
+        $companyId = $rs['company_id'];
+
+       
+           $QUE = "SELECT advertise.*,sloganT.text as slogan,subsloganT.text as subslogen,keyw.text as keyword, advertise.infopage,lang_text.text as category  FROM advertise
+                        LEFT JOIN   advertise_offer_slogan_lang_list ON  advertise_offer_slogan_lang_list.advertise_id = advertise.advertise_id
+                        LEFT JOIN   advertise_offer_sub_slogan_lang_list  ON  advertise_offer_sub_slogan_lang_list.advertise_id = advertise.advertise_id
+                        LEFT JOIN   advertise_keyword  ON  advertise_keyword.advertise_id = advertise.advertise_id
+                        LEFT JOIN   lang_text as sloganT ON  advertise_offer_slogan_lang_list.offer_slogan_lang_list = sloganT.id
+                        LEFT JOIN   lang_text as subsloganT ON advertise_offer_sub_slogan_lang_list.offer_sub_slogan_lang_list = subsloganT.id
+                        LEFT JOIN   lang_text as keyw ON advertise_keyword.offer_keyword = keyw.id
+                        LEFT JOIN  category  ON (category.category_id = advertise.category)
+                        LEFT JOIN  category_names_lang_list  ON (category.category_id = category_names_lang_list.category)
+                        LEFT JOIN  lang_text   ON lang_text.id = category_names_lang_list.names_lang_list
+
+                        WHERE
+                        advertise.company_id='" . $companyId . "' AND $set_keywords 1 AND (s_activ='0' or s_activ='3') AND lang_text.lang = subsloganT.lang AND (reseller_status = 'A' OR reseller_status = '') GROUP BY advertise_id ".$limit;
+    
+
+        $res = mysql_query($QUE);
+
+        return $res;
+    }
+
+     function permanentDeleteAdvertise($advertiseId,$uId){
+        $db = new db();
+        $db->makeConnection();
+        $data = array();
+        $inoutObj = new inOut();
+
+
+        //////////////////// delete advertise           
+        
+            $querydel = "select * from advertise where advertise_id = '".$advertiseId."'";
+            $resdel = mysql_query($querydel);
+            $rsdel = mysql_fetch_array($resdel);
+            $small_image = $rsdel['small_image'];
+            $large_image = $rsdel['large_image'];
+
+             $file1 = $small_image;
+             $command1 = IMAGE_DIR_PATH_DELETE . $file1;
+             system ($command1) ;
+
+             $file2 = $large_image;
+             $command2 = IMAGE_DIR_PATH_DELETE . $file2;
+             system ($command2) ;
+
+              /////////////////
+
+
+            $query1 = "DELETE FROM advertise WHERE advertise_id = '".$advertiseId."'";
+            $res1 = mysql_query($query1) or die(mysql_error());
+
+          
+            
+            $query5 = "select * from advertise_offer_slogan_lang_list  where advertise_id = '".$advertiseId."'";
+            $res5 = mysql_query($query5) or die('1' . mysql_error());
+            while($rs5 = mysql_fetch_array($res5))
+            {
+            $offslogen = $rs5['offer_slogan_lang_list'];
+
+            $_SQL6 = "DELETE FROM advertise_offer_slogan_lang_list  WHERE advertise_id = '".$advertiseId."'";
+            $res6 = mysql_query($_SQL6) or die(mysql_error());
+
+            $_SQL7 = "DELETE FROM lang_text WHERE id = '" . $offslogen . "'";
+            $res7 = mysql_query($_SQL7) or die(mysql_error());
+            }
+
+
+            $query8 = "select * from advertise_offer_sub_slogan_lang_list  where advertise_id = '".$advertiseId."'";
+            $res8 = mysql_query($query8) or die('1' . mysql_error());
+            while($rs8 = mysql_fetch_array($res8))
+            {
+            $offtitle = $rs8['offer_sub_slogan_lang_list'];
+
+            $_SQL9 = "DELETE FROM advertise_offer_sub_slogan_lang_list WHERE advertise_id = '".$advertiseId."'";
+            $res9 = mysql_query($_SQL9) or die(mysql_error());
+
+            $_SQL10 = "DELETE FROM lang_text WHERE id = '" . $offtitle . "'";
+            $res10 = mysql_query($_SQL10) or die(mysql_error());
+            }
+
+            $query11 = "select * from advertise_keyword  where advertise_id = '".$advertiseId."'";
+            $res11 = mysql_query($query11) or die('1' . mysql_error());
+            while($rs11 = mysql_fetch_array($res11))
+            {
+            $ckeyword = $rs11['offer_keyword'];
+
+            $_SQL12 = "DELETE FROM advertise_keyword WHERE advertise_id = '".$advertiseId."'";
+            $res12 = mysql_query($_SQL12) or die(mysql_error());
+
+            $_SQL13 = "DELETE FROM lang_text WHERE id = '" . $ckeyword . "'";
+            $res13 = mysql_query($_SQL13) or die(mysql_error());
+
+            }
+
+
+        $query14 = "select * from c_s_rel  where advertise_id = '" . $advertiseId . "'";
+        $res14 = mysql_query($query14) or die(mysql_error());
+        while ($rs14 = mysql_fetch_array($res14)) {
+            $couponId = $rs14['coupon_id'];
+
+
+          if($couponId) {
+     /////////// delete coupon
+             $query15 = "DELETE FROM coupon WHERE coupon_id = '".$couponId."'";
+                    $res15 = mysql_query($query15) or die(mysql_error());        
+
+                    $query19 = "select * from coupon_offer_slogan_lang_list  where coupon = '" . $couponId . "'";
+                    $res19 = mysql_query($query19) or die('1' . mysql_error());
+                    while($rs19 = mysql_fetch_array($res19))
+                 {
+                    $offslogen = $rs19['offer_slogan_lang_list'];
+
+                    $_SQL26 = "DELETE FROM coupon_offer_slogan_lang_list WHERE coupon = '" . $couponId . "'";
+                    $res26 = mysql_query($_SQL26) or die(mysql_error());
+
+                    $_SQL27 = "DELETE FROM lang_text WHERE id = '" . $offslogen . "'";
+                    $res27 = mysql_query($_SQL27) or die(mysql_error());
+                 }
+
+
+                    $query20 = "select * from coupon_offer_title_lang_list  where coupon = '" . $couponId . "'";
+                    $res20 = mysql_query($query20) or die('1' . mysql_error());
+                    while($rs20 = mysql_fetch_array($res20))
+                  {
+                    $offtitle = $rs20['offer_title_lang_list'];
+
+                    $_SQL21 = "DELETE FROM coupon_offer_title_lang_list WHERE coupon = '" . $couponId . "'";
+                    $res21 = mysql_query($_SQL21) or die(mysql_error());
+
+                    $_SQL22 = "DELETE FROM lang_text WHERE id = '" . $offtitle . "'";
+                    $res22 = mysql_query($_SQL22) or die(mysql_error());
+                  }
+
+                     $query23 = "select * from coupon_keywords_lang_list  where coupon = '" . $couponId . "'";
+                    $res23 = mysql_query($query23) or die('1' . mysql_error());
+                    while($rs23 = mysql_fetch_array($res23))
+                  {
+                    $ckeyword = $rs23['keywords_lang_list'];
+
+                    $_SQL24 = "DELETE FROM coupon_keywords_lang_list WHERE coupon = '" . $couponId . "'";
+                    $res24 = mysql_query($_SQL24) or die(mysql_error());
+
+                    $_SQL25 = "DELETE FROM lang_text WHERE id = '" . $ckeyword . "'";
+                     $res25 = mysql_query($_SQL25) or die(mysql_error());
+
+                    }
+
+
+          }
+
+           $_SQL28 = "DELETE FROM c_s_rel WHERE coupon_id='" . $couponId . "'";
+            $res28 = mysql_query($_SQL28) or die(mysql_error());
+        }
+
+        $url = BASE_URL . 'showPermntDeleteAdvertise.php?uId='.$uId;
+        $inoutObj->reDirect($url);
+        exit();
+
+   }
+
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
  }
 ?>

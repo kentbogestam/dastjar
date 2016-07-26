@@ -4,7 +4,7 @@
 *  Author      : Deo
 *  Date        : 4th,Dec,2010  Creation
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $regObj = new registration();
 $regObj->isValidRegistrationStep();
@@ -52,14 +52,14 @@ include_once("header.php");
 <td width="153">Email Address:</td>
 <td width="314">
 <INPUT type=text name="emailid" id ="emailid" value="" onBlur="checkEmailExist();">
-<a href="#" title="<?=EMAIL_TEXT?>" class="vtip" ><b>see example</b></a></br>
+<a href="#" title="<?=EMAIL_TEXT?>" class="vtip" ><b>see example</b></a><br/>
 <div id='error_emailid' class="error"></div></td>
 </tr>
 <tr>
 <td>Password:</td>
 <td>
 <input name="pwd" type="password" id="pwd" value="<? echo $_SESSION['post']['pwd']; ?>" />
-<a title="<?=PASS_TEXT?>" class="vtip"><b><small>see example</small></b></a></br>
+<a title="<?=PASS_TEXT?>" class="vtip"><b><small>see example</small></b></a><br/>
 <div id='error_pwd' class="error"></div></td>
 </tr>
 <tr>
@@ -497,7 +497,7 @@ the link you just just received on your mailbox                    </th>
 <td>Phone Number:</td>
 <td>
 <INPUT type=text name="phone" id="phone"  value="<?=$_SESSION['post']['phone']?>">
-<a title="<?=PHONE_TEXT?>" class="vtip" ><b><small>see example</small></b></a></br>
+<a title="<?=PHONE_TEXT?>" class="vtip" ><b><small>see example</small></b></a><br/>
 <div id='error_phone' class="error"></div></td>
 </tr>
 <tr>

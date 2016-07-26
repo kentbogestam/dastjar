@@ -6,7 +6,7 @@
  *   Date        : 27th,Dec,2010  Creation
  */
 ob_start();
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 //$_SESSION['askforstore'] = 1;
 //$_SESSION['MESSAGE'] = "sdsadd";
@@ -175,7 +175,7 @@ if ($_SESSION['userid']) {
 
                                                                          <!--<td width="8%" class="bg_darkgray1"><strong>Keywords</strong></td>
                                                                          <td width="6%" height="25" class="bg_darkgray1" align="center"><strong>Category</strong></td>-->
-                                                                                                                                 <td width="12%" align="center" class="bg_darkgray1">Sponsored</td>
+                                                                                                                                <!-- <td width="12%" align="center" class="bg_darkgray1">Sponsored</td>-->
                                                                                                                                  <td width="13%" class="bg_darkgray1">Start Date</td>
                                                                                                                                  <td width="10%" class="bg_darkgray1"> End Date</td>
                                                                                                                                  <td width="10%" class="bg_darkgray1"> Company Name</td>
@@ -206,7 +206,7 @@ if ($_SESSION['userid']) {
                                                         <td align="center"><img src="<?php echo $data1['small_image'] ?>" height="30" width="30"/></td>
                                                         <!--<td align="center"><?php echo $data1['keyword']; ?></td>
                                                         <td align="center"><?php echo $data1['category']; ?></td>-->
-                                                        <td align="center"><?=($data1['spons'] == 0 ? "No" : "Yes"); ?></td>
+                                                      <!--  <td align="center"><?=($data1['spons'] == 0 ? "No" : "Yes"); ?></td>-->
                                                         <?
                                                         $d = $data1['start_of_publishing'];
                                                         //$date = date_create($d);

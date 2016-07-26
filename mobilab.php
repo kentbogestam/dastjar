@@ -1,7 +1,7 @@
 <?php
 //ob_start();
 header ('Content-type: text/html; charset=utf-8');
-//header('Content-Type: text/html; charset=ISO-8859-15');
+//header('Content-Type: text/html; charset=utf-8');
 $service = new SoapClient('http://www.kupong.se/services/couponapi18.asmx?wsdl',array('trace'=>1));
 
 $authvalues = array('UserName' => 'Cumbari','Password' => 'Hynell');

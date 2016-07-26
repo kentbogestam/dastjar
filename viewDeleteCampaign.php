@@ -3,7 +3,7 @@
  *  Description : View campaign Form
  *  Author      : Himanshu Singh  Date: 22nd,dec,2010  Creation
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $offerObj = new offer();
 $regObj = new registration();
@@ -35,7 +35,7 @@ if($reseller == '')
 <!--<script type="text/javascript" src="lib/vtip/js/jquery.js"></script>
 <script type="text/javascript" src="lib/vtip/js/vtip.js"></script>
 <link rel="stylesheet" type="text/css" href="lib/vtip/css/vtip.css" />-->
-<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+<META http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" href="client/css/datePicker.css" type="text/css">
 <link href="lib/grid/css/grid.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" src="client/js/jquery.js" type="text/javascript"></script>
@@ -105,7 +105,7 @@ if($reseller == '')
           <?=$end_date ?></td>
       </tr>
       <tr>
-        <td width="50%" class="td_pad_left_2"><b>Campiagn Name:</b></td>
+        <td width="50%" class="td_pad_left_2"><b>Campaign Name:</b></td>
         <td width="50%" class="td_pad_right_2"><?=$data[0]['campaign_name'] ?></td>
       </tr>
     </table>
@@ -123,6 +123,12 @@ if($reseller == '')
                     echo $d; ?>
             </td>
         </tr>
+         <tr >
+           
+            <td width="50%" class="td_pad_left_2"><b> Campaign Value:</b>        </td>
+            <td width="50%" class="td_pad_right_2"><?=$data[0]['value'] ?>            </td>
+        </tr>
+        
       <!--  <? if($reseller == '') { ?>
      <tr>
   <td width="50%" class="td_pad_left_2"><b> Discount:</b>        </td>

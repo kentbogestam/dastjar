@@ -4,7 +4,7 @@
 *  Author      : Deo
 *  Date        : 14th,Dec,2010  Creation
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include("cumbari.php");
 $menu = "store";
 $$menu = 'class="selected"';

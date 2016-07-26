@@ -8,8 +8,7 @@
 
 define("SERVER", "localhost");
 define("PORT", "21");
-define("DATABASE", "cumbari_copy");
-#define("DATABASE", "cumbari_admin_new");
+define("DATABASE", "cumbari_admin");
 define("USER", "root");
-define("PASSWORD", "");
+define("PASSWORD", "smaka3Pudding");
 ?>

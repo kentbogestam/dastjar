@@ -3,7 +3,7 @@
  *  Description : addEditCategory
  *
 */
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $menu = "partner";
 $partner = 'class="selected"';
@@ -91,7 +91,7 @@ if (isset($_POST['continue']) AND $editId != '') {
                     		:</td>
                     <td width="50%" align="left">
                          <INPUT class="text_field_new" type="text" name="company" id="company" value="<?=$data[0]['company_name']?>">
-                        <a title="<?=COMP_NAME?>" class="vtip"><b><small>?</small></b></a></br>
+                        <a title="<?=COMP_NAME?>" class="vtip"><b><small>?</small></b></a><br/>
                         <div id='error_company' class="error"></div></td>
 
 
@@ -102,7 +102,7 @@ if (isset($_POST['continue']) AND $editId != '') {
                     <td align="left" class="inner_grid">Country<span class='mandatory'>*</span>:</td>
                     <td align="left">
                         <INPUT class="text_field_new" type="test" name="country" id="country" value="<?=$data[0]['country']?>"/>
-                        <a title="<?=COUNTRY_TEXT?>" class="vtip"><b><small>?</small></b></a></br>
+                        <a title="<?=COUNTRY_TEXT?>" class="vtip"><b><small>?</small></b></a><br/>
                         <div id='error_country' class="error"></div></td>
                 </tr>
 
@@ -111,7 +111,7 @@ if (isset($_POST['continue']) AND $editId != '') {
                     <td align="left" class="inner_grid">City<span class='mandatory'>*</span>:</td>
                     <td align="left">
                         <INPUT class="text_field_new" type="test" name="city" id="city" value="<?=$data[0]['city']?>"/>
-                        <a title="<?=CITYNAME_TEXT?>" class="vtip"><b><small>?</small></b></a></br>
+                        <a title="<?=CITYNAME_TEXT?>" class="vtip"><b><small>?</small></b></a><br/>
                         <div id='error_city' class="error"></div></td>
                 </tr>
 
@@ -120,7 +120,7 @@ if (isset($_POST['continue']) AND $editId != '') {
                     <td align="left" class="inner_grid">Street<span class='mandatory'>*</span>:</td>
                     <td align="left">
                         <INPUT class="text_field_new" type="test" name="street" id="street" value="<?=$data[0]['street']?>"/>
-                        <a title="<?=SADD_TEXT?>" class="vtip"><b><small>?</small></b></a></br>
+                        <a title="<?=SADD_TEXT?>" class="vtip"><b><small>?</small></b></a><br/>
                         <div id='error_street' class="error"></div></td>
                 </tr>
 
@@ -130,7 +130,7 @@ if (isset($_POST['continue']) AND $editId != '') {
                     <td align="left" class="inner_grid">Organisation<span class='mandatory'>*</span>:</td>
                     <td align="left">
                         <INPUT class="text_field_new" type="test" name="orgnr" id="orgnr" value="<?=$data[0]['orgnr']?>"/>
-                        <a title="<?=OCODE_TEXT?>" class="vtip"><b><small>?</small></b></a></br>
+                        <a title="<?=OCODE_TEXT?>" class="vtip"><b><small>?</small></b></a><br/>
                         <div id='error_orgn' class="error"></div></td>
                 </tr>
 
@@ -139,7 +139,7 @@ if (isset($_POST['continue']) AND $editId != '') {
                     <td align="left" class="inner_grid">Version<span class='mandatory'>*</span>:</td>
                     <td align="left">
                         <INPUT class="text_field_new" type="test" name="version" id="version" value="<?=$data[0]['version']?>"/>
-                        <a title="<?=VERSION?>" class="vtip"><b><small>?</small></b></a></br>
+                        <a title="<?=VERSION?>" class="vtip"><b><small>?</small></b></a><br/>
                         <div id='error_version' class="error"></div></td>
                 </tr>
 
@@ -148,7 +148,7 @@ if (isset($_POST['continue']) AND $editId != '') {
                     <td align="left" class="inner_grid">Zip<span class='mandatory'>*</span>:</td>
                     <td align="left">
                         <INPUT class="text_field_new" type="test" name="zip" id="zip" value="<?=$data[0]['zip']?>"/>
-                       <a title="<?=ZCODE_TEXT?>" class="vtip"><b><small>?</small></b></a></br>
+                       <a title="<?=ZCODE_TEXT?>" class="vtip"><b><small>?</small></b></a><br/>
                         <div id='error_zip' class="error"></div></td>
                 </tr>
 

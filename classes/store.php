@@ -1,8 +1,10 @@
 <?php
+
 /*  File Name : addCompany.php
  *  Description : Add Company Form
  *  Author  :Himanshu Singh  Date: 23rd,Nov,2010  Creation
  */
+
 //print_r($_SESSION);
 //$_SESSION['COMP_ID']="";
 class store {
@@ -13,7 +15,7 @@ class store {
      *      Description: User Create Store default function
      */
 
-    function svrStoreDflt($paging_limit='0 , 10') {
+    function svrStoreDflt($paging_limit = '0 , 10') {
 
         if (isset($_REQUEST['m']) && $_REQUEST['m'] != '') {
             $mode = $_REQUEST['m'];
@@ -75,16 +77,17 @@ class store {
         $arrUser['block'] = $_POST['block'];
         $arrUser['zip'] = $_POST['zip'];
         // string matching
-        $filestring=$arrUser['link'];
+        $filestring = $arrUser['link'];
         $findme  = 'http://';
         $pos = strpos($filestring, $findme);
         if ($pos === false) {
-            $arrUser['link']='http://'.$filestring;
+            $arrUser['link'] = 'http://' . $filestring;
         } else {
-            $arrUser['link']=$filestring;
+            $arrUser['link'] = $filestring;
         }
 
         $arrUser['BARCODE'] = $_POST['BARCODE'];
+        $arrUser['DPS'] = $_POST['DPS'];
 
         $error.= ( $arrUser['store_name'] == '') ? ERROR_STORE_NAME : '';
 
@@ -122,7 +125,7 @@ class store {
         $storeUniqueId = uuid();
         $query = "INSERT into store(`store_id`,`u_id`,`store_name`,`street`,`city`,`country`,`latitude`,`longitude`,`email`,`phone`,`store_link`,`country_code`,`access_type`,`chain`,`block`,`zip`)
                  VALUES('" . $storeUniqueId . "','" . $_SESSION['userid'] . "','" . $arrUser['store_name'] . "','" . $arrUser['street'] . "','" . $arrUser['city'] . "','" . $arrUser['country'] . "','" . $arrUser['latitude'] . "','" . $arrUser['longitude'] . "','" . $arrUser['email'] . "','" . $arrUser['phone'] . "','" . $arrUser['link'] . "','" . $coutryIso . "','1','" . $arrUser['chain'] . "','" . $arrUser['block'] . "','" . $arrUser['zip'] . "')";
-        $res = mysql_query($query) or die('1'.mysql_error());
+        $res = mysql_query($query) or die('1' . mysql_error());
 
       $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
                  VALUES('" . $storeUniqueId . "','PINCODE')";
@@ -136,18 +139,23 @@ class store {
                  VALUES('" . $storeUniqueId . "','MANUAL_SWIPE')";
         $res = mysql_query($query) or die(mysql_error());
 
-        if(isset($arrUser['BARCODE']))
-{
+        if (isset($arrUser['BARCODE'])) {
           $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
                  VALUES('" . $storeUniqueId . "','BARCODE')";
         $res = mysql_query($query) or die(mysql_error());
+        }
 
-}
+
+        if (isset($arrUser['DPS'])) {  /// New Option
+            $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
+                 VALUES('" . $storeUniqueId . "','AUTO')";
+            $res = mysql_query($query) or die(mysql_error());
+        }
 
          /////////////////////////////////////////////////////////////////////////////////////////////
-        //To check whether store belongs to Campaign or Product and update coupon related to that table
+        //To check whether store belongs to Campaign or advertise or Product and update coupon related to that table
         $query = "SELECT * FROM campaign WHERE u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die('2'.mysql_error());
+        $res = mysql_query($query) or die('2' . mysql_error());
 
         if (mysql_num_rows($res)) {
             $row = mysql_fetch_array($res);
@@ -157,7 +165,26 @@ class store {
 
            $query = "INSERT into c_s_rel(`campaign_id`,`store_id`,`start_of_publishing`,`end_of_publishing`)
                  VALUES('" . $camp_id . "','" . $storeUniqueId . "','" . $start_publishing . "','" . $end_publishing . "')";
-            $res = mysql_query($query) or die('3'.mysql_error());
+            $res = mysql_query($query) or die('3' . mysql_error());
+
+            //$query = "UPDATE coupon SET store_id = '$storeUniqueId' WHERE campaign_id='" . $camp_id . "'";
+            //$res = mysql_query($query) or die(mysql_error());
+        } else {
+           
+            $query = "SELECT * FROM advertise WHERE u_id='" . $_SESSION['userid'] . "'";
+           
+            $res = mysql_query($query) or die('2' . mysql_error());
+
+            if (mysql_num_rows($res)) {
+                $row = mysql_fetch_array($res);
+                $advt_id = $row['advertise_id'];
+                $start_publishing = $row['start_of_publishing'];
+                $end_publishing = $row['end_of_publishing'];
+                
+                 $query = "INSERT into c_s_rel(`advertise_id`,`store_id`,`start_of_publishing`,`end_of_publishing`)
+                     VALUES('" . $advt_id . "','" . $storeUniqueId . "','" . $start_publishing . "','" . $end_publishing . "')";
+                
+                $res = mysql_query($query) or die('3' . mysql_error());
 
             //$query = "UPDATE coupon SET store_id = '$storeUniqueId' WHERE campaign_id='" . $camp_id . "'";
             //$res = mysql_query($query) or die(mysql_error());
@@ -175,9 +202,9 @@ class store {
             //$query = "UPDATE coupon SET store_id = '$storeUniqueId' WHERE product_id='" . $product_id . "'";
             //$res = mysql_query($query) or die("2" . mysql_error());
         }
+        }
 
 //////////////////////////////////////////////////
-
         /////Update user table activ field/////////////////////////////
         $query = "UPDATE user SET activ='4' WHERE u_id = '" . $_SESSION['userid'] . "'";
         $res = mysql_query($query) or die("3" . mysql_error());
@@ -214,27 +241,28 @@ class store {
         $arrUser['block'] = $_POST['block'];
         $arrUser['zip'] = $_POST['zip'];
         // string matching
-        $filestring=$arrUser['link'];
+        $filestring = $arrUser['link'];
         $findme  = 'http://';
         $pos = strpos($filestring, $findme);
         if ($pos === false) {
-            $arrUser['link']='http://'.$filestring;
+            $arrUser['link'] = 'http://' . $filestring;
         } else {
-            $arrUser['link']=$filestring;
+            $arrUser['link'] = $filestring;
         }
         // string matching
-        $filestring=$arrUser['link'];
+        $filestring = $arrUser['link'];
         $findme  = 'http://';
         $pos = strpos($filestring, $findme);
         if ($pos === false) {
-            $arrUser['link']='http://'.$filestring;
+            $arrUser['link'] = 'http://' . $filestring;
         } else {
-            $arrUser['link']=$filestring;
+            $arrUser['link'] = $filestring;
         }
         
         $arrUser['latitude'] = $_POST['latitude'];
         $arrUser['longitude'] = $_POST['longitude'];
         $arrUser['BARCODE'] = $_POST['BARCODE'];
+        $arrUser['DPS'] = $_POST['DPS'];
 
 
 
@@ -281,15 +309,19 @@ class store {
                  VALUES('" . $storeUniqueId . "','MANUAL_SWIPE')";
         $res = mysql_query($query) or die(mysql_error());
 
-        if(isset($arrUser['BARCODE']))
-{
+        if (isset($arrUser['BARCODE'])) {
           $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
                  VALUES('" . $storeUniqueId . "','BARCODE')";
         $res = mysql_query($query) or die(mysql_error());
+        }
 
-}
+         if (isset($arrUser['DPS'])) {
+            $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
+                 VALUES('" . $storeUniqueId . "','AUTO')";
+            $res = mysql_query($query) or die(mysql_error());
+        }
 
-        if($_SESSION['createStore']) {
+        if ($_SESSION['createStore']) {
             $_SESSION['createStore'] = "";
              $url = $_SESSION['MAIL_URL'];
             $_SESSION['MAIL_URL'] = "";
@@ -339,12 +371,14 @@ class store {
         }
         return $data;
     }
+
      /* Function Header :getCompanyDetail()
      *             Args: none
      *           Errors: none
      *     Return Value: none
      *      Description: Select company details of perticular user
      */
+
     function getEmailId($uid) {
         $options = "";
         $query = "SELECT * FROM user WHERE u_id = '" . $uid . "'";
@@ -362,7 +396,7 @@ class store {
      *      Description: Show store details of perticular user which is in active state
      */
 
-    function ShowStore($paging_limit='0 , 10') {
+    function ShowStore($paging_limit = '0 , 10') {
         // print_r($data); die("dssdada");
         $db = new db();
         $db->makeConnection();
@@ -400,7 +434,7 @@ class store {
      *      Description: Show store details of perticular user which is outdated
      */
 
-    function showOutdatedStore($paging_limit='0 , 10') {
+    function showOutdatedStore($paging_limit = '0 , 10') {
 
         $db = new db();
         $db->makeConnection();
@@ -461,13 +495,28 @@ class store {
         $db = new db();
         $db->makeConnection();
         $data = array();
-        $QUE = "select delivery_method from coupon_delivery_method where store='" .$storeid . "' and delivery_method = 'BARCODE'";
+        $QUE = "select delivery_method from coupon_delivery_method where store='" . $storeid . "' and delivery_method = 'BARCODE'";
                 $res = mysql_query($QUE) or die("Get  : " . mysql_error());
                 $row = mysql_fetch_array($res);
                 $barcode = $row['delivery_method'];
         
                return $barcode;
     }
+
+    function getCouponDeliveryByIdDPS($storeid) {
+        // print_r($data); die("dssdada");
+        $db = new db();
+        $db->makeConnection();
+        $data = array();
+        $QUE = "select delivery_method from coupon_delivery_method where store='" . $storeid . "' and delivery_method = 'AUTO'";
+        $res = mysql_query($QUE) or die("Get  : " . mysql_error());
+        if(mysql_num_rows($res) > 0)
+            return "DPS";
+        else 
+            return "";
+    }
+    
+    
     /* Function Header :  editSaveStore($storeid)
      *             Args: none
      *           Errors: none
@@ -496,17 +545,18 @@ class store {
         $arrUser['block'] = $_POST['block'];
         $arrUser['zip'] = $_POST['zip'];
         // string matching
-        $filestring=$arrUser['link'];
+        $filestring = $arrUser['link'];
         $findme  = 'http://';
         $pos = strpos($filestring, $findme);
         if ($pos === false) {
-            $arrUser['link']='http://'.$filestring;
+            $arrUser['link'] = 'http://' . $filestring;
         } else {
-            $arrUser['link']=$filestring;
+            $arrUser['link'] = $filestring;
         }
         $arrUser['latitude'] = $_POST['latitude'];
         $arrUser['longitude'] = $_POST['longitude'];
         $arrUser['BARCODE'] = $_POST['BARCODE'];
+        $arrUser['DPS'] = $_POST['DPS'];
 
         $error.= ( $arrUser['store_name'] == '') ? ERROR_STORE_NAME : '';
 
@@ -540,18 +590,22 @@ class store {
         , `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "'   WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
         $res = mysql_query($query) or die(mysql_error());
 
-        if($arrUser['BARCODE'] == '')
-        {
-            $query = "delete from coupon_delivery_method where store = '" . $_GET['storeId'] . "' and delivery_method = 'BARCODE'";
+         $query = "delete from coupon_delivery_method where store = '" . $_GET['storeId'] . "' and delivery_method in ('BARCODE','AUTO')";
              $res = mysql_query($query) or die(mysql_error());
-        }
-        else if($arrUser['BARCODE'] == 'BARCODE')
-        {
+        
+        
+        if ($arrUser['BARCODE'] == 'BARCODE') {
             $query = "insert into coupon_delivery_method(`store`,`delivery_method`)
                 values('" . $_GET['storeId'] . "','BARCODE')";
              $res = mysql_query($query) or die(mysql_error());
         }
 
+        if ($arrUser['DPS'] == 'DPS') {
+            $query = "insert into coupon_delivery_method(`store`,`delivery_method`)
+                values('" . $_GET['storeId'] . "','AUTO')";
+            $res = mysql_query($query) or die(mysql_error());
+        }
+        
         $_SESSION['MESSAGE'] = CREATE_STORE_SUCCESS;
         $_SESSION['REG_STEP'] = 5;
         if ($_REQUEST['s'] == 1) {
@@ -576,15 +630,23 @@ class store {
         $db = new db();
         $db->makeConnection();
         $data = array();
-        $que = "SELECT * FROM store LEFT JOIN coupon_delivery_method ON (coupon_delivery_method.store = store.store_id)
-            WHERE store.u_id = '" . $_SESSION['userid'] . "' AND store.store_id='" . $storeid . "'";
-        $q = $db->query("SELECT * FROM store LEFT JOIN coupon_delivery_method ON (coupon_delivery_method.store = store.store_id)
-            WHERE store.u_id = '" . $_SESSION['userid'] . "' AND store.store_id='" . $storeid . "'");
+      //  $que = "SELECT * FROM store LEFT JOIN coupon_delivery_method ON (coupon_delivery_method.store = store.store_id)
+        //    WHERE store.u_id = '" . $_SESSION['userid'] . "' AND store.store_id='" . $storeid . "'";
+        
+        $q = $db->query("SELECT * FROM store WHERE store.u_id = '" . $_SESSION['userid'] . "' AND store.store_id='" . $storeid . "'");
 
         // $res = mysql_query($query) or die(mysql_error());
         while ($rs = mysql_fetch_array($q)) {
             $data[] = $rs;
         }
+        $query = "SELECT delivery_method FROM coupon_delivery_method WHERE coupon_delivery_method.store='".$storeid."'";
+        $res = mysql_query($query) or die(mysql_error());
+        $delivery_method = "";
+        while ($rs = mysql_fetch_array($res)) {
+            $delivery_method .= $rs['delivery_method']."  ";
+        }
+        $data[0]['delivery_method']=  str_replace("AUTO","DPS",trim($delivery_method));
+        
         return $data;
     }
 
@@ -683,7 +745,7 @@ class store {
         $db->makeConnection();
         $data = array();
         //echo $_SESSION['userid'];
-        $q = $db->query("SELECT store_id,store_name FROM store WHERE u_id = '" . $_SESSION['userid'] ."' AND s_activ='1'");
+        $q = $db->query("SELECT store_id,store_name FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND s_activ='1'");
         while ($rs = mysql_fetch_array($q)) {
         $stores[] = $rs;
         //echo $storename=$stores['store_name'];
@@ -692,7 +754,7 @@ class store {
         return $stores;
     }
 
-function getAllPublicLocationRows() {
+    function getAllPublicLocationRows() {
         // print_r($data); die("dssdada");
         $db = new db();
         $db->makeConnection();
@@ -731,10 +793,7 @@ function getAllPublicLocationRows() {
         return $total_records;
     }
 
-
-    
-      function getAllPublicLocation($paging_limit='0 , 10')
-  {
+    function getAllPublicLocation($paging_limit = '0 , 10') {
        $db = new db();
         $db->makeConnection();
         $data = array();
@@ -772,11 +831,9 @@ function getAllPublicLocationRows() {
             $data[] = $rs;
         }
         return $data;
+    }
 
-}
-
-function savePublicLocation($campaignId)
-{
+    function savePublicLocation($campaignId) {
 
         $db = new db();
         $db->makeConnection();
@@ -788,9 +845,7 @@ function savePublicLocation($campaignId)
         $arrUser['store_id'] = $_POST['publiclocation'];
         //print_r($arrUser['store_id']);die();
 
-        foreach($arrUser['store_id'] as $store)
-
-        {
+        foreach ($arrUser['store_id'] as $store) {
 
 
         $QUE = "select * from c_s_rel where campaign_id='" . $campaignId . "' AND store_id='" . $store . "' AND activ = '1'";
@@ -824,22 +879,16 @@ function savePublicLocation($campaignId)
 
            $_SQL = "insert into c_s_rel(`campaign_id`,`store_id`,`start_of_publishing`,`end_of_publishing`,`activ`) values('" . $campaignId . "','" . $store . "','" . $finStartDate . "','" . $enddate . "','1')";
             $res = mysql_query($_SQL) or die("limitttt id in relational table : " . mysql_error());
-}
-
-
+            }
  }
 
             $_SESSION['MESSAGE'] = COUPON_OFFER_SUCCESS;
             $url = BASE_URL . 'showCampaign.php';
             $inoutObj->reDirect($url);
             exit();
+    }
        
-        
-}
-
-
- function getAllSelecterPublicLocation($campaignid)
-  {
+    function getAllSelecterPublicLocation($campaignid) {
        $db = new db();
         $db->makeConnection();
         $data = array();
@@ -854,12 +903,9 @@ function savePublicLocation($campaignId)
             $data[] = $rs[0];
         }
         return $data;
+    }
 
-}
-
-
-
-function getAllPrivateLocationRows() {
+    function getAllPrivateLocationRows() {
         // print_r($data); die("dssdada");
         $db = new db();
         $db->makeConnection();
@@ -890,7 +936,7 @@ function getAllPrivateLocationRows() {
         else
             $set_keywords = " 1 AND ";
 
-           $q = "SELECT * FROM store WHERE u_id = '" . $_SESSION['userid'] ."' AND s_activ='1'";
+        $q = "SELECT * FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND s_activ='1'";
 
         $res = mysql_query($q) or die(mysql_error());
         $total_records = $db->numRows($res);
@@ -898,10 +944,7 @@ function getAllPrivateLocationRows() {
         return $total_records;
     }
 
-
-
-      function getAllPrivateLocation($paging_limit='0 , 10')
-  {
+    function getAllPrivateLocation($paging_limit = '0 , 10') {
        $db = new db();
         $db->makeConnection();
         $data = array();
@@ -931,19 +974,16 @@ function getAllPrivateLocationRows() {
         else
             $set_keywords = " 1 AND ";
 
-        $q = $db->query("SELECT * FROM store WHERE u_id = '" . $_SESSION['userid'] ."' AND s_activ='1' AND  $set_keywords s_activ='1'  LIMIT {$paging_limit} ");
+        $q = $db->query("SELECT * FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND s_activ='1' AND  $set_keywords s_activ='1'  LIMIT {$paging_limit} ");
 
          //$res = mysql_query($q) or die(mysql_error());
         while ($rs = mysql_fetch_array($q)) {
             $data[] = $rs;
         }
         return $data;
+    }
 
-}
-
-
- function getAllSelecterPrivateLocation($campaignid)
-  {
+    function getAllSelecterPrivateLocation($campaignid) {
        $db = new db();
         $db->makeConnection();
         $data = array();
@@ -958,28 +998,17 @@ function getAllPrivateLocationRows() {
             $data[] = $rs[0];
         }
         return $data;
+    }
 
-}
-
-
-function savePrivateLocation($campaignId)
-{
-
+    function savePrivateLocation($campaignId) {
         $db = new db();
         $db->makeConnection();
         $data = array();
         $arrUser = array();
         $inoutObj = new inOut();
 
-
         $arrUser['store_id'] = $_POST['privatelocation'];
-        //print_r($arrUser['store_id']);die();
-
-        foreach($arrUser['store_id'] as $store)
-
-        {
-
-
+        foreach ($arrUser['store_id'] as $store) {
         $QUE = "select * from c_s_rel where campaign_id='" . $campaignId . "' AND store_id='" . $store . "' AND activ = '1'";
         $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
         $row = mysql_fetch_array($res);
@@ -1011,23 +1040,71 @@ function savePrivateLocation($campaignId)
 
            $_SQL = "insert into c_s_rel(`campaign_id`,`store_id`,`start_of_publishing`,`end_of_publishing`,`activ`) values('" . $campaignId . "','" . $store . "','" . $finStartDate . "','" . $enddate . "','1')";
             $res = mysql_query($_SQL) or die("limitttt id in relational table : " . mysql_error());
-}
-
-
+            }
  }
 
             $_SESSION['MESSAGE'] = COUPON_OFFER_SUCCESS;
             $url = BASE_URL . 'showCampaign.php';
             $inoutObj->reDirect($url);
             exit();
+    }
 
+// Advertise Store add for advertise offer support.
+
+    function getAllSelecterPrivateAdvertiseLocation($advertiseid) {
+        $db = new db();
+        $db->makeConnection();
+        $data = array();
+        $q = $db->query("SELECT store_id FROM c_s_rel WHERE advertise_id = '" . $advertiseid . "' AND  activ='1'");
+        while ($rs = mysql_fetch_array($q)) {
+            $data[] = $rs[0];
+        }
+        return $data;
+    }
+
+    function savePrivateAdvertiseLocation($advertiseId) {
+        $db = new db();
+        $db->makeConnection();
+        $data = array();
+        $arrUser = array();
+        $inoutObj = new inOut();
+        $arrUser['store_id'] = $_POST['privatelocation'];
+        foreach ($arrUser['store_id'] as $store) {
+            $QUE = "select * from c_s_rel where advertise_id='" . $advertiseId . "' AND store_id='" . $store . "' AND activ = '1'";
+            $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
+            $row = mysql_fetch_array($res);
+            $checkAdvertiseId = $row['advertise_id'];
+            if ($checkAdvertiseId) {
+                $_SESSION['MESSAGE'] = STORE_NOT_SUCCESS;
+                $url = BASE_URL . 'showAdvertise.php';
+                $inoutObj->reDirect($url);
+                exit();
+            } else {
+                $QUE = "select start_of_publishing from advertise where advertise_id='" . $advertiseId . "'";
+                $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
+                $row = mysql_fetch_array($res);
+                $startdate = $row['start_of_publishing'];
+
+                $QUE = "select end_of_publishing from advertise where advertise_id='" . $advertiseId . "'";
+                $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
+                $row = mysql_fetch_array($res);
+                $enddate = $row['end_of_publishing'];
+
+                if ($startdate < date('Y-m-d')) {
+                    $finStartDate = date('Y-m-d');
+                } else if ($startdate > date('Y-m-d')) {
+                    $finStartDate = $startdate;
+                }
+                $_SQL = "insert into c_s_rel(`advertise_id`,`store_id`,`start_of_publishing`,`end_of_publishing`,`activ`) values('" . $advertiseId . "','" . $store . "','" . $finStartDate . "','" . $enddate . "','1')";
+                $res = mysql_query($_SQL) or die("limit id in relational table : " . mysql_error());
+            }
+        }
+        $_SESSION['MESSAGE'] = COUPON_OFFER_SUCCESS;
+        $url = BASE_URL . 'showAdvertise.php';
+        $inoutObj->reDirect($url);
+        exit();
+    }
 
 }
 
-
-
-
-
-
-}
 ?>

@@ -1,5 +1,5 @@
 <?php
-header('Content-Type: text/html; charset=ISO-8859-15');
+header('Content-Type: text/html; charset=utf-8');
 //header ('Content-type: text/html; charset=utf-8');
 include_once("cumbari.php");
 $menu = "advertise";
@@ -48,7 +48,7 @@ if ($data[0] == '') {
 <script language="JavaScript" src="client/js/jquery.datePicker.js" type="text/javascript"></script>
 <script language="JavaScript" src="client/js/ajaxupload.js" type="text/javascript"></script>
 <script language="JavaScript" src="client/js/jsAdvertiseOffer.js" type="text/javascript"></script>
-<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+<META http-equiv="Content-Type" content="text/html; charset=utf-8">
 <style type="text/css">
     <!--
     .style4 {
