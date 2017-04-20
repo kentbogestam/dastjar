@@ -10,5 +10,5 @@ define("SERVER", "localhost");
 define("PORT", "21");
 define("DATABASE", "cumbari_admin");
 define("USER", "root");
-define("PASSWORD", "smaka3Pudding");
+define("PASSWORD", "mypassword");
 ?>
