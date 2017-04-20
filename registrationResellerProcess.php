@@ -671,7 +671,7 @@ if (!isset($_SESSION['userid']) && !isset($_SESSION['REG_STEP'])) {
             <tr align="center">
                 <td colspan="3" style="padding-left: 120px;">                            </td>
             </tr>
-            <th height="50" colspan ="3" align="center" class="newstyletext"><input type="checkbox" name="terms" id="terms">I am older then 18 years and I understands that I am personally responsible for paying any taxes that are the result of income from Moblyo.
+            <th height="50" colspan ="3" align="center" class="newstyletext"><input type="checkbox" name="terms" id="terms">I am older then 18 years and I understands that I am personally responsible for paying any taxes that are the result of income from Cumbari.
                 	<div id='error_terms' class="error"></div></th>
             </tr>
 

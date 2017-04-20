@@ -592,7 +592,7 @@ if (!isset($_SESSION['userid']) && !isset($_SESSION['REG_STEP'])) {
                 <td colspan="3" style="padding-left: 120px;">                            </td>
             </tr>
             <th height="50" colspan ="3" align="center" class="newstyletext"><input type="checkbox" name="terms" id="terms"> I agree to the <a href="#" onClick="WindowC()">Terms of Services and
-                    Privacy Policy</a> for Moblyo service.
+                    Privacy Policy</a> for Cumbari service.
                 	<div id="error_terms" class="error"></div></th>
             </tr>
 

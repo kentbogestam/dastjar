@@ -25,13 +25,13 @@ class emails {
                Please click on the following link or Copy and Paste in your browser to validate your e-mail address:<br>
               ".$fMsg."
           <br>
-        Moblyo Team";
+        Cumbari Team";
         
         $to =$result['email']; // Recipent email Id
 
-        $headers  = "From: Moblyo Admin <admin@moblyo.com> \r\n"; // header of mail content
+        $headers  = "From: Cumbari Admin <admin@cumbari.com> \r\n"; // header of mail content
         $headers .= "Content-type: text/html\r\n";
-        $subject = "Moblyo: Email varification"; // subject of mail
+        $subject = "Cumbari: Email varification"; // subject of mail
 
         $message =$message;
         $ok = mail($to,$subject,$message,$headers);//Send mail
@@ -63,7 +63,7 @@ class emails {
 
         $to =$result['email']; // Recipent email Id
 
-        $headers  = "From: Moblyo Admin<admin@cumbari.com> \r\n"; // header of mail content
+        $headers  = "From: Cumbari Admin<admin@cumbari.com> \r\n"; // header of mail content
         $headers .= "Content-type: text/html\r\n";
         $subject = "Invitation To Retailers"; // subject of mail
        $message =$messages;
@@ -95,7 +95,7 @@ class emails {
 
         $to = $result['email'];
 
-       $headers  = "From: Moblyo Admin<admin@cumbari.com> \r\n"; // header of mail content
+       $headers  = "From: Cumbari Admin<admin@cumbari.com> \r\n"; // header of mail content
         $headers .= "Content-type: text/html\r\n";
         $subject = "Change Password"; //
 
@@ -124,13 +124,13 @@ class emails {
                Please click on the following link or Copy and Paste in your browser to validate your e-mail address:<br>
               ".$fMsg."
           <br>
-        Moblyo Team";
+        Cumbari Team";
         
         $to =$result['email']; // Recipent email Id
 
-        $headers  = "From: Moblyo Admin <admin@cumbari.com> \r\n"; // header of mail content
+        $headers  = "From: Cumbari Admin <admin@cumbari.com> \r\n"; // header of mail content
         $headers .= "Content-type: text/html\r\n";
-        $subject = "Moblyo: Email varification"; // subject of mail
+        $subject = "Cumbari: Email varification"; // subject of mail
 
         $message =$message;
         $ok = mail($to,$subject,$message,$headers);//Send mail
@@ -151,7 +151,7 @@ function sendCategoryAdminMail($category)
     $result = mysql_fetch_array($res);
     $to = $result['email'];
 
-    $headers  = "From: Moblyo Admin<admin@cumbari.com> \r\n"; // header of mail content
+    $headers  = "From: Cumbari Admin<admin@cumbari.com> \r\n"; // header of mail content
     $headers .= "Content-type: text/html\r\n";
     $subject = "CATEGORY"; // subject of mail
    $messages = "We Found New Category on adv. i.e. ".$category;
@@ -176,7 +176,7 @@ function sendLessPreloadedValueMail($uId)
     $result = mysql_fetch_array($res);
     $to = $result['email'];
 
-    $headers  = "From: Moblyo Admin<admin@cumbari.com> \r\n"; // header of mail content
+    $headers  = "From: Cumbari Admin<admin@cumbari.com> \r\n"; // header of mail content
     $headers .= "Content-type: text/html\r\n";
     $subject = "PRE LOADED VALUE"; // subject of mail
    $messages = "We Have Deactivate Your account due to less balance";
@@ -201,7 +201,7 @@ function sendDeactivateCampaignPreloadedMail($uId)
     $result = mysql_fetch_array($res);
     $to = $result['email'];
 
-    $headers  = "From: Moblyo Admin<admin@cumbari.com> \r\n"; // header of mail content
+    $headers  = "From: Cumbari Admin<admin@cumbari.com> \r\n"; // header of mail content
     $headers .= "Content-type: text/html\r\n";
     $subject = "PRE LOADED VALUE"; // subject of mail
    $messages = "Your Campaign are deactivate due to less balance";
