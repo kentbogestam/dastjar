@@ -21,8 +21,8 @@ $(document).ready(function(){
         $("#error_icon").html('');
         $("#error_standOfferName").html('');
         $("#error_searchKeywordStand").html('');
-        $("#error_picture").html('');
-        $("#error_linkedCatStand").html('');
+        // $("#error_picture").html('');
+        // $("#error_linkedCatStand").html('');
         //$("#error_descriptiveStand").html('');
        
         $("#error_startDateStand").html('');
@@ -65,12 +65,12 @@ $(document).ready(function(){
         }
 
 
-        if($.trim($("#linkedCatStand").val()) == '')
-        {
-            var errorMsg = "Please Select a Category<br />";
-            $("#error_linkedCatStand").html(errorMsg);
-            error = "true";
-        }
+        // if($.trim($("#linkedCatStand").val()) == '')
+        // {
+        //     var errorMsg = "Please Select a Category<br />";
+        //     $("#error_linkedCatStand").html(errorMsg);
+        //     error = "true";
+        // }
 
 
         if($.trim($("#searchKeywordStand").val()).length > 91)
@@ -88,33 +88,33 @@ $(document).ready(function(){
 
 
 
-        if($.trim($("#largeimage").val()).length==0){
+        // if($.trim($("#largeimage").val()).length==0){
 
-            if(($("#picture").val())=='')
-            {
-                var errorMsg = "Please upload image in jpeg or png format.<br />";
-                $("#error_picture").html(errorMsg);
-                error = "true";
-            }else
-            if(!isValidJpegImage($("#picture").val()))
-            {
-                var errorMsg = "Please upload image in jpeg or png format.<br />";
-                $("#error_picture").html(errorMsg);
-                error = "true";
-            }
-        }
-         else
-        {
-            if(($("#picture").val()!=''))
-            {
-                if(!isValidJpegImage($("#picture").val()))
-                {
-                    var errorMsg = "Please upload image of jpeg Or png format.<br />";
-                    $("#error_picture").html(errorMsg);
-                    error = "true";
-                }
-            }
-        }
+        //     if(($("#picture").val())=='')
+        //     {
+        //         var errorMsg = "Please upload image in jpeg or png format.<br />";
+        //         $("#error_picture").html(errorMsg);
+        //         error = "true";
+        //     }else
+        //     if(!isValidJpegImage($("#picture").val()))
+        //     {
+        //         var errorMsg = "Please upload image in jpeg or png format.<br />";
+        //         $("#error_picture").html(errorMsg);
+        //         error = "true";
+        //     }
+        // }
+        //  else
+        // {
+        //     if(($("#picture").val()!=''))
+        //     {
+        //         if(!isValidJpegImage($("#picture").val()))
+        //         {
+        //             var errorMsg = "Please upload image of jpeg Or png format.<br />";
+        //             $("#error_picture").html(errorMsg);
+        //             error = "true";
+        //         }
+        //     }
+        // }
 
 
 

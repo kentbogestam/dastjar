@@ -49,10 +49,14 @@ class ajxCommon {
     function checkEmailExist($emailid) {
 
        
-       $_SQL = "SELECT email FROM user WHERE email ='$emailid'";
+        $_SQL = "SELECT email FROM user WHERE email ='$emailid'";
       
-        $db = new db;
-        $db->makeConnection();
+        $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
          
         // $res = mysql_query($_SQL) or die(mysql_error());
         
@@ -69,9 +73,16 @@ class ajxCommon {
 
     function getCategoryImage($catId) {
         //echo $catId;
+        $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+
         $QUE = "select small_image from category where category_id='" . $catId . "'";
-        $res = mysql_query($QUE) or die(mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($conn , $QUE) or die(mysqli_error($conn));
+        $row = mysqli_fetch_array($res);
         $icon = $row['small_image'];
         $icon_new = explode("/",$icon);
 		$iconlngth = count($icon_new);
@@ -89,12 +100,19 @@ class ajxCommon {
     }
 
    function getCategoryLang($lang) {
+
+    $db = new db();
+    $conn = $db->makeConnection();
+    // Check connection
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
    
-       $options = "";
+    $options = "";
      $query = "SELECT cat.category_id, ltext.text, cat.small_image FROM category as cat left join category_names_lang_list as cat_lang
             ON (cat.category_id = cat_lang.category)
             LEFT JOIN lang_text as ltext ON (cat_lang.names_lang_list = ltext.id) WHERE ltext.lang='" . $lang . "' ";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
         while ($rs = mysql_fetch_array($res)) {
             $data[] = $rs;
 
@@ -111,14 +129,20 @@ class ajxCommon {
     }
 
 
-     function getLangSingleImg($selectedId=0,$lang) {
+    function getLangSingleImg($selectedId=0,$lang) {
+    $db = new db();
+    $conn = $db->makeConnection();
+    // Check connection
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
 
       
      $query = "SELECT ltext.text FROM category as cat left join category_names_lang_list as cat_lang
             ON (cat.category_id = cat_lang.category)
             LEFT JOIN lang_text as ltext ON (cat_lang.names_lang_list = ltext.id) WHERE ltext.lang='" . $lang . "' AND cat.category_id = '" . $selectedId . "' ";
-        $res = mysql_query($query) or die(mysql_error());
-       $rs = mysql_fetch_array($res);
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+       $rs = mysqli_fetch_array($res);
             $data = $rs[text];
 
 
@@ -130,8 +154,12 @@ class ajxCommon {
          
       $_SQL = "SELECT orgnr FROM company WHERE orgnr ='$orgcode'";
 
-        $db = new db;
-        $db->makeConnection();
+        $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
 
         // $res = mysql_query($_SQL) or die(mysql_error());
 

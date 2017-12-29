@@ -29,7 +29,7 @@ class PhocaGalleryImageMagic
 	* @param int $typeOut IMAGETYPE_type vystupniho obrazku
 	* @return bool Chyba kdyz vrati false
 	*/
-	function imageMagic($fileIn, $fileOut = null, $width = null, $height = null, $crop = null, $typeOut = null, $watermarkParams = array(), $frontUpload = 0, &$errorMsg) {
+	public static function imageMagic($fileIn, $fileOut = null, $width = null, $height = null, $crop = null, $typeOut = null, $watermarkParams = array(), $frontUpload = 0, &$errorMsg) {
 
 		//$params 		= JComponentHelper::getParams('com_phocagallery') ;
 		// JPG Quality - - - - -

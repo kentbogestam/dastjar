@@ -78,7 +78,7 @@ if(isset($_POST['SLogin']) || $_SESSION['userid']) {
             <td align="left">&nbsp;</td>
           </tr>
           <tr>
-            <td height="40" colspan="2" align="center" valign="middle"><a id="newcumbari" href='registrationProcess.php'>New to Cumbari? Register here!</a></td>
+            <td height="40" colspan="2" align="center" valign="middle"><a id="newcumbari" href='registrationProcess.php'>New to us? Register here!</a></td>
           </tr>
         </table></td>
   </tr>

@@ -1,3 +1,3 @@
 <?php
-exit("Welcome to cumbari !");
+exit("Welcome to Dastjar !");
 ?>

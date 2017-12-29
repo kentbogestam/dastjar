@@ -8,7 +8,7 @@
 // Checks and sets billing status
 
 header ('Content-type: text/html; charset=utf-8');
-require('/srv/www/htdocs/config/dbConfig.php');
+require('/srv/www/htdocs/LBA_Merchant_Tool/config/dbConfig.php');
 include_once("db.php");
 
 function ControlStatus(){

@@ -85,7 +85,7 @@ if (isset($_POST['continue'])) {
     ///////////////// email condition
 
             if ($email == '') {
-                $email = 'admin@cumbari.com';
+                $email = 'admin@dastjar.com';
             }
 
    ///////////////// country code condition

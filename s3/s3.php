@@ -7,7 +7,7 @@ $s3 = new S3("AKIAIAF662JUNBTP6YHQ", "mHn5SZRqsn/TWDxQefHQJm2Yzz8zo5cuWFQGd1gm")
     print_r($s3->listBuckets());
 
 $file="../upload/category/cat_icon_1203b44b36659acb583ac473f2359b1f.png";
-$bucket="http://cumbari-coupons.s3-website-eu-west-1.amazonaws.com";
+$bucket="http://dastjar-coupons.s3-website-eu-west-1.amazonaws.com";
 //$bucket="http://cumbari-coupons.s3-website-eu-west-1";
 //$bucket="cumbari-coupons";
 $uri="test.png";

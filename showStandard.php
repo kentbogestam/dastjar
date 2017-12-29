@@ -23,6 +23,7 @@ if ($_SESSION['userid']) {
     $pager = new pager($total_records, $records_per_page, @$_GET['_p']);
     $paging_limit = $pager->get_limit();
     $data = $standObj->showStandardOffersDetails($paging_limit);
+    //echo "<pre>"; print_r($data);echo "</pre>";
     $standObj->svrOfferDflt();
 
 
@@ -136,7 +137,7 @@ if ($_GET['m'] == "showStandoffer") {
                                                                                                                                 </tr>-->
                                                                 <tr></tr>
                                                       </table></td>
-                                                        <td width="24%" valign="top"><div align="center"  class="main_bg"><a href="createStandardOffer.php">ADD STANDARD OFFER</a></div></td>
+                                                        <td width="24%" valign="top"><div align="center"  class="main_bg"><a href="createStandardOffer.php">ADD DISHES</a></div></td>
                                                   </tr>
                                                 </table>
                                             </form></td>

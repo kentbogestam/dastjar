@@ -16,7 +16,7 @@ include_once("main.php");
     include_once("mainReseller.php");
 }
 $standardObj = new offer();
-
+$listDishes = $standardObj->listDishes();
 if (isset($_POST['continue'])) {
     $productid = $_POST['productId']; //die();
 
@@ -126,7 +126,7 @@ img {
        <td align="right" valign="middle"><a title="<?=SLANGUAGE_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
     </tr>
     <tr>
-      <td align="left" valign="top"  class="inner_grid">Product Name<span class='mandatory'>*</span>:</td>
+      <td align="left" valign="top"  class="inner_grid">Dish Name<span class='mandatory'>*</span>:</td>
       <td align="left" valign="top" ><INPUT class="text_field_new" style="height:21px; border: 1px solid #99999b; padding-top:4px;" type=text name="titleSloganStand" id="titleSloganStand" maxlength="19" onBlur="iconPreview(this.form); getTitleForProduct(this.form);" value="<?=$data[0]['slogen']
                            ?>">
         <div id='error_titleSloganStand' class="error"></div></td>
@@ -134,6 +134,26 @@ img {
                        ?>" class="vtip"><b><small>?</small></b></a> </td>
     </tr>
     <tr>
+      <td align="left" valign="top"  class="inner_grid">Description. Max. 50 characters<span class='mandatory'>*</span>:<br>
+      </td>
+      <td align="left" valign="top" >
+         <INPUT class="text_field_new" type=text name="productDescription" id="productDescription" maxlength="150" onBlur="iconPreview(this.form);" value="<?=isset($data[0]['product_description']) ? $data[0]['product_description'] : ''
+            ?>">
+         <div id='error_productDescription' class="error" ></div>
+      </td>
+      <td align="right" valign="middle" ><a title="<?=STITLE_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
+   </tr>
+   <tr>
+      <td align="left" valign="top"  class="inner_grid">Dish Preparation Time<span class='mandatory'>*</span>:<br>
+      </td>
+      <td align="left" valign="top" >
+         <INPUT class="text_field_new" type=time name="preparationTime" id="preparationTime" maxlength="19" onBlur="iconPreview(this.form);" value="<?=isset($data[0]['preparation_Time']) ? $data[0]['preparation_Time'] : ''
+            ?>">
+         <div id='error_preparationTime' class="error" ></div>
+      </td>
+      <td align="right" valign="middle" ><a title="<?=STITLE_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
+   </tr>
+    <!-- <tr>
       <td align="left" valign="top" class="inner_grid">Category<span class='mandatory'>*</span>:</td>
       <td  align="left" valign="top"><div id="category_lang_div">
           <select class="text_field_new" onChange="getCatImage(this.value, this.form);" style="width:406px; background-color:#e4e3dd; " tabindex="27" id="linkedCatStand" name="linkedCatStand" value="<?=$_SESSION['post']['linkedCatStand']
@@ -148,7 +168,7 @@ img {
         <div id="category_image_div" style="display:none;"></div>
         <div id='error_linkedCatStand' class="error"></div></td>
       <td align="right" valign="middle"><a title="<?=SCATEGORY_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
-    </tr>
+    </tr> -->
     <tr>
       <td align="left" valign="top" class="inner_grid">Small icon <font size="2">(Icon must be in png format only e.g. icon.png.The size must be at least 45 x 60 pixels)</font></td>
       <td align="left" valign="top"><?php if ($_SESSION['preview']['small_image']) {
@@ -232,25 +252,25 @@ img {
       <td align="right" valign="top"><a title="<?=SKEYWORD_TEXT
                            ?>" class="vtip"><b><small>?</small></b></a></td>
     </tr>
-    <tr>
+    <!-- <tr>
       <td align="left" valign="top" class="inner_grid">EAN Code:<br></td>
       <td  align="left" valign="top"><INPUT class="text_field_new" type=text name="eanCode" id="eanCode" value="<?=$data[0]['ean_code']
                            ?>">
         <div id='error_eanCode' class="error"></div></td>
        <td align="right" valign="middle"><a title="<?=SEAN_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
-    </tr>
-    <tr>
+    </tr> -->
+    <!-- <tr>
       <td align="left" valign="top" class="inner_grid">Product Number:<br></td>
       <td  align="left" valign="top"><INPUT class="text_field_new" type=text name="productNumber" value="<?=$data[0]['product_number']
                            ?>" id="productNumber">
         <div id='error_productNumber' class="error"> </div></td>
        <td align="right" valign="middle"><a title="<?=PRODUCTNUMBER_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
-    </tr>
+    </tr> -->
     <tr>
   </table>
   <div class="redwhitebutton_small123">Add your Coupon View</div>
     <table  width="100%" border="0" cellspacing="15">
-        <tr>
+       <!--  <tr>
           <td width="505" align="left" valign="top" class="inner_grid">Large deal icon <font size="2">(Image must be in jpeg or png format only e.g. image.png or image.jpg.The size must be at least 247 x 130 pixels)</font>
             		<span class='mandatory'>*</span></td>
         <td width="233" align="left" valign="top">
@@ -262,10 +282,10 @@ img {
 
                 $icon_new = explode("/",$data[0]['large_image']);
                 $iconlngth = count($icon_new);
-                ?>
+                ?> -->
         <!-- <img src="upload/coupon/<?=$icon_new[$iconlngth-1]
                         ?>">-->
-        <input class="text_field_new" type="hidden" name="largeimage" id="largeimage" value="<?=$data[0]['large_image']
+        <!-- <input class="text_field_new" type="hidden" name="largeimage" id="largeimage" value="<?=$data[0]['large_image']
                                ?>">
         <?
             }
@@ -274,7 +294,7 @@ img {
         <div id='error_picture' class="error"></div></td>
       <td align="right" valign="top"><a title="<?=SPICTURE_TEXT
                        ?>" class="vtip"><b><small>?</small></b></a> </td>
-    </tr>
+    </tr> -->
     <tr>
       <td class="inner_grid">Release date of product<span class='mandatory'>*</span>:</td>
       <td align="left" valign="top"><?  $d=$data[0]['start_of_publishing'];
@@ -286,13 +306,27 @@ img {
       <td align="right" valign="top"><a title="<?=RELEASE_DATE_OF_PRODUCT?>" class="vtip"><b><small>?</small></b></a> </td>
     </tr>
     <tr>
+        <td width="50%" align="left" valign="top" class="td_pad_left">Type of Dish<span class='mandatory'>*</span>:</td>
+        <td width="50%" align="left" valign="top" class="td_pad_right">
+          <?php $value = 0; ?>
+          <div class="adddishes">
+              <select id= "xx" selected="<?=isset($data[0]['dish_type']) ? $data[0]['dish_type'] : ''?>" name="select2" style="width:406px; background-color:#e4e3dd; border:#abadb3 solid 1px;" class="text_field_new" >
+                  <?php foreach($listDishes as $key =>$value) { ?>
+                          <option value = <?php echo $value['dish_id']?> <?php if(isset($data[0]['dish_type']) ? $data[0]['dish_type'] : '' ==  $value['dish_id']) echo "selected"; ?> ><?php echo $value['dish_name']?></option>
+                  <?php } ?>
+              </select>
+              <div id='error_startDateStand' class="error"></div>
+          </div>
+        </td>
+     </tr>
+    <tr>
       <td colspan="2"><INPUT class="text_field_new" type="hidden" name="productName" value="<?=$data[0]['product_name']
                            ?>" id="productName">
         <!--<a title="<?=PRODUCTNAME_TEXT
                        ?>" class="vtip"><b><small>?</small></b></a><br/>-->
         <div id='error_productName' class="error"></div></td>
     </tr>
-    <tr>
+    <!-- <tr>
       <td><?php if ($data[0]['is_public']) { ?>
         <input type="checkbox" name="publicProduct"  checked="checked" value="1">
         Public product
@@ -304,10 +338,10 @@ img {
         &nbsp; <a title="<?=PUBLIC_PRODUCT
                                ?>" class="vtip"><b><small>?</small></b></a> </td>
       <td colspan="2">&nbsp;</td>
-    </tr>
+    </tr> -->
     <div id='error_publicProduct' class="error"></div>
   </table>
-  <div class="redwhitebutton_small123">Add your Info Page</div>
+  <!-- <div class="redwhitebutton_small123">Add your Info Page</div>
   <table  width="100%" style="display: inline_row;" id="infopageStand" cellspacing="15">
     <tr>
       <td width="515" class="inner_grid">Link:</td>
@@ -316,8 +350,8 @@ img {
         <div id='error_link' class="error"></div></td>
       <td align="right"><a title="<?=SDESCRIPTION_TEXT ?>" class="vtip"><b><small>?</small></b></a> </td>
     </tr>
-  </table>
-  <table width="100%" border="0">
+  </table> -->
+  <!-- <table width="100%" border="0">
     <tr>
       <td>&nbsp;</td>
       <td align="center"><table width="200" align="center" border="0" cellpadding="0" cellspacing="0" style="background-image:url(client/images/iphone_large.png); width:270px; height:529px; background-repeat:no-repeat;">
@@ -343,9 +377,9 @@ img {
               <?=$data[0]['slogen']
                            ?>
               </span> </span> <br>
-              <br>
+              <br> -->
               <!-- <span style="padding-left:20px; color:#FFFFFF;"><b>Category:</b><? //echo $catName['categoryName'];    ?></span><br>-->
-            </td>
+            <!-- </td>
             <td width="10" ></td>
             <td>&nbsp;</td>
           </tr>
@@ -375,7 +409,7 @@ img {
         </table></td>
       <td>&nbsp;</td>
     </tr>
-  </table>
+  </table> -->
   <div align="center">
     <?if($reseller == '') {?>
     <INPUT type="submit" align="center" value="Update" name="continue" class="button" id="continue" >

@@ -25,9 +25,9 @@
 <div class="cum_body">
 <div class="cum_body_left">
 <div class="b-t-h"><!--Looking for hot deals in your neighborhood?--></div>
-<div class="b-t-s-h"><!--Down Load the iPhone app and brows local deals on products and services on your iPhone.--></div>
+<div class="b-t-s-h"><!--Download the app and brows local deals on products and services on any device.--></div>
 <div class="b-t-h2"><div class="cum-f-left1"></div><div class="cum-f-left2"></div></div>
-<div class="b-btn"><div class="btn"><a href="app_download.php">Down Load</a></div>
+<div class="b-btn"><div class="btn"><a href="app_download.php">Download</a></div>
 </div>
 
 
@@ -35,7 +35,7 @@
 <div class="cum_body_right"><img src="Home_files/shapeimage_7.png" alt="" width="415" height="571" border="0"></div>
 </div>
 <div class="cum_body-2">
-<div style="margin-right:25px; margin-top:145px; width:395px; height:105px; float:right;"><a href="http://advertise.cumbari.com/login_home.php"><img src="images/index-7.gif" alt="Do want to offer your products or" width="395" height="105" border="0" /></a></div>
+<div style="margin-right:25px; margin-top:145px; width:395px; height:105px; float:right;"><a href="login_home.php"><img src="images/index-7.gif" alt="Offer your products or" width="395" height="105" border="0" /></a></div>
 </div>
 <div class="cum_footer"><?php include("footer.php");?></div>
 </div>

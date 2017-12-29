@@ -324,23 +324,24 @@ class inOut {
     function dbSvrLogindChk($username, $password,$role) {
         $data = array();
         $db = new db;
-        $db->makeConnection();
+        $conn = $db->makeConnection();
         // To protect MySQL injection
         $username = stripslashes($username);
         $password = stripslashes($password);
-        $username = mysql_real_escape_string($username);
-        $password = mysql_real_escape_string($password);
+        $username = mysqli_real_escape_string($conn, $username);
+        $password = mysqli_real_escape_string($conn, $password);
 
         $query = "select * from user where email = '".$username."'";
-         $res= $db->query($query);
-         $rs = mysql_fetch_array($res);
+        $res= $db->query($query);
+         $rs = mysqli_fetch_array($res);
          $uId = $rs['u_id'];
          
         $password_sha256 = $password;
         $password_hash = hash_hmac('sha256', $password_sha256, $uId);
         $query = "select * from user where email = '".$username."' and passwd = '".$password_hash."' and role = '" . $role . "'";
         
-        $res= $db->query($query);
+        $res = mysqli_query($conn, $query);
+        //$res= $db->query($query);
         $count = $db->numRows($res);
 
         if($count) {
@@ -598,8 +599,13 @@ class inOut {
     */
     function dbSupportLogindChk($username, $password) {
         $data = array();
-        $db = new db;
-        $db->makeConnection();
+        $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+
         // To protect MySQL injection
         $username = stripslashes($username);
         $password = stripslashes($password);
@@ -608,7 +614,7 @@ class inOut {
 
         $query = "select * from user_support where email = '".$username."'";
          $res= $db->query($query);
-         $rs = mysql_fetch_array($res);
+         $rs = mysqli_fetch_array($res);
          $uId = $rs['u_id'];
 
         $password_sha256 = $password;
@@ -637,12 +643,17 @@ class inOut {
     */
     function showUserActivities($userid) {
         $data = array();
-		$db = new db;
-        $db->makeConnection();
+		$db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+
         $query = "select user_activity.*,concat(user.fname,' ',user.lname) as username,user.email as useremail,user_support.email as supportemail,concat(user_support.fname,' ',user_support.lname) as supportusername from user_activity left join user on user_activity.user_id = user.u_id left join user_support on user_activity.support_user_id = user_support.u_id  where user_id = "."'".$userid."'"." order by in_time desc";
         $res= $db->query($query);
 
-		 while ($rs = mysql_fetch_array($res)) {
+		 while ($rs = mysqli_fetch_array($res)) {
             $data[] = $rs;
         }
         
@@ -656,17 +667,23 @@ class inOut {
     function forgetPassword()
     {
        
-         $db = new db;
+        $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+
         $arrUser = array();
         $error = '';
 
         $arrUser['email'] = $_POST['email'];
         $query = "select * from user where email = '". $arrUser['email']."'";
-        $res = mysql_query($query) or die(mysql_error());
-        $rs = mysql_fetch_array($res);
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+        $rs = mysqli_fetch_array($res);
        $mail = $rs['email'];
         if($mail != '')
-            {
+        {
           $mailObj = new emails();
           $mailObj->forgetPasswordEmail($mail);
          $_SESSION['MESSAGE'] = CHECK_MAIL;
@@ -687,6 +704,12 @@ class inOut {
    
         $inoutObj = new inOut();
         $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+
         $arrUser = array();
         $error = '';
 
@@ -694,14 +717,14 @@ class inOut {
 
         $query = "select * from user where email = '".$email."'";
          $res= $db->query($query);
-         $rs = mysql_fetch_array($res);
+         $rs = mysqli_fetch_array($res);
          $uId = $rs['u_id'];
 
             $password_sha256 = $arrUser['passwd'];
            $password_hash = hash_hmac('sha256', $password_sha256, $uId);
 
         $QUE = "UPDATE user SET passwd = '" . $password_hash . "' WHERE email = '" . $email . "'";
-        $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
+        $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysqli_error($conn));
         
             $_SESSION['MESSAGE'] = NOW_LOGIN;
             $url = BASE_URL . 'login.php';

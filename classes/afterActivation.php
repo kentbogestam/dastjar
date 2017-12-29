@@ -325,9 +325,15 @@ class afterActivation {
         $error = '';
         $arrUser = array();
 
+         $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+
         ///////Update user table activ field/////////////////////////////
         $query = "UPDATE user SET activ='5' WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
         $_SESSION['active_state'] = 5;
 

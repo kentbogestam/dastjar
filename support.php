@@ -89,7 +89,7 @@ if(isset($_SESSION['supportuserid'])) {
                                                 </tr>
                                                 <tr>
 
-                                                    <td align="center"   colspan="2"> <!-- <a id="newcumbari" href='registrationProcess.php'>New to Cumbari? Register here!</a> --> </td>
+                                                    <td align="center"   colspan="2"> <!-- <a id="newcumbari" href='registrationProcess.php'>New to Dastjar? Register here!</a> --> </td>
                                                 </tr>
                                             </table></td>
 

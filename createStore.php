@@ -28,7 +28,7 @@ if ($data[0]['latitude'] && $data[0]['longitude']) {
 //$zoom = "0";
 include_once("header.php");
 ?>
-<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyBA2NjukdsOEeCHb1ZTbZmaKbYGs0SMFgE&sensor=false"></script>
 <!--<script language="JavaScript" src="client/js/jsMap.js" type="text/javascript"></script>
 --><script language="JavaScript" src="client/js/jsStore.js" type="text/javascript"></script>
 

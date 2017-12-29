@@ -8,27 +8,27 @@
 
 /* Local Setting */
 
-$base_url = "https://advertise.cumbari.com/";
+$base_url = "http://localhost/dastjar/";
 $basePath = $_SERVER["DOCUMENT_ROOT"] . '/';
 
-$base_url = "https://advertise.cumbari.com/";
+$base_url = "http://localhost/dastjar/";
 
 define('BASEPATH', $basePath);
-define('BASE_PATH_NO_ADMIN', 'https://cumbari.com/');
+define('BASE_PATH_NO_ADMIN', 'http://localhost/dastjar/');
 define('BASE_URL', $base_url);
-define('_HOME_', "https://advertise.cumbari.com/");
+define('_HOME_', "http://localhost/dastjar/");
 
 
 /* End Here for Local Setting */
 define('FUNCTION_DIR', 'function/');
 //define('TIME_ZONE','Asia/Calcutta');
-define('UPLOAD_DIR', BASEPATH . 'upload/');
+define('UPLOAD_DIR', BASEPATH . 'dastjar/upload/');
 define('_UPLOAD_URLDIR_', $base_url . 'upload/');
 
 /////////// upload image dirctory/////////
-define('_UPLOAD_IMAGE_', $basePath . 'upload/');
+define('_UPLOAD_IMAGE_', $basePath . 'dastjar/upload/');
 
-define('IMAGE_AMAZON_PATH', 'https://s3-eu-west-1.amazonaws.com/cumbari-coupons/upload/');
+define('IMAGE_AMAZON_PATH', 'https://s3-eu-west-1.amazonaws.com/dastjar-coupons/upload/');
 
 define('IMAGE_DIR_PATH', '/usr/local/bin/cumbari_s3.sh ');
 
@@ -48,6 +48,14 @@ define('CSS_PATH', 'client/css/');
 define('JS_PATH', 'client/js/');
 define('LIB_PATH', BASE_URL . 'lib/');
 define('PAGING', 10);
+
+define('PERCH_EMAIL_METHOD', 'smtp');
+define('PERCH_EMAIL_HOST', 'smtp.mailtrap.io');
+define('PERCH_EMAIL_SECURE', 'tls');
+define('PERCH_EMAIL_AUTH', true);
+define('PERCH_EMAIL_PORT', 2525);
+define('PERCH_EMAIL_USERNAME', 'fc37838be07f5f');
+define('PERCH_EMAIL_PASSWORD', '4504d2abb7065c');
 
 ///////////////////////
 // Register for google map key with your domain and update it

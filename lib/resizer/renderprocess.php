@@ -178,7 +178,7 @@ class PhocaGalleryRenderProcess
 	}
 	
 	
-	function displayStopThumbnailsCreating() {/*
+	public static function displayStopThumbnailsCreating() {/*
 		
 		// 1 ... link was displayed
 		// 0 ... display the link "Stop ThumbnailsCreation

@@ -13,23 +13,23 @@
   <div class="cumbari_download_box">
     <div class="cumbari_img_box"></div>
     <div class="cumbari_txt_box">
-      <h1>Moblyo WEB App</h1>
-      <p>With the Moblyo App you can find special offers, products, cafés, shops and restaurants in your area.<br/>
+      <h1>Dastjar App</h1>
+      <p>With the Dastjar App you can find special offers, products, cafés, shops and restaurants in your area.<br/>
         Sort by distance, category or brand. Find it on the map or bookmark for later use.
-        In the Moblyo App you can find discounts and free stuff and deals such as from cafe, restaurants, hairdressers,</p>
-      <div class="down_button"><a href="https://cumbari.com/webclient/cumbari.html"><img src="images/app_download_button.png" alt="Download" border="0" /></a></div>
+        In the Dastjar App you can find discounts and free stuff and deals such as from cafe, restaurants, hairdressers,</p>
+      <div class="down_button"><a href="webclient/cumbari.html"><img src="images/app_download_button.png" alt="Download" border="0" /></a></div>
     </div>
   </div>
-  <div class="cumbari_download_box">
+<!--  <div class="cumbari_download_box">
     <div class="cumbari_img_box_mob"></div>
     <div class="cumbari_txt_box">
       <h1>Moblyo Iphone App</h1>
       <p>With the Moblyo App you can find special offers, products, cafés, shops and restaurants in your area.<br/>
         Sort by distance, category or brand. Find it on the map or bookmark for later use.
         In the Moblyo App you can find discounts and free stuff and deals such as from cafe, restaurants, hairdressers,</p>
-      <div class="down_button"><a href="http://itunes.apple.com/in/app/cumbari/id494521898?mt=8"><img src="images/app_download_button.png" alt="Download" border="0" /></a></div>
+      <div class="down_button"><a href="http://itunes.apple.com/in/app/dastjar/id494521898?mt=8"><img src="images/app_download_button.png" alt="Download" border="0" /></a></div>
     </div>
   </div>
-</div>
+</div>-->
 <div class="clear"></div>
 <?php include("footer.php");?>

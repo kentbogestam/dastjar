@@ -4,7 +4,25 @@
  */
 $(document).ready(function(){
 
+    $("#continue1").click(function(){
+        var error = 'false';
+        $("#error_dishName").html('');
 
+        if(($.trim($("#dishName").val()).length == 0))
+        {
+
+            var errorMsg = "Please Enter Your Dish Name.<br />";
+            $("#error_dishName").html(errorMsg);
+            error = "true";
+
+        }
+
+        if(error=="true")
+        {
+            return false;
+        }
+        return true;
+    });
 
     $("#continue").click(function(){
         var error = 'false';
@@ -17,6 +35,7 @@ $(document).ready(function(){
         $("#error_link").html('');
         $("#error_address").html('');
         $("#error_coordinate").html('');
+
         
         if(($.trim($("#storeName").val()).length == 0))
         {

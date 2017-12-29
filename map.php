@@ -7,7 +7,9 @@ die();
 if($lat!="" && $lang!="" && $zoom!="")
 	 {
 	 ?>
-<script src="http://maps.google.com/maps?file=api&v=2&key=<?=_GKEY_?>" type="text/javascript"></script><style type="text/css">
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyBA2NjukdsOEeCHb1ZTbZmaKbYGs0SMFgE&sensor=false"></script>
+  type="text/javascript"></script>
+<style type="text/css">
 <!--
 .center{width:900px; margin-left:auto; margin-right:auto;}
 

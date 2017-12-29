@@ -34,7 +34,7 @@ else
     $show = 'class="selected"';
 include_once("main.php");
 ?>
-<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByLiizP2XW9JUAiD92x57u7lFvU3pS630&sensor=false"></script>
 <script language="JavaScript" src="client/js/jsStore.js" type="text/javascript"></script>
 <style type="text/css">
 <!--
@@ -200,7 +200,18 @@ include_once("main.php");
 ?>" id ="link" ><div id='error_link' class="error"></div>            </td>
              <td align="right"><a title="<?=LINK_TO_THE_LOCATION_HOME_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
         </tr>
-                        <tr>
+
+        <tr>
+             <td height="42" align="left">Type of Restaurant                </td>
+             <td>
+                <select class="text_field_new" style="background-color:#e4e3dd; width:406px; height:36px;border: 1px solid #abadb3;" tabindex="27" id="typeofrestrurant" name="typeofrestrurant">
+                   <option value="1">Eat Now</option>
+                   <option value="2">Eat Later</option>
+                   <option value="3">Both</option>
+                </select>
+             </td>
+          </tr>
+    <tr>
              
              <td class="inner_grid"></td>
              <td><input class="text_field_new" type="hidden" name="latitude" id="latitude" value="<?=$data[0]['latitude']

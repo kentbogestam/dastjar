@@ -23,7 +23,7 @@ $pager = new pager($total_records, $records_per_page, @$_GET['_p']);
 $paging_limit = $pager->get_limit();
 $data = $standObj->showDeleteStandard($paging_limit);
 $standObj->svrOfferDflt();
-
+//echo "<pre>"; print_r($data);echo "</pre>";
 
 //print_r($is_Public);
 } else {
@@ -141,7 +141,7 @@ echo "Deleted Standard";
 <table width="100%" border="0" cellpadding="6" cellspacing="0" class="border">
 <tr>
 <td width="49%" align="left"><?php //echo $pager->get_title('&nbsp;Displaying results {FROM} to {TO} of {TOTAL}');         ?></td>
-<td width="51%" align="right" style="color:#881d0a;"><img src="lib/grid/images/edite.gif">&nbsp;Edit&nbsp;&nbsp;&nbsp;<img src="lib/grid/images/view.gif">&nbsp;View&nbsp;&nbsp;&nbsp;</td>
+<td width="51%" align="right" style="color:#881d0a;"><!-- <img src="lib/grid/images/edite.gif">&nbsp;Edit&nbsp;&nbsp;&nbsp; --><img src="lib/grid/images/view.gif">&nbsp;View&nbsp;&nbsp;&nbsp;</td>
 </tr>
 </table>
 
@@ -175,7 +175,7 @@ foreach ($data as $data1) {
 value='<?=$line['id']
 ?>'></td>
 <td align="center"><?php echo $i; ?> </td>-->
-<td align="center"><?php echo $data1['slogen']; ?></td>
+<td align="center"><?php echo $data1['product_name']; ?></td>
 <!--<td align="center"><?php echo $data1['product_name']; ?></td>-->
 
 <td align="center"><img src="<?php echo $data1['small_image'] ?>" height="30" width="30"/></td>
@@ -188,7 +188,7 @@ echo "No";
 else
 echo "Yes"; ?></td>
    <? $keyString = wordwrap($data1['keyword'], 20, "<br>", 1); ?>
-<td align="center" class="key"><?php echo $keyString; ?></td>
+<td align="center" class="key"><?php echo $data1['product_description'] ?></td>
 <!--<td align="center"><?php echo $data1['link']; ?></td>-->
 <!--<td align="center"><?
 echo "<br><a href='";
@@ -203,10 +203,10 @@ echo "'>Mail to Retailers</a>";
 <td  align="center">
 <a href="viewDeleteStandard.php?productId=<?=$data1['product_id'];
 ?>" class="a2" title="View"><img src="lib/grid/images/view.gif"></a>&nbsp;
-&nbsp; |&nbsp;
+&nbsp; <!-- |&nbsp;
 &nbsp;<a href="editDeleteStandard.php?productId=<?=$data1['product_id'];
 ?>" class="a2" title="Edit"><img src="lib/grid/images/edite.gif"></a>&nbsp;
-&nbsp;
+&nbsp; -->
 <!--|
 &nbsp;
 &nbsp;<img src="lib/grid/images/delete.gif">&nbsp;

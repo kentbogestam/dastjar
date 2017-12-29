@@ -9,7 +9,7 @@ class db {
     var $link;
     var $result;
     var $sql;
-
+    
     /* Function Header :makeConnection()
 *             Args: $emailId
 *           Errors: none
@@ -19,11 +19,12 @@ class db {
 
     function makeConnection() {
         //echo SERVER;
-        $this->link = mysql_connect(SERVER,USER,PASSWORD);
-        if ( ! $this->link )
-            die( "Couldn't connect to MySQL. ".mysql_error());
-        mysql_select_db( DATABASE, $this->link ) or die( "Couldn't open {DATABASE} database. ".mysql_error());
-
+        $this->link = mysqli_connect(SERVER,USER,PASSWORD,DATABASE);
+        //die($this->link);
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
         return($this->link);
     }
     /* Function Header :closeConnection()
@@ -42,8 +43,9 @@ class db {
 *      Description: To query in the database.
     */
     public function query($query) {
-        $this->makeConnection();
-        $res = mysql_query($query,$this->link) or die(mysql_error());
+        $conn = $this->makeConnection();
+        $res = mysqli_query($conn, $query);
+        //$res = mysql_query($query,$this->link) or die(mysql_error());
         if(!$res) {
             trigger_error('FAILED: '.$query, E_USER_NOTICE);
         }else {
@@ -57,7 +59,7 @@ class db {
 *      Description: To Fetch data Connection.
     */
     function fetchRow($res) {
-        return mysql_fetch_assoc($res);
+        return mysqli_fetch_assoc($res);
     }
 
     /* Function Header :numRows($res)
@@ -67,7 +69,10 @@ class db {
 *      Description: To calculate number of rows of  data Connection.
     */
     function numRows($res) {
-        return mysql_num_rows($res);
+        if (!$res || mysqli_num_rows($res) == 0){
+            return false;
+        }
+        return mysqli_num_rows($res);
     }
 
     /* Function Header :isEmpty($res)

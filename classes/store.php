@@ -22,7 +22,9 @@ class store {
         } else {
             $mode = '';
         }
+
         switch ($mode) {
+
             case 'saveStore':
                 $this->saveStoreDetails();
                 break;
@@ -51,6 +53,73 @@ class store {
         }
     }
 
+    public function deleteDish(){
+        if($_REQUEST['m'] == 'deleteDish'){
+
+            $inoutObj = new inOut();
+            $db = new db();
+            $conn = $db->makeConnection();
+            // Check connection
+            if (!$conn) {
+                die("Connection failed: " . mysqli_connect_error());
+            }else{}
+
+            $arrUser = array();
+            $error = '';
+
+            //echo $arrUser['lang'];die();
+
+            $query = "UPDATE dish_type SET
+                    dish_activate='0'
+                    WHERE dish_id='" . $_GET['dishId'] . "' ";
+            $res = mysqli_query($conn, $query) or die(mysql_error());
+            $url = BASE_URL . 'showDishes.php';
+            $inoutObj->reDirect($url);
+
+            exit();
+            
+        }
+        
+    }
+
+    function showDishType($paging_limit = '0 , 10'){
+
+        
+        $db = new db();
+        $db->makeConnection();
+        $data = array();
+        $dishActivate='1';
+        if (isset($_REQUEST['keyword']) OR isset($_REQUEST['key'])) {
+            // $qstr1 = " store_name REGEXP '[[:<:]]".trim($_REQUEST['keyword'])."[[:>:]]' ";
+            // $qstr2 = " email REGEXP '[[:<:]]".trim($_REQUEST['key'])."[[:>:]]' ";
+            $set_keywords = "";
+            if ($_REQUEST['keyword']) {
+                $set_keywords.= 'dish_name LIKE "%' . trim($_REQUEST['keyword']) . '%" AND ';
+            }
+            if ($_REQUEST['key']) {
+                $set_keywords.= 'dish_lang LIKE "%' . trim($_REQUEST['key']) . '%" AND ';
+            }
+            // $set_keywords = "(u_id='".$_SESSION['userid']."' AND ".$qstr1.") OR
+            //                  (u_id='".$_SESSION['userid']."' AND ".$qstr2.")";
+        }
+        else
+            $set_keywords = " 1 AND ";
+
+        //$q = $db->query("SELECT * FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND $set_keywords s_activ='1'  LIMIT {$paging_limit} ");
+
+        if($_REQUEST['m'] == "showDeletedDishes"){
+            $dishActivate='0';
+        }
+
+        $q = $db->query("SELECT * FROM dish_type WHERE u_id = '" . $_SESSION['userid'] . "' AND $set_keywords dish_activate='" . $dishActivate . "' ");
+        
+        // $res = mysql_query($query) or die(mysql_error());
+        while ($rs = mysqli_fetch_array($q)) {
+            $data[] = $rs;
+        }
+        return $data;
+    }
+
     /* Function Header :saveStoreDetails()
      *             Args: none
      *           Errors: none
@@ -61,6 +130,11 @@ class store {
     function saveStoreDetails() {
         $inoutObj = new inOut();
         $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
         $arrUser = array();
         $error = '';
 
@@ -118,54 +192,54 @@ class store {
 
         $contry = $arrUser['country'];
         $query = "select * from country where name = '" . $contry . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $rs = mysql_fetch_array($res);
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+        $rs = mysqli_fetch_array($res);
         $coutryIso = $rs['iso'];
 
         $storeUniqueId = uuid();
         $query = "INSERT into store(`store_id`,`u_id`,`store_name`,`street`,`city`,`country`,`latitude`,`longitude`,`email`,`phone`,`store_link`,`country_code`,`access_type`,`chain`,`block`,`zip`)
                  VALUES('" . $storeUniqueId . "','" . $_SESSION['userid'] . "','" . $arrUser['store_name'] . "','" . $arrUser['street'] . "','" . $arrUser['city'] . "','" . $arrUser['country'] . "','" . $arrUser['latitude'] . "','" . $arrUser['longitude'] . "','" . $arrUser['email'] . "','" . $arrUser['phone'] . "','" . $arrUser['link'] . "','" . $coutryIso . "','1','" . $arrUser['chain'] . "','" . $arrUser['block'] . "','" . $arrUser['zip'] . "')";
-        $res = mysql_query($query) or die('1' . mysql_error());
+        $res = mysqli_query($conn , $query) or die('1' . mysqli_error($conn));
 
       $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
                  VALUES('" . $storeUniqueId . "','PINCODE')";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
         $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
                  VALUES('" . $storeUniqueId . "','TIME_LIMIT')";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
         $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
                  VALUES('" . $storeUniqueId . "','MANUAL_SWIPE')";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
         if (isset($arrUser['BARCODE'])) {
           $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
                  VALUES('" . $storeUniqueId . "','BARCODE')";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
         }
 
 
         if (isset($arrUser['DPS'])) {  /// New Option
             $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
                  VALUES('" . $storeUniqueId . "','AUTO')";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
         }
 
          /////////////////////////////////////////////////////////////////////////////////////////////
         //To check whether store belongs to Campaign or advertise or Product and update coupon related to that table
         $query = "SELECT * FROM campaign WHERE u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die('2' . mysql_error());
+        $res = mysqli_query($conn , $query) or die('2' . mysqli_error($conn));
 
-        if (mysql_num_rows($res)) {
-            $row = mysql_fetch_array($res);
+        if (mysqli_num_rows($res)) {
+            $row = mysqli_fetch_array($res);
             $camp_id = $row['campaign_id'];
             $start_publishing = $row['start_of_publishing'];
             $end_publishing = $row['end_of_publishing'];
 
            $query = "INSERT into c_s_rel(`campaign_id`,`store_id`,`start_of_publishing`,`end_of_publishing`)
                  VALUES('" . $camp_id . "','" . $storeUniqueId . "','" . $start_publishing . "','" . $end_publishing . "')";
-            $res = mysql_query($query) or die('3' . mysql_error());
+            $res = mysqli_query($conn , $query) or die('3' . mysqli_error($conn));
 
             //$query = "UPDATE coupon SET store_id = '$storeUniqueId' WHERE campaign_id='" . $camp_id . "'";
             //$res = mysql_query($query) or die(mysql_error());
@@ -173,10 +247,10 @@ class store {
            
             $query = "SELECT * FROM advertise WHERE u_id='" . $_SESSION['userid'] . "'";
            
-            $res = mysql_query($query) or die('2' . mysql_error());
+            $res = mysqli_query($conn , $query) or die('2' . mysqli_error($conn));
 
-            if (mysql_num_rows($res)) {
-                $row = mysql_fetch_array($res);
+            if (mysqli_num_rows($res)) {
+                $row = mysqli_fetch_array($res);
                 $advt_id = $row['advertise_id'];
                 $start_publishing = $row['start_of_publishing'];
                 $end_publishing = $row['end_of_publishing'];
@@ -184,20 +258,20 @@ class store {
                  $query = "INSERT into c_s_rel(`advertise_id`,`store_id`,`start_of_publishing`,`end_of_publishing`)
                      VALUES('" . $advt_id . "','" . $storeUniqueId . "','" . $start_publishing . "','" . $end_publishing . "')";
                 
-                $res = mysql_query($query) or die('3' . mysql_error());
+                $res = mysqli_query($query) or die('3' . mysqli_error($conn));
 
             //$query = "UPDATE coupon SET store_id = '$storeUniqueId' WHERE campaign_id='" . $camp_id . "'";
             //$res = mysql_query($query) or die(mysql_error());
         } else {
             $query = "SELECT * FROM product WHERE u_id='" . $_SESSION['userid'] . "'";
-            $res = mysql_query($query) or die(mysql_error());
-            $row = mysql_fetch_array($res);
+            $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+            $row = mysqli_fetch_array($res);
             $product_id = $row['product_id'];
             $start_publishing = $row['start_of_publishing'];
 
             $query = "INSERT into c_s_rel(`product_id`,`store_id`,`start_of_publishing`)
                  VALUES('" . $product_id . "','" . $storeUniqueId . "','" . $start_publishing . "')";
-            $res = mysql_query($query) or die("1" . mysql_error());
+            $res = mysqli_query($conn , $query) or die("1" . mysqli_error($conn));
 
             //$query = "UPDATE coupon SET store_id = '$storeUniqueId' WHERE product_id='" . $product_id . "'";
             //$res = mysql_query($query) or die("2" . mysql_error());
@@ -207,7 +281,7 @@ class store {
 //////////////////////////////////////////////////
         /////Update user table activ field/////////////////////////////
         $query = "UPDATE user SET activ='4' WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die("3" . mysql_error());
+        $res = mysqli_query($conn , $query) or die("3" . mysqli_error($conn));
 
         $_SESSION['MESSAGE'] = CREATE_STORE_SUCCESS;
         $_SESSION['REG_STEP'] = 5;
@@ -227,9 +301,15 @@ class store {
     function saveNewStoreDetails() {
         $inoutObj = new inOut();
         $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
         $arrUser = array();
         $error = '';
 
+        $arrUser['store_type'] = $_POST['typeofrestrurant'];
         $arrUser['store_name'] = $_POST['storeName'];
         $arrUser['email'] = $_POST['email'];
         $arrUser['street'] = $_POST['streetaddStore'];
@@ -287,38 +367,38 @@ class store {
 
         $contry = $arrUser['country'];
         $query = "select * from country where name = '" . $contry . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $rs = mysql_fetch_array($res);
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+        $rs = mysqli_fetch_array($res);
         $coutryIso = $rs['iso'];
 
         $_SESSION['post'] = "";
         $storeUniqueId = uuid();
-        $query = "INSERT into store(`store_id`,`u_id`,`store_name`,`email`,`street`,`phone`,`store_link`,`city`,`country`,`latitude`,`longitude`,`s_activ`,`country_code`,`access_type`,`chain`,`block`,`zip`)
-                 VALUES('" . $storeUniqueId . "','" . $_SESSION['userid'] . "','" . $arrUser['store_name'] . "','" . $arrUser['email'] . "','" . $arrUser['street'] . "','" . $arrUser['phone'] . "','" . $arrUser['link'] . "','" . $arrUser['city'] . "','" . $arrUser['country'] . "','" . $arrUser['latitude'] . "','" . $arrUser['longitude'] . "','1','" . $coutryIso . "','1','" . $arrUser['chain'] . "','" . $arrUser['block'] . "','" . $arrUser['zip'] . "')";
-        $res = mysql_query($query) or die(mysql_error());
+        $query = "INSERT into store(`store_id`,`u_id`,`store_type`,`store_name`,`email`,`street`,`phone`,`store_link`,`city`,`country`,`latitude`,`longitude`,`s_activ`,`country_code`,`access_type`,`chain`,`block`,`zip`)
+                 VALUES('" . $storeUniqueId . "','" . $_SESSION['userid'] . "','" . $arrUser['store_type'] . "','" . $arrUser['store_name'] . "','" . $arrUser['email'] . "','" . $arrUser['street'] . "','" . $arrUser['phone'] . "','" . $arrUser['link'] . "','" . $arrUser['city'] . "','" . $arrUser['country'] . "','" . $arrUser['latitude'] . "','" . $arrUser['longitude'] . "','1','" . $coutryIso . "','1','" . $arrUser['chain'] . "','" . $arrUser['block'] . "','" . $arrUser['zip'] . "')";
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
         $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
                  VALUES('" . $storeUniqueId . "','PINCODE')";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
         $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
                  VALUES('" . $storeUniqueId . "','TIME_LIMIT')";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
         $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
                  VALUES('" . $storeUniqueId . "','MANUAL_SWIPE')";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
         if (isset($arrUser['BARCODE'])) {
           $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
                  VALUES('" . $storeUniqueId . "','BARCODE')";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
         }
 
          if (isset($arrUser['DPS'])) {
             $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
                  VALUES('" . $storeUniqueId . "','AUTO')";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
         }
 
         if ($_SESSION['createStore']) {
@@ -363,10 +443,18 @@ class store {
      */
 
     function getCompanyDetail($uid) {
+
+        $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+
         $options = "";
         $query = "SELECT company.*,country.name as cname,country.iso as ciso FROM company left join country on (country.iso = company.country) WHERE company.u_id = '" . $uid . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        while ($rs = mysql_fetch_array($res)) {
+        $res = mysqli_query($conn ,$query) or die(mysql_error());
+        while ($rs = mysqli_fetch_array($res)) {
             $data[] = $rs;
         }
         return $data;
@@ -380,10 +468,17 @@ class store {
      */
 
     function getEmailId($uid) {
+        $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+
         $options = "";
         $query = "SELECT * FROM user WHERE u_id = '" . $uid . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        while ($rs = mysql_fetch_array($res)) {
+        $res = mysqli_query($conn , $query) or die(mysql_error());
+        while ($rs = mysqli_fetch_array($res)) {
             $data1[] = $rs;
         }
         return $data1;
@@ -421,7 +516,7 @@ class store {
         $q = $db->query("SELECT * FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND $set_keywords s_activ='1'  LIMIT {$paging_limit} ");
 
         // $res = mysql_query($query) or die(mysql_error());
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         return $data;
@@ -461,7 +556,7 @@ class store {
 
         //$res = mysql_query($query) or die(mysql_error());
 
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         // print_r($data); die("dssdada");
@@ -479,12 +574,16 @@ class store {
     function getStoreDetailById($storeid) {
         // print_r($data); die("dssdada");
         $db = new db();
-        $db->makeConnection();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
         $data = array();
         $q = $db->query("SELECT * FROM store LEFT JOIN coupon_delivery_method ON (store.store_id = coupon_delivery_method.store)  WHERE store.u_id = '" . $_SESSION['userid'] . "' AND store.store_id='" . $storeid . "' ");
       
         // $res = mysql_query($query) or die(mysql_error());
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         return $data;
@@ -493,11 +592,16 @@ class store {
      function getCouponDeliveryById($storeid) {
         // print_r($data); die("dssdada");
         $db = new db();
-        $db->makeConnection();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+
         $data = array();
         $QUE = "select delivery_method from coupon_delivery_method where store='" . $storeid . "' and delivery_method = 'BARCODE'";
-                $res = mysql_query($QUE) or die("Get  : " . mysql_error());
-                $row = mysql_fetch_array($res);
+                $res = mysqli_query($conn ,$QUE) or die("Get  : " . mysqli_error($conn));
+                $row = mysqli_fetch_array($res);
                 $barcode = $row['delivery_method'];
         
                return $barcode;
@@ -506,16 +610,66 @@ class store {
     function getCouponDeliveryByIdDPS($storeid) {
         // print_r($data); die("dssdada");
         $db = new db();
-        $db->makeConnection();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+
         $data = array();
         $QUE = "select delivery_method from coupon_delivery_method where store='" . $storeid . "' and delivery_method = 'AUTO'";
-        $res = mysql_query($QUE) or die("Get  : " . mysql_error());
-        if(mysql_num_rows($res) > 0)
+        $res = mysqli_query($conn , $QUE) or die("Get  : " . mysqli_error($conn));
+        if(mysqli_num_rows($res) > 0)
             return "DPS";
         else 
             return "";
     }
     
+    public function saveEditDish($dishid){
+
+        $inoutObj = new inOut();
+        $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+
+        $arrUser = array();
+        $error = '';
+        $arrUser['lang'] = $_POST['lang'];
+        $arrUser['dishType'] = $_POST['dishType'];
+//echo $_SESSION['userid'];die();
+        $query = "select * from dish_type where u_id = '" . $_SESSION['userid'] . "' AND dish_lang = '" . $arrUser['lang'] . "' AND dish_name = '" . $arrUser['dishType'] . "'";
+        $res = mysqli_query($conn , $query);
+        $rs = mysqli_fetch_array($res);
+
+        if(sizeof($rs) == '0'){
+            $query = "select company_id from dish_type where u_id = '" . $_SESSION['userid'] . "'";
+            $res = mysqli_query($conn , $query);
+            $rs = mysqli_fetch_array($res);
+            $companyId = $rs['company_id'];
+
+            $query = "INSERT INTO dish_type(`dish_lang`,`dish_name`,`company_id`, `u_id`)
+            VALUES ('" . $arrUser['lang'] . "','" . $arrUser['dishType'] . "','" . $companyId . "', '" . $_SESSION['userid'] . "');";
+
+            $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+
+            $_SESSION['MESSAGE'] = DISH_TYPE_SUCCESS;
+        }
+
+        // $query = "UPDATE dish_type SET
+        //         dish_lang='" . $arrUser['lang'] . "',
+        //         dish_name='" . $arrUser['dishType'] . "'
+        //         WHERE dish_id='" . $dishid . "' ";
+        // $res = mysqli_query($conn, $query) or die(mysql_error());
+        // $_SESSION['MESSAGE'] = UPDATED_DISH;
+        $url = BASE_URL . 'showDishes.php';
+        $inoutObj->reDirect($url);
+
+        exit();
+
+    }
     
     /* Function Header :  editSaveStore($storeid)
      *             Args: none
@@ -531,9 +685,16 @@ class store {
         // die();
         $inoutObj = new inOut();
         $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+
         $arrUser = array();
         $error = '';
 
+        $arrUser['store_type'] = $_POST['typeofrestrurant'];
         $arrUser['store_name'] = $_POST['storeName'];
         $arrUser['email'] = $_POST['email'];
         $arrUser['phone'] = $_POST['phoneNo'];
@@ -581,29 +742,29 @@ class store {
 
         $contry = $arrUser['country'];
         $query = "select * from country where name = '" . $contry . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $rs = mysql_fetch_array($res);
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+        $rs = mysqli_fetch_array($res);
         $coutryIso = $rs['iso'];
 
         $storeUniqueId = uuid();
-        $query = "update store SET latitude='" . $arrUser['latitude'] . "',longitude='" . $arrUser['longitude'] . "',`store_name`='" . $arrUser['store_name'] . "' ,`street`='" . $arrUser['street'] . "', `city`='" . $arrUser['city'] . "', `country`='" . $arrUser['country'] . "', `email`='" . $arrUser['email'] . "', `phone`='" . $arrUser['phone'] . "', `store_link`='" . $arrUser['link'] . "'
+        $query = "update store SET store_type='" . $arrUser['store_type'] . "',latitude='" . $arrUser['latitude'] . "',longitude='" . $arrUser['longitude'] . "',`store_name`='" . $arrUser['store_name'] . "' ,`street`='" . $arrUser['street'] . "', `city`='" . $arrUser['city'] . "', `country`='" . $arrUser['country'] . "', `email`='" . $arrUser['email'] . "', `phone`='" . $arrUser['phone'] . "', `store_link`='" . $arrUser['link'] . "'
         , `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "'   WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
          $query = "delete from coupon_delivery_method where store = '" . $_GET['storeId'] . "' and delivery_method in ('BARCODE','AUTO')";
-             $res = mysql_query($query) or die(mysql_error());
+             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
         
         
         if ($arrUser['BARCODE'] == 'BARCODE') {
             $query = "insert into coupon_delivery_method(`store`,`delivery_method`)
                 values('" . $_GET['storeId'] . "','BARCODE')";
-             $res = mysql_query($query) or die(mysql_error());
+             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
         }
 
         if ($arrUser['DPS'] == 'DPS') {
             $query = "insert into coupon_delivery_method(`store`,`delivery_method`)
                 values('" . $_GET['storeId'] . "','AUTO')";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
         }
         
         $_SESSION['MESSAGE'] = CREATE_STORE_SUCCESS;
@@ -618,6 +779,26 @@ class store {
         exit();
     }
 
+
+    function viewDishDetailById($dishid){
+        $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+        $data = array();
+
+        $q = $db->query("SELECT * FROM dish_type WHERE dish_type.u_id = '" . $_SESSION['userid'] . "' AND dish_type.dish_id='" . $dishid . "'");
+
+        // $res = mysql_query($query) or die(mysql_error());
+        while ($rs = mysqli_fetch_array($q)) {
+            $data[] = $rs;
+        }
+
+        return $data;
+    }
+
     /* Function Header :  viewStoreDetailById($storeid)
      *             Args: none
      *           Errors: none
@@ -628,7 +809,11 @@ class store {
     function viewStoreDetailById($storeid) {
         // print_r($data); die("dssdada");
         $db = new db();
-        $db->makeConnection();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
         $data = array();
       //  $que = "SELECT * FROM store LEFT JOIN coupon_delivery_method ON (coupon_delivery_method.store = store.store_id)
         //    WHERE store.u_id = '" . $_SESSION['userid'] . "' AND store.store_id='" . $storeid . "'";
@@ -636,13 +821,13 @@ class store {
         $q = $db->query("SELECT * FROM store WHERE store.u_id = '" . $_SESSION['userid'] . "' AND store.store_id='" . $storeid . "'");
 
         // $res = mysql_query($query) or die(mysql_error());
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         $query = "SELECT delivery_method FROM coupon_delivery_method WHERE coupon_delivery_method.store='".$storeid."'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($conn , $query) or die(mysqli_error());
         $delivery_method = "";
-        while ($rs = mysql_fetch_array($res)) {
+        while ($rs = mysqli_fetch_array($res)) {
             $delivery_method .= $rs['delivery_method']."  ";
         }
         $data[0]['delivery_method']=  str_replace("AUTO","DPS",trim($delivery_method));
@@ -679,7 +864,11 @@ class store {
     function showstoreDetailsRows() {
         // print_r($data); die("dssdada");
         $db = new db();
-        $db->makeConnection();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
         $data = array();
 
         if (isset($_REQUEST['keyword']) OR isset($_REQUEST['key'])) {
@@ -706,7 +895,7 @@ class store {
         }
         //echo $QUE;
         // $res = mysql_query($query) or die(mysql_error());
-        $res = mysql_query($QUE) or die(mysql_error());
+        $res = mysqli_query($conn,$QUE) or die(mysql_error());
         $total_records = $db->numRows($res);
 
         return $total_records;
@@ -742,11 +931,15 @@ class store {
 
     function totalStoreDetails() {
         $db = new db();
-        $db->makeConnection();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
         $data = array();
         //echo $_SESSION['userid'];
         $q = $db->query("SELECT store_id,store_name FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND s_activ='1'");
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
         $stores[] = $rs;
         //echo $storename=$stores['store_name'];
            // die;
@@ -757,7 +950,11 @@ class store {
     function getAllPublicLocationRows() {
         // print_r($data); die("dssdada");
         $db = new db();
-        $db->makeConnection();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
         $data = array();
 
         if (isset($_REQUEST['keyword']) OR isset($_REQUEST['key']) OR isset($_REQUEST['key5']) OR isset($_REQUEST['key3']) OR isset($_REQUEST['key4'])) {
@@ -787,15 +984,19 @@ class store {
  
            $q = "SELECT * FROM store WHERE access_type = '0' AND $set_keywords  s_activ='1'";
        
-        $res = mysql_query($q) or die(mysql_error());
+        $res = mysqli_query($conn , $q) or die(mysqli_error($conn));
         $total_records = $db->numRows($res);
 
         return $total_records;
     }
 
     function getAllPublicLocation($paging_limit = '0 , 10') {
-       $db = new db();
-        $db->makeConnection();
+        $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
         $data = array();
 
         if (isset($_REQUEST['keyword']) OR isset($_REQUEST['key']) OR isset($_REQUEST['key5']) OR isset($_REQUEST['key3']) OR isset($_REQUEST['key4'])) {
@@ -827,7 +1028,7 @@ class store {
         $q = $db->query("SELECT * FROM store WHERE access_type = '0' AND $set_keywords s_activ='1'  LIMIT {$paging_limit} ");
 
          //$res = mysql_query($q) or die(mysql_error());
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         return $data;
@@ -836,7 +1037,11 @@ class store {
     function savePublicLocation($campaignId) {
 
         $db = new db();
-        $db->makeConnection();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
         $data = array();
         $arrUser = array();
         $inoutObj = new inOut();
@@ -849,8 +1054,8 @@ class store {
 
 
         $QUE = "select * from c_s_rel where campaign_id='" . $campaignId . "' AND store_id='" . $store . "' AND activ = '1'";
-        $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysqli_error($conn));
+        $row = mysqli_fetch_array($res);
         $checkCampaignId = $row['campaign_id'];
         //print_r($row);die();
         if ($checkCampaignId) {
@@ -861,13 +1066,13 @@ class store {
             exit();
         } else {
             $QUE = "select start_of_publishing from campaign where campaign_id='" . $campaignId . "'";
-            $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-            $row = mysql_fetch_array($res);
+            $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysqli_error($conn));
+            $row = mysqli_fetch_array($res);
             $startdate = $row['start_of_publishing'];
 
             $QUE = "select end_of_publishing from campaign where campaign_id='" . $campaignId . "'";
-            $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-            $row = mysql_fetch_array($res);
+            $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysqli_error());
+            $row = mysqli_fetch_array($res);
             $enddate = $row['end_of_publishing'];
 
             if ($startdate < date('Y-m-d')) {
@@ -878,7 +1083,7 @@ class store {
 //
 
            $_SQL = "insert into c_s_rel(`campaign_id`,`store_id`,`start_of_publishing`,`end_of_publishing`,`activ`) values('" . $campaignId . "','" . $store . "','" . $finStartDate . "','" . $enddate . "','1')";
-            $res = mysql_query($_SQL) or die("limitttt id in relational table : " . mysql_error());
+            $res = mysqli_query($conn , $_SQL) or die("limitttt id in relational table : " . mysqli_error($conn));
             }
  }
 
@@ -889,8 +1094,12 @@ class store {
     }
        
     function getAllSelecterPublicLocation($campaignid) {
-       $db = new db();
-        $db->makeConnection();
+        $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
         $data = array();
 
      
@@ -899,7 +1108,7 @@ class store {
 
          //$res = mysql_query($q) or die(mysql_error());
       //  $rs = mysql_fetch_array($q);
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs[0];
         }
         return $data;
@@ -907,8 +1116,12 @@ class store {
 
     function getAllPrivateLocationRows() {
         // print_r($data); die("dssdada");
-        $db = new db();
-        $db->makeConnection();
+         $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
         $data = array();
 
         if (isset($_REQUEST['keyword']) OR isset($_REQUEST['key']) OR isset($_REQUEST['key5']) OR isset($_REQUEST['key3']) OR isset($_REQUEST['key4'])) {
@@ -938,15 +1151,19 @@ class store {
 
         $q = "SELECT * FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND s_activ='1'";
 
-        $res = mysql_query($q) or die(mysql_error());
+        $res = mysqli_query($conn , $q) or die(mysqli_error($conn));
         $total_records = $db->numRows($res);
 
         return $total_records;
     }
 
     function getAllPrivateLocation($paging_limit = '0 , 10') {
-       $db = new db();
-        $db->makeConnection();
+        $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
         $data = array();
 
         if (isset($_REQUEST['keyword']) OR isset($_REQUEST['key']) OR isset($_REQUEST['key5']) OR isset($_REQUEST['key3']) OR isset($_REQUEST['key4'])) {
@@ -977,15 +1194,19 @@ class store {
         $q = $db->query("SELECT * FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND s_activ='1' AND  $set_keywords s_activ='1'  LIMIT {$paging_limit} ");
 
          //$res = mysql_query($q) or die(mysql_error());
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         return $data;
     }
 
     function getAllSelecterPrivateLocation($campaignid) {
-       $db = new db();
-        $db->makeConnection();
+        $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
         $data = array();
 
 
@@ -994,7 +1215,7 @@ class store {
 
          //$res = mysql_query($q) or die(mysql_error());
       //  $rs = mysql_fetch_array($q);
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs[0];
         }
         return $data;
@@ -1002,7 +1223,12 @@ class store {
 
     function savePrivateLocation($campaignId) {
         $db = new db();
-        $db->makeConnection();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+
         $data = array();
         $arrUser = array();
         $inoutObj = new inOut();
@@ -1010,8 +1236,8 @@ class store {
         $arrUser['store_id'] = $_POST['privatelocation'];
         foreach ($arrUser['store_id'] as $store) {
         $QUE = "select * from c_s_rel where campaign_id='" . $campaignId . "' AND store_id='" . $store . "' AND activ = '1'";
-        $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysqli_error($conn));
+        $row = mysqli_fetch_array($res);
         $checkCampaignId = $row['campaign_id'];
         //print_r($row);die();
         if ($checkCampaignId) {
@@ -1022,13 +1248,13 @@ class store {
             exit();
         } else {
             $QUE = "select start_of_publishing from campaign where campaign_id='" . $campaignId . "'";
-            $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-            $row = mysql_fetch_array($res);
+            $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysqli_error($conn));
+            $row = mysqli_fetch_array($res);
             $startdate = $row['start_of_publishing'];
 
             $QUE = "select end_of_publishing from campaign where campaign_id='" . $campaignId . "'";
-            $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-            $row = mysql_fetch_array($res);
+            $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysqli_error($conn));
+            $row = mysqli_fetch_array($res);
             $enddate = $row['end_of_publishing'];
 
             if ($startdate < date('Y-m-d')) {
@@ -1039,7 +1265,7 @@ class store {
 //
 
            $_SQL = "insert into c_s_rel(`campaign_id`,`store_id`,`start_of_publishing`,`end_of_publishing`,`activ`) values('" . $campaignId . "','" . $store . "','" . $finStartDate . "','" . $enddate . "','1')";
-            $res = mysql_query($_SQL) or die("limitttt id in relational table : " . mysql_error());
+            $res = mysqli_query($conn , $_SQL) or die("limitttt id in relational table : " . mysqli_error($conn));
             }
  }
 
@@ -1056,23 +1282,28 @@ class store {
         $db->makeConnection();
         $data = array();
         $q = $db->query("SELECT store_id FROM c_s_rel WHERE advertise_id = '" . $advertiseid . "' AND  activ='1'");
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs[0];
         }
         return $data;
     }
 
     function savePrivateAdvertiseLocation($advertiseId) {
-        $db = new db();
-        $db->makeConnection();
+       $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+
         $data = array();
         $arrUser = array();
         $inoutObj = new inOut();
         $arrUser['store_id'] = $_POST['privatelocation'];
         foreach ($arrUser['store_id'] as $store) {
             $QUE = "select * from c_s_rel where advertise_id='" . $advertiseId . "' AND store_id='" . $store . "' AND activ = '1'";
-            $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-            $row = mysql_fetch_array($res);
+            $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysqli_error($conn));
+            $row = mysqli_fetch_array($res);
             $checkAdvertiseId = $row['advertise_id'];
             if ($checkAdvertiseId) {
                 $_SESSION['MESSAGE'] = STORE_NOT_SUCCESS;
@@ -1081,13 +1312,13 @@ class store {
                 exit();
             } else {
                 $QUE = "select start_of_publishing from advertise where advertise_id='" . $advertiseId . "'";
-                $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-                $row = mysql_fetch_array($res);
+                $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysqli_error($conn));
+                $row = mysqli_fetch_array($res);
                 $startdate = $row['start_of_publishing'];
 
                 $QUE = "select end_of_publishing from advertise where advertise_id='" . $advertiseId . "'";
-                $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-                $row = mysql_fetch_array($res);
+                $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysqli_error($conn));
+                $row = mysqli_fetch_array($res);
                 $enddate = $row['end_of_publishing'];
 
                 if ($startdate < date('Y-m-d')) {
@@ -1096,7 +1327,7 @@ class store {
                     $finStartDate = $startdate;
                 }
                 $_SQL = "insert into c_s_rel(`advertise_id`,`store_id`,`start_of_publishing`,`end_of_publishing`,`activ`) values('" . $advertiseId . "','" . $store . "','" . $finStartDate . "','" . $enddate . "','1')";
-                $res = mysql_query($_SQL) or die("limit id in relational table : " . mysql_error());
+                $res = mysqli_query($conn , $_SQL) or die("limit id in relational table : " . mysqli_error($conn));
             }
         }
         $_SESSION['MESSAGE'] = COUPON_OFFER_SUCCESS;

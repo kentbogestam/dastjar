@@ -512,7 +512,7 @@ the link you just just received on your mailbox                    </th>
 
 <tr>
 <th height="50" colspan ="2" align="left"><input type="checkbox" name="terms" id="terms"> "By clicking on Continue I agree to the <a class="vtip" href="#" onClick="WindowC()">Terms of Services and
-Privacy Policy</a> for Cumbari Coupon service."</th>
+Privacy Policy</a> for Dastjar service."</th>
 </tr>
 <tr>
 <td colspan="2">

@@ -112,11 +112,36 @@ class registration {
        
             $arrUser['email_varify_code'] = md5(time());
 			
-            $query = "INSERT INTO user(`u_id`, `email`, `passwd`, `fname`, `lname`, `role`, `phone`, `mobile_phone`,`email_varify_code`,`activ`)
+            $query = "INSERT INTO user (u_id, email, passwd, fname, lname, role, phone, mobile_phone,email_varify_code,activ)
                 VALUES ('" . $rowUniqueId . "', '" . $arrUser['email'] . "', '" . $password_hash . "', '" . $arrUser['fname'] . "', '" . $arrUser['lname'] . "','" . $arrUser['role'] . "', '" . $arrUser['cprefix'] . $arrUser['phone'] . "', '" . $arrUser['cprefix'] . $arrUser['mobile_phone'] . "','" . $arrUser['email_varify_code'] . "','8');";
-            $res = mysql_query($query) or die(mysql_error());
+            //$res = mysql_query($query) or die(mysql_error());
+
+                // Create connection
+            $conn = $db->makeConnection();
+            // Check connection
+            if (!$conn) {
+                die("Connection failed: " . mysqli_connect_error());
+            }
+
+            $res = mysqli_query($conn, $query)or die(mysqli_error($conn));
 
             if ($res) {
+                //echo "New record created successfully";
+            } else {
+                echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            }
+
+            mysqli_close($conn);
+
+
+            //$res = $db->makeConnection()->query($query);
+
+            //echo $res;
+            //$sql = mysqli_query($success, $query);
+            //$row = mysqli_num_rows($sql);
+
+            if ($res) {
+                //echo "first";
                 $mailObj = new emails();
                 $mailObj->sendVarificationEmail($rowUniqueId, $arrUser['email_varify_code']);
                 // These session variable bea ctive if user has been complete his mail varification
@@ -126,9 +151,10 @@ class registration {
                 $_SESSION['username'] = $arrUser['fname'] . " " . $arrUser['lname'];
                 $_SESSION['userid'] = $rowUniqueId;
             }
-
+            //echo $_SESSION['temp_campId'];
             if($_SESSION['temp_campId'])
             {
+                echo "second";
                 $temp_campId = $_SESSION['temp_campId'];
                 $temp_ccode = $_SESSION['temp_ccode'];
                 $temp_uId = $_SESSION['temp_uId'];
@@ -136,10 +162,9 @@ class registration {
              $temp_value = $temp_campId.'#'.$temp_ccode.'#'.$temp_uId;
 
              $query = "UPDATE user SET temp='" . $temp_value . "' WHERE u_id = '" . $_SESSION['userid'] . "'";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysql_query($query) or die(mysqli_error($conn));
               
             }
-
 
             $_SESSION['MESSAGE'] = REGISTER_EMAIL_VARIFICATION;
             $_SESSION['REG_STEP'] = 8;
@@ -242,6 +267,14 @@ class registration {
         //print_r($_POST); die();
         $inoutObj = new inOut();
         $db = new db();
+
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+
+
         $arrUser = array();
         $error = '';
         //echo $link = BASE_URL."reg_action.php?vcode=".md5(time()); die();
@@ -256,9 +289,15 @@ class registration {
         $arrUser['city'] = trim($_POST['city']);
         $arrUser['country'] = $_POST['country'];
         $arrUser['lowLevel'] = $_POST['lowLevel'];
+        
         if($arrUser['lowLevel'] == '')
         { 
             $arrUser['lowLevel'] = '50'; 
+        }
+
+        if($arrUser['typeofrestrurant'] == '')
+        { 
+            $arrUser['lowLevel'] = '1'; 
         }
 
         $error.= ( $arrUser['tzcountries'] == '') ? ERROR_TZCOUNTRY : '';
@@ -291,20 +330,20 @@ class registration {
 
             // Add company details in the database
             $compUniqueId = uuid();
-            //echo $_SESSION['userid'];
+            echo $_SESSION['userid'];
 			$pre_loaded_value = 10000;
              $query = "INSERT INTO company(`company_id` ,`u_id` ,`company_name` ,`orgnr` ,`street` ,`zip` ,`city` ,`country` ,`tzcountries` ,`timezones` ,`currencies`,`low_level`,`pre_loaded_value`)
                 VALUES ('" . $compUniqueId . "', '" . $_SESSION['userid'] . "', '" . $arrUser['company_name'] . "', '" . $arrUser['orgnr'] . "', '" . $arrUser['street'] . "', '" . $arrUser['zip'] . "', '" . $arrUser['city'] . "', '" . $arrUser['country'] . "', '" . $arrUser['tzcountries'] . "', '" . $arrUser['timezones'] . "', '" . $arrUser['currencies'] . "', '" . $arrUser['lowLevel'] . "',".$pre_loaded_value.");";
 
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($conn,$query)or die(mysqli_error($conn));
             $storeUniqueId = uuid();
 
             $query = "UPDATE user SET activ='2' WHERE u_id = '" . $_SESSION['userid'] . "'";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($conn,$query) or die(mysqli_error($conn));
 
-             $query = "INSERT INTO employer(`u_id`,`company_id`)
+            $query = "INSERT INTO employer(`u_id`,`company_id`)
             VALUES ( '" . $_SESSION['userid'] . "','" . $compUniqueId . "')";
-            $res = mysql_query($query) or die("Employer : " . mysql_error());
+            $res = mysqli_query($conn,$query) or die("Employer : " . mysqli_error($conn));
             // Add Default store by company registration
             // Since we are not clear at company state whether to add these details as store.
             // $query = "INSERT INTO store(`store_id` ,`u_id` ,`store_name` ,`street`,`city` ,`country`)
@@ -330,6 +369,13 @@ class registration {
 
     function emailVarification($get) {
 
+        $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+
         $inoutObj = new inOut();
         $url_recieved = base64_decode($get['ucode']);
         $data = explode("&", $url_recieved);
@@ -340,12 +386,12 @@ class registration {
         $_SESSION["Retailers"] = $retailers[1];
 
         $query = "select * from user where u_id='" . $uid[1] . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $result = mysql_fetch_array($res);
+        $res = mysqli_query($conn, $query) or die(mysql_error());
+        $result = mysqli_fetch_array($res);
 	//echo $result['email_varify_code']." VCODE ".$vcode['0']; die();
         if ($result['email_varify_code'] == $vcode['1']) {
             $query = "UPDATE user SET email_varify_code='0', activ='1' where  u_id='" . $uid[1] . "'";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($conn ,$query) or die(mysql_error());
 
             $_SESSION['userid'] = $result['u_id'];
             $_SESSION['userrole'] = $result['role'];
@@ -385,11 +431,20 @@ class registration {
 
 	function getCountryList()
 	{
+        $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+
 		$query = "select iso,printable_name from country where iso in('SE','IN','DE')";
-		$result = mysql_query($query);
+        $result = mysqli_query($conn, $query);
+
+		//$result = mysql_query($query);
 		$countryList=array();
 		
-		while($row=mysql_fetch_array($result))
+		while($row=mysqli_fetch_array($result))
 		{
 			$countryList[$row['iso']]=$row['printable_name'];
 		}
@@ -633,12 +688,18 @@ class registration {
     {
         $inoutObj = new inOut();
         $db = new db();
+
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
         $arrUser = array();
         $error = '';
 
         $query = "SELECT * FROM ccode WHERE activ = '1'";
-        $res = mysql_query($query);
-         while($rs = mysql_fetch_array($res)) {
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+         while($rs = mysqli_fetch_array($res)) {
         $data[] = $rs;
        
          }
@@ -649,12 +710,18 @@ function putCcode($d)
     {
         $inoutObj = new inOut();
         $db = new db();
+
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
         $arrUser = array();
         $error = '';
 
         $query = "SELECT * FROM ccode WHERE ccode = '" . $d . "'";
-        $res = mysql_query($query);
-        $rs = mysql_fetch_array($res);
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+        $rs = mysqli_fetch_array($res);
         $value = $rs['value'];
 
          return $value;
@@ -666,12 +733,17 @@ function putCcode($d)
         $inoutObj = new inOut();
         $db = new db();
         $arrUser = array();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
         $error = '';
 
 
         $query = "SELECT * FROM user WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query);
-        $rs = mysql_fetch_array($res);
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+        $rs = mysqli_fetch_array($res);
         $tempValue = $rs['temp'];
         return $tempValue;
 
@@ -680,35 +752,47 @@ function putCcode($d)
     function SaveResellerId($resellerId,$ccodeId)
     {  //echo 'hereeeeeeeeeeeeeeeeee'; die();
         $inoutObj = new inOut();
-        $db = new db();
+       $db = new db();
+
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
         $arrUser = array();
         $error = '';
 
        
         $query = "SELECT * FROM ccode WHERE ccode = '" . $ccodeId . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $rs = mysql_fetch_array($res);
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+        $rs = mysqli_fetch_array($res);
         $ccValue = $rs['value'];
 
          $date = date('Y-m-d H:i:s');
          $query = "UPDATE company SET seller_id='" . $resellerId . "' , `seller_date` = '" . $date . "', `ccode` = '" . $ccodeId . "', `cc_value` = '" . $ccValue . "'  WHERE u_id = '" . $_SESSION['userid'] . "'";
-         $res = mysql_query($query) or die(mysql_error());
+         $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
              $query = "UPDATE user SET temp='' WHERE u_id = '" . $_SESSION['userid'] . "'";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
     }
 
     function getOwnerName($owner) {
 
-         $inoutObj = new inOut();
+        $inoutObj = new inOut();
         $db = new db();
+
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
         $arrUser = array();
         $error = '';
 
 
         $query = "SELECT * FROM user WHERE u_id = '" . $owner . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $rs = mysql_fetch_array($res);
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+        $rs = mysqli_fetch_array($res);
         $ownerName[] = $rs;
         return $ownerName;
       

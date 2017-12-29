@@ -7,8 +7,8 @@
 /* Offline Setting */
 
 define("SERVER", "localhost");
-define("PORT", "21");
-define("DATABASE", "cumbari_admin");
+define("PORT", "3306");
+define("DATABASE", "website_restaurant");
 define("USER", "root");
-define("PASSWORD", "mypassword");
+define("PASSWORD", "12345");
 ?>

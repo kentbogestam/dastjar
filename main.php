@@ -47,13 +47,15 @@ $selected_tab_css = ' style="background-color:#ADDFFF" ';
 <ul>
 <!--<li><a class="" href="main.php">Home</a></li>-->
 <!--<li><a <?=$campaign?>  href="showCampaign.php" >Campaigns</a></li>-->
-<li><a <?=$offer?>  href="showCampaign.php" >Offers</a></li>
+<!--<li><a <?=$offer?>  href="showCampaign.php" >Offers</a></li>-->
+<li><a <?=$offer?>  href="showCampaign.php" >Menu</a></li>
 <li><a <?=$store?> href="showStore.php" >Locations</a></li>
 <!--<li><a <?=$standard?> href="showStandard.php" >Standard Offer</a></li>-->
-<li><a <?=$report?> href="getReportView.php" >Report</a></li>
+<!--<li><a <?=$report?> href="getReportView.php" >Report</a></li>-->
 <li><a <?=$account?> href="getFinancial.php" >Account</a></li>
+<li><a <?=$dishType?> href="showDishes.php" >Add Type of Dishes</a></li>
 <!--<li><a <?=$user?> href="viewNewUser.php" >User</a></li>-->
-<li><a <?=$brand?> href="getBrandView.php" >Brand</a></li>
+<!--<li><a <?=$brand?> href="getBrandView.php" >Brand</a></li>-->
 <!--<li><a <?=$aboutUs?> href="aboutUs.php" >About Us</a></li>-->
 </ul>
 </div>
@@ -70,7 +72,7 @@ $selected_tab_css = ' style="background-color:#ADDFFF" ';
 </div>-->
 <div class="frm_cls">
 <table border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr>
+  <!--<tr>
     <td nowrap><input type="radio" <?=$show?> onClick="javascript:window.location.href='showCampaign.php'" name="deals">
 Campaign Offer </td>
     <td nowrap><input type="radio" <?=$outdated?> onClick="javascript:window.location.href='showCampaign.php?m=showcampoffer'" name="deals">
@@ -91,10 +93,10 @@ Campaign Offer </td>
      <td><input type="radio" <?=$showdeleteadvertise?> onClick="javascript:window.location.href='showDeleteAdvertise.php'" name="deals">
 Show Deleted Advertise </td>
       </tr>
-  <tr> 
+  <tr> -->
      
     <td><input type="radio" <?=$showstandard?> onClick="javascript:window.location.href='showStandard.php'" name="deals">
-      Standard Offer </td>
+      Dish </td>
     
     <td><input type="radio" <?=$showdeletestand?> onClick="javascript:window.location.href='showDeleteStandard.php'" name="deals">
 Show Deleted Standard </td>
@@ -109,6 +111,25 @@ Show Deleted Standard </td>
   
 </table>
 
+</div>
+<? } ?>
+<? if($menu=="dishType"){
+if (basename($_SERVER['SCRIPT_FILENAME']) == 'newCreateStore.php')
+{
+  $show = 'checked="checked"';
+}
+?>
+
+<div class="frm_cls-2">
+  <table border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+      <!-- <td nowrap><input type="radio"  <?=$dishType?> onClick="javascript:window.location.href='showDishes.php'" name="deals">
+Locations </td> -->
+      <td width="20">&nbsp;</td>
+      <td nowrap><input type="radio" <?=$deleted?> onClick="javascript:window.location.href='showDishes.php?m=showDeletedDishes'" name="deals">
+      Show Deleted Dish Type</td>
+    </tr>
+  </table>
 </div>
 <? } ?>
 <? if($menu=="store"){

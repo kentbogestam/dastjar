@@ -59,32 +59,37 @@ class accountView {
 
     function getFinancialDetails() {
         $db = new db();
-        $db->makeConnection();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+
         $data = array();
         $error = '';
 
         $QUE = "select company_id from employer where u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysql_error());
+        $row = mysqli_fetch_array($res);
         $companyId = $row['company_id'];
         //echo  "$companyId";
         if($companyId) {
             $query = "SELECT company.* FROM company WHERE company_id='$companyId'" ;
             $q = $db->query($query);
-            while ($rs = mysql_fetch_array($q)) {
+            while ($rs = mysqli_fetch_array($q)) {
                 $data[] = $rs;
             }
         }
         else
             $QUE = "select company_id from user where u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysql_error());
+        $row = mysqli_fetch_array($res);
         $companyId = $row['company_id'];
         //echo  "$companyId";
 
         $query = "SELECT company.* FROM company WHERE company_id='$companyId'" ;
         $q = $db->query($query);
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         return $data;
@@ -182,32 +187,37 @@ class accountView {
 
     function getCompanyDetail() {
         $db = new db();
-        $db->makeConnection();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+
         $data = array();
         $error = '';
 
         $QUE = "select company_id from employer where u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($conn ,$QUE) or die("Get Company : " . mysql_error());
+        $row = mysqli_fetch_array($res);
         $companyId = $row['company_id'];
         //echo  "$companyId";
         if($companyId) {
             $query = "SELECT company.*,country.name as cname,country.iso as ciso FROM company left join country on (country.iso = company.country) WHERE company.company_id='$companyId'" ;
             $q = $db->query($query);
-            while ($rs = mysql_fetch_array($q)) {
+            while ($rs = mysqli_fetch_array($q)) {
                 $data[] = $rs;
             }
         }
         else {
             $QUE = "select company_id from user where u_id='" . $_SESSION['userid'] . "'";
-            $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-            $row = mysql_fetch_array($res);
+            $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysql_error());
+            $row = mysqli_fetch_array($res);
             $companyId = $row['company_id'];
             //echo  "$companyId";
 
             $query = "SELECT company.*,country.name as cname,country.iso as ciso FROM company left join country on (country.iso = company.country) WHERE company.company_id='$companyId'" ;
             $q = $db->query($query);
-            while ($rs = mysql_fetch_array($q)) {
+            while ($rs = mysqli_fetch_array($q)) {
                 $data[] = $rs;
             }
         }
@@ -223,14 +233,19 @@ class accountView {
 
     function getUserDetail() {
         $db = new db();
-        $db->makeConnection();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+
         $data = array();
         $error = '';
 
 
         $query = "SELECT * FROM user WHERE u_id='" . $_SESSION['userid'] . "'";
         $q = $db->query($query);
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         return $data;
@@ -247,6 +262,11 @@ class accountView {
         //echo "here";die;
         $inoutObj = new inOut();
         $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
         $error = '';
 
         $arrUser['tzcountries'] = $_POST['areatimezone'];
@@ -270,8 +290,8 @@ class accountView {
         }
 
         $QUE = "select company_id from user where u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($conn, $QUE) or die("Get Company : " . mysql_error());
+        $row = mysqli_fetch_array($res);
         $companyId = $row['company_id'];
         //echo  "$companyId";
         $query = "UPDATE company SET
@@ -284,7 +304,7 @@ class accountView {
                 zip='" . $arrUser['zip'] . "',
                 country='" . $arrUser['country'] . "'
                 WHERE u_id='" . $_SESSION['userid'] . "' OR company_id='$companyId'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($conn, $query) or die(mysql_error());
         $_SESSION['MESSAGE'] = UPDATED_COMPANY;
         $url = BASE_URL . 'viewComapany.php';
         $inoutObj->reDirect($url);
@@ -303,6 +323,11 @@ class accountView {
         $privatekey = "6Ldv8r4SAAAAAOIpAG7IaDQryd7rDtzMKhCug1DO";
         $inoutObj = new inOut();
         $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
         $arrUser = array();
         $error = '';
 
@@ -339,7 +364,7 @@ class accountView {
                phone = '" . $arrUser['phone'] . "',
                mobile_phone = '" . $arrUser['mobile_phone'] . "'
                WHERE u_id = '" . $_SESSION['userid'] . "'";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($conn, $query) or die(mysql_error());
             $_SESSION['MESSAGE'] = UPDATED_USER;
 
             if($reseller == '')
@@ -359,6 +384,11 @@ class accountView {
         //$privatekey = "6Ldv8r4SAAAAAOIpAG7IaDQryd7rDtzMKhCug1DO";
         $inoutObj = new inOut();
         $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
         $arrUser = array();
         $error = '';
         $arrUser['email'] = $_POST['emailid'];
@@ -386,18 +416,18 @@ class accountView {
              //print_r($password_sha1);die();
 
             $QUE = "select company_id from employer where u_id='" . $_SESSION['userid'] . "'";
-            $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-            $row = mysql_fetch_array($res);
+            $res = mysqli_query($conn, $QUE) or die("Get Company : " . mysql_error());
+            $row = mysqli_fetch_array($res);
             $companyId = $row['company_id'];
             
           
            $query = "INSERT INTO user(`u_id`, `email`, `passwd`, `fname`, `lname`, `role`, `phone`, `mobile_phone`,`email_varify_code`,`activ`,`company_id`)
                 VALUES ('" . $userId . "', '" . $arrUser['email'] . "', '" .$password_hash . "', '" . $arrUser['fname'] . "', '" . $arrUser['lname'] . "','" . $arrUser['role'] . "', '"  .$arrUser['cprefix']. $arrUser['phone'] . "', '"  .$arrUser['cprefix']. $arrUser['mobile_phone'] . "','" . $arrUser['email_varify_code'] . "','5','" . $companyId . "');";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($conn ,$query) or die(mysql_error());
           
               $query = "INSERT INTO employer(`company_id`, `u_id`)
              VALUES ('" . $companyId . "', '" . $userId . "');";
-              $res = mysql_query($query) or die(mysql_error());
+              $res = mysqli_query($conn ,$query) or die(mysql_error());
 ///////////////////////////////////////
 //            if ($res) {
 //                $mailObj = new emails();
@@ -456,6 +486,14 @@ class accountView {
     }
 
      function searchNewUser($paging_limit=0) {
+
+        $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+
         if (isset($_REQUEST['keyword']) OR isset($_REQUEST['key']) OR isset($_REQUEST['ke'])) {
             // $qstr1 = " store_name REGEXP '[[:<:]]".trim($_REQUEST['keyword'])."[[:>:]]' ";
             // $qstr2 = " email REGEXP '[[:<:]]".trim($_REQUEST['key'])."[[:>:]]' ";
@@ -477,8 +515,8 @@ class accountView {
 
 
         $QUE = "select company_id from employer where u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-       $row = mysql_fetch_array($res);
+        $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysql_error());
+       $row = mysqli_fetch_array($res);
        $companyId = $row['company_id'];
 
 
@@ -486,7 +524,7 @@ class accountView {
             $limit = "limit ".$paging_limit;
         
             $QUE = "SELECT usr.* FROM user as usr LEFT JOIN employer as emp ON (emp.u_id=usr.u_id) WHERE emp.company_id ='" . $companyId . "' AND $set_keywords 1 ".$limit;
-           $res = mysql_query($QUE) or die(mysql_error());
+           $res = mysqli_query($conn , $QUE) or die(mysql_error());
         
         return $res;
         
@@ -501,7 +539,7 @@ class accountView {
 
         $q = $this->searchNewUser($paging_limit);
 
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         return $data;
@@ -549,6 +587,11 @@ class accountView {
 
         $inoutObj = new inOut();
         $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
         $arrUser = array();
         $error = '';
 
@@ -557,7 +600,7 @@ class accountView {
 
          $query = "select * from user where email = '".$email."'";
          $res= $db->query($query);
-         $rs = mysql_fetch_array($res);
+         $rs = mysqli_fetch_array($res);
           $uId = $_SESSION['userid'];
            
           ///for old 
@@ -570,15 +613,15 @@ class accountView {
 
           
         $QUE = "select u_id from user where u_id='" . $_SESSION['userid'] . "' AND passwd = '" .$password_hash_old . "'";
-        $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-        $rowCount = mysql_num_rows($res);
+        $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysql_error());
+        $rowCount = mysqli_num_rows($res);
 
 
         if ($rowCount) {
             $query = "UPDATE user SET
                passwd='" .$password_hash_new . "'
                 WHERE u_id='" . $_SESSION['userid'] . "'";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($conn ,$query) or die(mysql_error());
             $_SESSION['MESSAGE'] = UPDATED_USERPASS;
         if($reseller == '')
         {
@@ -623,7 +666,7 @@ class accountView {
         $q = $db->query("SELECT * FROM user  WHERE u_id ='" . $userid . "'");
 
         // $res = mysql_query($query) or die(mysql_error());
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         return $data;
@@ -634,6 +677,11 @@ class accountView {
 
         $inoutObj = new inOut();
         $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
         $arrUser = array();
         $error = '';
 
@@ -659,7 +707,7 @@ class accountView {
                 phone='" . $arrUser['phone'] . "',
                 mobile_phone='" . $arrUser['mobile_phone'] . "'
                 WHERE u_id='" . $userid . "'";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($conn , $query) or die(mysql_error());
 
             $_SESSION['MESSAGE'] = UPDATEDNEW_USER;
             $url = BASE_URL . 'viewNewUser.php';

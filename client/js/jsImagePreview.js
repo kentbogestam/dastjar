@@ -53,19 +53,6 @@
 		}
 	}
 	
-	///// For Large image preview  ////////////////
-	filesUploadPicture.addEventListener("change", function() {
-		 //alert("Event");
-		 if(!short_validation()){
-		//alert("validation")
-
-		return false;
-		exit;
-		}else
-		{
-			traverseFiles(this.files,"picture");
-		}
-	}, false);
 	
 	///// For icon preview  ////////////////
 	filesUploadIcon.addEventListener("change", function() {

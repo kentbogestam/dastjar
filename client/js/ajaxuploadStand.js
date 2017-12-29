@@ -115,9 +115,13 @@ function short_validation()
 
     var error = "false";
     $("#error_titleSloganStand").html('');
+    $("#error_preparationTime").html('');
+    $("#error_dishType").html('');
+    $("#error_dishName").html('');
+    $("#error_productDescription").html('');
     $("#error_icon").html('');
     $("#error_cat_icon").html('');
-	$("#error_linkedCatStand").html('');
+	// $("#error_linkedCatStand").html('');
 
     if(($.trim($("#titleSloganStand").val()).length == 0))
     {
@@ -132,13 +136,41 @@ function short_validation()
         $("#error_titleSloganStand").html(errorMsg);
         error = "true";
     }
+
+    if($.trim($("#dishType").val()) == '')
+    {
+        var errorMsg = "Please Enter Dish Type.<br />";
+        $("#error_dishType").html(errorMsg);
+        error = "true";
+    }
+
+    if($.trim($("#dishName").val()) == '')
+    {
+        var errorMsg = "Please Enter Dish Name.<br />";
+        $("#error_dishName").html(errorMsg);
+        error = "true";
+    }
+
+    if($.trim($("#preparationTime").val()) == '')
+    {
+        var errorMsg = "Please Enter Preparation Time.<br />";
+        $("#error_preparationTime").html(errorMsg);
+        error = "true";
+    }
+
+    if($.trim($("#productDescription").val()) == '')
+    {
+        var errorMsg = "Please Enter Product Description.<br />";
+        $("#error_productDescription").html(errorMsg);
+        error = "true";
+    }
 	
-	if($.trim($("#linkedCatStand").val()) == '')
-	{
-		var errorMsg = "Please Select a Category<br />";
-		$("#error_linkedCatStand").html(errorMsg);
-		error = "true";
-	}
+	// if($.trim($("#linkedCatStand").val()) == '')
+	// {
+	// 	var errorMsg = "Please Select a Category<br />";
+	// 	$("#error_linkedCatStand").html(errorMsg);
+	// 	error = "true";
+	// }
 	
 	 if($.trim($("#icon").val()).length!=0){
            

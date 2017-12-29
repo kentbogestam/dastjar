@@ -40,6 +40,11 @@ class activate {
         $inoutObj = new inOut();
         $data = array();
         $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
         //echo "Select * FROM campaign WHERE u_id='".$_SESSION['userid']."'";
        //echo $_SESSION['userid'];
         $res = $db->query("Select campaign.*,lang_text.text,keyw.text as keyword FROM campaign
@@ -51,10 +56,10 @@ class activate {
          LEFT JOIN  lang_text as keyw ON  campaign_keyword.offer_keyword = keyw.id
 
          WHERE u_id='" . $_SESSION['userid'] . "' AND sloganT.lang = lang_text.lang");
-        $rs = mysql_fetch_array($res);
+        $rs = mysqli_fetch_array($res);
         $data = $rs;
 
-        if (mysql_num_rows($res)) 
+        if (mysqli_num_rows($res)) 
         {        
             $actArr['camp'] = 1;            
             $actArr['advt'] = 0;
@@ -71,9 +76,9 @@ class activate {
             LEFT JOIN  lang_text as keyw ON  advertise_keyword.offer_keyword = keyw.id
 
             WHERE u_id='" . $_SESSION['userid'] . "' AND sloganT.lang = lang_text.lang");
-           $rs = mysql_fetch_array($res);
+           $rs = mysqli_fetch_array($res);
            $data = $rs;
-             if (mysql_num_rows($res)) {
+             if (mysqli_num_rows($res)) {
                     $actArr['advt'] = 1;
                     $actArr['camp'] = 0;            
                     $actArr['prod'] = 0;
@@ -89,11 +94,11 @@ class activate {
             LEFT JOIN   product_keyword  ON   product_keyword.product_id = product.product_id
             LEFT JOIN    lang_text as keyw  ON   product_keyword.offer_keyword  = keyw.id
            WHERE u_id='" . $_SESSION['userid'] . "' AND sloganT.lang = lang_text.lang");
-            $resProd = mysql_query($query) or die(mysql_error());
-            $row = mysql_fetch_array($resProd);
+            $resProd = mysqli_query($conn,$query) or die(mysql_error());
+            $row = mysqli_fetch_array($resProd);
             //print_r($row);
             //die();
-            if (mysql_num_rows($resProd)) {
+            if (mysqli_num_rows($resProd)) {
                 $data = $row;
                 $actArr['prod'] = 1;
             } else {

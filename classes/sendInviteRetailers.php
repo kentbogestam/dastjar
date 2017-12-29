@@ -44,6 +44,12 @@ class sendInviteRetailers {
 		//echo "hiiii";exit;
         $inoutObj = new inOut();
         $db = new db();
+
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
         $arrUser = array();
         $error = '';
 
@@ -71,37 +77,37 @@ class sendInviteRetailers {
         } else {
            
             $res = $db->query("Select * FROM campaign WHERE u_id='" . $_SESSION['userid'] . "'");
-            $rs = mysql_fetch_array($res);
+            $rs = mysqli_fetch_array($res);
             $data = $rs;
-            if (mysql_num_rows($res)) {
+            if (mysqli_num_rows($res)) {
                 if ($reseller != '') {
 
                  ////check this mail id having another reseller or not
             $res = $db->query("Select * FROM user WHERE email='" . $arrUser['email'] . "'");
-            $rs = mysql_fetch_array($res);
+            $rs = mysqli_fetch_array($res);
             $value = $rs['email'];
                     if ($value != '') {
                 $query = "select u_id from user where email = '" . $value . "'";
-                $res = mysql_query($query);
-                $rs = mysql_fetch_array($res);
+                $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+                $rs = mysqli_fetch_array($res);
                 $id = $rs['u_id'];
 
 
                 $query1 = "select * from company where u_id = '" . $id . "'";
-                $res1 = mysql_query($query1);
-                $rs1 = mysql_fetch_array($res1);
+                $res1 = mysqli_query($conn , $query1) or die(mysqli_error($conn));
+                $rs1 = mysqli_fetch_array($res1);
                 $resellerId = $rs1['seller_id'];
                 $checkCompanyId = $rs1['company_id'];
 
                         if (($checkCompanyId == '') && ($value != '')) {
                 $query2 = "select company_id from employer where u_id = '" . $id . "'";
-                $res2 = mysql_query($query2);
-                $rs2 = mysql_fetch_array($res2);
+                $res2 = mysqli_query($conn , $query2) or die(mysqli_error($conn));
+                $rs2 = mysqli_fetch_array($res2);
                 $employCompanyId = $rs2['company_id'];
 
                 $query3 = "select * from company where company_id = '" . $employCompanyId . "'";
-                $res3 = mysql_query($query3);
-                $rs3 = mysql_fetch_array($res3);
+                $res3 = mysqli_query($conn , $query3) or die(mysqli_error($conn));
+                $rs3 = mysqli_fetch_array($res3);
                 $emplResellerId = $rs3['seller_id'];
 
 
@@ -137,7 +143,7 @@ class sendInviteRetailers {
                 }
             } else {
                 $res = $db->query("Select * FROM product WHERE u_id='" . $_SESSION['userid'] . "'");
-                $rs = mysql_fetch_array($res);
+                $rs = mysqli_fetch_array($res);
                 $data = $rs;
                 if ($reseller != '') {
                     $msg = BASE_URL . "viewResellerStandard.php?productId=" . $data[product_id] . '&ccode=' . $ccode . '&uId=' . $data['u_id'];
@@ -245,6 +251,12 @@ class sendInviteRetailers {
         //echo "hiiii";exit;
         $inoutObj = new inOut();
         $db = new db();
+
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
         $arrUser = array();
         $error = '';
 
@@ -278,35 +290,35 @@ class sendInviteRetailers {
            
         if ($campaignId) {
             $res = $db->query("Select * FROM campaign WHERE u_id='" . $_SESSION['userid'] . "'");
-            $rs = mysql_fetch_array($res);
+            $rs = mysqli_fetch_array($res);
             $data = $rs;
             if ($reseller != '') {
              ////check this mail id having another reseller or not
             $res = $db->query("Select * FROM user WHERE email='" . $arrUser['email'] . "'");
-            $rs = mysql_fetch_array($res);
+            $rs = mysqli_fetch_array($res);
             $value = $rs['email'];
                 if ($value != '') {
                 $query = "select u_id from user where email = '" . $value . "'";
-                $res = mysql_query($query);
-                $rs = mysql_fetch_array($res);
+                $res = mysqli_query($conn , $query);
+                $rs = mysqli_fetch_array($res);
                 $id = $rs['u_id'];
 
                
                 $query1 = "select * from company where u_id = '" . $id . "'";
-                $res1 = mysql_query($query1);
-                $rs1 = mysql_fetch_array($res1);
+                $res1 = mysqli_query($conn , $query1);
+                $rs1 = mysqli_fetch_array($res1);
                 $resellerId = $rs1['seller_id'];
                 $checkCompanyId = $rs1['company_id'];
 
                     if (($checkCompanyId == '') && ($value != '')) {
                 $query2 = "select company_id from employer where u_id = '" . $id . "'";
-                $res2 = mysql_query($query2);
-                $rs2 = mysql_fetch_array($res2);
+                $res2 = mysqli_query($conn , $query2);
+                $rs2 = mysqli_fetch_array($res2);
                 $employCompanyId = $rs2['company_id'];
 
                 $query3 = "select * from company where company_id = '" . $employCompanyId . "'";
-                $res3 = mysql_query($query3);
-                $rs3 = mysql_fetch_array($res3);
+                $res3 = mysqli_query($conn , $query3);
+                $rs3 = mysqli_fetch_array($res3);
                 $emplResellerId = $rs3['seller_id'];
 
                         if (($emplResellerId == '') || ($emplResellerId == $_SESSION['userid'])) {
@@ -340,7 +352,7 @@ class sendInviteRetailers {
            
         if ($productId) {
             $res = $db->query("Select * FROM product WHERE u_id='" . $_SESSION['userid'] . "'");
-                $rs = mysql_fetch_array($res);
+                $rs = mysqli_fetch_array($res);
                 $data = $rs;
             if ($reseller != '') {
                 $msg = BASE_URL . "viewResellerStandard.php?productId=" . $productId . '&ccode=' . $ccode . '&uId=' . $data['u_id'];
@@ -391,6 +403,12 @@ class sendInviteRetailers {
     function sendRetailersAdvtMail($reseller = '') {
         $inoutObj = new inOut();
         $db = new db();
+
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
         $arrUser = array();
         $error = '';
 
@@ -422,35 +440,35 @@ class sendInviteRetailers {
 
         if ($advertiseId) {
             $res = $db->query("Select * FROM advertise WHERE u_id='" . $_SESSION['userid'] . "'");
-            $rs = mysql_fetch_array($res);
+            $rs = mysqli_fetch_array($res);
             $data = $rs;
             if ($reseller != '') {
                 ////check this mail id having another reseller or not
                 $res = $db->query("Select * FROM user WHERE email='" . $arrUser['email'] . "'");
-                $rs = mysql_fetch_array($res);
+                $rs = mysqli_fetch_array($res);
                 $value = $rs['email'];
                 if ($value != '') {
                     $query = "select u_id from user where email = '" . $value . "'";
-                    $res = mysql_query($query);
-                    $rs = mysql_fetch_array($res);
+                    $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+                    $rs = mysqli_fetch_array($res);
                     $id = $rs['u_id'];
 
 
                     $query1 = "select * from company where u_id = '" . $id . "'";
-                    $res1 = mysql_query($query1);
-                    $rs1 = mysql_fetch_array($res1);
+                    $res1 = mysqli_query($conn , $query1) or die(mysqli_error($conn));
+                    $rs1 = mysqli_fetch_array($res1);
                     $resellerId = $rs1['seller_id'];
                     $checkCompanyId = $rs1['company_id'];
 
                     if (($checkCompanyId == '') && ($value != '')) {
                         $query2 = "select company_id from employer where u_id = '" . $id . "'";
-                        $res2 = mysql_query($query2);
-                        $rs2 = mysql_fetch_array($res2);
+                        $res2 = mysqli_query($conn , $query2) or die(mysqli_error($conn));
+                        $rs2 = mysqli_fetch_array($res2);
                         $employCompanyId = $rs2['company_id'];
 
                         $query3 = "select * from company where company_id = '" . $employCompanyId . "'";
-                        $res3 = mysql_query($query3);
-                        $rs3 = mysql_fetch_array($res3);
+                        $res3 = mysqli_query($conn , $query3) or die(mysqli_error($conn));
+                        $rs3 = mysqli_fetch_array($res3);
                         $emplResellerId = $rs3['seller_id'];
 
                         if (($emplResellerId == '') || ($emplResellerId == $_SESSION['userid'])) {

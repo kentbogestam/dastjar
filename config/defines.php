@@ -39,6 +39,9 @@ define("ERROR_COMP_CITY","<li class='notice_error'>Please Enter a valid image co
 define("ERROR_COMP_COUNTRY","<li class='notice_error'>Please Enter a valid image code. </li>");
 
 //
+define("ERROR_PRODUCT_DESCRIPTION","<li class='notice_error'>Please Enter Product Description.</li>");
+define("ERROR_DISH_TYPE","<li class='notice_error'>Please Enter Dish Type.</li>");
+define("ERROR_PREPARATION_TIME","<li class='notice_error'>Please Enter Preparation Time.</li>");
 define("ERROR_TITLE_SLOGAN","<li class='notice_error'>Please Enter Your Title Slogan.</li>");
 define("ERROR_SUB_SLOGAN","<li class='notice_error'>Please Enter Your Sub Slogan.</li>");
 define("ERROR_SMALL_IMAGE","<li class='notice_error'>Please Select an icon to represent your Offer.</li>");
@@ -89,12 +92,14 @@ define("INSUFFICIENT_BALANCE","<li class='notice_error'>You have insufficient ba
 define("COUPON_OFFER_SUCCESS","<li class='notice_success'>You have successfully added your Location.</li>");
 define("LOGIN_PLEASE","<li class='notice_error'>Please login to the next process.</li>");
 define("STANDARD_OFFER_SUCCESS","<li class='notice_success'>You have successfully submitted your standard offer details.</li>");
+define("DISH_TYPE_SUCCESS","<li class='notice_success'>You have successfully submitted your Dish Type.</li>");
 define("CREATE_STORE_SUCCESS","<li class='notice_success'>You have successfully submitted your location details.</li>");
 define("SUCCESS_EMAIL_VALID","<li class='notice_success'>Your email has been verified successfully.</li>");
 define("REGISTER_EMAIL_VARIFICATION","<li class='notice_success'>Confirm your e-mail address by clicking on the link sent to you by e-mail.</li>");
 define("EMAIL_VARIFICATION_CHECK","<li class='notice_success'>Please confirm your email-id for the next step.</li>");
 
 define("VALID_MATCH_ERROR","<li class='notice_error'>Email verification code did not match.</li>");
+define("UPDATED_DISH","<li class='notice_success'>Your Dish has been updated.</li>");
 define("UPDATED_COMPANY","<li class='notice_success'>Your Company has been updated.</li>");
 define("UPDATED_USER","<li class='notice_success'> User has been updated.</li>");
 define("CREATE_STORE_SUCCESS","<li class='notice_success'>You have succesfully added your location.</li>");
