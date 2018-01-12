@@ -380,6 +380,20 @@ class accountView {
         }
     }
 
+    function getStoreLocation(){
+        $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+        $q = $db->query("SELECT store_id,store_name FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND  s_activ='1'");
+         while ($rs = mysqli_fetch_array($q)) {
+            $data[] = $rs;
+        }
+        return $data;
+    }
+
     function saveNewUserInfo() {
         //$privatekey = "6Ldv8r4SAAAAAOIpAG7IaDQryd7rDtzMKhCug1DO";
         $inoutObj = new inOut();
@@ -399,6 +413,7 @@ class accountView {
         $arrUser['cprefix'] = $_POST['cprefix'];
         $arrUser['phone'] = trim($_POST['phone']);
         $arrUser['mobile_phone'] = trim($_POST['mob']);
+        $arrUser['storeID'] = $_POST['select2'];
 
         if ($error != '') {
             $_SESSION['MESSAGE'] = $error;
@@ -416,18 +431,18 @@ class accountView {
              //print_r($password_sha1);die();
 
             $QUE = "select company_id from employer where u_id='" . $_SESSION['userid'] . "'";
-            $res = mysqli_query($conn, $QUE) or die("Get Company : " . mysql_error());
+            $res = mysqli_query($conn, $QUE) or die("Get Company : " . mysqli_error($conn));
             $row = mysqli_fetch_array($res);
             $companyId = $row['company_id'];
             
           
-           $query = "INSERT INTO user(`u_id`, `email`, `passwd`, `fname`, `lname`, `role`, `phone`, `mobile_phone`,`email_varify_code`,`activ`,`company_id`)
-                VALUES ('" . $userId . "', '" . $arrUser['email'] . "', '" .$password_hash . "', '" . $arrUser['fname'] . "', '" . $arrUser['lname'] . "','" . $arrUser['role'] . "', '"  .$arrUser['cprefix']. $arrUser['phone'] . "', '"  .$arrUser['cprefix']. $arrUser['mobile_phone'] . "','" . $arrUser['email_varify_code'] . "','5','" . $companyId . "');";
-            $res = mysqli_query($conn ,$query) or die(mysql_error());
+           $query = "INSERT INTO user(`u_id`, `email`, `passwd`, `fname`, `lname`, `role`, `phone`, `mobile_phone`,`email_varify_code`,`activ`,`company_id`,`store_id`)
+                VALUES ('" . $userId . "', '" . $arrUser['email'] . "', '" .$password_hash . "', '" . $arrUser['fname'] . "', '" . $arrUser['lname'] . "','" . $arrUser['role'] . "', '"  .$arrUser['cprefix']. $arrUser['phone'] . "', '"  .$arrUser['cprefix']. $arrUser['mobile_phone'] . "','" . $arrUser['email_varify_code'] . "','5','" . $companyId . "','" .  $arrUser['storeID'] . "');";
+            $res = mysqli_query($conn ,$query) or die(mysqli_error($conn));
           
               $query = "INSERT INTO employer(`company_id`, `u_id`)
              VALUES ('" . $companyId . "', '" . $userId . "');";
-              $res = mysqli_query($conn ,$query) or die(mysql_error());
+              $res = mysqli_query($conn ,$query) or die(mysqli_error($conn));
 ///////////////////////////////////////
 //            if ($res) {
 //                $mailObj = new emails();
@@ -442,6 +457,28 @@ class accountView {
 //            $_SESSION['MESSAGE'] = REGISTER_SUCCESS;
 //            $_SESSION['REG_STEP'] = 1;
 //            $_SESSION['active_state'] = 1;
+              $ch = curl_init();
+              $skipper = "luxury assault recreational vehicle";
+              $fields = array( 'email' => $arrUser['email'],'password' => $arrUser['passwd']);
+              $postvars = '';
+              foreach($fields as $key=>$value) {
+                $postvars .= $key . "=" . $value . "&";
+              }
+              $url = "http://localhost/dast-jar-frontend/public/api/v1/save-password";
+              curl_setopt($ch,CURLOPT_URL,$url);
+              curl_setopt($ch,CURLOPT_POST, 1);                //0 for a get request
+              curl_setopt($ch,CURLOPT_POSTFIELDS,$postvars);
+              curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
+              curl_setopt($ch,CURLOPT_CONNECTTIMEOUT ,3);
+              curl_setopt($ch,CURLOPT_TIMEOUT, 20);
+              $response = curl_exec($ch);
+              $err = curl_error($ch);
+              curl_close ($ch);
+              if ($err) {
+                echo "cURL Error #:" . $err;
+              } else {
+                echo $response;
+              }
 
             $url = BASE_URL . 'viewNewUser.php';
             $_SESSION['MESSAGE'] = INSERTED_USER;

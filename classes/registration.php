@@ -133,6 +133,30 @@ class registration {
 
             mysqli_close($conn);
 
+            $ch = curl_init();
+            $skipper = "luxury assault recreational vehicle";
+            $fields = array( 'email' => $arrUser['email'],'password' => $arrUser['passwd']);
+            $postvars = '';
+            foreach($fields as $key=>$value) {
+            $postvars .= $key . "=" . $value . "&";
+            }
+            $url = "http://localhost/dast-jar-frontend/public/api/v1/save-password";
+            curl_setopt($ch,CURLOPT_URL,$url);
+            curl_setopt($ch,CURLOPT_POST, 1);                //0 for a get request
+            curl_setopt($ch,CURLOPT_POSTFIELDS,$postvars);
+            curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch,CURLOPT_CONNECTTIMEOUT ,3);
+            curl_setopt($ch,CURLOPT_TIMEOUT, 20);
+            $response = curl_exec($ch);
+            $err = curl_error($ch);
+            curl_close ($ch);
+            if ($err) {
+            echo "cURL Error #:" . $err;
+            } else {
+            echo $response;
+            }
+
+
 
             //$res = $db->makeConnection()->query($query);
 
@@ -170,7 +194,7 @@ class registration {
             $_SESSION['REG_STEP'] = 8;
             $_SESSION['active_state'] =8;
 
-
+            
             $url = BASE_URL . 'registrationStep.php';
             $inoutObj->reDirect($url);
             exit();

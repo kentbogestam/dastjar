@@ -17,6 +17,8 @@ if (isset($_POST['Continue']))
 {
     $accountObj->saveNewUserInfo();
 }
+$data =  $accountObj->getStoreLocation();
+//echo "<pre>"; print_r($data);echo "</pre>";
 include_once("header.php");
 ?>
 <style type="text/css">
@@ -532,6 +534,20 @@ include_once("header.php");
                 <INPUT class="text_field_new" type=text name="mob" id="mob">
                 <div id='error_mobile' class="error"></div></td>
         </tr>
+        <tr>
+            <td width="50%" align="left" class="inner_grid">Select Store<span class='mandatory'>*</span>:</td>
+            <td width="50%" align="left" valign="top" class="td_pad_right">
+              <?php $value = 0; ?>
+              <div class="adddishes">
+                  <select id= "xx" name="select2" style="width:406px; background-color:#e4e3dd; border:#abadb3 solid 1px;" class="text_field_new" >
+                      <?php foreach($data as $key =>$value) { ?>
+                              <option value = <?php echo $value['store_id']?> ><?php echo $value['store_name']?></option>
+                      <?php } ?>
+                  </select>
+                  <div id='error_startDateStand' class="error"></div>
+              </div>
+            </td>
+         </tr>
 	   </table>
 	   
 <table width="100%" >
