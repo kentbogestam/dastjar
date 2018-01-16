@@ -240,11 +240,11 @@ class registration {
         $db = new db();
        // $inoutObj = new inOut();
 		//echo "session".$_SESSION['REG_STEP']."--TTTT".$page_name[1]."TTT-----";
-        if ((!$_SESSION['REG_STEP']) && ($script_name != "registrationProcess.php")) {
-            $url = BASE_URL . 'registrationStep.php'; //die();
-            $inoutObj->reDirect($url);
-            exit;
-        }
+        // if ((!$_SESSION['REG_STEP']) && ($script_name != "registrationProcess.php")) {
+        //     $url = BASE_URL . 'registrationStep.php'; //die();
+        //     $inoutObj->reDirect($url);
+        //     exit;
+        // }
         //echo "case1"; die();
         if ($_SESSION['REG_STEP'] == 1 && ($script_name != "addCompany.php")) {
             $url = BASE_URL . 'registrationStep.php?reg_step=1';
