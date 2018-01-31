@@ -31,6 +31,7 @@ $(document).ready(function(){
         $("#error_cityStore").html('');
         $("#error_countryStore").html('');
         $("#error_phoneNo").html('');
+        $("#error_storeImage").html('');
         $("#error_email").html('');
         $("#error_link").html('');
         $("#error_address").html('');
@@ -82,6 +83,14 @@ $(document).ready(function(){
         {
             var errorMsg = "Please Enter Phone Number.<br/>";
             $("#error_phoneNo").html(errorMsg);
+            error = "true";
+        }
+
+
+        if(($.trim($("#imageStore").val()).length == 0))
+        {
+            var errorMsg = "Please Uplode png formate Image.<br/>";
+            $("#error_storeImage").html(errorMsg);
             error = "true";
         }
 
