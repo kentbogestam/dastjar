@@ -9,7 +9,7 @@ header('Content-Type: text/html; charset=utf-8');
 
 
 
-include('lib/resizer/resizer.php');
+require_once('lib/resizer/resizer.php');
 
 class offer extends advertiseoffer{
     /* Function Header :svrOfferDflt()
