@@ -7,6 +7,7 @@
 
 //print_r($_SESSION);
 //$_SESSION['COMP_ID']="";
+include('lib/resizer/resizer.php');
 class store {
     /* Function Header :svrStoreDflt()
      *             Args: none
@@ -386,8 +387,8 @@ class store {
                         $size = 'iphone4_cat';
                         $path = UPLOAD_DIR . "category/";
                         $fileThumbnail = $path . $cat_filename;
-                        //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
-//echo $cat_filename; die();
+                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
+//echo 'errorMsg'; die();
                         $arrUser['store_image'] = $cat_filename;
                     }
                 } else {
