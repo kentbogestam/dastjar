@@ -163,7 +163,8 @@ class inOut {
 
                 }
                 else {
-                    $url = BASE_URL.'showCampaign.php';
+                    //$url = BASE_URL.'showCampaign.php';
+                    $url = BASE_URL.'showStandard.php';
                     $this->reDirect($url);
                 }
             }

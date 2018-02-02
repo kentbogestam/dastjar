@@ -193,9 +193,9 @@
                <td height="42" align="left">Type of Restaurant                </td>
                <td>
                   <select class="text_field_new" style="background-color:#e4e3dd; width:406px; height:36px;border: 1px solid #abadb3;" tabindex="27" id="typeofrestrurant" name="typeofrestrurant">
-                     <option value="1">Eat Now</option>
-                     <option value="2">Eat Later</option>
-                     <option value="3">Both</option>
+                     <option <? if ($data[0]['store_type'] == '1')echo "selected='selected'"; ?>   value="1">Eat Now</option>
+                     <option <? if ($data[0]['store_type'] == '2')echo "selected='selected'"; ?>   value="2">Eat Later</option>
+                     <option <? if ($data[0]['store_type'] == '3')echo "selected='selected'"; ?>   value="3">Both</option>
                   </select>
                </td>
             </tr>

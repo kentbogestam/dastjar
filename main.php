@@ -48,7 +48,7 @@ $selected_tab_css = ' style="background-color:#ADDFFF" ';
 <!--<li><a class="" href="main.php">Home</a></li>-->
 <!--<li><a <?=$campaign?>  href="showCampaign.php" >Campaigns</a></li>-->
 <!--<li><a <?=$offer?>  href="showCampaign.php" >Offers</a></li>-->
-<li><a <?=$offer?>  href="showCampaign.php" >Menu</a></li>
+<li><a <?=$offer?>  href="showStandard.php" >Menu</a></li>
 <li><a <?=$store?> href="showStore.php" >Locations</a></li>
 <!--<li><a <?=$standard?> href="showStandard.php" >Standard Offer</a></li>-->
 <!--<li><a <?=$report?> href="getReportView.php" >Report</a></li>-->

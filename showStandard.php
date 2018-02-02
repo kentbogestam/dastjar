@@ -168,7 +168,7 @@
                  <td width="6%" height="20" align="center"  class="bg_darkgray1"><strong>Icon</strong></td>
                  <!--                                                                <td width="5%" class="bg_darkgray1"><strong>keywords</strong></td>-->
                  <!-- <td width="10%"  class="bg_darkgray1" align="center"><strong>Category</strong></td>-->
-                 <td width="15%" height="20" align="center" class="bg_darkgray1"><strong>Sponsored</strong></td>
+                 <td width="15%" height="20" align="center" class="bg_darkgray1" style="display:none;"><strong>Sponsored</strong></td>
                  <td width="15%" height="20" align="center" class="bg_darkgray1"><strong>Keywords</strong></td>
                  <!--<td width="9%" class="bg_darkgray1"><strong>Link</strong></td>-->
                  <!-- <td width="9%" class="bg_darkgray1"><strong>Link to Add Store</strong></td>
@@ -191,7 +191,7 @@
                  <td align="center"><img src="<?php echo $data1['small_image'] ?>" height="30" width="30"/></td>
                  <!--                                                                <td align="center"><?php echo $data1['keywords']; ?></td>-->
                  <!--<td align="center"><?php echo $data1['category']; ?></td>-->
-                 <td align="center"><?php
+                 <td align="center" style="display:none;"><?php
                     $d = $data1['is_sponsored'];
                                                                                 if ($d == 0)
                                                                                     echo "No";

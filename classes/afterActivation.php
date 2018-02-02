@@ -102,7 +102,8 @@ class afterActivation {
                 }
 
         if ($reseller == '') {
-        $url = BASE_URL . 'showCampaign.php';
+        //$url = BASE_URL . 'showCampaign.php';
+        $url = BASE_URL . 'showStandard.php';
         $inoutObj->reDirect($url);
         exit();
         } else {
@@ -151,7 +152,8 @@ class afterActivation {
                     exit();
                 }
         if ($reseller == '') {
-        $url = BASE_URL . 'showCampaign.php';
+        //$url = BASE_URL . 'showCampaign.php';
+        $url = BASE_URL . 'showStandard.php';
         $inoutObj->reDirect($url);
         exit();
   }  else {
@@ -230,7 +232,8 @@ class afterActivation {
                 }
                 //echo $reseller;die();
         if ($reseller == '') {
-        $url = BASE_URL . 'showCampaign.php';
+        //$url = BASE_URL . 'showCampaign.php';
+        $url = BASE_URL . 'showStandard.php';
         $inoutObj->reDirect($url);
         exit();
          } else {
@@ -306,7 +309,8 @@ class afterActivation {
                 }
 
             if ($reseller == '') {
-            $url = BASE_URL . 'showCampaign.php';
+            //$url = BASE_URL . 'showCampaign.php';
+            $url = BASE_URL . 'showStandard.php';
             $inoutObj->reDirect($url);
             exit();
                 } else {
@@ -346,7 +350,8 @@ class afterActivation {
                     exit();
                 }
         if ($reseller == '') {
-        $url = BASE_URL . 'showCampaign.php';
+        //$url = BASE_URL . 'showCampaign.php';
+        $url = BASE_URL . 'showStandard.php';
         $inoutObj->reDirect($url);
         exit();
         } else {

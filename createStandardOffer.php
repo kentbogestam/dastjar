@@ -146,6 +146,26 @@
                            </tr>
 
                            <tr>
+                              <td height="42" align="left">Dish Preparation Time<span class='mandatory'>*</span>:</td>
+                              <td>
+                                 <select class="text_field_new" style="background-color:#e4e3dd; width:406px; height:36px;border: 1px solid #abadb3;" tabindex="27" id="preparationTime" name="preparationTime">
+                                    <option value="00:05:00">5 Minutes</option>
+                                    <option value="00:10:00">10 Minutes</option>
+                                    <option value="00:15:00">15 Minutes</option>
+                                    <option value="00:20:00">20 Minutes</option>
+                                    <option value="00:25:00">25 Minutes</option>
+                                    <option value="00:30:00">30 Minutes</option>
+                                    <option value="00:35:00">35 Minutes</option>
+                                    <option value="00:40:00">40 Minutes</option>
+                                    <option value="00:45:00">45 Minutes</option>
+                                    <option value="00:50:00">50 Minutes</option>
+                                    <option value="00:55:00">55 Minutes</option>
+                                    <option value="00:60:00">60 Minutes</option>
+                                 </select>
+                              </td>
+                           </tr>
+
+                           <!-- <tr>
                               <td align="left" valign="top"  class="inner_grid">Dish Preparation Time<span class='mandatory'>*</span>:<br>
                               </td>
                               <td align="left" valign="top" >
@@ -154,7 +174,7 @@
                                  <div id='error_preparationTime' class="error" ></div>
                               </td>
                               <td align="right" valign="middle" ><a title="<?=STITLE_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
-                           </tr>
+                           </tr> -->
                            <tr style="display:none;"> </tr>
                            <tr style="display:none;">
                               <td align="left" valign="top" class="inner_grid">Price(with currency):</td>
@@ -237,8 +257,8 @@
                            </tr>
                         </table>
                         <br>
-                        <div class="redwhitebutton_small123">Describe how your Standard Offer should Behave</div>
-                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <div class="redwhitebutton_small123" style="display:none;">Describe how your Standard Offer should Behave</div>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="display:none;">
                            <tr>
                               <td width="50%" valign="top" class="td_pad_left">Sponsored Standard Offer<span class='mandatory'>*</span>:</td>
                               <td width="50%" class="td_pad_right">
