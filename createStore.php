@@ -301,7 +301,7 @@ include_once("header.php");
             </tr>
                 <tr>
                     
-                    <td width="51%"class="redgraybutton">4 Activate</td>
+                    <td width="51%"class="redgraybutton">3 Activate</td>
                 </tr>
                 <tr>
                 		<td>&nbsp;</td>

@@ -354,7 +354,7 @@ if ($_SESSION['MESSAGE']) {
       </table>
       <table border="0" width="100%">
         <tr>
-          <td width="100%" align="left" class="redgraybutton">4 Activate</td>
+          <td width="100%" align="left" class="redgraybutton">3 Activate</td>
         </tr>
         <tr>
           <td align="left" ></td>

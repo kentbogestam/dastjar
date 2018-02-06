@@ -79,7 +79,7 @@ include_once("header.php");
           <td colspan="2"><img src="images/spacer.gif" width="1" height="10" /></td>
         </tr>
         <tr>
-          <td colspan="2" class="redgraybutton">4 Activate</td>
+          <td colspan="2" class="redgraybutton">3 Activate</td>
         </tr>
         <tr>
           <td colspan="2">&nbsp;</td>

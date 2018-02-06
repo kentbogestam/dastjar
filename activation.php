@@ -61,17 +61,17 @@
                         <tr>
                            <td  class="redwhitebutton">2 Add Company</td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                            <td >&nbsp;</td>
                         </tr>
                         <tr>
                            <td  class="redwhitebutton">3 Add Offer</td>
-                        </tr>
+                        </tr> -->
                         <tr>
                            <td >&nbsp;</td>
                         </tr>
                         <tr>
-                           <td  class="blackbutton">4 Activate</td>
+                           <td  class="blackbutton">3 Activate</td>
                         </tr>
                         <tr>
                            <td  >&nbsp;</td>
@@ -154,17 +154,17 @@
                   <tr>
                      <td class="redwhitebutton">2 Add Company</td>
                   </tr>
-                  <tr>
+                  <!-- <tr>
                      <td  width="100%">&nbsp;</td>
                   </tr>
                   <tr>
                      <td class="redwhitebutton">3 Add Offer</td>
-                  </tr>
+                  </tr> -->
                   <tr>
                      <td  width="100%">&nbsp;</td>
                   </tr>
                   <tr>
-                     <td class="redgraybutton">4 Activate</td>
+                     <td class="redgraybutton">3 Activate</td>
                   </tr>
                   <tr>
                      <td>&nbsp;</td>
@@ -252,17 +252,17 @@
                   <tr>
                      <td  class="redwhitebutton">2 Add Company</td>
                   </tr>
-                  <tr>
+                  <!-- <tr>
                      <td >&nbsp;</td>
                   </tr>
                   <tr>
                      <td  class="redwhitebutton">3 Add Offer</td>
-                  </tr>
+                  </tr> -->
                   <tr>
                      <td >&nbsp;</td>
                   </tr>
                   <tr>
-                     <td  class="blackbutton">4 Activate</td>
+                     <td  class="blackbutton">3 Activate</td>
                   </tr>
                   <tr>
                      <td  >&nbsp;</td>
@@ -345,17 +345,17 @@
                   <tr>
                      <td class="redwhitebutton">2 Add Company</td>
                   </tr>
-                  <tr>
+                  <!-- <tr>
                      <td  width="100%">&nbsp;</td>
                   </tr>
                   <tr>
                      <td class="redwhitebutton">3 Add Offer</td>
-                  </tr>
+                  </tr> -->
                   <tr>
                      <td  width="100%">&nbsp;</td>
                   </tr>
                   <tr>
-                     <td class="redgraybutton">4 Activate</td>
+                     <td class="redgraybutton">3 Activate</td>
                   </tr>
                   <tr>
                      <td>&nbsp;</td>
@@ -438,17 +438,17 @@
                   <tr>
                      <td  class="redwhitebutton">2 Add Company</td>
                   </tr>
-                  <tr>
+                  <!-- <tr>
                      <td  >&nbsp;</td>
                   </tr>
                   <tr>
                      <td  class="redwhitebutton">3 Add Offer</td>
-                  </tr>
+                  </tr> -->
                   <tr>
                      <td >&nbsp;</td>
                   </tr>
                   <tr>
-                     <td  class="blackbutton">4 Activate</td>
+                     <td  class="blackbutton">3 Activate</td>
                   </tr>
                   <tr>
                      <td  >&nbsp;</td>
@@ -512,17 +512,17 @@
                   <tr>
                      <td  class="redwhitebutton">2 Add Company</td>
                   </tr>
-                  <tr>
+                  <!-- <tr>
                      <td >&nbsp;</td>
                   </tr>
                   <tr>
                      <td  class="redwhitebutton">3 Add Offer</td>
-                  </tr>
+                  </tr> -->
                   <tr>
                      <td >&nbsp;</td>
                   </tr>
                   <tr>
-                     <td  class="blackbutton">4 Activate</td>
+                     <td  class="blackbutton">3 Activate</td>
                   </tr>
                   <tr>
                      <td >&nbsp;</td>
@@ -614,19 +614,19 @@
                   <tr>
                      <td class="redwhitebutton">2 Add Company</td>
                   </tr>
-                  <tr>
+                 <!--  <tr>
                      <td  >&nbsp;</td>
                   </tr>
                   <?php if(!$_SESSION['Retailers']) {?>
                   <tr>
                      <td class="redwhitebutton">3 Add Offer</td>
                   </tr>
-                  <? } ?>
+                  <? } ?> -->
                   <tr>
                      <td  >&nbsp;</td>
                   </tr>
                   <tr>
-                     <td class="blackbutton">4 Activate</td>
+                     <td class="blackbutton">3 Activate</td>
                   </tr>
                   <tr>
                      <td  >&nbsp;</td>
