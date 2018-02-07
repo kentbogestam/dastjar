@@ -377,11 +377,8 @@
                                        <div id='error_startDateStand' class="error"></div>
                                     </td>
                                  </tr>
-                                 <tr>
-                                    <button type="button" id="add_tpye_of_dish">Add Tpye Of Dish</button>
-                                 </tr>
                                   <tr>
-                                    <td width="50%" align="left" valign="top" class="td_pad_left">Type of Dish<span class='mandatory'>*</span>:</td>
+                                    <td width="50%" align="left" valign="top" class="td_pad_left">Type of Dish<span class='mandatory'>*</span><a style="margin-left: 10px;font-size: 15px;vertical-align: top; cursor:pointer; text-decoration: underline;" id="add_tpye_of_dish">Add Tpye Of Dish</a>:</td>
                                     <td width="50%" align="left" valign="top" class="td_pad_right">
                                       <?php $value = 0; ?>
                                       <div class="adddishes">
