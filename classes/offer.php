@@ -1827,6 +1827,15 @@ class offer extends advertiseoffer{
         $_SQL = "insert into lang_text(id,lang,text) values('" . $sloganLangId . "','" . $arrUser['lang'] . "','" . $arrUser['offer_slogan_lang_list'] . "')";
         $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
 
+//For Dish Discription
+
+        $sloganSubLangId = uuid();
+        $dishDiscription = addslashes($arrUser['productDescription']);
+        $_SQL = "insert into product_offer_sub_slogan_lang_list(`product_id`,`offer_sub_slogan_lang_list`) values('" . $standUniqueId . "','" . $sloganSubLangId . "')";
+        $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
+
+        $_SQL = "insert into lang_text(id,lang,text) values('" . $sloganSubLangId . "','" . $arrUser['lang'] . "','" . $dishDiscription . "')";
+        $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
 
 //        $couponId = uuid();
 //        $query = "INSERT INTO coupon(`coupon_id`,product_id,`brand_name`, `small_image`, `large_image`, `is_sponsored`,`offer_type`,`infopage`,`startValidity`)
@@ -7746,8 +7755,9 @@ echo $arrUser['is_public'];die();
         $arrUser['titleSloganStand'] = addslashes($_POST['titleSloganStand']);
         $arrUser['searchKeywordStand'] = addslashes($_POST['searchKeywordStand']);
         $arrUser['lang'] = $_POST['lang'];
+        $arrUser['titleSloganStandDishDescription'] = addslashes($_POST['titleSloganStandDishDescription']);
 
-        //echo $arrUser['lang'];die();
+        echo $arrUser['titleSloganStandDishDescription'];die();
 
         $query = "SELECT * FROM product
         LEFT JOIN product_offer_slogan_lang_list ON product.product_id = product_offer_slogan_lang_list.product_id
@@ -7815,6 +7825,14 @@ echo $arrUser['is_public'];die();
         $query = "INSERT INTO lang_text(`id`,`lang`,`text`)
                 VALUES ('" . $slogenId . "','" . $arrUser['lang'] . "','" . $arrUser['titleSloganStand'] . "');";
         $res = mysqli_query($conn , $query) or die("Inset campaign : " . mysqli_error($conn));
+//Dish discription
+        $sloganSubLangId = uuid();
+        $dishDiscription = $arrUser['titleSloganStandDishDescription'];
+        $_SQL = "insert into product_offer_sub_slogan_lang_list(`product_id`,`offer_sub_slogan_lang_list`) values('" . $productid . "','" . $sloganSubLangId . "')";
+        $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
+
+        $_SQL = "insert into lang_text(id,lang,text) values('" . $sloganSubLangId . "','" . $arrUser['lang'] . "','" . $dishDiscription . "')";
+        $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
 
 
 
