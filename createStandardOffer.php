@@ -235,7 +235,7 @@
                                     <table border="0" cellpadding="0" cellspacing="0">
                                        <tr>
                                           <td width="41"  align="left" style="padding-left:5px; padding-right:5px;">
-                                             <div id="upload_area" style="vertical-align:top;"><img src="" id="myCatIcon" name="myCatIcon"></div>
+                                             <div id="upload_area" style="vertical-align:top;"><img src=""  height = 50 width = 50 id="myCatIcon" name="myCatIcon"></div>
                                           </td>
                                           <td rowspan="2" valign="top">
                                              <table width="98%" border="0" cellpadding="0" cellspacing="0">
@@ -500,6 +500,23 @@
    // $('.add_tpye_of_dish').on('change',function(){
    //       $('#addDishType-popup').show();
    // });
+
+   $("#icon").change(function() {
+     readURL(this);
+   });
+
+   function readURL(input) {
+
+   if (input.files && input.files[0]) {
+       var reader = new FileReader();
+
+       reader.onload = function(e) {
+         $('#myCatIcon').attr('src', e.target.result);
+       }
+
+       reader.readAsDataURL(input.files[0]);
+     }
+   }
 
    $('#add_tpye_of_dish').click(function(){
       $('#addDishType-popup').show();
