@@ -23,6 +23,7 @@ class store {
         } else {
             $mode = '';
         }
+        
         switch ($mode) {
 
             case 'saveStore':
@@ -299,7 +300,8 @@ class store {
      */
 
     function saveNewStoreDetails() {
-        //echo "<pre>";print_r($_FILES);/*print_r($_POST) ;*/
+        
+        //echo "<pre>";print_r($_POST);/*print_r($_POST) ;*/
         //die();
         
         $inoutObj = new inOut();
@@ -311,6 +313,21 @@ class store {
         }else{}
         $arrUser = array();
         $error = '';
+
+        if($_POST['Sunday'] != null) {$sun = $_POST['Sunday'];} else {$sun = 'close';}
+        if($_POST['Monday'] != null) { $mon =$_POST['Monday'];} else {$mon = 'close';}
+        if($_POST['Tuesday'] != null) { $tues = $_POST['Tuesday'];} else {$tues = 'close';}
+        if($_POST['Wednesday'] != null) {$wed = $_POST['Wednesday'];} else {$wed = 'close';}
+        if($_POST['Thursday'] != null) {$thur = $_POST['Thursday'];} else {$thur = 'close';}
+        if($_POST['Friday'] != null) {$fri = $_POST['Friday'];} else {$fri = 'close';}
+        if($_POST['Saturday'] != null) {$sat = $_POST['Saturday'];} else {$sat = 'close';}
+
+        $arrUser['openDays'] = $mon .','. $tues .',' . $wed .','. $thur .',' . $fri .',' . $sat . ',' . $sun; 
+        //echo "<pre>";print_r($arrUser['openDays']);die();
+        $arrUser['store_open'] = $_POST['storeOpenTime'];
+        $arrUser['store_close'] = $_POST['storeCloseTime'];
+        $arrUser['close_dates'] = $_POST['altField'];
+         
 
         $arrUser['store_type'] = $_POST['typeofrestrurant'];
         $arrUser['store_name'] = $_POST['storeName'];
@@ -346,8 +363,6 @@ class store {
         $arrUser['longitude'] = $_POST['longitude'];
         $arrUser['BARCODE'] = $_POST['BARCODE'];
         $arrUser['DPS'] = $_POST['DPS'];
-
-
 
         $error.= ( $arrUser['store_name'] == '') ? ERROR_STORE_NAME : '';
 
@@ -449,8 +464,8 @@ class store {
 
         $_SESSION['post'] = "";
         $storeUniqueId = uuid();
-        $query = "INSERT into store(`store_id`,`u_id`,`store_type`,`store_name`,`email`,`street`,`phone`,`store_link`,`city`,`country`,`latitude`,`longitude`,`s_activ`,`country_code`,`access_type`,`chain`,`block`,`zip`,`store_image`)
-                 VALUES('" . $storeUniqueId . "','" . $_SESSION['userid'] . "','" . $arrUser['store_type'] . "','" . $arrUser['store_name'] . "','" . $arrUser['email'] . "','" . $arrUser['street'] . "','" . $arrUser['phone'] . "','" . $arrUser['link'] . "','" . $arrUser['city'] . "','" . $arrUser['country'] . "','" . $arrUser['latitude'] . "','" . $arrUser['longitude'] . "','1','" . $coutryIso . "','1','" . $arrUser['chain'] . "','" . $arrUser['block'] . "','" . $arrUser['zip'] . "','" . $catImg . "')";
+        $query = "INSERT into store(`store_id`,`u_id`,`store_type`,`store_name`,`email`,`street`,`phone`,`store_link`,`city`,`country`,`latitude`,`longitude`,`s_activ`,`country_code`,`access_type`,`chain`,`block`,`zip`,`store_image`,`store_open`,`store_close`,`store_open_days`,`store_close_dates`)
+                 VALUES('" . $storeUniqueId . "','" . $_SESSION['userid'] . "','" . $arrUser['store_type'] . "','" . $arrUser['store_name'] . "','" . $arrUser['email'] . "','" . $arrUser['street'] . "','" . $arrUser['phone'] . "','" . $arrUser['link'] . "','" . $arrUser['city'] . "','" . $arrUser['country'] . "','" . $arrUser['latitude'] . "','" . $arrUser['longitude'] . "','1','" . $coutryIso . "','1','" . $arrUser['chain'] . "','" . $arrUser['block'] . "','" . $arrUser['zip'] . "','" . $catImg . "','" . $arrUser['store_open'] . "','" . $arrUser['store_close'] . "','" . $arrUser['openDays'] . "','" . $arrUser['close_dates'] . "')";
         $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
         $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
@@ -770,6 +785,21 @@ class store {
         $arrUser = array();
         $error = '';
 
+        if($_POST['Sunday'] != null) {$sun = $_POST['Sunday'];} else {$sun = 'close';}
+        if($_POST['Monday'] != null) { $mon =$_POST['Monday'];} else {$mon = 'close';}
+        if($_POST['Tuesday'] != null) { $tues = $_POST['Tuesday'];} else {$tues = 'close';}
+        if($_POST['Wednesday'] != null) {$wed = $_POST['Wednesday'];} else {$wed = 'close';}
+        if($_POST['Thursday'] != null) {$thur = $_POST['Thursday'];} else {$thur = 'close';}
+        if($_POST['Friday'] != null) {$fri = $_POST['Friday'];} else {$fri = 'close';}
+        if($_POST['Saturday'] != null) {$sat = $_POST['Saturday'];} else {$sat = 'close';}
+
+        $arrUser['openDays'] = $mon .','. $tues .',' . $wed .','. $thur .',' . $fri .',' . $sat . ',' . $sun; 
+        //echo "<pre>";print_r($arrUser['openDays']);die();
+        $arrUser['store_open'] = $_POST['storeOpenTime'];
+        $arrUser['store_close'] = $_POST['storeCloseTime'];
+        $arrUser['close_dates'] = $_POST['altField1'];
+         
+
         $arrUser['store_type'] = $_POST['typeofrestrurant'];
         $arrUser['store_name'] = $_POST['storeName'];
         $arrUser['email'] = $_POST['email'];
@@ -824,7 +854,7 @@ class store {
 
         $storeUniqueId = uuid();
         $query = "update store SET store_type='" . $arrUser['store_type'] . "',latitude='" . $arrUser['latitude'] . "',longitude='" . $arrUser['longitude'] . "',`store_name`='" . $arrUser['store_name'] . "' ,`street`='" . $arrUser['street'] . "', `city`='" . $arrUser['city'] . "', `country`='" . $arrUser['country'] . "', `email`='" . $arrUser['email'] . "', `phone`='" . $arrUser['phone'] . "', `store_link`='" . $arrUser['link'] . "'
-        , `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "'   WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
+        , `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "' , `store_open`='" .$arrUser['store_open'] . "' , `store_close`='" . $arrUser['store_close'] . "' , `store_open_days`='" . $arrUser['openDays'] . "' , `store_close_dates`='" . $arrUser['close_dates'] . "'   WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
         $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
          $query = "delete from coupon_delivery_method where store = '" . $_GET['storeId'] . "' and delivery_method in ('BARCODE','AUTO')";
@@ -1296,6 +1326,16 @@ class store {
         }
         return $data;
     }
+
+    function listTimeing(){
+        $db = new db();
+        $db->makeConnection();
+        $q = $db->query("SELECT open_time,close_time FROM store_open_close");
+        while ($rs = mysqli_fetch_array($q)) {
+            $data[] = $rs;
+        }
+        return $data;
+    } 
 
     function savePrivateLocation($campaignId) {
         $db = new db();

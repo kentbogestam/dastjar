@@ -9,7 +9,7 @@
    $storeObj = new store();
    $regObj = new registration();
    $countryList = $regObj->getCountryList();
-   
+   $openCloseingTime = $storeObj->listTimeing();
    if (isset($_POST['continue'])) {
        //echo "In"; die();
        $storeObj->svrStoreDflt();
@@ -18,6 +18,8 @@
        $data = $storeObj->getStoreDetailById($storeid);
    //echo "<pre>";print_r($data);echo "</pre>";
    }
+   //print_r (explode(",",$data[0]['store_open_days']));die();
+   //echo "<pre>";print_r($data);echo "</pre>";die();
    if ($data[0]['latitude'] && $data[0]['longitude']) {
        $latitude = $data[0]['latitude'];
        $longitude = $data[0]['longitude'];
@@ -36,6 +38,13 @@
    ?>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByLiizP2XW9JUAiD92x57u7lFvU3pS630&sensor=false"></script>
 <script language="JavaScript" src="client/js/jsStore.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="client/js/newJs/jquery-1.11.1.js"></script>
+<link rel="stylesheet" type="text/css" href="client/js/newJs/mdp.css">
+ 
+<script type="text/javascript" src="client/js/newJs/jquery-ui.min.js"></script>
+<script type="text/javascript" src="client/js/newJs/jquery-ui.multidatespicker.js"></script>
+
 <style type="text/css">
    <!--
       .center{width:900px; margin-left:auto; margin-right:auto;}
@@ -179,6 +188,60 @@
                   </table>
                </td>
                <td align="right"><a title="<?=METHOD_FOR_RECEIVING_COUPON_DATA_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
+            </tr>
+            <tr>
+               <td height="42" align="left">Opening hours of the Location </td>
+               <td><label>Location opens at</label>
+                  <select class="text_field_new" style="background-color:#e4e3dd; width:406px; height:36px;border: 1px solid #abadb3;" tabindex="27" id="storeOpenTime" name="storeOpenTime">
+                    <?php foreach($openCloseingTime as $key =>$value) { ?>
+                            <option <? if ($data[0]['store_open'] == $value['close_time'])echo "selected='selected'"; ?>   value=<?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
+                    <?php } ?>
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td></td>
+               <td><label>Location closes at</label>
+                  <select class="text_field_new" style="background-color:#e4e3dd; width:406px; height:36px;border: 1px solid #abadb3;" tabindex="27" id="storeCloseTime" name="storeCloseTime">
+                     <?php foreach($openCloseingTime as $key =>$value) { ?>
+                              <option <? if ($data[0]['store_close'] == $value['close_time'])echo "selected='selected'"; ?>   value=<?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
+                      <?php } ?>
+                  </select>
+               </td>
+            </tr>
+             <tr>
+               <td class="inner_grid">
+               </td>
+               <td>
+                  <table class="days_div" border="0" cellspacing="0" cellpadding="0">
+                    <label>Location is open following days of the week</label>
+                     <tr>
+                        <td><input type="checkbox" name="Monday" <? if (explode(",",$data[0]['store_open_days'])[0] == 'Mon')echo "checked"; ?> value="Mon"/>Monday</td>
+                        <td><input type="checkbox" name="Tuesday"  <? if (explode(",",$data[0]['store_open_days'])[1] == 'Tue')echo "checked"; ?> value="Tue" />Tuesday</td>
+                        <td><input type="checkbox" name="Wednesday"  <? if (explode(",",$data[0]['store_open_days'])[2] == 'Wed')echo "checked"; ?> value="Wed" />Wednesday</td>
+                     </tr>
+                     <tr>
+                        <td ><input type="checkbox" name="Thursday"  <? if (explode(",",$data[0]['store_open_days'])[3] == 'Thu')echo "checked"; ?> value="Thu" />Thursday</td>
+                        <td><input type="checkbox" name="Friday"  <? if (explode(",",$data[0]['store_open_days'])[4] == 'Fri')echo "checked"; ?> value="Fri"/>Friday</td>
+                        <td><input type="checkbox" name="Saturday"  <? if (explode(",",$data[0]['store_open_days'])[5] == 'Sat')echo "checked"; ?> value="Sat"/>Saturday</td>
+                        <td >&nbsp;</td>
+                     </tr>
+                      <tr>
+                        <td><input type="checkbox" name="Sunday"  <? if (explode(",",$data[0]['store_open_days'])[6] == 'Sun')echo "checked"; ?> value="Sun"/>Sunday</td>
+                     </tr>
+                  </table>
+               </td>
+               <td align="right"><a title="<?=METHOD_FOR_RECEIVING_COUPON_DATA_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
+            </tr>
+            <tr>
+              <td>Location is close following dates</td>
+               <td style="position: relative;">
+                  <div id="with-altField1"><span class="cross"><img src="client/js/newJs/images/error.png"></span></div>
+                 <div id="with-altField1"></div>
+                  <div id="withAltField1" class="box">
+                   <img class="cal_icon" id="cal_icon" src="client/js/newJs/images/calendar.gif">   <input class="text_field_new" type="text" id="altField1" name="altField1" value="<?=$data[0]['store_close_dates']?>">
+                  </div>
+               </td>
             </tr>
             <tr>
                <td class="inner_grid">Link to the location home<span class='mandatory'>*</span>:</td>
@@ -446,6 +509,15 @@
       border: 0;
       transition: all .2s ease;
       }
+
+      .days_div{width: 100%;}
+      .days_div td{
+        width: 33%;
+        padding: 5px 0;
+      }
+
+      td label{font-size: 14px;  color: #000;   padding-bottom: 5px;   display: inline-block;}
+      .full_width_input input{width: 99.3%;}
    </style>
    <script type="text/javascript">
       function readURL(input) {
@@ -482,3 +554,33 @@
           });
       
    </script>
+
+   <script type="text/javascript">
+  
+
+      $('#with-altField1').multiDatesPicker({
+        altField: '#altField1',
+        dateFormat: "dd-mm-yy",
+      });
+
+
+ 
+      $(".ui-datepicker-inline").hide();
+        $(".cross").hide();
+        $(".cal_icon").click(function(){
+          $(".ui-datepicker-inline").toggle();
+          $(".cross").show();
+        });
+      $(".cross").click(function(){
+            $(".ui-datepicker-inline").hide();
+            $(this).hide();
+        });
+   </script>
+   <style type="text/css">
+     .cross{
+       position: absolute;
+       top: -12px;
+       right: -13px;
+       z-index: 999;
+     }
+   </style>

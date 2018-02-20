@@ -11,7 +11,8 @@
    $data1 = $storeObj->getEmailId($_SESSION['userid']);
    $countryList = $regObj->getCountryList();
    //$data = $storeObj->getCompanyDetail($_SESSION['userid']);
-   //print_r($data);
+   $openCloseingTime = $storeObj->listTimeing();
+   //print_r($openCloseingTime);
    if (isset($_POST['continue'])) {
    //echo "In"; die();
        $storeObj->svrStoreDflt();
@@ -35,6 +36,13 @@
 <!-- <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyBA2NjukdsOEeCHb1ZTbZmaKbYGs0SMFgE&sensor=false"></script> -->
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByLiizP2XW9JUAiD92x57u7lFvU3pS630"></script>
 <script language="JavaScript" src="client/js/jsStore.js" type="text/javascript"></script>
+
+
+  <script type="text/javascript" src="client/js/newJs/jquery-1.11.1.js"></script>
+  <link rel="stylesheet" type="text/css" href="client/js/newJs/mdp.css">
+    
+  <script type="text/javascript" src="client/js/newJs/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="client/js/newJs/jquery-ui.multidatespicker.js"></script>
 <style type="text/css">
    <!--
       .center{width:900px; margin-left:auto; margin-right:auto;}
@@ -118,10 +126,66 @@
                </td>
                <td align="right"><a title="<?=METHOD_FOR_RECEIVING_COUPON_DATA_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
+             <tr>
+               <td height="42" align="left">Opening hours of the Location </td>
+               <td><label>Location opens at</label>
+                  <select class="text_field_new" style="background-color:#e4e3dd; width:406px; height:36px;border: 1px solid #abadb3;" tabindex="27" id="storeOpenTime" name="storeOpenTime">
+                    <?php foreach($openCloseingTime as $key =>$value) { ?>
+                            <option value = <?php echo $value['open_time']?> ><?php echo $value['open_time']?></option>
+                    <?php } ?>
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td></td>
+               <td><label>Location closes at</label>
+                  <select class="text_field_new" style="background-color:#e4e3dd; width:406px; height:36px;border: 1px solid #abadb3;" tabindex="27" id="storeCloseTime" name="storeCloseTime">
+                     <?php foreach($openCloseingTime as $key =>$value) { ?>
+                              <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
+                      <?php } ?>
+                  </select>
+               </td>
+            </tr>
+             <tr>
+               <td class="inner_grid">
+               </td>
+               <td>
+                  <table class="days_div" border="0" cellspacing="0" cellpadding="0">
+                    <label>Location is open following days of the week</label>
+                     <tr>
+                        <td><input type="checkbox" name="Monday" value="Mon"/>Monday</td>
+                        <td><input type="checkbox" name="Tuesday" value="Tue" />Tuesday</td>
+                        <td><input type="checkbox" name="Wednesday" value="Wed" />Wednesday</td>
+                     </tr>
+                     <tr>
+                        <td ><input type="checkbox" name="Thursday" value="Thu" />Thursday</td>
+                        <td><input type="checkbox" name="Friday" value="Fri"/>Friday</td>
+                        <td><input type="checkbox" name="Saturday" value="Sat"/>Saturday</td>
+                        <td >&nbsp;</td>
+                     </tr>
+                      <tr>
+                        <td><input type="checkbox" name="Sunday" value="Sun"/>Sunday</td>
+                     </tr>
+                  </table>
+               </td>
+               <td align="right"><a title="<?=METHOD_FOR_RECEIVING_COUPON_DATA_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
+            </tr>
+                <tr>
+                  <td>Location is close following dates</td>
+               <td style="position: relative;">
+                 <div id="with-altField"><span class="cross"><img src="client/js/newJs/images/error.png"></span></div>
+                  <div id="withAltField" class="box">
+
+                   <img class="cal_icon" id="cal_icon" src="client/js/newJs/images/calendar.gif"> 
+
+                     <input class="text_field_new" type="text" id="altField" name="altField" value="">
+                  </div>
+               </td>
+            </tr>
             <tr>
                <td class="inner_grid">Street Address<span class='mandatory'>*</span>:</td>
                <td>
-                  <input class="text_field_new" type="text" name="streetaddStore" id ="streetaddStore" value="<?=$data[0]['street'] ?>" onChange="initialize()" />
+                  <input class="text_field_new" type="text" name="streetaddStore" id ="streetaddStore" value="<?=$data[0]['streetaddStore'] ?>" onChange="initialize()" />
                   <div id='error_address' class="error"></div>
                </td>
                <td align="right"><a title="<?=STREET_ADDRESS_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
@@ -410,6 +474,13 @@
       border: 0;
       transition: all .2s ease;
       }
+      .days_div{width: 100%;}
+      .days_div td{
+        width: 33%;
+        padding: 5px 0;
+      }
+      td label{font-size: 14px;  color: #000;   padding-bottom: 5px;   display: inline-block;}
+      .full_width_input input{width: 99.3%;}
    </style>
    <script type="text/javascript">
       function readURL(input) {
@@ -446,3 +517,44 @@
           });
       
    </script>
+
+<script type="text/javascript">
+  
+/*$('#mdp-demo').multiDatesPicker({
+  mode: 'daysRange',
+  autoselectRange: [0,5]
+});*/
+$('#with-altField').multiDatesPicker({
+  altField: '#altField',
+  dateFormat: "dd-mm-yy",
+});
+/*
+ 
+    $(".ui-datepicker-inline").hide();
+    $(".cal_icon").click(function(){
+        
+    });*/
+
+
+        // Show hide popover
+  $(".ui-datepicker-inline").hide();
+  $(".cross").hide();
+  $(".cal_icon").click(function(){
+    $(".ui-datepicker-inline").toggle();
+    $(".cross").show();
+  });
+$(".cross").click(function(){
+      $(".ui-datepicker-inline").hide();
+      $(this).hide();
+  });
+
+
+</script>
+<style type="text/css">
+  .cross{
+    position: absolute;
+    top: -12px;
+    right: -13px;
+    z-index: 999;
+  }
+</style>
