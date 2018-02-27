@@ -13,10 +13,30 @@ $usershow = 'checked="checked"';
 include("main.php");
 require_once('lib/captcha/recaptchalib.php');
 $accountObj = new accountView();
-if (isset($_POST['Continue'])) 
+
+if($_SERVER["REQUEST_METHOD"] === "POST")
 {
-    $accountObj->saveNewUserInfo();
+    //form submitted
+
+    //check if other form details are correct
+
+    //verify captcha
+    $recaptcha_secret = "6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX";
+    $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$recaptcha_secret."&response=".$_POST['g-recaptcha-response']);
+    $response = json_decode($response, true);
+    if($response["success"] === true)
+    {
+        if (isset($_POST['Continue'])) 
+        {
+            $accountObj->saveNewUserInfo();
+        }
+    }
+    else
+    {
+        echo "You are a robot";
+    }
 }
+
 $data =  $accountObj->getStoreLocation();
 //echo "<pre>"; print_r($data);echo "</pre>";
 include_once("header.php");
@@ -29,6 +49,7 @@ include_once("header.php");
 
 
 <script language="JavaScript" src="client/js/jsAddNewUser.js" type="text/javascript"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
 <link href="lib/grid/css/grid.css" rel="stylesheet" type="text/css" />
 <link href="client/css/stylesheet123.css" rel="stylesheet" type="text/css" />
 <div class="center">
@@ -553,10 +574,8 @@ include_once("header.php");
 <table width="100%" >
           <tr align="left" >
             <td colspan="3" style="padding-left:440px;">
-                <?php
-                $publickey = "6Ldv8r4SAAAAABEn-2Eas-LCkM8B8oWgSeVuehJq";
-                echo recaptcha_get_html($publickey, $error);
-                ?>      <div id="error_recaptcha" class="error"></div>            </td>
+                <div class="g-recaptcha" data-sitekey="6LeDA0kUAAAAANgrH6YdoQmix-_OawzmczkQr094"></div>
+                 <div id="error_recaptcha" class="error"></div>          </td>
         </tr>
       
 

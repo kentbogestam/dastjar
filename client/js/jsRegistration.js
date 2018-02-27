@@ -24,7 +24,7 @@ $(document).ready(function(){
         $("#error_phone").html('');
         $("#error_mobile").html('');
         $("#error_terms").html('');
-        $("#error_recaptcha").html('');
+        // $("#error_recaptcha").html('');
         
         if(($.trim($("#emailid").val()).length == 0))
         {
@@ -184,12 +184,12 @@ $(document).ready(function(){
 
 
         //alert($("#recaptcha_response_field").val());
-        if (($.trim($("#recaptcha_response_field").val()).length == 0) )
-        {
-            var errorMsg = "Please enter valid image code.<br />";
-            $("#error_recaptcha").html(errorMsg);
-            error = "true";
-        }
+        // if (($.trim($("#recaptcha_response_field").val()).length == 0) )
+        // {
+        //     var errorMsg = "Please enter valid image code.<br />";
+        //     $("#error_recaptcha").html(errorMsg);
+        //     error = "true";
+        // }
         //alert(errorMsg+"--"+error);
 
         if(error=="true")

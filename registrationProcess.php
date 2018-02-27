@@ -11,10 +11,7 @@
    $regObj = new registration();
    $regObj->isValidRegistrationStep();
    //echo "next stwep"; die();
-   if (isset($_POST['Continue'])) {
    
-       $regObj->svrRegDflt();
-   }
    include_once("header.php");
    ////////////////////////////////////////
    /* $db = new db();
@@ -46,6 +43,33 @@
        $url = BASE_URL . 'registrationStep.php';
        $inoutObj->reDirectUrl($url);
    }
+
+
+
+   if($_SERVER["REQUEST_METHOD"] === "POST")
+    {
+        //form submitted
+
+        //check if other form details are correct
+
+        //verify captcha
+        $recaptcha_secret = "6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX";
+        $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$recaptcha_secret."&response=".$_POST['g-recaptcha-response']);
+        $response = json_decode($response, true);
+        if($response["success"] === true)
+        {
+            if (isset($_POST['Continue'])) {
+            
+                $regObj->svrRegDflt();
+            }
+        }
+        else
+        {
+            echo "You are a robot";
+        }
+    }
+
+
    ?>
 <script>
    function WindowC()
@@ -60,6 +84,7 @@
    img { border: 0 } .center{width:900px; margin-left:auto; margin-right:auto;}
 </style>
 <script language="JavaScript" src="client/js/jsRegistration.js" type="text/javascript"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
 <div class="center">
 <div align="center">
    <form name="register" action="" id="registerform" method="POst">
@@ -371,12 +396,9 @@
                      </td>
                   </tr>
                   <tr>
-                     <td align="left" valign="top">Fill in and submit the text below<span class='mandatory'>*</span></td>
+                     <td align="left" valign="top">Check the captcha<span class='mandatory'>*</span></td>
                      <td align="left">
-                        <?php
-                           $publickey = "6Ldv8r4SAAAAABEn-2Eas-LCkM8B8oWgSeVuehJq";
-                           echo recaptcha_get_html($publickey, $error);
-                           ?> 
+                       <div class="g-recaptcha" data-sitekey="6LeDA0kUAAAAANgrH6YdoQmix-_OawzmczkQr094"></div>
                         <div id="error_recaptcha" class="error"></div>
                      </td>
                   </tr>
