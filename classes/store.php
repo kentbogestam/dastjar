@@ -329,6 +329,7 @@ class store {
         $arrUser['close_dates'] = $_POST['altField'];
          
 
+        $arrUser['online_payment'] = $_POST['onlinePayment'];
         $arrUser['store_type'] = $_POST['typeofrestrurant'];
         $arrUser['store_name'] = $_POST['storeName'];
         $arrUser['email'] = $_POST['email'];
@@ -464,8 +465,8 @@ class store {
 
         $_SESSION['post'] = "";
         $storeUniqueId = uuid();
-        $query = "INSERT into store(`store_id`,`u_id`,`store_type`,`store_name`,`email`,`street`,`phone`,`store_link`,`city`,`country`,`latitude`,`longitude`,`s_activ`,`country_code`,`access_type`,`chain`,`block`,`zip`,`store_image`,`store_open`,`store_close`,`store_open_days`,`store_close_dates`)
-                 VALUES('" . $storeUniqueId . "','" . $_SESSION['userid'] . "','" . $arrUser['store_type'] . "','" . $arrUser['store_name'] . "','" . $arrUser['email'] . "','" . $arrUser['street'] . "','" . $arrUser['phone'] . "','" . $arrUser['link'] . "','" . $arrUser['city'] . "','" . $arrUser['country'] . "','" . $arrUser['latitude'] . "','" . $arrUser['longitude'] . "','1','" . $coutryIso . "','1','" . $arrUser['chain'] . "','" . $arrUser['block'] . "','" . $arrUser['zip'] . "','" . $catImg . "','" . $arrUser['store_open'] . "','" . $arrUser['store_close'] . "','" . $arrUser['openDays'] . "','" . $arrUser['close_dates'] . "')";
+        $query = "INSERT into store(`store_id`,`u_id`,`store_type`,`store_name`,`email`,`street`,`phone`,`store_link`,`city`,`country`,`latitude`,`longitude`,`s_activ`,`country_code`,`access_type`,`chain`,`block`,`zip`,`store_image`,`store_open`,`store_close`,`store_open_days`,`store_close_dates`,`online_payment`)
+                 VALUES('" . $storeUniqueId . "','" . $_SESSION['userid'] . "','" . $arrUser['store_type'] . "','" . $arrUser['store_name'] . "','" . $arrUser['email'] . "','" . $arrUser['street'] . "','" . $arrUser['phone'] . "','" . $arrUser['link'] . "','" . $arrUser['city'] . "','" . $arrUser['country'] . "','" . $arrUser['latitude'] . "','" . $arrUser['longitude'] . "','1','" . $coutryIso . "','1','" . $arrUser['chain'] . "','" . $arrUser['block'] . "','" . $arrUser['zip'] . "','" . $catImg . "','" . $arrUser['store_open'] . "','" . $arrUser['store_close'] . "','" . $arrUser['openDays'] . "','" . $arrUser['close_dates'] . "','" . $arrUser['online_payment'] . "')";
         $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
         $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)

@@ -99,6 +99,15 @@
                </td>
             </tr>
             <tr>
+               <td height="42" align="left">Online Payment<span class='mandatory'>*</span>:</td>
+               <td>
+                  <select class="text_field_new" style="background-color:#e4e3dd; width:406px; height:36px;border: 1px solid #abadb3;" tabindex="27" id="onlinePayment" name="onlinePayment">
+                     <option value="0">No</option>
+                     <option value="1">Yes</option>
+                  </select>
+               </td>
+            </tr>
+            <tr>
                <td class="inner_grid">Phone Number<span class='mandatory'>*</span>:</td>
                <td>
                   <INPUT class="text_field_new" type=text name="phoneNo" id ="phoneNo">
@@ -275,7 +284,7 @@
                   <div class="file-upload">
                      <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
                      <div class="image-upload-wrap">
-                        <input class="file-upload-input" type='file' id="imageStore" name="imageStore" onBlur="iconPreview(this.form);"  onchange="readURL(this);" accept="image/png" />
+                        <input class="file-upload-input" type='file' id="imageStore" name="imageStore" onBlur="iconPreview(this.form);"  onchange="readURL(this);" accept="image" />
                         <div class="drag-text">
                            <h3>Drag and drop a file or select add Image</h3>
                            <samp>Please uplode only png Image</samp>
