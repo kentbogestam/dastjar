@@ -115,7 +115,7 @@
                </td>
                <td align="right"><a title="<?=PHONE_NUMBER_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
-            <tr>
+            <!-- <tr>
                <td class="inner_grid">Select a method for receiving 
                   Coupon data:
                </td>
@@ -134,7 +134,7 @@
                   </table>
                </td>
                <td align="right"><a title="<?=METHOD_FOR_RECEIVING_COUPON_DATA_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
-            </tr>
+            </tr> -->
              <tr>
                <td height="42" align="left">Opening hours of the Location </td>
                <td><label>Location opens at</label>
@@ -279,7 +279,7 @@
                   <input name="zoom" id="zoom" value="<?=$zoom ?>" type="hidden" style="width:150px;" />        
             </tr>
             <tr>
-               <td>Uplode Image For Restaurent<span class='mandatory'>*</span>:</td>
+               <td>Uplod Image For Restaurent<span class='mandatory'>*</span>:</td>
                <td>
                   <div class="file-upload">
                      <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>

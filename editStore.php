@@ -159,7 +159,7 @@
                </td>
                <td align="right"><a title="<?=ZIP_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
-            <tr>
+            <!-- <tr>
                <td class="inner_grid"> Select a method for receiving <br />
                   Coupon data<span class='mandatory'>*</span>:
                </td>
@@ -188,7 +188,7 @@
                   </table>
                </td>
                <td align="right"><a title="<?=METHOD_FOR_RECEIVING_COUPON_DATA_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
-            </tr>
+            </tr> -->
             <tr>
                <td height="42" align="left">Opening hours of the Location </td>
                <td><label>Location opens at</label>
@@ -287,12 +287,12 @@
                <td>You can set your location on map by click or drag</td>
             </tr>
             <tr>
-               <td>Uplode Image For Restaurent<span class='mandatory'>*</span>:</td>
+               <td>Uplod Image For Restaurent<span class='mandatory'>*</span>:</td>
                <td>
                   <div class="file-upload">
                      <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
                      <div class="image-upload-wrap">
-                        <input class="file-upload-input" type='file' id="imageStore" name="imageStore" onBlur="iconPreview(this.form);"  onchange="readURL(this);" accept="image/png" />
+                        <input class="file-upload-input" type='file' id="imageStore" name="imageStore" onBlur="iconPreview(this.form);"  onchange="readURL(this);" accept="image/" />
                         <div class="drag-text">
                            <h3>Drag and drop a file or select add Image</h3>
                            <samp>Please uplode only png Image</samp>

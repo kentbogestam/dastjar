@@ -94,6 +94,7 @@ define("LOGIN_PLEASE","<li class='notice_error'>Please login to the next process
 define("STANDARD_OFFER_SUCCESS","<li class='notice_success'>You have successfully submitted your standard offer details.</li>");
 define("DISH_TYPE_SUCCESS","<li class='notice_success'>You have successfully submitted your Dish Type.</li>");
 define("CREATE_STORE_SUCCESS","<li class='notice_success'>You have successfully submitted your location details.</li>");
+define("CREATE_STRIPACCOUNT_SUCCESS","<li class='notice_success'>You have successfully created stripe account.</li>");
 define("SUCCESS_EMAIL_VALID","<li class='notice_success'>Your email has been verified successfully.</li>");
 define("REGISTER_EMAIL_VARIFICATION","<li class='notice_success'>Confirm your e-mail address by clicking on the link sent to you by e-mail.</li>");
 define("EMAIL_VARIFICATION_CHECK","<li class='notice_success'>Please confirm your email-id for the next step.</li>");

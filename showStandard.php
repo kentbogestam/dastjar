@@ -153,7 +153,7 @@
                     <img src="lib/grid/images/view.gif">&nbsp;View&nbsp;&nbsp;&nbsp;
                     <img src="lib/grid/images/edite.gif">&nbsp;Edit&nbsp;&nbsp;&nbsp;
                     <img src="lib/grid/images/active.gif">&nbsp;Add Location&nbsp;&nbsp;&nbsp;
-                    <img src="lib/grid/images/deactive.gif">&nbsp;Mail To Retailers &nbsp;
+                    <!-- <img src="lib/grid/images/deactive.gif">&nbsp;Mail To Retailers &nbsp; -->
                     <img src="lib/grid/images/delete.gif">&nbsp;Delete&nbsp;&nbsp;&nbsp;
                     <img src="lib/grid/images/lang.png">&nbsp;Add Language                                                      
                  </td>
@@ -219,7 +219,7 @@
                              <div class="action-btn1"><a href="editStandard.php?productId=<?=$data1['product_id'];
                                 ?>" class="a2" title="Edit"> <img src="lib/grid/images/edite.gif" width="15" height="15"></a></div>
                              <div class="action-btn1"><a href="<?=BASE_URL . 'addStandStore.php?productId=' . $data1['product_id']?>" class="a2" title="Add Location"> <img src="lib/grid/images/active.gif" width="14" height="12"></a></div>
-                             <div class="action-btn1"><a href="<?=BASE_URL . 'inviteRetailersStand.php?productId=' . $data1['product_id']?>" class="a2" title="Mail To Retailers"> <img src="lib/grid/images/deactive.gif" width="14" height="12"></a></div>
+                            <!--  <div class="action-btn1"><a href="<?=BASE_URL . 'inviteRetailersStand.php?productId=' . $data1['product_id']?>" class="a2" title="Mail To Retailers"> <img src="lib/grid/images/deactive.gif" width="14" height="12"></a></div> -->
                              <div class="action-btn1"><a href="javascript:delete_standard('productId=<?=$data1['product_id']; ?>')" onClick="" class="a2" title="Delete">
                                 <img src="lib/grid/images/delete.gif" width="11" height="11"></a>
                              </div>

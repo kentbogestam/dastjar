@@ -15,12 +15,12 @@
    
    include("main.php");
    include("Paging.php");
-   
+   $_SESSION["companyUser"] = $_SESSION['userid'];
    //echo "In"; die();
    if ($_SESSION['userid']) {
        $storeObj = new store();
        $records_per_page = PAGING;
-   
+      $_SESSION["storeDetail"] = $storeObj;
        $total_records = $storeObj->showstoreDetailsRows();
       // $total_records;
    
@@ -136,6 +136,9 @@
                                     </td>
                                     <td width="24%" valign="top">
                                        <div align="center" class="main_bg"  ><a href="newCreateStore.php" ><strong>ADD LOCATION</strong></a></div>
+                                    </td>
+                                     <td width="24%" valign="top">
+                                       <div align="center" class="main_bg"  ><a href="reDirectStrip.php" ><strong>Add Payment</strong></a></div>
                                     </td>
                                  </tr>
                               </table>
