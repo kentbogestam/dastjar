@@ -100,12 +100,7 @@
             </tr>
             <tr>
                <td height="42" align="left">Online Payment<span class='mandatory'>*</span>:</td>
-               <td>
-                  <select class="text_field_new" style="background-color:#e4e3dd; width:406px; height:36px;border: 1px solid #abadb3;" tabindex="27" id="onlinePayment" name="onlinePayment">
-                     <option value="0">No</option>
-                     <option value="1">Yes</option>
-                  </select>
-               </td>
+               <td><input type="checkbox" name="onlinePayment" value="1"  checked />Online Payment</td>
             </tr>
             <tr>
                <td class="inner_grid">Phone Number<span class='mandatory'>*</span>:</td>

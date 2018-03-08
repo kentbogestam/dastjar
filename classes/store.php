@@ -328,8 +328,11 @@ class store {
         $arrUser['store_close'] = $_POST['storeCloseTime'];
         $arrUser['close_dates'] = $_POST['altField'];
          
-
-        $arrUser['online_payment'] = $_POST['onlinePayment'];
+        if($_POST['onlinePayment'] == 1){
+            $arrUser['online_payment'] = $_POST['onlinePayment'];
+        }else{
+           $arrUser['online_payment'] = 0; 
+        }
         $arrUser['store_type'] = $_POST['typeofrestrurant'];
         $arrUser['store_name'] = $_POST['storeName'];
         $arrUser['email'] = $_POST['email'];
