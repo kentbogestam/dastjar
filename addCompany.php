@@ -183,8 +183,9 @@
                               </tr>
                               <tr>
                                  <td align="left">&nbsp;</td>
-                                 <td align="left"><input style="margin-left:150px;"  type="submit" value="Submit your company information"  name="addCompany" class="button_another" id="addCompany"></td>
+                                 <td align="left"><div align="center" class="main_bg"  ><a href="reDirectStrip.php" ><strong>Add Payment</strong></a></div><input style="margin-left:45px;"  type="submit" value="Submit your company information"  name="addCompany" class="button_another" id="addCompany"></td>
                               </tr>
+
                               <tr>
                                  <td align="left">&nbsp;</td>
                                  <td align="left">&nbsp;</td>
@@ -215,3 +216,9 @@
       <? include("footer.php"); ?>
    </body>
 </html>
+<style type="text/css">
+   .main_bg{display: inline-block;border-radius: 100px;
+    padding: 6px 12px;
+    vertical-align: middle;line-height: 24px;}
+
+</style>
