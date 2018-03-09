@@ -137,9 +137,6 @@
                                     <td width="24%" valign="top">
                                        <div align="center" class="main_bg"  ><a href="newCreateStore.php" ><strong>ADD LOCATION</strong></a></div>
                                     </td>
-                                     <td width="24%" valign="top">
-                                       <div align="center" class="main_bg"  ><a href="reDirectStrip.php" ><strong>Add Payment</strong></a></div>
-                                    </td>
                                  </tr>
                               </table>
                               <table width="100%" border="0" cellpadding="6" cellspacing="0" class="border">

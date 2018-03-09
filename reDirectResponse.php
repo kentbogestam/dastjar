@@ -1,19 +1,20 @@
 <?php
 
- header('Content-Type: text/html; charset=utf-8');
-   include("cumbari.php");
-   $menu = "store";
-   $$menu = 'class="selected"';
-   if ($_GET['m'] == "showOutdatedStore")
-       $deleted = 'checked="checked"';
-   else
-       $show = 'checked="checked"';
-   
-   include("main.php");
-   include("Paging.php");
+ob_start();
+   //$_SESSION['REG_STEP'] = 2;
+   header('Content-Type: text/html; charset=utf-8');
 
-include_once "classes/store.php";
 
+   include_once("cumbari.php");
+
+   $inoutObj = new inOut();
+   //$inoutObj->validSteps();
+   // $regObj = new registration();
+   // $regObj->isValidRegistrationStep();
+  
+   include_once("header.php");
+   ?>
+<?php include 'config/defines.php';
 $code = $_GET['code'];
 
 $scope = $_GET['scope'];
@@ -22,7 +23,7 @@ $url = 'https://connect.stripe.com/oauth/token';
 
     $token_request_body = array(
 		'grant_type' => 'authorization_code',
-		'client_id' => 'ca_CMxVrJvf7xIwsdSRPa5IFdwmLoQTq1ZP',
+		'client_id' => 'ca_BsQwDxmv6Nde3fzblaLT8KiuPh7q02px',
 		'code' => $code,
 		'client_secret' => 'sk_test_EypGXzv2qqngDIPIkuK6aXNi'
 	);
@@ -40,8 +41,8 @@ $url = 'https://connect.stripe.com/oauth/token';
 	$stripe_user_id = $resp['stripe_user_id'];
 	$refresh_token = $resp['refresh_token'];
 	curl_close($req);
-
-	$storeObj = new store();
+	
+	$storeObj = new registration();
 
 	$storeObj->saveStripDetail($access_token,$stripe_publishable_key,$stripe_user_id,$refresh_token);
 	
