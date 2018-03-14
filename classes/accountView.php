@@ -414,7 +414,7 @@ class accountView {
         $arrUser['phone'] = trim($_POST['phone']);
         $arrUser['mobile_phone'] = trim($_POST['mob']);
         $arrUser['storeID'] = $_POST['select2'];
-        
+      
         if ($error != '') {
             $_SESSION['MESSAGE'] = $error;
             $_SESSION['post'] = $_POST;
