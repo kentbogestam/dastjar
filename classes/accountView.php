@@ -416,8 +416,8 @@ class accountView {
         $arrUser['storeID'] = $_POST['select2'];
         
         if ($error != '') {
-            $_SESSION['MESSAGE'] = $error;
-            $_SESSION['post'] = $_POST;
+            // $_SESSION['MESSAGE'] = $error;
+            // $_SESSION['post'] = $_POST;
             $url = BASE_URL . 'addNewUser.php';
 
             $inoutObj->reDirect($url);
