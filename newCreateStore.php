@@ -274,7 +274,7 @@
                   <input name="zoom" id="zoom" value="<?=$zoom ?>" type="hidden" style="width:150px;" />        
             </tr>
             <tr>
-               <td>Uplod Image For Restaurent<span class='mandatory'>*</span>:</td>
+               <td>Upload Image For Restaurent<span class='mandatory'>*</span>:</td>
                <td>
                   <div class="file-upload">
                      <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
