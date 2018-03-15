@@ -37,7 +37,7 @@
    include_once("main.php");
    ?>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByLiizP2XW9JUAiD92x57u7lFvU3pS630&sensor=false"></script>
-<script language="JavaScript" src="client/js/jsStore.js" type="text/javascript"></script>
+<script language="JavaScript" src="client/js/jsStoreEdit.js" type="text/javascript"></script>
 
 <script type="text/javascript" src="client/js/newJs/jquery-1.11.1.js"></script>
 <link rel="stylesheet" type="text/css" href="client/js/newJs/mdp.css">
@@ -286,7 +286,7 @@
                <td></td>
                <td>You can set your location on map by click or drag</td>
             </tr>
-            <tr>
+           <!--  <tr>
                <td>Uplod Image For Restaurent<span class='mandatory'>*</span>:</td>
                <td>
                   <div class="file-upload">
@@ -305,9 +305,9 @@
                         </div>
                      </div>
                   </div>
-                        <div id='error_storeImage' class="error"></div>
+                  <div id='error_storeImage' class="error"></div>
                </td>
-            </tr>
+            </tr> -->
          </table>
          <div align="center"><br />
             <br />
