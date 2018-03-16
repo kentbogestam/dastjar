@@ -162,7 +162,7 @@
                 <option <? if ($data[0]['preparation_Time'] == '00:45:00')echo "selected='selected'"; ?>  value="00:45:00">45 Minutes</option>
                 <option <? if ($data[0]['preparation_Time'] == '00:50:00')echo "selected='selected'"; ?>  value="00:50:00">50 Minutes</option>
                 <option <? if ($data[0]['preparation_Time'] == '00:55:00')echo "selected='selected'"; ?>  value="00:55:00">55 Minutes</option>
-                <option <? if ($data[0]['preparation_Time'] == '00:60:00')echo "selected='selected'"; ?>  value="00:60:00">60 Minutes</option>
+                <option <? if ($data[0]['preparation_Time'] == '00:59:00')echo "selected='selected'"; ?>  value="00:59:00">59 Minutes</option>
              </select>
           </td>
        </tr> 
