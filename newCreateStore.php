@@ -235,14 +235,14 @@
                </td>
                <td align="right"><a title="<?=CHAIN_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
-            <tr>
+            <!-- <tr>
                <td class="inner_grid">Block:</td>
                <td>
                   <input class="text_field_new" type="text" name="block" id ="block" value="<?=$data[0]['block'] ?>"  />
                   <div id='error_block' class="error"></div>
                </td>
                <td align="right"><a title="<?=BLOCK_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
-            </tr>
+            </tr> -->
             <tr>
                <td class="inner_grid">Zip:</td>
                <td>

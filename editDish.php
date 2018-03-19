@@ -50,9 +50,8 @@
                <td width="50%" class="inner_grid"><b>Language:</b> </td>
                <td width="50%" colspan="2">
                   <select style="width:406px; background-color:#e4e3dd; border: 1px solid #abadb3;" class="text_field_new" name="lang" id="lang">
-                     <option value="ENG">English</option>
                      <option value="SWE">Swedish</option>
-                     <option value="GER">German</option>
+                     <option value="ENG">English</option>
                   </select>
                   <div id='error_langStand' class="error"></div>
                </td>

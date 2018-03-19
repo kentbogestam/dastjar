@@ -196,7 +196,6 @@ class store {
         $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
         $rs = mysqli_fetch_array($res);
         $coutryIso = $rs['iso'];
-
         $storeUniqueId = uuid();
         $query = "INSERT into store(`store_id`,`u_id`,`store_name`,`street`,`city`,`country`,`latitude`,`longitude`,`email`,`phone`,`store_link`,`country_code`,`access_type`,`chain`,`block`,`zip`)
                  VALUES('" . $storeUniqueId . "','" . $_SESSION['userid'] . "','" . $arrUser['store_name'] . "','" . $arrUser['street'] . "','" . $arrUser['city'] . "','" . $arrUser['country'] . "','" . $arrUser['latitude'] . "','" . $arrUser['longitude'] . "','" . $arrUser['email'] . "','" . $arrUser['phone'] . "','" . $arrUser['link'] . "','" . $coutryIso . "','1','" . $arrUser['chain'] . "','" . $arrUser['block'] . "','" . $arrUser['zip'] . "')";
@@ -333,17 +332,17 @@ class store {
         }else{
            $arrUser['online_payment'] = 0; 
         }
-        $arrUser['store_type'] = $_POST['typeofrestrurant'];
-        $arrUser['store_name'] = $_POST['storeName'];
-        $arrUser['email'] = $_POST['email'];
-        $arrUser['street'] = $_POST['streetaddStore'];
-        $arrUser['city'] = $_POST['cityStore'];
-        $arrUser['country'] = $_POST['countryStore'];
-        $arrUser['phone'] = $_POST['phoneNo'];
-        $arrUser['link'] = $_POST['link'];
-        $arrUser['chain'] = $_POST['chain'];
-        $arrUser['block'] = $_POST['block'];
-        $arrUser['zip'] = $_POST['zip'];
+        $arrUser['store_type'] = addslashes(trim($_POST['typeofrestrurant']));
+        $arrUser['store_name'] = addslashes(trim($_POST['storeName']));
+        $arrUser['email'] = addslashes(trim($_POST['email']));
+        $arrUser['street'] = addslashes(trim($_POST['streetaddStore']));
+        $arrUser['city'] = addslashes(trim($_POST['cityStore']));
+        $arrUser['country'] = addslashes(trim($_POST['countryStore']));
+        $arrUser['phone'] = addslashes(trim($_POST['phoneNo']));
+        $arrUser['link'] = addslashes(trim($_POST['link']));
+        $arrUser['chain'] = addslashes(trim($_POST['chain']));
+        $arrUser['block'] = addslashes(trim($_POST['block']));
+        $arrUser['zip'] = addslashes(trim($_POST['zip']));
         // string matching
         $filestring = $arrUser['link'];
         $findme  = 'http://';

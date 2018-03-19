@@ -86,7 +86,7 @@
                                  <tr>
                                     <td width="24%">&nbsp;</td>
                                     <td width="455" valign="top">
-                                       <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="border2">
+<!--                                       <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="border2">
                                           <tr>
                                              <td height="25" colspan="3" align="left" class="bg_darkgray1" style="padding-left:5px;">Search</td>
                                           </tr>
@@ -119,20 +119,8 @@
                                                 </table>
                                              </td>
                                           </tr>
-                                          <!--<tr>
-                                             <td height="25" align="center"  class='bg_lightgray'><strong>Status</strong></td>
-                                             <td height="25" align="center"  class='bg_lightgray'><div align="left">
-                                             <select name="status"  style="width:80px;">
-                                             <option value="">Both</option>
-                                             <option <? if ($_GET['status'] == '1')
-                                                echo 'selected="selected"'; ?> value="1">Active</option>
-                                             <option <? if ($_GET['status'] == '0')
-                                                echo 'selected="selected"'; ?> value="0">Inactive</option>
-                                             </select>
-                                             </div></td>
-                                             </tr>-->
                                           <tr></tr>
-                                       </table>
+                                       </table> -->
                                     </td>
                                     <td width="24%" valign="top">
                                        <div align="center" class="main_bg"  ><a href="newCreateStore.php" ><strong>ADD LOCATION</strong></a></div>

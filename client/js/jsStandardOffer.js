@@ -37,7 +37,7 @@ $(document).ready(function(){
             $("#error_titleSloganStand").html(errorMsg);
             error = "true";
         }else
-        if($.trim($("#titleSloganStand").val()).length > 19)
+        if($.trim($("#titleSloganStand").val()).length > 24)
         {
             var errorMsg = "Your Product Name for Standard offer exceeds the limit.<br />";
             $("#error_titleSloganStand").html(errorMsg);
