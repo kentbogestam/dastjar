@@ -115,8 +115,8 @@
                               <td width="515" align="left" valign="top" class="inner_grid">Language:</td>
                               <td width="469"  align="left" valign="top">
                                  <select style="width:406px; background-color:#e4e3dd;" onChange="getLangImage(this.value);" class="text_field_new" name="lang" id="lang" >
-                                    <option <? if ($lang == "ENG")echo "selected='selected'"; ?> value="ENG">English</option>
                                     <option <? if ($lang == "SWE")echo "selected='selected'"; ?> value="SWE">Swedish</option>
+                                    <option <? if ($lang == "ENG")echo "selected='selected'"; ?> value="ENG">English</option>
                                  </select>
                                  <div id='error_langStand' class="error"></div>
                               </td>
