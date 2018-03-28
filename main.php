@@ -99,7 +99,7 @@ Show Deleted Advertise </td>
       Dish </td>
     
     <td><input type="radio" <?=$showdeletestand?> onClick="javascript:window.location.href='showDeleteStandard.php'" name="deals">
-Show Deleted Standard </td>
+Show Deleted Dish </td>
     
     
  

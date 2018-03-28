@@ -176,7 +176,7 @@
          </div>
          <div id="offer3" style="display:none">
             <h1>Congratulations!</h1>
-            <h3>You have just added your first cumbari offer.</h3>
+            <h3>You have just added your first Dastjar offer.</h3>
             <!--<h4>Do you want to add one or more locations where deal is valid? </h4>-->
          </div>
          <table width="100%" border="0" cellpadding="0" cellspacing="0">

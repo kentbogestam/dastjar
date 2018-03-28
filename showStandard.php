@@ -73,7 +73,7 @@
            if ($_GET['m'] == "showStandoffer") {
            //echo "Standard Offer";
                                                                            }
-                                                                           echo "Standard Offer";
+                                                                           echo "Menu";
                                                                            ?></h2>
      </td>
      <td>&nbsp;</td>
@@ -82,7 +82,7 @@
   <tr>
      <td width="24%">&nbsp;</td>
      <td width="455">
-        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="border2">
+    <!--    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="border2">
            <tr>
               <td  style="padding-left:5px;" height="25" colspan="4" align="left" class="bg_darkgray1">Search</td>
            </tr>
@@ -132,7 +132,7 @@
                                                                               </div></td>
                                                                               </tr>-->
            <tr></tr>
-        </table>
+        </table> -->
      </td>
      <td width="24%" valign="top">
         <div align="center"  class="main_bg"><a href="createStandardOffer.php">ADD DISHES</a></div>
@@ -300,7 +300,7 @@
       <link href="lib/grid/css/grid.css" rel="stylesheet" type="text/css" />
       <link href="client/css/stylesheet123.css" rel="stylesheet" type="text/css" />
       <script language="JavaScript" src="lib/grid/js/grid.js" type="text/javascript"></script>
-      <h1> <a href="javascript:void()"  onClick="showPublicProduct();">View Others Products</a> </h1>
+      <!-- <h1> <a href="javascript:void()"  onClick="showPublicProduct();">View Others Products</a> </h1> -->
       <div id="msg" align="center">
          <?php
             if ($_SESSION['MESSAGE']) {

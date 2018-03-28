@@ -8,7 +8,7 @@
 
 define("SERVER", "localhost");
 define("PORT", "3306");
-define("DATABASE", "website_restaurant");
+define("DATABASE", "new_dastjar");
 define("USER", "root");
-define("PASSWORD", "12345");
+define("PASSWORD", "kariri47");
 ?>

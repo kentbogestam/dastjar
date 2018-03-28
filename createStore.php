@@ -39,7 +39,7 @@ include_once("header.php");
 -->
 </style><body>
 <div class="center">
-    <form name="registerform" action="" id="registerform" method="Post">
+    <form name="registerform" action="" id="registerform" method="Post" enctype="multipart/form-data">
         <div id="main">
             <div id="mainbutton">
                 <table width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -223,13 +223,13 @@ include_once("header.php");
                                                 <td align="right"><a title="<?=CHAIN_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
                                             </tr>
 
-                                             <tr>
+                                            <!-- <tr>
                                                 <td height="32">Block<span class='mandatory'>*</span>:</td>
-                                                <td align="left"><input class="text_field_new" type="text" name="block" id ="block" value="<?=$data[0]['block']
+                                                 <td align="left"><input class="text_field_new" type="text" name="block" id ="block" value="<?=$data[0]['block']
                                                                    ?>" />
                                                		<div id='error_block' class="error"></div>                                                </td>
                                                 <td align="right"><a title="<?=BLOCK_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
-                                            </tr>
+                                            </tr> -->
 
                                              <tr>
                                                 <td height="32">Zip<span class='mandatory'>*</span>:</td>
