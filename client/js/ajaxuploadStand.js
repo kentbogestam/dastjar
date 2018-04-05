@@ -130,7 +130,7 @@ function short_validation()
         error = "true";
        
     }else
-    if(($.trim($("#titleSloganStand").val()).length >19))
+    if(($.trim($("#titleSloganStand").val()).length > 50))
     {
         var errorMsg = "Your Product Name exceeds the limit.<br />";
         $("#error_titleSloganStand").html(errorMsg);

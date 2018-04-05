@@ -21,7 +21,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
     //check if other form details are correct
 
     //verify captcha
-    $recaptcha_secret = "6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX";
+    $recaptcha_secret = "6LeDA0kUAAAAANgrH6YdoQmix-_OawzmczkQr094";
     $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$recaptcha_secret."&response=".$_POST['g-recaptcha-response']);
     $response = json_decode($response, true);
     if($response["success"] === true)
@@ -555,7 +555,7 @@ include_once("header.php");
                 <INPUT class="text_field_new" type=text name="mob" id="mob">
                 <div id='error_mobile' class="error"></div></td>
         </tr>
-        <tr>
+        <!-- <tr>
             <td width="50%" align="left" class="inner_grid">Select Store<span class='mandatory'>*</span>:</td>
             <td width="50%" align="left" valign="top" class="td_pad_right">
               <?php $value = 0; ?>
@@ -568,7 +568,7 @@ include_once("header.php");
                   <div id='error_startDateStand' class="error"></div>
               </div>
             </td>
-         </tr>
+         </tr> -->
 	   </table>
 	   
 <table width="100%" >

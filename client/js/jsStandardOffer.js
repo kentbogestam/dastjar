@@ -222,6 +222,12 @@ function isValidPngImage(val)
 
         return true;
     }
+    else if(val.match(/\.(jpg||JPG)$/)){
+        return true;
+    }
+    else if(val.match(/\.(jpeg||JPEG)$/)){
+        return true;
+    }
     else
     {
         return false;

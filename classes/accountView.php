@@ -475,9 +475,10 @@ class accountView {
               $err = curl_error($ch);
               curl_close ($ch);
               if ($err) {
+                die();
                 echo "cURL Error #:" . $err;
               } else {
-                echo $response;
+                //echo $response;
               }
 
             $url = BASE_URL . 'viewNewUser.php';

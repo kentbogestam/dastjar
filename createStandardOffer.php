@@ -126,7 +126,7 @@
                               <td align="left" valign="top"  class="inner_grid">Dish Name<span class='mandatory'>*</span>:<br>
                               </td>
                               <td align="left" valign="top" >
-                                 <INPUT class="text_field_new" type=text name="titleSloganStand" id="titleSloganStand" maxlength="24" onBlur="iconPreview(this.form); getTitleForProduct(this.form);standardPreview(this.form);" value="<?=isset($_SESSION['post']['titleSloganStand']) ? $_SESSION['post']['titleSloganStand'] : ''
+                                 <INPUT class="text_field_new" type=text name="titleSloganStand" id="titleSloganStand" maxlength="50" onBlur="iconPreview(this.form); getTitleForProduct(this.form);standardPreview(this.form);" value="<?=isset($_SESSION['post']['titleSloganStand']) ? $_SESSION['post']['titleSloganStand'] : ''
                                     ?>">
                                  <div id='error_titleSloganStand' class="error" ></div>
                               </td>
