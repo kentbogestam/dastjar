@@ -395,7 +395,7 @@ class store {
             //echo "Cat in"; die();
             if (!empty($_FILES["imageStore"]["name"])) {
                 //echo "Cat in"; die();
-                if (strtolower($info['extension']) == "png") {
+                if (strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpg") {
                     if ($_FILES["imageStore"]["error"] > 0) {
                         $error.=$_FILES["imageStore"]["error"] . "<br />";
                     } else {

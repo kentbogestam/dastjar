@@ -414,11 +414,11 @@ class accountView {
         $arrUser['phone'] = trim($_POST['phone']);
         $arrUser['mobile_phone'] = trim($_POST['mob']);
         $arrUser['storeID'] = $_POST['select2'];
-      
+        
         if ($error != '') {
-            // $_SESSION['MESSAGE'] = $error;
-            // $_SESSION['post'] = $_POST;
-            $url = BASE_URL . 'addNewUser.php';
+             $_SESSION['MESSAGE'] = $error;
+             $_SESSION['post'] = $_POST;
+             $url = BASE_URL . 'addNewUser.php';
 
             $inoutObj->reDirect($url);
             exit();
@@ -464,7 +464,7 @@ class accountView {
               foreach($fields as $key=>$value) {
                 $postvars .= $key . "=" . $value . "&";
               }
-              $url = "http://dastjar.com/anar/public/api/v1/save-password";
+              $url = "https://dastjar.com/anar/public/api/v1/save-password";
               curl_setopt($ch,CURLOPT_URL,$url);
               curl_setopt($ch,CURLOPT_POST, 1);                //0 for a get request
               curl_setopt($ch,CURLOPT_POSTFIELDS,$postvars);
@@ -475,11 +475,12 @@ class accountView {
               $err = curl_error($ch);
               curl_close ($ch);
               if ($err) {
+                die();
                 echo "cURL Error #:" . $err;
               } else {
-                echo $response;
+                //echo $response;
               }
-
+            
             $url = BASE_URL . 'viewNewUser.php';
             $_SESSION['MESSAGE'] = INSERTED_USER;
             $inoutObj->reDirect($url);

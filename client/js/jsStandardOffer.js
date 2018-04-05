@@ -37,7 +37,7 @@ $(document).ready(function(){
             $("#error_titleSloganStand").html(errorMsg);
             error = "true";
         }else
-        if($.trim($("#titleSloganStand").val()).length > 19)
+        if($.trim($("#titleSloganStand").val()).length > 24)
         {
             var errorMsg = "Your Product Name for Standard offer exceeds the limit.<br />";
             $("#error_titleSloganStand").html(errorMsg);
@@ -220,6 +220,12 @@ function isValidPngImage(val)
     if (val.match(/\.(png||PNG)$/))
     {
 
+        return true;
+    }
+    else if(val.match(/\.(jpg||JPG)$/)){
+        return true;
+    }
+    else if(val.match(/\.(jpeg||JPEG)$/)){
         return true;
     }
     else

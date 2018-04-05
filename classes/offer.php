@@ -1656,7 +1656,7 @@ class offer extends advertiseoffer{
             //echo "Cat in"; die();
             if (!empty($_FILES["icon"]["name"])) {
                 //echo "Cat in"; die();
-                if (strtolower($info['extension']) == "png") {
+                if (strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpg") {
                     if ($_FILES["icon"]["error"] > 0) {
                         $error.=$_FILES["icon"]["error"] . "<br />";
                     } else {
