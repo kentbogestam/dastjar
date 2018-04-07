@@ -7757,7 +7757,7 @@ echo $arrUser['is_public'];die();
         $arrUser['lang'] = $_POST['lang'];
         $arrUser['titleSloganStandDishDescription'] = addslashes($_POST['titleSloganStandDishDescription']);
 
-        echo $arrUser['titleSloganStandDishDescription'];die();
+        //echo $arrUser['titleSloganStandDishDescription'];die();
 
         $query = "SELECT * FROM product
         LEFT JOIN product_offer_slogan_lang_list ON product.product_id = product_offer_slogan_lang_list.product_id

@@ -36,6 +36,7 @@ $(document).ready(function(){
         $("#error_link").html('');
         $("#error_address").html('');
         $("#error_coordinate").html('');
+        $("#error_storeTime").html('');
 
         
         if(($.trim($("#storeName").val()).length == 0))
@@ -46,6 +47,16 @@ $(document).ready(function(){
             error = "true";
 
         }
+
+        if(($.trim($("#opencloseTimeing").val()).length == 0))
+        {
+
+            var errorMsg = "Please Select Open And Close Time Store.<br />";
+            $("#error_storeTime").html(errorMsg);
+            error = "true";
+
+        }
+
 
           if(($.trim($("#streetaddStore").val()).length == 0))
         {

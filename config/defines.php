@@ -89,7 +89,7 @@ define("CAMPAIGN_OFFER_SUCCESS","<li class='notice_success'>You have successfull
 // Added 
 define("ADVERTISE_OFFER_SUCCESS","<li class='notice_success'>You have successfully submited your advertise offer details.</li>");
 define("INSUFFICIENT_BALANCE","<li class='notice_error'>You have insufficient balance to add a Sponsored Offer.</li>");
-define("COUPON_OFFER_SUCCESS","<li class='notice_success'>You have successfully added your Location.</li>");
+define("COUPON_OFFER_SUCCESS","<li class='notice_success'>You have successfully added Dish to selected Location.</li>");
 define("LOGIN_PLEASE","<li class='notice_error'>Please login to the next process.</li>");
 define("STANDARD_OFFER_SUCCESS","<li class='notice_success'>You have successfully submitted your standard offer details.</li>");
 define("DISH_TYPE_SUCCESS","<li class='notice_success'>You have successfully submitted your Dish Type.</li>");

@@ -53,7 +53,7 @@
         //check if other form details are correct
 
         //verify captcha
-        $recaptcha_secret = "6LeDA0kUAAAAANgrH6YdoQmix-_OawzmczkQr094";
+        $recaptcha_secret = "6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX";
         $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$recaptcha_secret."&response=".$_POST['g-recaptcha-response']);
         $response = json_decode($response, true);
         if($response["success"] === true)
