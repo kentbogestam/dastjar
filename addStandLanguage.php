@@ -148,7 +148,7 @@
             </tr>
             <tr>
          </table>
-         <div class="redwhitebutton_small123">Add your Coupon View</div>
+        <!--  <div class="redwhitebutton_small123">Add your Coupon View</div>
          <table  width="100%" border="0" align="center" cellspacing="15">
             <tr align="left">
                <td width="50%" class="inner_grid"> <b>Picture:</b>        </td>
@@ -164,7 +164,7 @@
                       echo "Yes"; ?>            </td>
             </tr>
             <div id='error_publicProduct' class="error"></div>
-         </table>
+         </table> -->
          <div class="redwhitebutton_small123">Add your Info Page</div>
          <table  width="100%" align="center" cellspacing="15" id="infopageStand" style="display: inline_row;">
             <tr align="left">

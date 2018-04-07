@@ -199,7 +199,7 @@
                            </tr> -->
                            <!-- <form action="" method="post" name="standard_use" id="standard_use" enctype="multipart/form-data">-->
                            <tr>
-                              <td align="left" valign="top" class="inner_grid" style="line-height:25px;">Small icon <font size="2">(Icon must be in png format only e.g. icon.png.The size must be at least 45 x 60 pixels)</font></td>
+                              <td align="left" valign="top" class="inner_grid" style="line-height:25px;">Small icon <font size="2">(Icon must be in png or jpg format only e.g. icon.png.The size must be at least 45 x 60 pixels)</font></td>
                               <td align="left" valign="top">
                                  <div id="pre_image">
                                     <?php if (isset($_SESSION['preview']['small_image'])) {

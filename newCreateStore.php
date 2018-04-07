@@ -132,27 +132,14 @@
                <td align="right"><a title="<?=METHOD_FOR_RECEIVING_COUPON_DATA_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr> -->
              <tr>
-               <td height="42" align="left">Opening hours of the Location </td>
-                <td>
-                  <table class="days_div" border="0" cellspacing="0" cellpadding="0">
-                    <label>
-                    <a style="font-size: 15px;vertical-align: top; cursor:pointer; text-decoration: underline;" id="add_tpye_of_dish">Location is open following days of the week</a></label>
-                    <!--  <tr>
-                        <td><input type="checkbox" name="Monday" value="Mon"/>Monday</td>
-                        <td><input type="checkbox" name="Tuesday" value="Tue" />Tuesday</td>
-                        <td><input type="checkbox" name="Wednesday" value="Wed" />Wednesday</td>
-                     </tr>
-                     <tr>
-                        <td ><input type="checkbox" name="Thursday" value="Thu" />Thursday</td>
-                        <td><input type="checkbox" name="Friday" value="Fri"/>Friday</td>
-                        <td><input type="checkbox" name="Saturday" value="Sat"/>Saturday</td>
-                        <td >&nbsp;</td>
-                     </tr>
-                      <tr>
-                        <td><input type="checkbox" name="Sunday" value="Sun"/>Sunday</td>
-                     </tr> -->
-                  </table>
+               <tr>
+                <td height="42" align="left">Opening hours of the Location <span class='mandatory'>*</span>: </td>
+               <td>
+                  <a style="font-size: 15px;vertical-align: top; cursor:pointer; text-decoration: underline;" id="add_tpye_of_dish">Location is open following days of the week</a></label>
+                  <div id='error_storeTime' class="error"></div>
                </td>
+               <td align="right"><a title="<?=STORE_OPEN_CLOSE_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
+            </tr>
                <!-- <td><label>Location opens at</label>
                   <select class="text_field_new" style="background-color:#e4e3dd; width:406px; height:36px;border: 1px solid #abadb3;" tabindex="27" id="storeOpenTime" name="storeOpenTime">
                     <?php foreach($openCloseingTime as $key =>$value) { ?>

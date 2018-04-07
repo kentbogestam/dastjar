@@ -99,6 +99,7 @@ No code, the user just swipes the bar to agree to the use of the coupon
 No code, the user just clicks on a button and has to use the coupon will within 5 minutes");        
 
 define("STREET_ADDRESS_TEXT","The street address to your location.");
+define("STORE_OPEN_CLOSE_TEXT","Select store open close Time.");
 define("CITY_TEXT","The city or village of your location.");
 define("COUNTRY_TEXT","The country of your location.");
 define("CHAIN_TEXT","The chain to which your location belong.");
