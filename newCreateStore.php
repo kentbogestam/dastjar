@@ -52,6 +52,7 @@
    <div class="center">
       <form name="registerform" action="" id="registerform" method="POst" enctype="multipart/form-data">
          <input type="hidden" name="m" value="saveNewStore">
+         <input type="hidden" name="opencloseTimeing" value="" id="opencloseTimeing">
          <table width="100%"  border="0">
             <tr>
                <td class="redwhitebutton">Add Location</td>
@@ -132,15 +133,35 @@
             </tr> -->
              <tr>
                <td height="42" align="left">Opening hours of the Location </td>
-               <td><label>Location opens at</label>
+                <td>
+                  <table class="days_div" border="0" cellspacing="0" cellpadding="0">
+                    <label>
+                    <a style="font-size: 15px;vertical-align: top; cursor:pointer; text-decoration: underline;" id="add_tpye_of_dish">Location is open following days of the week</a></label>
+                    <!--  <tr>
+                        <td><input type="checkbox" name="Monday" value="Mon"/>Monday</td>
+                        <td><input type="checkbox" name="Tuesday" value="Tue" />Tuesday</td>
+                        <td><input type="checkbox" name="Wednesday" value="Wed" />Wednesday</td>
+                     </tr>
+                     <tr>
+                        <td ><input type="checkbox" name="Thursday" value="Thu" />Thursday</td>
+                        <td><input type="checkbox" name="Friday" value="Fri"/>Friday</td>
+                        <td><input type="checkbox" name="Saturday" value="Sat"/>Saturday</td>
+                        <td >&nbsp;</td>
+                     </tr>
+                      <tr>
+                        <td><input type="checkbox" name="Sunday" value="Sun"/>Sunday</td>
+                     </tr> -->
+                  </table>
+               </td>
+               <!-- <td><label>Location opens at</label>
                   <select class="text_field_new" style="background-color:#e4e3dd; width:406px; height:36px;border: 1px solid #abadb3;" tabindex="27" id="storeOpenTime" name="storeOpenTime">
                     <?php foreach($openCloseingTime as $key =>$value) { ?>
                             <option value = <?php echo $value['open_time']?> ><?php echo $value['open_time']?></option>
                     <?php } ?>
                   </select>
-               </td>
+               </td> -->
             </tr>
-            <tr>
+           <!--  <tr>
                <td></td>
                <td><label>Location closes at</label>
                   <select class="text_field_new" style="background-color:#e4e3dd; width:406px; height:36px;border: 1px solid #abadb3;" tabindex="27" id="storeCloseTime" name="storeCloseTime">
@@ -149,13 +170,14 @@
                       <?php } ?>
                   </select>
                </td>
-            </tr>
-             <tr>
+            </tr> -->
+            <!--  <tr>
                <td class="inner_grid">
                </td>
                <td>
                   <table class="days_div" border="0" cellspacing="0" cellpadding="0">
-                    <label>Location is open following days of the week</label>
+                    <label>
+                    <a style="font-size: 15px;vertical-align: top; cursor:pointer; text-decoration: underline;" id="add_tpye_of_dish">Location is open following days of the week</a></label>
                      <tr>
                         <td><input type="checkbox" name="Monday" value="Mon"/>Monday</td>
                         <td><input type="checkbox" name="Tuesday" value="Tue" />Tuesday</td>
@@ -173,7 +195,7 @@
                   </table>
                </td>
                <td align="right"><a title="<?=METHOD_FOR_RECEIVING_COUPON_DATA_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
-            </tr>
+            </tr> -->
                 <tr>
                   <td>Location is close following dates</td>
                <td style="position: relative;">
@@ -235,14 +257,14 @@
                </td>
                <td align="right"><a title="<?=CHAIN_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
-            <tr>
+            <!-- <tr>
                <td class="inner_grid">Block:</td>
                <td>
                   <input class="text_field_new" type="text" name="block" id ="block" value="<?=$data[0]['block'] ?>"  />
                   <div id='error_block' class="error"></div>
                </td>
                <td align="right"><a title="<?=BLOCK_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
-            </tr>
+            </tr> -->
             <tr>
                <td class="inner_grid">Zip:</td>
                <td>
@@ -306,7 +328,370 @@
          <span class='mandatory'>* These Fields Are Mandatory</span>
       </div>
    </div>
+   <div id="addDishType-popup" style="display: none;" class="login-popup" data-theme="a">
+     <div class="inner-popup">
+           <div id = "cancel-popup" class="cross1">
+              <img src="client/images/cross.png" />
+           </div>
+           <div class="pop-body">
+            <div class="label_space">
+                <label for="working_hours" class="control-label">
+                    Allday:
+                </label>
+            </div>
+              <div class="row_half">
+                  <div class=" mobile_margin">
+                      <label for="working_hours" class=" control-label">
+                          Opening Time: 
+                      </label>
+                      <div class="select_time">
+                          <div class='input-group date' id='datetimepicker3'>
+                             <select id = "allOpen">
+                                <?php foreach($openCloseingTime as $key =>$value) { ?>
+                                        <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
+                                <?php } ?>
+                             </select>
+                          </div>
+                      </div>
+                  </div>
+                  <div class=" mobile_margin">
+                      <label for="working_hours" class=" control-label">
+                          Closing Time: 
+                      </label>
+                      <div class="select_time">
+                          <div class='input-group date' id='datetimepicker3'>
+                               <select id = "allClose">
+                                <?php foreach($openCloseingTime as $key =>$value) { ?>
+                                        <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
+                                <?php } ?>
+                             </select>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            <div class="label_space">
+                <label for="working_hours" class="control-label">
+                    Monday:
+                </label>
+            </div>
+              <div class="row_half">
+                  <div class=" mobile_margin">
+                      <label for="working_hours" class=" control-label">
+                          Opening Time: 
+                      </label>
+                      <div class="select_time">
+                          <div class='input-group date' id='datetimepicker3'>
+                             <select id = "monOpen">
+                                <?php foreach($openCloseingTime as $key =>$value) { ?>
+                                        <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
+                                <?php } ?>
+                             </select>
+                          </div>
+                      </div>
+                  </div>
+                  <div class=" mobile_margin">
+                      <label for="working_hours" class=" control-label">
+                          Closing Time: 
+                      </label>
+                      <div class="select_time">
+                          <div class='input-group date' id='datetimepicker3'>
+                               <select id = "monClose">
+                                <?php foreach($openCloseingTime as $key =>$value) { ?>
+                                        <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
+                                <?php } ?>
+                             </select>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="label_space">
+                <label for="working_hours" class="control-label">
+                    Tuesday:
+                </label>
+                </div>
+                  <div class="row_half">
+                      <div class=" mobile_margin">
+                          <label for="working_hours" class=" control-label">
+                              Opening Time: 
+                          </label>
+                          <div class="select_time">
+                              <div class='input-group date' id='datetimepicker3'>
+                                 <select id = "tueOpen">
+                                    <?php foreach($openCloseingTime as $key =>$value) { ?>
+                                            <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
+                                    <?php } ?>
+                                 </select>
+                              </div>
+                          </div>
+                      </div>
+                      <div class=" mobile_margin">
+                          <label for="working_hours" class=" control-label">
+                              Closing Time: 
+                          </label>
+                          <div class="select_time">
+                              <div class='input-group date' id='datetimepicker3'>
+                                   <select id = "tueClose">
+                                    <?php foreach($openCloseingTime as $key =>$value) { ?>
+                                            <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
+                                    <?php } ?>
+                                 </select>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+               <div class="label_space">
+                <label for="working_hours" class="control-label">
+                    Wednesday:
+                </label>
+            </div>
+              <div class="row_half">
+                  <div class=" mobile_margin">
+                      <label for="working_hours" class=" control-label">
+                          Opening Time: 
+                      </label>
+                      <div class="select_time">
+                          <div class='input-group date' id='datetimepicker3'>
+                             <select id = "wedOpen">
+                                <?php foreach($openCloseingTime as $key =>$value) { ?>
+                                        <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
+                                <?php } ?>
+                             </select>
+                          </div>
+                      </div>
+                  </div>
+                  <div class=" mobile_margin">
+                      <label for="working_hours" class=" control-label">
+                          Closing Time: 
+                      </label>
+                      <div class="select_time">
+                          <div class='input-group date' id='datetimepicker3'>
+                               <select id = "wedClose">
+                                <?php foreach($openCloseingTime as $key =>$value) { ?>
+                                        <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
+                                <?php } ?>
+                             </select>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+               <div class="label_space">
+                <label for="working_hours" class="control-label">
+                    Thursday:
+                </label>
+            </div>
+              <div class="row_half">
+                  <div class=" mobile_margin">
+                      <label for="working_hours" class=" control-label">
+                          Opening Time: 
+                      </label>
+                      <div class="select_time">
+                          <div class='input-group date' id='datetimepicker3'>
+                             <select id = "thuOpen">
+                                <?php foreach($openCloseingTime as $key =>$value) { ?>
+                                        <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
+                                <?php } ?>
+                             </select>
+                          </div>
+                      </div>
+                  </div>
+                  <div class=" mobile_margin">
+                      <label for="working_hours" class=" control-label">
+                          Closing Time: 
+                      </label>
+                      <div class="select_time">
+                          <div class='input-group date' id='datetimepicker3'>
+                               <select id = "thuClose">
+                                <?php foreach($openCloseingTime as $key =>$value) { ?>
+                                        <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
+                                <?php } ?>
+                             </select>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+               <div class="label_space">
+                <label for="working_hours" class="control-label">
+                    Friday:
+                </label>
+            </div>
+              <div class="row_half">
+                  <div class=" mobile_margin">
+                      <label for="working_hours" class=" control-label">
+                          Opening Time: 
+                      </label>
+                      <div class="select_time">
+                          <div class='input-group date' id='datetimepicker3'>
+                             <select id = "friOpen">
+                                <?php foreach($openCloseingTime as $key =>$value) { ?>
+                                        <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
+                                <?php } ?>
+                             </select>
+                          </div>
+                      </div>
+                  </div>
+                  <div class=" mobile_margin">
+                      <label for="working_hours" class=" control-label">
+                          Closing Time: 
+                      </label>
+                      <div class="select_time">
+                          <div class='input-group date' id='datetimepicker3'>
+                               <select id = "friClose">
+                                <?php foreach($openCloseingTime as $key =>$value) { ?>
+                                        <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
+                                <?php } ?>
+                             </select>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+               <div class="label_space">
+                <label for="working_hours" class="control-label">
+                    Saturday:
+                </label>
+            </div>
+              <div class="row_half">
+                  <div class=" mobile_margin">
+                      <label for="working_hours" class=" control-label">
+                          Opening Time: 
+                      </label>
+                      <div class="select_time">
+                          <div class='input-group date' id='datetimepicker3'>
+                             <select id = "satOpen">
+                                <?php foreach($openCloseingTime as $key =>$value) { ?>
+                                        <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
+                                <?php } ?>
+                             </select>
+                          </div>
+                      </div>
+                  </div>
+                  <div class=" mobile_margin">
+                      <label for="working_hours" class=" control-label">
+                          Closing Time: 
+                      </label>
+                      <div class="select_time">
+                          <div class='input-group date' id='datetimepicker3'>
+                               <select id = "satClose">
+                                <?php foreach($openCloseingTime as $key =>$value) { ?>
+                                        <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
+                                <?php } ?>
+                             </select>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+               <div class="label_space">
+                <label for="working_hours" class="control-label">
+                    Sunday:
+                </label>
+            </div>
+              <div class="row_half">
+                  <div class=" mobile_margin">
+                      <label for="working_hours" class=" control-label">
+                          Opening Time: 
+                      </label>
+                      <div class="select_time">
+                          <div class='input-group date' id='datetimepicker3'>
+                             <select id = "sunOpen">
+                                <?php foreach($openCloseingTime as $key =>$value) { ?>
+                                        <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
+                                <?php } ?>
+                             </select>
+                          </div>
+                      </div>
+                  </div>
+                  <div class=" mobile_margin">
+                      <label for="working_hours" class=" control-label">
+                          Closing Time: 
+                      </label>
+                      <div class="select_time">
+                          <div class='input-group date' id='datetimepicker3'>
+                               <select id = "sunClose">
+                                <?php foreach($openCloseingTime as $key =>$value) { ?>
+                                        <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
+                                <?php } ?>
+                             </select>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+              <div class="form-group">
+                 <input type="submit" value="Continue" name="continue" id="submit-btn" class="form-submit-btn">
+               </div>
+           </div>
+     </div>
+   </div>
    <? include("footer.php"); ?>
+   <script type="text/javascript">
+     $('#add_tpye_of_dish').click(function(){
+        $('#addDishType-popup').show();
+     });
+
+     $("#cancel-popup").click(function () {
+       $('#addDishType-popup').hide();
+     });
+
+     $(function(){
+      $('[id*=submit-btn]').click(function(){
+        var dataString = new Array();
+        var i = 0;
+        if($('[id*=allOpen]').val() != '00:00:00'){
+          dataString = 'All :: '+$('[id*=allOpen]').val()+' to '+$('[id*=allClose]').val();
+        }else{
+          if($('[id*=monOpen]').val() != '00:00:00'){
+            dataString[i] = 'Mon :: '+$('[id*=monOpen]').val()+' to '+$('[id*=monClose]').val();
+            i = i+1;
+          }
+          if($('[id*=tueOpen]').val() != '00:00:00'){
+            dataString[i] = ['Tue :: '+$('[id*=tueOpen]').val()+' to '+$('[id*=tueClose]').val()];
+            i = i+1;
+          }
+          if($('[id*=wedOpen]').val() != '00:00:00'){
+            dataString[i] = ['Wed :: '+$('[id*=wedOpen]').val()+' to '+$('[id*=wedClose]').val()];
+            i = i+1;
+          }
+          if($('[id*=thuOpen]').val() != '00:00:00'){
+            dataString[i] = ['Thu :: '+$('[id*=thuOpen]').val()+' to '+$('[id*=thuClose]').val()];
+            i = i+1;
+          }
+          if($('[id*=friOpen]').val() != '00:00:00'){
+            dataString[i] = ['Fri :: '+$('[id*=friOpen]').val()+' to '+$('[id*=friClose]').val()];
+            i = i+1;
+          }
+          if($('[id*=satOpen]').val() != '00:00:00'){
+            dataString[i] = ['Sat :: '+$('[id*=satOpen]').val()+' to '+$('[id*=satClose]').val()];
+            i = i+1;
+          }
+          if($('[id*=sunOpen]').val() != '00:00:00'){
+            dataString[i] = ['Sun :: '+$('[id*=sunOpen]').val()+' to '+$('[id*=sunClose]').val()];
+            i = i+1;
+          }
+
+        }
+         console.log(dataString);
+         document.getElementById('opencloseTimeing').value=dataString;
+         $.ajax({
+            type: "POST",
+            url: "storeOpenCloseTime.php?",
+            data: dataString,
+            success: function (response) {
+               $data = JSON.parse(response);
+               console.log($data);
+
+
+               $('#addDishType-popup').hide();
+
+            },
+            failure: function (response) {
+               alert(response.responseText);
+            },
+            error: function (response) {
+               alert(response.responseText);
+            }
+         });
+      });
+   });
+   </script>
    <script type="text/javascript">
       var map;
       var marker = null;
@@ -561,4 +946,76 @@ $(".cross").click(function(){
     right: -13px;
     z-index: 999;
   }
+</style>
+
+<style type="text/css">
+   .login-popup {
+    background: rgba(0, 0, 0, 0.25);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+.login-popup .inner-popup {
+    width: 650px;
+    background: #fff;
+    top: 50%;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50% , -50%);
+    border-radius: 10px;
+    padding: 15px;
+
+}
+.cross1 {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+}
+.cross1 img {
+    width: 18px
+}
+
+.login-popup .inner-popup p {
+    margin: 0;
+    padding: 0;
+}
+.login-popup .inner-popup .form-group{
+   margin-bottom: 10px;
+}
+.label_space{width: 20%;display: inline-block;}
+.row_half{width: 79%;display: inline-block;}
+.mobile_margin{display: inline-block;width: 47%;padding-right: 8px;}
+.select_time{display: inline-block;width: 100%;}
+
+.login-popup .inner-popup label{
+   display: inline-block; width: 100%; font-size: 14px; margin: 5px 0px;
+}
+.login-popup .inner-popup select, .login-popup .inner-popup input[type="text"]{
+   width: 100%;
+   background: #efefefc4;
+   height: 30px;
+    border: 1px solid #ccc;
+}
+.login-popup .inner-popup input{
+   padding-left: 5px; box-sizing: border-box;
+}
+.login-popup  .pop-body{
+   margin-top: 10px;
+}
+input.form-submit-btn{
+   color: #FFFFFF;
+    border: none;
+    font-size: 18px;
+    background:#721a1e;
+    width: 151px;
+    height: 41px;
+    background-repeat: no-repeat;
+    font-weight: bold;
+    cursor: pointer;
+    display: block;
+    margin: 25px auto 0;
+    border-radius: 10px;
+}
 </style>

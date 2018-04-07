@@ -130,7 +130,7 @@
          <tr>
             <td align="left" valign="top"  class="inner_grid">Dish Name<span class='mandatory'>*</span>:</td>
             <td align="left" valign="top" >
-               <INPUT class="text_field_new" style="height:21px; border: 1px solid #99999b; padding-top:4px;" type=text name="titleSloganStand" id="titleSloganStand" maxlength="19" onBlur="iconPreview(this.form); getTitleForProduct(this.form);" value="<?=$data[0]['slogen']
+               <INPUT class="text_field_new" style="height:21px; border: 1px solid #99999b; padding-top:4px;" type=text name="titleSloganStand" id="titleSloganStand" maxlength="50" onBlur="iconPreview(this.form); getTitleForProduct(this.form);" value="<?=$data[0]['slogen']
                   ?>">
                <div id='error_titleSloganStand' class="error"></div>
             </td>
@@ -174,8 +174,8 @@
                   ?>">
                <div id='error_preparationTime' class="error" ></div>
             </td>
-            <td align="right" valign="middle" ><a title="<?=STITLE_TEXT?>" class="vtip"><b><smal -->l>?</small></b></a> </td>
-         </tr>
+            <td align="right" valign="middle" ><a title="<?=STITLE_TEXT?>" class="vtip"><b><smal --><!-- l>?</small></b></a> </td>
+         </tr> -->
          <!-- <tr>
             <td align="left" valign="top" class="inner_grid">Category<span class='mandatory'>*</span>:</td>
             <td  align="left" valign="top"><div id="category_lang_div">

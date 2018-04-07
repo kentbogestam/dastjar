@@ -115,9 +115,8 @@
                               <td width="515" align="left" valign="top" class="inner_grid">Language:</td>
                               <td width="469"  align="left" valign="top">
                                  <select style="width:406px; background-color:#e4e3dd;" onChange="getLangImage(this.value);" class="text_field_new" name="lang" id="lang" >
-                                    <option <? if ($lang == "GER")echo "selected='selected'"; ?> value="GER">German</option>
-                                    <option <? if ($lang == "ENG")echo "selected='selected'"; ?> value="ENG">English</option>
                                     <option <? if ($lang == "SWE")echo "selected='selected'"; ?> value="SWE">Swedish</option>
+                                    <option <? if ($lang == "ENG")echo "selected='selected'"; ?> value="ENG">English</option>
                                  </select>
                                  <div id='error_langStand' class="error"></div>
                               </td>
@@ -127,7 +126,7 @@
                               <td align="left" valign="top"  class="inner_grid">Dish Name<span class='mandatory'>*</span>:<br>
                               </td>
                               <td align="left" valign="top" >
-                                 <INPUT class="text_field_new" type=text name="titleSloganStand" id="titleSloganStand" maxlength="25" onBlur="iconPreview(this.form); getTitleForProduct(this.form);standardPreview(this.form);" value="<?=isset($_SESSION['post']['titleSloganStand']) ? $_SESSION['post']['titleSloganStand'] : ''
+                                 <INPUT class="text_field_new" type=text name="titleSloganStand" id="titleSloganStand" maxlength="50" onBlur="iconPreview(this.form); getTitleForProduct(this.form);standardPreview(this.form);" value="<?=isset($_SESSION['post']['titleSloganStand']) ? $_SESSION['post']['titleSloganStand'] : ''
                                     ?>">
                                  <div id='error_titleSloganStand' class="error" ></div>
                               </td>
@@ -230,19 +229,19 @@
                         </table>
                         <table  border="0" align="center" cellpadding="0" cellspacing="0">
                            <tr id="short_preview" style="display:inline;">
-                              <td width="422" align="center" valign="top" style="background-image:url(client/images/iphone_large-2.png); width:270px; height:559px; background-repeat:no-repeat;">
-                                 <div style="margin-top:150px; width:225px; margin-left:auto; margin-right:auto;" >
+                              <td width="422" align="center" valign="top" style="background-image:url(client/images/iphone_large-3.png); width:270px; height:559px; background-repeat:no-repeat;">
+                                 <div style="margin-top:80px; width:225px; margin-left:5px; margin-right:auto;" >
                                     <table border="0" cellpadding="0" cellspacing="0">
                                        <tr>
                                           <td width="41"  align="left" style="padding-left:5px; padding-right:5px;">
-                                             <div id="upload_area" style="vertical-align:top;"><img src=""  height = 50 width = 50 id="myCatIcon" name="myCatIcon"></div>
+                                             <div id="upload_area" style="vertical-align:top;"><img src=""  height = 30 width = 50 id="myCatIcon" name="myCatIcon"></div>
                                           </td>
                                           <td rowspan="2" valign="top">
                                              <table width="98%" border="0" cellpadding="0" cellspacing="0">
                                                 <tr>
                                                    <td class="mob_title_2" id="tslogan"></td>
                                                    <td width="21" align="right" nowrap style="padding-right:3px;">
-                                                      <div><font size="-3">??km</font></div>
+                                                      <div><font size="-3"></font></div>
                                                    </td>
                                                 </tr>
                                                 <!--<tr>
@@ -470,7 +469,6 @@
                  <select id = "txtDishLanguage">
                      <option value="ENG">English</option>
                      <option value="SWE">Swedish</option>
-                     <option value="GER">German</option>
                  </select>
               </div>
               <div style="display: none;">

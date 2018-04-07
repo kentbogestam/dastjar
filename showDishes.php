@@ -89,7 +89,7 @@
                                  <tr>
                                     <td width="24%">&nbsp;</td>
                                     <td width="455" valign="top">
-                                       <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="border2">
+                                  <!--     <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="border2">
                                           <tr>
                                              <td height="25" colspan="3" align="left" class="bg_darkgray1" style="padding-left:5px;">Search</td>
                                           </tr>
@@ -123,7 +123,7 @@
                                              </td>
                                           </tr>
                                           <tr></tr>
-                                       </table>
+                                       </table> -->
                                     </td>
                                     <td width="24%" valign="top">
                                        <div align="center" class="main_bg"  ><a href="addNewDish.php" ><strong>ADD Type of Dish</strong></a></div>

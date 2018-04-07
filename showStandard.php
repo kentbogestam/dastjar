@@ -73,7 +73,7 @@
            if ($_GET['m'] == "showStandoffer") {
            //echo "Standard Offer";
                                                                            }
-                                                                           echo "Standard Offer";
+                                                                           echo "Menu";
                                                                            ?></h2>
      </td>
      <td>&nbsp;</td>
@@ -82,57 +82,7 @@
   <tr>
      <td width="24%">&nbsp;</td>
      <td width="455">
-        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="border2">
-           <tr>
-              <td  style="padding-left:5px;" height="25" colspan="4" align="left" class="bg_darkgray1">Search</td>
-           </tr>
-           <tr>
-              <td width="25%" height="25" align="left" nowrap class='bg_lightgray' name="title">Product Name</td>
-              <td width="75%" align="left" class='bg_lightgray'><input type="text" name="keyword" id="name" size="48" value="<?=isset($_GET['keyword']) ? $_GET['keyword'] : ''
-                 ?>" /></td>
-           </tr>
-           <tr>
-              <td height="25" align="left" nowrap class='bg_lightgray' name="title">Keywords</td>
-              <td align="left" class='bg_lightgray'><input type="text" name="key" id="name2" size="48" value="<?=isset($_GET['key']) ? $_GET['key'] : ''
-                 ?>" /></td>
-           </tr>
-           <tr>
-              <td height="40" align="left" valign="middle" nowrap class='bg_lightgray' name="title">&nbsp;</td>
-              <td height="25" align="left" nowrap class='bg_lightgray' name="title">
-                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                       <td style="padding-left:1px; border:none;"><input name='submitFrm' type='submit' class="submit-search-button" id="submitFrm" value="Search" /></td>
-                       <td width="100%" align="left" style="padding-left:15px;"><a href="showStandard.php?m=showStandoffer"><strong>View All</strong></a></td>
-                    </tr>
-                 </table>
-              </td>
-           </tr>
-           <!--<tr>
-              <td width="28%" height="25" align="left" name="title" class='bg_lightgray'><strong>Product Name</strong></td>
-              
-              <td width="72%" align="left" class='bg_lightgray'><input type="text" name="key" id="name" size="48" value="<?=isset($_GET['key']) ? $_GET['key'] : ''
-                 ?>" /></td>
-              </tr>-->
-           <!--                                                            <tr>
-              <td width="28%" height="25" align="center" name="title" class='bg_lightgray'><strong>Keywords</strong></td>
-              <td width="72%" align="left" class='bg_lightgray'><input type="text" name="ke" id="name" size="48" value="<?=isset($_GET['ke']) ? $_GET['ke'] : ''
-                 ?>" /></td>
-              </tr>-->
-           <!--<tr>
-              <td height="25" align="left"  class='bg_lightgray'><strong>Status</strong></td>
-              
-                                                                              <td height="25" align="center"  class='bg_lightgray'><div align="left">
-                                                                              <select name="status" style="width:80px;">
-                                                                              <option value="">Both</option>
-                                                                              <option <? if ($_GET['status'] == '1')
-                 echo 'selected="selected"'; ?> value="1">Active</option>
-                                                                              <option <? if ($_GET['status'] == '0')
-                 echo 'selected="selected"'; ?> value="0">Inactive</option>
-                                                                              </select>
-                                                                              </div></td>
-                                                                              </tr>-->
-           <tr></tr>
-        </table>
+    
      </td>
      <td width="24%" valign="top">
         <div align="center"  class="main_bg"><a href="createStandardOffer.php">ADD DISHES</a></div>
@@ -300,7 +250,7 @@
       <link href="lib/grid/css/grid.css" rel="stylesheet" type="text/css" />
       <link href="client/css/stylesheet123.css" rel="stylesheet" type="text/css" />
       <script language="JavaScript" src="lib/grid/js/grid.js" type="text/javascript"></script>
-      <h1> <a href="javascript:void()"  onClick="showPublicProduct();">View Others Products</a> </h1>
+      <!-- <h1> <a href="javascript:void()"  onClick="showPublicProduct();">View Others Products</a> </h1> -->
       <div id="msg" align="center">
          <?php
             if ($_SESSION['MESSAGE']) {

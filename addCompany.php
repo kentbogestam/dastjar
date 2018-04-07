@@ -162,7 +162,7 @@
                                           $countryCode=$_SESSION['post']['country'];
                                           if(empty($countryCode))
                                           {
-                                            $countryCode='DE';
+                                            $countryCode='SE';
                                           }
                                           
                                           foreach($countryList as $key=>$value)

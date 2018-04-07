@@ -112,9 +112,8 @@ if(isset($_POST['continue'])) {
               <td>&nbsp;</td>
                <td nowrap><b>View According To Your Language:</b></td>
               <td><select style="width:250px; background-color:#e4e3dd;" onChange="langChange(this.value,'<?=$_GET['productId']?>','<?=$reseller?>');" class="text_field_new" name="lang" id="lang" >
-                    <option <? if ($lang == "GER")echo "selected='selected'"; ?> value="GER">German</option>
-                    <option <? if ($lang == "ENG")echo "selected='selected'"; ?> value="ENG">English</option>
                     <option <? if ($lang == "SWE")echo "selected='selected'"; ?> value="SWE">Swedish</option>
+                    <option <? if ($lang == "ENG")echo "selected='selected'"; ?> value="ENG">English</option>
                 </select></td>
             </tr>
             <tr align="left">
