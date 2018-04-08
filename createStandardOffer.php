@@ -229,7 +229,7 @@
                         </table>
                         <table  border="0" align="center" cellpadding="0" cellspacing="0">
                            <tr id="short_preview" style="display:inline;">
-                              <td width="422" align="center" valign="top" style="background-image:url(client/images/iphone_large-3.png); width:270px; height:559px; background-repeat:no-repeat;">
+                              <td width="422" align="center" valign="top" style="background-image:url(client/images/iphone_large-2.png); width:270px; height:559px; background-repeat:no-repeat;">
                                  <div style="margin-top:80px; width:225px; margin-left:5px; margin-right:auto;" >
                                     <table border="0" cellpadding="0" cellspacing="0">
                                        <tr>
