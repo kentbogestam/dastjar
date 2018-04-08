@@ -94,7 +94,7 @@ class activate {
             LEFT JOIN   product_keyword  ON   product_keyword.product_id = product.product_id
             LEFT JOIN    lang_text as keyw  ON   product_keyword.offer_keyword  = keyw.id
            WHERE u_id='" . $_SESSION['userid'] . "' AND sloganT.lang = lang_text.lang");
-            $resProd = mysqli_query($conn,$query) or die(mysql_error());
+            $resProd = mysqli_query($conn,$query) or die(mysqli_error());
             $row = mysqli_fetch_array($resProd);
             //print_r($row);
             //die();

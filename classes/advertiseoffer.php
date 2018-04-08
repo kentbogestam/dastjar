@@ -24,7 +24,7 @@ class advertiseoffer {
         $data = array();
 
         $q = $this->searchAdvertise($paging_limit);
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         return $data;
@@ -51,8 +51,8 @@ class advertiseoffer {
             $limit = "LIMIT " . $paging_limit;
 
         $query = "SELECT * FROM employer WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query);
-        $rs = mysql_fetch_array($res);
+        $res = mysqli_query($query);
+        $rs = mysqli_fetch_array($res);
         $companyId = $rs['company_id'];
 
         if ($_REQUEST['m'] == "showadvtoffer") {
@@ -84,7 +84,7 @@ class advertiseoffer {
                         advertise.company_id='" . $companyId . "' AND $set_keywords 1 AND end_of_publishing >= CURDATE() AND (s_activ='0' or s_activ='3') AND (reseller_status = 'A' OR reseller_status = '') GROUP BY advertise_id " . $limit;
         }
 
-        $res = mysql_query($QUE);
+        $res = mysqli_query($QUE);
         return $res;
     }
 
@@ -102,7 +102,7 @@ class advertiseoffer {
         $db->makeConnection();
         $is_Public = array();
         $q = $this->searchPublicAdvertiseOffers($paging_l);
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $is_Public[] = $rs;
         }
         return $is_Public;
@@ -124,7 +124,7 @@ class advertiseoffer {
                         left join store on(c_s_rel.store_id=store.store_id)
                         left join advertise on(c_s_rel.advertise_id=advertise.advertise_id)
                          WHERE store.u_id='" . $_SESSION['userid'] . "' AND $set_keywords 1 AND advertise.s_activ='0' AND c_s_rel.activ='1'  AND advertise.u_id!='" . $_SESSION['userid'] . "' GROUP BY advertise.advertise_id " . $limit;
-        $res = mysql_query($QUE);
+        $res = mysqli_query($QUE);
         return $res;
     }
 
@@ -189,8 +189,8 @@ class advertiseoffer {
         if ($reseller == '') {
 
             $query = "SELECT pre_loaded_value FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
-            $res = mysql_query($query) or die(mysql_error());
-            $rs_comp = mysql_fetch_array($res);
+            $res = mysqli_query($query) or die(mysqli_error());
+            $rs_comp = mysqli_fetch_array($res);
             $rs_comp['pre_loaded_value'];
             if ($rs_comp['pre_loaded_value']) {
                 //$_SESSION['userid'];
@@ -199,8 +199,8 @@ class advertiseoffer {
                 $query = "SELECT pre_loaded_value FROM user as usr
           LEFT JOIN company as comp ON       (comp.company_id=usr.company_id)
          WHERE usr.u_id='" . $_SESSION['userid'] . "'";
-                $res = mysql_query($query) or die(mysql_error());
-                $rs_comp = mysql_fetch_array($res);
+                $res = mysqli_query($query) or die(mysqli_error());
+                $rs_comp = mysqli_fetch_array($res);
                 $pre_loaded_value = $rs_comp['pre_loaded_value'];
                 //$rs['new_pre_loaded_value'];
             }
@@ -218,8 +218,8 @@ class advertiseoffer {
 
 
             $query = "SELECT pre_loaded_value FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
-            $res = mysql_query($query) or die(mysql_error());
-            $rs = mysql_fetch_array($res);
+            $res = mysqli_query($query) or die(mysqli_error());
+            $rs = mysqli_fetch_array($res);
             $rs['pre_loaded_value'];
             //echo $_SESSION['userid'];
             if ($arrUser['is_sponsored'] == 1 && ($rs['pre_loaded_value'] == '0' || $rs['pre_loaded_value'] == null)) {
@@ -367,14 +367,14 @@ class advertiseoffer {
         $advertiseId = uuid();
         /// Select company id of this user
         $QUE = "select company_id from company where u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($QUE) or die(mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($QUE) or die(mysqli_error());
+        $row = mysqli_fetch_array($res);
         $companyId = $row['company_id'];
 
         if ($companyId == '') {
             $QUE33 = "select company_id from employer where u_id='" . $_SESSION['userid'] . "'";
-            $res33 = mysql_query($QUE33) or die(mysql_error());
-            $rs33 = mysql_fetch_array($res33);
+            $res33 = mysqli_query($QUE33) or die(mysqli_error());
+            $rs33 = mysqli_fetch_array($res33);
             $empCompId = $rs33['company_id'];
             $companyId = $empCompId;
         }
@@ -382,57 +382,57 @@ class advertiseoffer {
 //  New View Option Kent  -->
         $query = "INSERT INTO advertise(`advertise_id`,`company_id`,`u_id`, `small_image`,`large_image`, `spons`, `category`, `start_of_publishing`,`end_of_publishing`,`advertise_name`,`view_opt`,`infopage`)
                 VALUES ('" . $advertiseId . "','" . $companyId . "','" . $_SESSION['userid'] . "', '" . $catImg . "', '" . $copImg . "','" . $arrUser['spons'] . "','" . $arrUser['category'] . "','" . $arrUser['start_of_publishing'] . "','" . $arrUser['end_of_publishing'] . "','" . $arrUser['advertise_name'] . "','" . $arrUser['viewopt'] . "','" . $arrUser['infopage'] . "');";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($query) or die(mysqli_error());
 
         if ($reseller != '') {
             $query = "UPDATE advertise SET `reseller_status` = 'P' WHERE advertise_id = '" . $advertiseId . "'";
-            $res = mysql_query($query);
+            $res = mysqli_query($query);
         }
 
         ////////Slogen entry///////
         $sloganLangId = uuid();
         $_SQL = "insert into lang_text(id,lang,text) values('" . $sloganLangId . "','" . $arrUser['lang'] . "','" . $arrUser['offer_slogan_lang_list'] . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
         //echo"here";die();
         ////////Sub Slogen entry///////
         $subSloganLangId = uuid();
         $_SQL = "insert into lang_text(id,lang,text) values('" . $subSloganLangId . "','" . $arrUser['lang'] . "','" . $arrUser['offer_sub_slogan_lang_list'] . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
 
         //////keywords
         $keywordId = uuid();
         //if (trim($arrUser['keywords']) != "") 
         {
             $_SQL = "insert into lang_text(id,lang,text) values('" . $keywordId . "','" . $arrUser['lang'] . "','" . $arrUser['keywords'] . "')";
-            $res = mysql_query($_SQL) or die(mysql_error());
+            $res = mysqli_query($_SQL) or die(mysqli_error());
             
              $_SQL = "insert into advertise_keyword(`advertise_id`,`offer_keyword`) values('" . $advertiseId . "','" . $keywordId . "')";
-            $res = mysql_query($_SQL) or die(mysql_error());
+            $res = mysqli_query($_SQL) or die(mysqli_error());
         }
 
         $SystemkeyId = uuid();
         $_SQL = "insert into lang_text(id,lang,text) values('" . $SystemkeyId . "','" . $arrUser['lang'] . "','" . $advertiseId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
 
         $_SQL = "insert into advertise_keyword(`advertise_id`,system_key) values('" . $advertiseId . "','" . $SystemkeyId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
 
 
         $Systemkey_companyId = uuid();  // company ID as Key 
         $_SQL = "insert into lang_text(id,lang,text) values('" . $Systemkey_companyId . "','" . $arrUser['lang'] . "','" . $companyId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
 
         $_SQL = "insert into advertise_keyword(`advertise_id`,system_key) values('" . $advertiseId . "','" . $Systemkey_companyId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
         
 
         /// SLogen anf language table relation entry ////
         $_SQL = "insert into advertise_offer_slogan_lang_list(`advertise_id`,`offer_slogan_lang_list`) values('" . $advertiseId . "','" . $sloganLangId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
 
         ///Sub slogan and language table relation entry ///
         $_SQL = "insert into advertise_offer_sub_slogan_lang_list(`advertise_id`,`offer_sub_slogan_lang_list`) values('" . $advertiseId . "','" . $subSloganLangId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
 
       
 
@@ -475,7 +475,7 @@ class advertiseoffer {
 
 WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $lang . "' AND lang_text.lang = subsloganT.lang AND lang_text.lang = sloganT.lang AND lang_text.lang = keyw.lang  GROUP BY advertise.advertise_id";
         $q = $db->query($sqlstr);
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         //  print_r ($data); die($sqlstr);
@@ -483,8 +483,8 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
         $QUE = "select store.* from store left join c_s_rel
         on(c_s_rel.store_id = store.store_id)
         where c_s_rel.advertise_id ='" . $advertiseid . "' AND activ='1'";
-        $res = mysql_query($QUE) or die(mysql_error());
-        while ($row = mysql_fetch_array($res)) {
+        $res = mysqli_query($QUE) or die(mysqli_error());
+        while ($row = mysqli_fetch_array($res)) {
             $storeDetails[] = $row;
         }
         $data['storeDetails'] = $storeDetails;
@@ -502,14 +502,14 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
         $error = '';
 
         $query = "SELECT * FROM advertise_offer_slogan_lang_list WHERE advertise_id='" . $advertiseid . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $rs = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die(mysqli_error());
+        $rs = mysqli_fetch_array($res);
         $offer_slogan_lang_list = $rs['offer_slogan_lang_list'];
 
 
         $query = "SELECT * FROM lang_text WHERE id ='" . $offer_slogan_lang_list . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $rs = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die(mysqli_error());
+        $rs = mysqli_fetch_array($res);
         $lang = $rs['lang'];
 
         return $lang;
@@ -532,8 +532,8 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
 
         if ($reseller == '') {
             $query = "SELECT pre_loaded_value FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
-            $res = mysql_query($query) or die(mysql_error());
-            $rs_comp = mysql_fetch_array($res);
+            $res = mysqli_query($query) or die(mysqli_error());
+            $rs_comp = mysqli_fetch_array($res);
             $rs_comp['pre_loaded_value'];
             if ($rs_comp['pre_loaded_value']) {
                 //$_SESSION['userid'];
@@ -542,8 +542,8 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
                 $query = "SELECT pre_loaded_value FROM user as usr
           LEFT JOIN company as comp ON       (comp.company_id=usr.company_id)
          WHERE usr.u_id='" . $_SESSION['userid'] . "'";
-                $res = mysql_query($query) or die(mysql_error());
-                $rs_comp = mysql_fetch_array($res);
+                $res = mysqli_query($query) or die(mysqli_error());
+                $rs_comp = mysqli_fetch_array($res);
                 $pre_loaded_value = $rs_comp['pre_loaded_value'];
                 //$rs['new_pre_loaded_value'];
             }
@@ -811,56 +811,56 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
         if ($arrUser['start_of_publishing'] > $t) {
 
             $query = "select * from c_s_rel  where advertise_id = '" . $advertiseid . "'";
-            $res1 = mysql_query($query) or die(mysql_error());
-            while ($rs = mysql_fetch_array($res1)) {
+            $res1 = mysqli_query($query) or die(mysqli_error());
+            while ($rs = mysqli_fetch_array($res1)) {
                 $couponId = $rs['coupon_id'];
 
                 if ($couponId) {
 
                     /////delete coupon
                     $query = "DELETE FROM coupon WHERE coupon_id = '" . $couponId . "'";
-                    $res = mysql_query($query) or die(mysql_error());
+                    $res = mysqli_query($query) or die(mysqli_error());
 
                     $query = "select * from coupon_limit_period_list  where coupon = '" . $couponId . "'";
-                    $res = mysql_query($query) or die('1' . mysql_error());
-                    $rs = mysql_fetch_array($res);
+                    $res = mysqli_query($query) or die('1' . mysqli_error());
+                    $rs = mysqli_fetch_array($res);
                     $limitId = $rs['limit_period_list'];
 
 
                     $_SQL = "DELETE FROM coupon_limit_period_list WHERE coupon = '" . $couponId . "' AND limit_period_list = '" . $limitId . "' ";
-                    $res = mysql_query($_SQL) or die(mysql_error());
+                    $res = mysqli_query($_SQL) or die(mysqli_error());
 
                     $query = "select * from coupon_offer_slogan_lang_list  where coupon = '" . $couponId . "'";
-                    $res = mysql_query($query) or die('1' . mysql_error());
-                    while ($rs = mysql_fetch_array($res)) {
+                    $res = mysqli_query($query) or die('1' . mysqli_error());
+                    while ($rs = mysqli_fetch_array($res)) {
                         $offslogen = $rs['offer_slogan_lang_list'];
 
                         $_SQL1 = "DELETE FROM coupon_offer_slogan_lang_list WHERE coupon = '" . $couponId . "'";
-                        $res1 = mysql_query($_SQL1) or die(mysql_error());
+                        $res1 = mysqli_query($_SQL1) or die(mysqli_error());
                     }
 
 
                     $query = "select * from coupon_offer_title_lang_list  where coupon = '" . $couponId . "'";
-                    $res = mysql_query($query) or die('1' . mysql_error());
-                    while ($rs = mysql_fetch_array($res)) {
+                    $res = mysqli_query($query) or die('1' . mysqli_error());
+                    while ($rs = mysqli_fetch_array($res)) {
                         $offtitle = $rs['offer_title_lang_list'];
 
                         $_SQL1 = "DELETE FROM coupon_offer_title_lang_list WHERE coupon = '" . $couponId . "'";
-                        $res1 = mysql_query($_SQL1) or die(mysql_error());
+                        $res1 = mysqli_query($_SQL1) or die(mysqli_error());
                     }
 
                     $query = "select * from coupon_keywords_lang_list  where coupon = '" . $couponId . "'";
-                    $res = mysql_query($query) or die('1' . mysql_error());
-                    while ($rs = mysql_fetch_array($res)) {
+                    $res = mysqli_query($query) or die('1' . mysqli_error());
+                    while ($rs = mysqli_fetch_array($res)) {
                         $ckeyword = $rs['keywords_lang_list'];
 
                         $_SQL1 = "DELETE FROM coupon_keywords_lang_list WHERE coupon = '" . $couponId . "'";
-                        $res1 = mysql_query($_SQL1) or die(mysql_error());
+                        $res1 = mysqli_query($_SQL1) or die(mysqli_error());
                     }
 
                     //////update c_s_rel
                     $_SQL = "UPDATE c_s_rel SET activ='2', start_of_publishing = '" . $arrUser['start_of_publishing'] . "', `end_of_publishing` = '" . $arrUser['end_of_publishing'] . "' WHERE advertise_id = '" . $advertiseId . "'";
-                    $res = mysql_query($_SQL) or die(mysql_error());
+                    $res = mysqli_query($_SQL) or die(mysqli_error());
                 }
             }
 
@@ -870,7 +870,7 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
 
 
                 $query = "UPDATE advertise SET  `small_image` = '" . $catImg . "' WHERE advertise_id= '" . $advertiseid . "'";
-                $res = mysql_query($query) or die('6' . mysql_error());
+                $res = mysqli_query($query) or die('6' . mysqli_error());
             }
 
             //echo $_SESSION['preview']['large_image']; die();
@@ -879,7 +879,7 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
 
 
                 $query = "UPDATE advertise SET  large_image = '" . $copImg . "' WHERE advertise_id = '" . $advertiseid . "'";
-                $res = mysql_query($query) or die('7' . mysql_error());
+                $res = mysqli_query($query) or die('7' . mysqli_error());
             }
 
             ////diferent language function update
@@ -887,156 +887,156 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
             $query = "select lang_text.text,lang_text.id from advertise_keyword 
                 LEFT JOIN lang_text ON advertise_keyword.offer_keyword = lang_text.id  
                 where advertise_keyword.advertise_id = '" . $advertiseid . "' AND lang_text.lang = '" . $arrUser['language'] . "'";
-            $res = mysql_query($query) or die('1' . mysql_error());
-            while ($rs = mysql_fetch_array($res)) {
+            $res = mysqli_query($query) or die('1' . mysqli_error());
+            while ($rs = mysqli_fetch_array($res)) {
                 $keyId = $rs['id'];
             }
 
             //echo $keyId;
             //echo $keyText;die();
             $query = "UPDATE lang_text SET `text` = '" . $arrUser['keywords'] . "'  WHERE id = '" . $keyId . "' AND  lang = '" . $arrUser['language'] . "' ";
-            $res = mysql_query($query) or die('3' . mysql_error());
+            $res = mysqli_query($query) or die('3' . mysqli_error());
 
             // for title slogen
 
 
             $query = "select lang_text.text,lang_text.id from advertise_offer_slogan_lang_list LEFT JOIN lang_text ON advertise_offer_slogan_lang_list.offer_slogan_lang_list = lang_text.id  where advertise_offer_slogan_lang_list.advertise_id = '" . $advertiseid . "' AND lang_text.lang = '" . $arrUser['language'] . "'";
-            $res = mysql_query($query) or die('2' . mysql_error());
-            while ($rs = mysql_fetch_array($res)) {
+            $res = mysqli_query($query) or die('2' . mysqli_error());
+            while ($rs = mysqli_fetch_array($res)) {
                 $titleId = $rs['id'];
             }
             $query = "UPDATE lang_text SET `text` = '" . $arrUser['offer_slogan_lang_list'] . "' WHERE id = '" . $titleId . "' AND  lang = '" . $arrUser['language'] . "'";
-            $res = mysql_query($query) or die('3' . mysql_error());
+            $res = mysqli_query($query) or die('3' . mysqli_error());
 
             // for sub slogen
 
             $query = "select lang_text.text,lang_text.id from advertise_offer_sub_slogan_lang_list LEFT JOIN lang_text ON advertise_offer_sub_slogan_lang_list.offer_sub_slogan_lang_list = lang_text.id  where advertise_offer_sub_slogan_lang_list.advertise_id = '" . $advertiseid . "' AND lang_text.lang = '" . $arrUser['language'] . "'";
-            $res = mysql_query($query) or die('2' . mysql_error());
-            while ($rs = mysql_fetch_array($res)) {
+            $res = mysqli_query($query) or die('2' . mysqli_error());
+            while ($rs = mysqli_fetch_array($res)) {
                 $subSlogenId = $rs['id'];
             }
             $query = "UPDATE lang_text SET `text` = '" . $arrUser['offer_sub_slogan_lang_list'] . "' WHERE id = '" . $subSlogenId . "' AND  lang = '" . $arrUser['language'] . "'";
-            $res = mysql_query($query) or die('3' . mysql_error());
+            $res = mysqli_query($query) or die('3' . mysqli_error());
             ///////update c_s_rel
 
             $query = "UPDATE c_s_rel SET  start_of_publishing = '" . $arrUser['start_of_publishing'] . "', `end_of_publishing` = '" . $arrUser['end_of_publishing'] . "'  WHERE advertise_id = '" . $advertiseid . "'";
-            $res = mysql_query($query) or die('7' . mysql_error());
+            $res = mysqli_query($query) or die('7' . mysqli_error());
         }
 
         //////if start date less than or equal to current date///////////
         if ($arrUser['start_of_publishing'] <= $t) {
 
             $query = "UPDATE advertise SET category = '" . $arrUser['category'] . "',spons = '" . $arrUser['spons'] . "',advertise_name = '" . $arrUser['advertise_name'] . "',infopage = '" . $arrUser['infopage'] . "', start_of_publishing = '" . $arrUser['start_of_publishing'] . "', end_of_publishing = '" . $arrUser['end_of_publishing'] . "'  WHERE advertise_id = '" . $advertiseid . "'";
-            $res = mysql_query($query) or die('2' . mysql_error());
+            $res = mysqli_query($query) or die('2' . mysqli_error());
 
             //echo $icon; die();
             if ($icon <> '' || $category_image <> '') {
                 $query = "UPDATE advertise SET  `small_image` = '" . $catImg . "' WHERE advertise_id= '" . $advertiseid . "'";
-                $res = mysql_query($query) or die('6' . mysql_error());
+                $res = mysqli_query($query) or die('6' . mysqli_error());
             }
 
             if ($_SESSION['preview']['large_image'] <> '') {
                 $query = "UPDATE advertise SET  large_image = '" . $copImg . "' WHERE advertise_id = '" . $advertiseid . "'";
-                $res = mysql_query($query) or die('7' . mysql_error());
+                $res = mysqli_query($query) or die('7' . mysqli_error());
             }
 
             ////diferent language function update
             //for keywords
             $query = "select lang_text.text,lang_text.id from advertise_keyword 
                 LEFT JOIN lang_text ON advertise_keyword.offer_keyword = lang_text.id  where advertise_keyword.advertise_id = '" . $advertiseid . "' AND lang_text.lang = '" . $arrUser['language'] . "'";
-            $res = mysql_query($query) or die('1' . mysql_error());
-            while ($rs = mysql_fetch_array($res)) {
+            $res = mysqli_query($query) or die('1' . mysqli_error());
+            while ($rs = mysqli_fetch_array($res)) {
                 $keyId = $rs['id'];
                 $query = "UPDATE lang_text SET `text` = '" . $arrUser['keywords'] . "'  WHERE id = '" . $keyId . "' AND  lang = '" . $arrUser['language'] . "' ";
-                $res = mysql_query($query) or die('3' . mysql_error());
+                $res = mysqli_query($query) or die('3' . mysqli_error());
             }
             // for title slogen
 
 
             $query = "select lang_text.text,lang_text.id from advertise_offer_slogan_lang_list LEFT JOIN lang_text ON advertise_offer_slogan_lang_list.offer_slogan_lang_list = lang_text.id  where advertise_offer_slogan_lang_list.advertise_id = '" . $advertiseid . "' AND lang_text.lang = '" . $arrUser['language'] . "'";
-            $res = mysql_query($query) or die('2' . mysql_error());
-            while ($rs = mysql_fetch_array($res)) {
+            $res = mysqli_query($query) or die('2' . mysqli_error());
+            while ($rs = mysqli_fetch_array($res)) {
                 $titleId = $rs['id'];
 
 
                 $query = "UPDATE lang_text SET `text` = '" . $arrUser['offer_slogan_lang_list'] . "' WHERE id = '" . $titleId . "' AND  lang = '" . $arrUser['language'] . "'";
-                $res = mysql_query($query) or die('3' . mysql_error());
+                $res = mysqli_query($query) or die('3' . mysqli_error());
             }
             // for sub slogen
 
             $query = "select lang_text.text,lang_text.id from advertise_offer_sub_slogan_lang_list LEFT JOIN lang_text ON advertise_offer_sub_slogan_lang_list.offer_sub_slogan_lang_list = lang_text.id  where advertise_offer_sub_slogan_lang_list.advertise_id = '" . $advertiseid . "' AND lang_text.lang = '" . $arrUser['language'] . "'";
-            $res = mysql_query($query) or die('2' . mysql_error());
-            while ($rs = mysql_fetch_array($res)) {
+            $res = mysqli_query($query) or die('2' . mysqli_error());
+            while ($rs = mysqli_fetch_array($res)) {
                 $subSlogenId = $rs['id'];
 
 
                 $query = "UPDATE lang_text SET `text` = '" . $arrUser['offer_sub_slogan_lang_list'] . "' WHERE id = '" . $subSlogenId . "' AND  lang = '" . $arrUser['language'] . "'";
-                $res = mysql_query($query) or die('3' . mysql_error());
+                $res = mysqli_query($query) or die('3' . mysqli_error());
             }
 
             //////////////update c_s_rel/////////////
 
             $query = "UPDATE c_s_rel SET  start_of_publishing = '" . $arrUser['start_of_publishing'] . "', `end_of_publishing` = '" . $arrUser['end_of_publishing'] . "'  WHERE advertise_id = '" . $advertiseid . "'";
-            $res = mysql_query($query) or die('7' . mysql_error());
+            $res = mysqli_query($query) or die('7' . mysqli_error());
 
             $query = "select * from c_s_rel  where advertise_id = '" . $advertiseid . "'";
-            $res1 = mysql_query($query) or die(mysql_error());
-            while ($rs1 = mysql_fetch_array($res1)) {
+            $res1 = mysqli_query($query) or die(mysqli_error());
+            while ($rs1 = mysqli_fetch_array($res1)) {
                 $couponId = $rs1['coupon_id'];
 
                 //echo $couponId;echo '-------';
 
                 $query = "select * from coupon_limit_period_list  where coupon = '" . $couponId . "'";
-                $res = mysql_query($query) or die('1' . mysql_error());
-                $rs = mysql_fetch_array($res);
+                $res = mysqli_query($query) or die('1' . mysqli_error());
+                $rs = mysqli_fetch_array($res);
                 $limitId = $rs['limit_period_list'];
 
                 $query = "UPDATE coupon SET category = '" . $arrUser['category'] . "',is_sponsored = '" . $arrUser['spons'] . "', valid_from = '" . $arrUser['start_of_publishing'] . "', end_of_publishing = '" . $arrUser['end_of_publishing'] . "', product_info_link = '" . $arrUser['infopage'] . "'  WHERE coupon_id = '" . $couponId . "'";
-                $res = mysql_query($query) or die('2' . mysql_error());
+                $res = mysqli_query($query) or die('2' . mysqli_error());
 
 
                 //echo $icon; die();
                 if ($icon <> '' || $category_image <> '') {
                     $query = "UPDATE coupon SET  `small_image` = '" . $catImg . "' WHERE coupon_id= '" . $couponId . "'";
-                    $res = mysql_query($query) or die('6' . mysql_error());
+                    $res = mysqli_query($query) or die('6' . mysqli_error());
                 }
 
                 if ($_SESSION['preview']['large_image'] <> '') {
                     $query = "UPDATE coupon SET  large_image = '" . $copImg . "' WHERE coupon_id = '" . $couponId . "'";
-                    $res = mysql_query($query) or die('7' . mysql_error());
+                    $res = mysqli_query($query) or die('7' . mysqli_error());
                 }
 
                 ////diferent language function update in coupon
                 //update keywords for coupon
                 $query = "select lang_text.text,lang_text.id from coupon_keywords_lang_list LEFT JOIN lang_text ON coupon_keywords_lang_list.keywords_lang_list = lang_text.id  where coupon_keywords_lang_list.coupon = '" . $couponId . "' AND lang_text.lang = '" . $arrUser['language'] . "'";
-                $res = mysql_query($query) or die('1' . mysql_error());
-                while ($rs = mysql_fetch_array($res)) {
+                $res = mysqli_query($query) or die('1' . mysqli_error());
+                while ($rs = mysqli_fetch_array($res)) {
                     $keyId = $rs['id'];
                 }
 
                 $query = "UPDATE lang_text SET `text` = '" . $arrUser['keywords'] . "'  WHERE id = '" . $keyId . "' AND  lang = '" . $arrUser['language'] . "' ";
-                $res = mysql_query($query) or die('3' . mysql_error());
+                $res = mysqli_query($query) or die('3' . mysqli_error());
 
                 // for title slogen for coupon
                 $query = "select lang_text.text,lang_text.id from coupon_offer_title_lang_list LEFT JOIN lang_text ON coupon_offer_title_lang_list.offer_title_lang_list = lang_text.id  where coupon_offer_title_lang_list.coupon = '" . $couponId . "' AND lang_text.lang = '" . $arrUser['language'] . "'";
-                $res = mysql_query($query) or die('2' . mysql_error());
-                while ($rs = mysql_fetch_array($res)) {
+                $res = mysqli_query($query) or die('2' . mysqli_error());
+                while ($rs = mysqli_fetch_array($res)) {
                     $titleId = $rs['id'];
                 }
                 $query = "UPDATE lang_text SET `text` = '" . $arrUser['offer_slogan_lang_list'] . "' WHERE id = '" . $titleId . "' AND  lang = '" . $arrUser['language'] . "'";
-                $res = mysql_query($query) or die('3' . mysql_error());
+                $res = mysqli_query($query) or die('3' . mysqli_error());
 
                 // for sub slogen for coupon
 
                 $query = "select lang_text.text,lang_text.id from coupon_offer_slogan_lang_list 
                     LEFT JOIN lang_text ON coupon_offer_slogan_lang_list.offer_slogan_lang_list = lang_text.id  
                     where coupon_offer_slogan_lang_list.coupon = '" . $couponId . "' AND lang_text.lang = '" . $arrUser['language'] . "'";
-                $res = mysql_query($query) or die('2' . mysql_error());
-                while ($rs = mysql_fetch_array($res)) {
+                $res = mysqli_query($query) or die('2' . mysqli_error());
+                while ($rs = mysqli_fetch_array($res)) {
                     $subSlogenId = $rs['id'];
                 }
                 $query = "UPDATE lang_text SET `text` = '" . $arrUser['offer_sub_slogan_lang_list'] . "' WHERE id = '" . $subSlogenId . "' AND  lang = '" . $arrUser['language'] . "'";
-                $res = mysql_query($query) or die('3' . mysql_error());
+                $res = mysqli_query($query) or die('3' . mysqli_error());
             }
         }
 
@@ -1082,8 +1082,8 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
             $set_keywords = " 1 AND ";
 
         $query = "select * from employer where u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query);
-        $rs = mysql_fetch_array($res);
+        $res = mysqli_query($query);
+        $rs = mysqli_fetch_array($res);
         $companyId = $rs['company_id'];
 
         $Query = "SELECT advertise.*,sloganT.text as slogan,subsloganT.text as subslogen,keyw.text as keyword, advertise.infopage,lang_text.text as category FROM advertise
@@ -1100,7 +1100,7 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
 
         //$QUE = "SELECT * FROM advertise WHERE u_id = '" . $_SESSION['userid'] . "' AND $set_keywords  s_activ='2'";
 
-        $res = mysql_query($Query) or die(mysql_error());
+        $res = mysqli_query($Query) or die(mysqli_error());
         $total_records = $db->numRows($res);
 
         return $total_records;
@@ -1114,8 +1114,8 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
         $db->makeConnection();
 
         $query16 = "select * from c_s_rel  where advertise_id = '" . $advertiseid . "'";
-        $res16 = mysql_query($query16) or die(mysql_error());
-        while ($rs16 = mysql_fetch_array($res16)) {
+        $res16 = mysqli_query($query16) or die(mysqli_error());
+        while ($rs16 = mysqli_fetch_array($res16)) {
             $couponId = $rs16['coupon_id'];
             $advertiseId = $rs16['advertise_id'];
             $storeId = $rs16['store_id'];
@@ -1124,50 +1124,50 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
 
             if ($advertiseId) {
                 $_SQL14 = "UPDATE c_s_rel SET activ='2' WHERE advertise_id = '" . $advertiseId . "'";
-                $res14 = mysql_query($_SQL14) or die(mysql_error());
+                $res14 = mysqli_query($_SQL14) or die(mysqli_error());
             }
 
             if ($couponId) {
 
                 /////delete coupon
                 $query1 = "DELETE FROM coupon WHERE coupon_id = '" . $couponId . "'";
-                $res1 = mysql_query($query1) or die(mysql_error());
+                $res1 = mysqli_query($query1) or die(mysqli_error());
 
                 $query2 = "select * from coupon_limit_period_list  where coupon = '" . $couponId . "'";
-                $res2 = mysql_query($query2) or die('1' . mysql_error());
-                $rs2 = mysql_fetch_array($res2);
+                $res2 = mysqli_query($query2) or die('1' . mysqli_error());
+                $rs2 = mysqli_fetch_array($res2);
                 $limitId = $rs2['limit_period_list'];
 
 
                 $_SQL3 = "DELETE FROM coupon_limit_period_list WHERE coupon = '" . $couponId . "' AND limit_period_list = '" . $limitId . "' ";
-                $res3 = mysql_query($_SQL3) or die(mysql_error());
+                $res3 = mysqli_query($_SQL3) or die(mysqli_error());
 
                 $query5 = "select * from coupon_offer_slogan_lang_list  where coupon = '" . $couponId . "'";
-                $res5 = mysql_query($query5) or die('1' . mysql_error());
-                while ($rs5 = mysql_fetch_array($res5)) {
+                $res5 = mysqli_query($query5) or die('1' . mysqli_error());
+                while ($rs5 = mysqli_fetch_array($res5)) {
                     $offslogen = $rs5['offer_slogan_lang_list'];
 
                     $_SQL6 = "DELETE FROM coupon_offer_slogan_lang_list WHERE coupon = '" . $couponId . "'";
-                    $res6 = mysql_query($_SQL6) or die(mysql_error());
+                    $res6 = mysqli_query($_SQL6) or die(mysqli_error());
                 }
 
 
                 $query8 = "select * from coupon_offer_title_lang_list  where coupon = '" . $couponId . "'";
-                $res8 = mysql_query($query8) or die('1' . mysql_error());
-                while ($rs8 = mysql_fetch_array($res8)) {
+                $res8 = mysqli_query($query8) or die('1' . mysqli_error());
+                while ($rs8 = mysqli_fetch_array($res8)) {
                     $offtitle = $rs8['offer_title_lang_list'];
 
                     $_SQL9 = "DELETE FROM coupon_offer_title_lang_list WHERE coupon = '" . $couponId . "'";
-                    $res9 = mysql_query($_SQL9) or die(mysql_error());
+                    $res9 = mysqli_query($_SQL9) or die(mysqli_error());
                 }
 
                 $query11 = "select * from coupon_keywords_lang_list  where coupon = '" . $couponId . "'";
-                $res11 = mysql_query($query11) or die('1' . mysql_error());
-                while ($rs11 = mysql_fetch_array($res11)) {
+                $res11 = mysqli_query($query11) or die('1' . mysqli_error());
+                while ($rs11 = mysqli_fetch_array($res11)) {
                     $ckeyword = $rs11['keywords_lang_list'];
 
                     $_SQL12 = "DELETE FROM coupon_keywords_lang_list WHERE coupon = '" . $couponId . "'";
-                    $res12 = mysql_query($_SQL12) or die(mysql_error());
+                    $res12 = mysqli_query($_SQL12) or die(mysqli_error());
                 }
             }
         }
@@ -1208,8 +1208,8 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
             $set_keywords = " 1 AND ";
 
         $query = "select * from employer where u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query);
-        $rs = mysql_fetch_array($res);
+        $res = mysqli_query($query);
+        $rs = mysqli_fetch_array($res);
         $companyId = $rs['company_id'];
 
         $Query = "SELECT advertise.*,sloganT.text as slogan,subsloganT.text as subslogen,keyw.text as keyword, advertise.infopage,lang_text.text as category FROM advertise
@@ -1228,7 +1228,7 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
 
 
         $q = $db->query($Query);
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         // print_r($data); die("dssdada");
@@ -1255,7 +1255,7 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
                         LEFT JOIN  category_names_lang_list  ON category.category_id = category_names_lang_list.category
                         LEFT JOIN  lang_text  ON lang_text.id = category_names_lang_list.names_lang_list
                         WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = subsloganT.lang");
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
             // print_r($data);
         }
@@ -1263,8 +1263,8 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
         $QUE = "select store.* from store left join c_s_rel
         on(c_s_rel.store_id = store.store_id)
         where c_s_rel.advertise_id ='" . $advertiseid . "' AND activ='1'";
-        $res = mysql_query($QUE) or die(mysql_error());
-        while ($row = mysql_fetch_array($res)) {
+        $res = mysqli_query($QUE) or die(mysqli_error());
+        while ($row = mysqli_fetch_array($res)) {
             $storeDetails[] = $row;
         }
         $data['storeDetails'] = $storeDetails;
@@ -1378,8 +1378,8 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
         if ($reseller == '') {
 
             $query = "SELECT pre_loaded_value FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
-            $res = mysql_query($query) or die(mysql_error());
-            $rs_comp = mysql_fetch_array($res);
+            $res = mysqli_query($query) or die(mysqli_error());
+            $rs_comp = mysqli_fetch_array($res);
             $rs_comp['pre_loaded_value'];
             if ($rs_comp['pre_loaded_value']) {
                 //$_SESSION['userid'];
@@ -1388,8 +1388,8 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
                 $query = "SELECT pre_loaded_value FROM user as usr
           LEFT JOIN company as comp ON       (comp.company_id=usr.company_id)
          WHERE usr.u_id='" . $_SESSION['userid'] . "'";
-                $res = mysql_query($query) or die(mysql_error());
-                $rs_comp = mysql_fetch_array($res);
+                $res = mysqli_query($query) or die(mysqli_error());
+                $rs_comp = mysqli_fetch_array($res);
                 $pre_loaded_value = $rs_comp['pre_loaded_value'];
                 //$rs['new_pre_loaded_value'];
             }
@@ -1407,8 +1407,8 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
 
 
             $query = "SELECT pre_loaded_value FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
-            $res = mysql_query($query) or die(mysql_error());
-            $rs = mysql_fetch_array($res);
+            $res = mysqli_query($query) or die(mysqli_error());
+            $rs = mysqli_fetch_array($res);
             $rs['pre_loaded_value'];
             //echo $_SESSION['userid'];
             if ($arrUser['is_sponsored'] == 1 && ($rs['pre_loaded_value'] == '0' || $rs['pre_loaded_value'] == null)) {
@@ -1508,14 +1508,14 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
         $advertiseId = uuid();
         /// Select company id of this user
         $QUE = "select company_id from company where u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($QUE) or die("Get Company : " . mysqli_error());
+        $row = mysqli_fetch_array($res);
         $companyId = $row['company_id'];
 
         if ($companyId == '') {
             $QUE33 = "select company_id from employer where u_id='" . $_SESSION['userid'] . "'";
-            $res33 = mysql_query($QUE33) or die(mysql_error());
-            $rs33 = mysql_fetch_array($res33);
+            $res33 = mysqli_query($QUE33) or die(mysqli_error());
+            $rs33 = mysqli_fetch_array($res33);
             $empCompId = $rs33['company_id'];
             $companyId = $empCompId;
         }
@@ -1527,20 +1527,20 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
 //  New View Option Kent  -->
         $query = "INSERT INTO advertise(`advertise_id`,`company_id`,`u_id`, `small_image`,`large_image`, `spons`, `category`, `start_of_publishing`,`end_of_publishing`,`advertise_name`,`view_opt`,`infopage`,`s_activ`)
                 VALUES ('" . $advertiseId . "','" . $companyId . "','" . $_SESSION['userid'] . "', '" . $catImg . "', '" . $copImg . "','" . $arrUser['spons'] . "','" . $arrUser['category'] . "','" . $arrUser['start_of_publishing'] . "','" . $arrUser['end_of_publishing'] . "','" . $arrUser['advertise_name'] . "','" . $arrUser['viewopt'] . "','" . $arrUser['infopage'] . "','0');";
-        $res = mysql_query($query) or die("Inset advertise : " . mysql_error());
+        $res = mysqli_query($query) or die("Inset advertise : " . mysqli_error());
         if ($reseller != '') {
             $query = "UPDATE advertise SET `reseller_status` = 'P' WHERE advertise_id = '" . $advertiseId . "'";
-            $res = mysql_query($query);
+            $res = mysqli_query($query);
         }
 
 
         $sloganLangId = uuid();
         $_SQL = "insert into lang_text(id,lang,text) values('" . $sloganLangId . "','" . $arrUser['lang'] . "','" . $arrUser['offer_slogan_lang_list'] . "')";
-        $res = mysql_query($_SQL) or die("title slogan in lang_text : " . mysql_error());
+        $res = mysqli_query($_SQL) or die("title slogan in lang_text : " . mysqli_error());
 
         $subSloganLangId = uuid();
         $_SQL = "insert into lang_text(id,lang,text) values('" . $subSloganLangId . "','" . $arrUser['lang'] . "','" . $arrUser['offer_sub_slogan_lang_list'] . "')";
-        $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+        $res = mysqli_query($_SQL) or die("sub slogan in lang_text : " . mysqli_error());
 
 
         ////keyword
@@ -1548,36 +1548,36 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
      //   if (trim($arrUser['keywords']) != "") 
         {
         $_SQL = "insert into lang_text(id,lang,text) values('" . $keywordId . "','" . $arrUser['lang'] . "','" . $arrUser['keywords'] . "')";
-        $res = mysql_query($_SQL) or die("title slogan in lang_text : " . mysql_error());
+        $res = mysqli_query($_SQL) or die("title slogan in lang_text : " . mysqli_error());
         
          $_SQL = "insert into advertise_keyword(`advertise_id`,`offer_keyword`) values('" . $advertiseId . "','" . $keywordId . "')";
-        $res = mysql_query($_SQL) or die("Sub slogan id in relational table : " . mysql_error());
+        $res = mysqli_query($_SQL) or die("Sub slogan id in relational table : " . mysqli_error());
          }
 
         $SystemkeyId = uuid();
         $_SQL = "insert into lang_text(id,lang,text) values('" . $SystemkeyId . "','" . $arrUser['lang'] . "','" . $advertiseId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
 
         $_SQL = "insert into advertise_keyword(`advertise_id`,system_key) values('" . $advertiseId . "','" . $SystemkeyId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
 
 
         $Systemkey_companyId = uuid();  // company ID as Key 
         $_SQL = "insert into lang_text(id,lang,text) values('" . $Systemkey_companyId . "','" . $arrUser['lang'] . "','" . $companyId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
 
         $_SQL = "insert into advertise_keyword(`advertise_id`,system_key) values('" . $advertiseId . "','" . $Systemkey_companyId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
         
 
         ///Slogan and language table relation entry ///
         $_SQL = "insert into advertise_offer_slogan_lang_list(`advertise_id`,`offer_slogan_lang_list`) values('" . $advertiseId . "','" . $sloganLangId . "')";
-        $res = mysql_query($_SQL) or die("Tital slogan id in relational table : " . mysql_error());
+        $res = mysqli_query($_SQL) or die("Tital slogan id in relational table : " . mysqli_error());
 
 
         ///Sub slogan and language table relation entry ///
         $_SQL = "insert into advertise_offer_sub_slogan_lang_list(`advertise_id`,`offer_sub_slogan_lang_list`) values('" . $advertiseId . "','" . $subSloganLangId . "')";
-        $res = mysql_query($_SQL) or die("Sub slogan id in relational table : " . mysql_error());
+        $res = mysqli_query($_SQL) or die("Sub slogan id in relational table : " . mysqli_error());
 
       
 
@@ -1735,8 +1735,8 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
         $advertiseId = uuid();
         /// Select company id of this user
         $QUE = "select company_id from company where u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($QUE) or die("Get Company : " . mysqli_error());
+        $row = mysqli_fetch_array($res);
         $companyId = $row['company_id'];
 
         $catImg = IMAGE_AMAZON_PATH . 'category/' . $arrUser['small_image'];
@@ -1746,35 +1746,35 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
 //  New View Option Kent  -->
         $query = " INSERT INTO advertise(`advertise_id`,`company_id`,`u_id`, `small_image`,`large_image`, `spons`, `category`, `start_of_publishing`,`end_of_publishing`,`advertise_name`,`view_opt`,`keywords`,`infopage`,`s_activ`)
                 VALUES ('" . $advertiseId . "','" . $companyId . "','" . $_SESSION['userid'] . "', '" . $catImg . "', '" . $copImg . "','" . $arrUser['spons'] . "','" . $arrUser['category'] . "','" . $arrUser['start_of_publishing'] . "','" . $arrUser['end_of_publishing'] . "','" . $arrUser['advertise_name'] . "','" . $arrUser['viewopt'] . "','" . $arrUser['keywords'] . "','" . $arrUser['infopage'] . "','0');";
-        $res = mysql_query($query) or die("Inset advertise : " . mysql_error());
+        $res = mysqli_query($query) or die("Inset advertise : " . mysqli_error());
 
           ////keyword
         $keywordId = uuid();
          //   if (trim($arrUser['keywords']) != "") 
         {
             $_SQL = "insert into lang_text(id,lang,text) values('" . $keywordId . "','" . $arrUser['lang'] . "','" . $arrUser['keywords'] . "')";
-            $res = mysql_query($_SQL) or die("Keyword in lang_text : " . mysql_error());
+            $res = mysqli_query($_SQL) or die("Keyword in lang_text : " . mysqli_error());
         
             $_SQL = "insert into advertise_keyword(`advertise_id`,`offer_keyword`) values('" . $advertiseId . "','" . $keywordId . "')";
-            $res = mysql_query($_SQL) or die("Keyword in relational table : " . mysql_error());
+            $res = mysqli_query($_SQL) or die("Keyword in relational table : " . mysqli_error());
         }
         
         
         $SystemkeyId = uuid();
         $_SQL = "insert into lang_text(id,lang,text) values('" . $SystemkeyId . "','" . $arrUser['lang'] . "','" . $advertiseId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
 
         $_SQL = "insert into advertise_keyword(`advertise_id`,system_key) values('" . $advertiseId . "','" . $SystemkeyId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
 
         
           
         $Systemkey_companyId = uuid();  // company ID as Key 
         $_SQL = "insert into lang_text(id,lang,text) values('" . $Systemkey_companyId . "','" . $arrUser['lang'] . "','" . $companyId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
 
         $_SQL = "insert into advertise_keyword(`advertise_id`,system_key) values('" . $advertiseId . "','" . $Systemkey_companyId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
         
         
         
@@ -1784,21 +1784,21 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
         ////////Slogan entry///////
         $sloganLangId = uuid();
         $_SQL = "insert into lang_text(id,lang,text) values('" . $sloganLangId . "','" . $arrUser['lang'] . "','" . $arrUser['offer_slogan_lang_list'] . "')";
-        $res = mysql_query($_SQL) or die("title slogan in lang_text : " . mysql_error());
+        $res = mysqli_query($_SQL) or die("title slogan in lang_text : " . mysqli_error());
 
         ////////Sub Slogen entry///////
         $subSloganLangId = uuid();
         $_SQL = "insert into lang_text(id,lang,text) values('" . $subSloganLangId . "','" . $arrUser['lang'] . "','" . $arrUser['offer_sub_slogan_lang_list'] . "')";
-        $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+        $res = mysqli_query($_SQL) or die("sub slogan in lang_text : " . mysqli_error());
 
         ///Slogan and language table relation entry ///
         $_SQL = "insert into advertise_offer_slogan_lang_list(`advertise_id`,`offer_slogan_lang_list`) values('" . $advertiseId . "','" . $sloganLangId . "')";
-        $res = mysql_query($_SQL) or die("Tital slogan id in relational table : " . mysql_error());
+        $res = mysqli_query($_SQL) or die("Tital slogan id in relational table : " . mysqli_error());
 
 
         ///Sub slogan and language table relation entry ///
         $_SQL = "insert into advertise_offer_sub_slogan_lang_list(`advertise_id`,`offer_sub_slogan_lang_list`) values('" . $advertiseId . "','" . $subSloganLangId . "')";
-        $res = mysql_query($_SQL) or die("Sub slogan id in relational table : " . mysql_error());
+        $res = mysqli_query($_SQL) or die("Sub slogan id in relational table : " . mysqli_error());
 
 
         $_SESSION['MESSAGE'] = ADVERTISE_OFFER_SUCCESS;
@@ -1845,8 +1845,8 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
                         advertise.u_id='" . $_SESSION['userid'] . "' AND $set_keywords  end_of_publishing < CURDATE() AND s_activ!='2' AND lang_text.lang = subsloganT.lang GROUP BY advertise_id " . $limit;
 
 
-        $res = mysql_query($QUE);
-        while ($rs = mysql_fetch_array($res)) {
+        $res = mysqli_query($QUE);
+        while ($rs = mysqli_fetch_array($res)) {
 
             $data[] = $rs;
             //echo "<pre>"; print_r($rs); echo "</pre>";
@@ -1862,12 +1862,12 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
         //   $slogan_id = $this->get_slogan($advertiseid);
 
         /*    $query = "select * from advertise  where u_id = '" . $_SESSION['userid'] . "'";
-          $res = mysql_query($query) or die(mysql_error());
-          $rs = mysql_fetch_array($res);
+          $res = mysqli_query($query) or die(mysqli_error());
+          $rs = mysqli_fetch_array($res);
           $advertiseId = $rs['advertise_id'];
          */
         $query = "UPDATE `advertise` SET  `s_activ` = '2' WHERE `advertise`.`advertise_id` = '" . $advertiseid . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($query) or die(mysqli_error());
 
         $inoutObj = new inOut();
         $url = BASE_URL . 'showAdvertise.php?m=showadvtoffer';
@@ -1885,31 +1885,31 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
         $db->makeConnection();
 
         $query = "select * from c_s_rel  where store_id = '" . $storeId . "' AND advertise_id = '" . $advertiseId . "'"; //die();
-        $res1 = mysql_query($query) or die(mysql_error());
-        $rs = mysql_fetch_array($res1);
+        $res1 = mysqli_query($query) or die(mysqli_error());
+        $rs = mysqli_fetch_array($res1);
         $couponId = $rs['coupon_id'];
 
         if ($couponId) {
             $query = "select * from coupon_offer_slogan_lang_list  where coupon = '" . $couponId . "'";
-            $res = mysql_query($query) or die('1' . mysql_error());
-            $rs = mysql_fetch_array($res);
+            $res = mysqli_query($query) or die('1' . mysqli_error());
+            $rs = mysqli_fetch_array($res);
             $offslogen = $rs['offer_slogan_lang_list'];
 
             $_SQL = "DELETE FROM coupon_offer_slogan_lang_list WHERE coupon = '" . $couponId . "'";
-            $res = mysql_query($_SQL) or die(mysql_error());
+            $res = mysqli_query($_SQL) or die(mysqli_error());
 
 
             $query = "select * from coupon_offer_title_lang_list  where coupon = '" . $couponId . "'";
-            $res = mysql_query($query) or die('1' . mysql_error());
-            $rs = mysql_fetch_array($res);
+            $res = mysqli_query($query) or die('1' . mysqli_error());
+            $rs = mysqli_fetch_array($res);
             $offtitle = $rs['offer_title_lang_list'];
 
             $_SQL = "DELETE FROM coupon_offer_title_lang_list WHERE coupon = '" . $couponId . "'";
-            $res = mysql_query($_SQL) or die(mysql_error());
+            $res = mysqli_query($_SQL) or die(mysqli_error());
         }
 
         $_SQL = "UPDATE c_s_rel SET activ='2' WHERE store_id = '" . $storeId . "' AND advertise_id='" . $advertiseId . "'";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
 
         $url = BASE_URL . 'showAdvertise.php';
         $inoutObj->reDirect($url);
@@ -1932,8 +1932,8 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
         LEFT JOIN advertise_offer_slogan_lang_list ON advertise.advertise_id = advertise_offer_slogan_lang_list.advertise_id
         LEFT JOIN lang_text ON advertise_offer_slogan_lang_list.offer_slogan_lang_list = lang_text.id
         where advertise.advertise_id = '" . $advertiseid . "' AND lang_text.lang = '" . $arrUser['lang'] . "'"; //die();
-        $res = mysql_query($query) or die('1' . mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die('1' . mysqli_error());
+        $row = mysqli_fetch_array($res);
         $text = $row['text'];
         $companyId = $row['company_id'];
         //  echo "<pre>"; print_r($row); echo "</pre>" ; die( $query);
@@ -1955,12 +1955,12 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
         $slogenId = uuid();
         $query = "INSERT INTO advertise_offer_slogan_lang_list(`advertise_id`,`offer_slogan_lang_list`)
                 VALUES ('" . $advertiseid . "','" . $slogenId . "');";
-        $res = mysql_query($query) or die("Inset advertise : " . mysql_error());
+        $res = mysqli_query($query) or die("Inset advertise : " . mysqli_error());
 
         $subslogenId = uuid();
         $query = "INSERT INTO advertise_offer_sub_slogan_lang_list(`advertise_id`,`offer_sub_slogan_lang_list`)
                 VALUES ('" . $advertiseid . "','" . $subslogenId . "');";
-        $res = mysql_query($query) or die("Inset advertise : " . mysql_error());
+        $res = mysqli_query($query) or die("Inset advertise : " . mysqli_error());
 
     //    if ($arrUser['searchKeyword'] != "") 
        {
@@ -1968,39 +1968,39 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
          $keyId = uuid();
         $query = "INSERT INTO advertise_keyword(`advertise_id`,`offer_keyword`)
                 VALUES ('" . $advertiseid . "','" . $keyId . "');";
-        $res = mysql_query($query) or die("Inset advertise : " . mysql_error());
+        $res = mysqli_query($query) or die("Inset advertise : " . mysqli_error());
 
         $query = "INSERT INTO lang_text(`id`,`lang`,`text`)
                 VALUES ('" . $keyId . "','" . $arrUser['lang'] . "','" . $arrUser['searchKeyword'] . "');";
-        $res = mysql_query($query) or die("Inset advertise : " . mysql_error());
+        $res = mysqli_query($query) or die("Inset advertise : " . mysqli_error());
         }
 
 
         $SystemkeyId = uuid();
         $_SQL = "insert into lang_text(id,lang,text) values('" . $SystemkeyId . "','" . $arrUser['lang'] . "','" . $advertiseid . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
 
         $_SQL = "insert into advertise_keyword(`advertise_id`,system_key) values('" . $advertiseid . "','" . $SystemkeyId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
         
         
           
         $Systemkey_companyId = uuid();  // company ID as Key 
         $_SQL = "insert into lang_text(id,lang,text) values('" . $Systemkey_companyId . "','" . $arrUser['lang'] . "','" . $companyId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
         
         $_SQL = "insert into advertise_keyword(`advertise_id`,system_key) values('" . $advertiseid . "','" . $Systemkey_companyId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
         
 
 
         $query = "INSERT INTO lang_text(`id`,`lang`,`text`)
                 VALUES ('" . $slogenId . "','" . $arrUser['lang'] . "','" . $arrUser['titleSlogan'] . "');";
-        $res = mysql_query($query) or die("Inset advertise : " . mysql_error());
+        $res = mysqli_query($query) or die("Inset advertise : " . mysqli_error());
 
         $query = "INSERT INTO lang_text(`id`,`lang`,`text`)
                 VALUES ('" . $subslogenId . "','" . $arrUser['lang'] . "','" . $arrUser['subSlogan'] . "');";
-        $res = mysql_query($query) or die("Inset advertise : " . mysql_error());
+        $res = mysqli_query($query) or die("Inset advertise : " . mysqli_error());
 
         
         $_SESSION[MESSAGE] = ADD_LANG;
@@ -2035,7 +2035,7 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
 
                         WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $lang . "' AND lang_text.lang = subsloganT.lang AND
                          lang_text.lang = sloganT.lang AND lang_text.lang = keyw.lang  GROUP BY advertise.advertise_id");
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
             // print_r($data);
         }
@@ -2043,8 +2043,8 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
         $QUE = "select store.* from store left join c_s_rel
         on(c_s_rel.store_id = store.store_id)
         where c_s_rel.advertise_id ='" . $advertiseid . "' AND activ='1' AND u_id ='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($QUE) or die(mysql_error());
-        while ($row = mysql_fetch_array($res)) {
+        $res = mysqli_query($QUE) or die(mysqli_error());
+        while ($row = mysqli_fetch_array($res)) {
             $storeDetails[] = $row;
         }
         $data['storeDetails'] = $storeDetails; 
@@ -2088,7 +2088,7 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
                         LEFT JOIN  lang_text  ON lang_text.id = category_names_lang_list.names_lang_list
                         WHERE advertise.u_id = '" . $_SESSION['userid'] . "' AND $set_keywords s_activ='2' AND lang_text.lang = subsloganT.lang GROUP BY advertise_id LIMIT {$paging_limit}";
         $q = $db->query($Query);
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         // print_r($data); die("dssdada");
@@ -2127,7 +2127,7 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
                         LEFT JOIN  category_names_lang_list  ON (category.category_id = category_names_lang_list.category)
                         LEFT JOIN  lang_text  ON lang_text.id = category_names_lang_list.names_lang_list
                         WHERE advertise.u_id = '" . $_SESSION['userid'] . "' AND $set_keywords s_activ='2' AND lang_text.lang = subsloganT.lang GROUP BY advertise_id ";
-        $res = mysql_query($Query) or die(mysql_error());
+        $res = mysqli_query($Query) or die(mysqli_error());
         $total_records = $db->numRows($res);
 
         return $total_records;
@@ -2318,8 +2318,8 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
         $advertiseId = uuid();
         /// Select company id of this user
         $QUE = "select company_id from company where u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($QUE) or die("Get Company : " . mysqli_error());
+        $row = mysqli_fetch_array($res);
         $companyId = $row['company_id'];
 
         $catImg = _UPLOAD_URLDIR_ . "category/" . $arrUser['small_image'];
@@ -2329,68 +2329,68 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
 //  New View Option Kent  -->
         $query = "INSERT INTO advertise(`advertise_id`,`company_id`,`u_id`, `small_image`,`large_image`, `spons`, `category`, `start_of_publishing`,`end_of_publishing`,`advertise_name`,`view_opt`, `infopage`)
                 VALUES ('" . $advertiseId . "','" . $companyId . "','" . $_SESSION['userid'] . "', '" . $catImg . "', '" . $copImg . "','" . $arrUser['spons'] . "','" . $arrUser['category'] . "','" . $arrUser['start_of_publishing'] . "','" . $arrUser['end_of_publishing'] . "','" . $arrUser['advertise_name'] . "','" . $arrUser['viewopt'] . "','" . $arrUser['infopage'] . "');";
-        $res = mysql_query($query) or die("Inset advertise : " . mysql_error());
+        $res = mysqli_query($query) or die("Inset advertise : " . mysqli_error());
        
 
         if ($reseller != '') {
             $query = "UPDATE advertise SET `reseller_status` = 'P' WHERE advertise_id = '" . $advertiseId . "'";
-            $res = mysql_query($query);
+            $res = mysqli_query($query);
         }
 
         ////////Slogan entry///////
         $sloganLangId = uuid();
         $_SQL = "insert into lang_text(id,lang,text) values('" . $sloganLangId . "','" . $arrUser['lang'] . "','" . $arrUser['offer_slogan_lang_list'] . "')";
-        $res = mysql_query($_SQL) or die("title slogan in lang_text : " . mysql_error());
+        $res = mysqli_query($_SQL) or die("title slogan in lang_text : " . mysqli_error());
 
         ////////Sub Slogen entry///////
         $subSloganLangId = uuid();
         $_SQL = "insert into lang_text(id,lang,text) values('" . $subSloganLangId . "','" . $arrUser['lang'] . "','" . $arrUser['offer_sub_slogan_lang_list'] . "')";
-        $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+        $res = mysqli_query($_SQL) or die("sub slogan in lang_text : " . mysqli_error());
 
         ////////Sub Slogen entry///////
         $keywordId = uuid();
      //   if (trim($arrUser['keywords']) != "")         
         {
         $_SQL = "insert into lang_text(id,lang,text) values('" . $keywordId . "','" . $arrUser['lang'] . "','" . $arrUser['keywords'] . "')";
-        $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+        $res = mysqli_query($_SQL) or die("sub slogan in lang_text : " . mysqli_error());
         
          $_SQL = "insert into advertise_keyword(`advertise_id`,`offer_keyword`) values('" . $advertiseId . "','" . $keywordId . "')";
-        $res = mysql_query($_SQL) or die("keyword in relational table : " . mysql_error());
+        $res = mysqli_query($_SQL) or die("keyword in relational table : " . mysqli_error());
          }
 
 
 
         $SystemkeyId = uuid();
         $_SQL = "insert into lang_text(id,lang,text) values('" . $SystemkeyId . "','" . $arrUser['lang'] . "','" . $advertiseId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
 
         $_SQL = "insert into advertise_keyword(`advertise_id`,system_key) values('" . $advertiseId . "','" . $SystemkeyId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
 
 
           
         $Systemkey_companyId = uuid();  // company ID as Key 
         $_SQL = "insert into lang_text(id,lang,text) values('" . $Systemkey_companyId . "','" . $arrUser['lang'] . "','" . $companyId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
 
         $_SQL = "insert into advertise_keyword(`advertise_id`,system_key) values('" . $advertiseId . "','" . $Systemkey_companyId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysqli_error());
         
         
 
         ///Slogan and language table relation entry ///
         $_SQL = "insert into advertise_offer_slogan_lang_list(`advertise_id`,`offer_slogan_lang_list`) values('" . $advertiseId . "','" . $sloganLangId . "')";
-        $res = mysql_query($_SQL) or die("Tital slogan id in relational table : " . mysql_error());
+        $res = mysqli_query($_SQL) or die("Tital slogan id in relational table : " . mysqli_error());
 
 
         ///Sub slogan and language table relation entry ///
         $_SQL = "insert into advertise_offer_sub_slogan_lang_list(`advertise_id`,`offer_sub_slogan_lang_list`) values('" . $advertiseId . "','" . $subSloganLangId . "')";
-        $res = mysql_query($_SQL) or die("Sub slogan id in relational table : " . mysql_error());
+        $res = mysqli_query($_SQL) or die("Sub slogan id in relational table : " . mysqli_error());
 
        
 
         $query = "UPDATE user SET activ='3' WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die("Update user for status : " . mysql_error());
+        $res = mysqli_query($query) or die("Update user for status : " . mysqli_error());
 
 
         $_SESSION['preview'] = "";
@@ -2416,22 +2416,22 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
         $error = '';
 
         $query = "SELECT * FROM company WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query);
-        $rs = mysql_fetch_array($res);
+        $res = mysqli_query($query);
+        $rs = mysqli_fetch_array($res);
         $resellerId = $rs['seller_id'];
         $companyId = $rs['company_id'];
         $codeCheck = $rs['ccode'];
 
         //// select company id using reseller id
         $query1 = "SELECT company_id FROM employer WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res1 = mysql_query($query1);
-        $rs1 = mysql_fetch_array($res1);
+        $res1 = mysqli_query($query1);
+        $rs1 = mysqli_fetch_array($res1);
         $emplyCompanyId = $rs1['company_id'];
 
 
         $query2 = "SELECT seller_id FROM company WHERE company_id = '" . $emplyCompanyId . "'";
-        $res2 = mysql_query($query2);
-        $rs2 = mysql_fetch_array($res2);
+        $res2 = mysqli_query($query2);
+        $rs2 = mysqli_fetch_array($res2);
         $emplyResellerId = $rs2['seller_id'];
 
         if (($resellerId == '') && ($emplyResellerId == '')) {
@@ -2443,17 +2443,17 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
             if ($codeCheck == '') {
 
                 $query = "SELECT * FROM ccode WHERE ccode = '" . $ccode . "'";
-                $res = mysql_query($query) or die(mysql_error());
-                $rs = mysql_fetch_array($res);
+                $res = mysqli_query($query) or die(mysqli_error());
+                $rs = mysqli_fetch_array($res);
                 $ccValue = $rs['value'];
 
                 // $date = date('Y-m-d H:i:s');
                 $query = "UPDATE company SET  `ccode` = '" . $ccode . "', `cc_value` = '" . $ccValue . "'  WHERE u_id = '" . $_SESSION['userid'] . "'";
-                $res = mysql_query($query) or die(mysql_error());
+                $res = mysqli_query($query) or die(mysqli_error());
             }
 
             $query = "UPDATE advertise SET `reseller_status` = 'R'  WHERE advertise_id = '" . $advertiseid . "' ";
-            $res = mysql_query($query);
+            $res = mysqli_query($query);
 
             $url = BASE_URL . 'showAdvertise.php';
             $inoutObj->reDirect($url);
@@ -2474,8 +2474,8 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
 
         ////check reseller_id null or not
         $query = "SELECT * FROM company WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query);
-        $rs = mysql_fetch_array($res);
+        $res = mysqli_query($query);
+        $rs = mysqli_fetch_array($res);
         $resellerId = $rs['seller_id'];
         $companyId = $rs['company_id'];
         $codeCheck = $rs['ccode'];
@@ -2483,14 +2483,14 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
 
         //// select company id using reseller id
         $query1 = "SELECT company_id FROM employer WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res1 = mysql_query($query1);
-        $rs1 = mysql_fetch_array($res1);
+        $res1 = mysqli_query($query1);
+        $rs1 = mysqli_fetch_array($res1);
         $emplyCompanyId = $rs1['company_id'];
 
 
         $query2 = "SELECT seller_id FROM company WHERE company_id = '" . $emplyCompanyId . "'";
-        $res2 = mysql_query($query2);
-        $rs2 = mysql_fetch_array($res2);
+        $res2 = mysqli_query($query2);
+        $rs2 = mysqli_fetch_array($res2);
         $emplyResellerId = $rs2['seller_id'];
 
         if (($resellerId == '') && ($emplyResellerId == '')) {
@@ -2502,8 +2502,8 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
 
             //get ccvalue according ccode
             $query = "SELECT * FROM ccode WHERE ccode = '" . $ccode . "'";
-            $res = mysql_query($query) or die(mysql_error());
-            $rs = mysql_fetch_array($res);
+            $res = mysqli_query($query) or die(mysqli_error());
+            $rs = mysqli_fetch_array($res);
             $ccValue = $rs['value'];
 
 
@@ -2512,7 +2512,7 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
 
                 //$date = date('Y-m-d H:i:s');
                 $query = "UPDATE company SET `ccode` = '" . $ccode . "', `cc_value` = '" . $ccValue . "'  WHERE u_id = '" . $_SESSION['userid'] . "'";
-                $res = mysql_query($query) or die(mysql_error());
+                $res = mysqli_query($query) or die(mysqli_error());
             }
 
             //////////////////if ccode already exist in table//////////
@@ -2521,7 +2521,7 @@ WHERE  advertise.advertise_id='" . $advertiseid . "' AND lang_text.lang = '" . $
                 $companyId = $emplyCompanyId;
             }
             $query = "UPDATE advertise SET `reseller_status` = 'A' , `company_id` = '" . $companyId . "'  WHERE advertise_id = '" . $advertiseid . "' ";
-            $res = mysql_query($query);
+            $res = mysqli_query($query);
 
             $url = BASE_URL . 'showAdvertise.php';
             $inoutObj->reDirect($url);

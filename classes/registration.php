@@ -114,7 +114,7 @@ class registration {
 			
             $query = "INSERT INTO user (u_id, email, passwd, fname, lname, role, phone, mobile_phone,email_varify_code,activ)
                 VALUES ('" . $rowUniqueId . "', '" . $arrUser['email'] . "', '" . $password_hash . "', '" . $arrUser['fname'] . "', '" . $arrUser['lname'] . "','" . $arrUser['role'] . "', '" . $arrUser['cprefix'] . $arrUser['phone'] . "', '" . $arrUser['cprefix'] . $arrUser['mobile_phone'] . "','" . $arrUser['email_varify_code'] . "','8');";
-            //$res = mysql_query($query) or die(mysql_error());
+            //$res = mysqli_query($query) or die(mysqli_error());
 
                 // Create connection
             $conn = $db->makeConnection();
@@ -186,7 +186,7 @@ class registration {
              $temp_value = $temp_campId.'#'.$temp_ccode.'#'.$temp_uId;
 
              $query = "UPDATE user SET temp='" . $temp_value . "' WHERE u_id = '" . $_SESSION['userid'] . "'";
-            $res = mysql_query($query) or die(mysqli_error($conn));
+            $res = mysqli_query($query) or die(mysqli_error($conn));
               
             }
 
@@ -372,7 +372,7 @@ class registration {
             // Since we are not clear at company state whether to add these details as store.
             // $query = "INSERT INTO store(`store_id` ,`u_id` ,`store_name` ,`street`,`city` ,`country`)
             // VALUES ('".$storeUniqueId."', '".$_SESSION['userid']."', '".$arrUser['company_name']."', '".$arrUser['street']."', '".$arrUser['city']."', '".$arrUser['country']."');";
-            // $res = mysql_query($query) or die(mysql_error());
+            // $res = mysqli_query($query) or die(mysqli_error());
 
 
             $_SESSION['MESSAGE'] = ADD_COUNTRY_SUCCESS;
@@ -410,12 +410,12 @@ class registration {
         $_SESSION["Retailers"] = $retailers[1];
 
         $query = "select * from user where u_id='" . $uid[1] . "'";
-        $res = mysqli_query($conn, $query) or die(mysql_error());
+        $res = mysqli_query($conn, $query) or die(mysqli_error());
         $result = mysqli_fetch_array($res);
 	//echo $result['email_varify_code']." VCODE ".$vcode['0']; die();
         if ($result['email_varify_code'] == $vcode['1']) {
             $query = "UPDATE user SET email_varify_code='0', activ='1' where  u_id='" . $uid[1] . "'";
-            $res = mysqli_query($conn ,$query) or die(mysql_error());
+            $res = mysqli_query($conn ,$query) or die(mysqli_error());
 
             $_SESSION['userid'] = $result['u_id'];
             $_SESSION['userrole'] = $result['role'];
@@ -465,7 +465,7 @@ class registration {
 		$query = "select iso,printable_name from country where iso in('SE','IN','DE')";
         $result = mysqli_query($conn, $query);
 
-		//$result = mysql_query($query);
+		//$result = mysqli_query($query);
 		$countryList=array();
 		
 		while($row=mysqli_fetch_array($result))
@@ -576,7 +576,7 @@ class registration {
 			
             $query = "INSERT INTO user(`u_id`, `email`, `passwd`, `fname`, `lname`, `role`, `phone`, `mobile_phone`,`email_varify_code`,`activ`,`street_addr`,`city_addr`,`home_zip`,`country`,`social_number`,`resellers_bank`)
                 VALUES ('" . $rowUniqueId . "', '" . $arrUser['email'] . "', '" . $password_hash . "', '" . $arrUser['fname'] . "', '" . $arrUser['lname'] . "','" . $arrUser['role'] . "', '" . $arrUser['cprefix'] . $arrUser['phone'] . "', '" . $arrUser['cprefix'] . $arrUser['mobile_phone'] . "','" . $arrUser['email_varify_code'] . "','8','" . $arrUser['street_addr'] . "','" . $arrUser['city_addr'] . "','" . $arrUser['home_zip'] . "','" . $arrUser['country'] . "','" . $arrUser['social_number'] . "','" . $arrUser['resellers_bank'] . "');";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($query) or die(mysqli_error());
 
             if ($res) {
                 $mailObj = new emails();
@@ -614,12 +614,12 @@ class registration {
         $_SESSION["Retailers"] = $retailers[1];
 
         $query = "select * from user where u_id='" . $uid[1] . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $result = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die(mysqli_error());
+        $result = mysqli_fetch_array($res);
 		//echo $result['email_varify_code']." VCODE ".$vcode['0']; die();
         if ($result['email_varify_code'] == $vcode['1']) {
             $query = "UPDATE user SET email_varify_code='0', activ='1' where  u_id='" . $uid[1] . "'";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($query) or die(mysqli_error());
 
             $_SESSION['userid'] = $result['u_id'];
             $_SESSION['userrole'] = $result['role'];

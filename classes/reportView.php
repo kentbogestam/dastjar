@@ -50,7 +50,7 @@ class reportView {
  						
 
         $q = $db->query($query);
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $financeDetails[] = $rs;
         }
 
@@ -82,7 +82,7 @@ class reportView {
  						
 
         $q = $db->query($query);
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $financeDetails[] = $rs;
         }
       //  echo "<pre>"; print_r($financeDetails); echo "</pre>";die();
@@ -118,7 +118,7 @@ class reportView {
 		
 		if  ($db->numRows($q) > 0)
 		{
-			while ($rs = mysql_fetch_array($q)) {
+			while ($rs = mysqli_fetch_array($q)) {
 			
 			 if ($rs['product_name'] <> '')
 				$financeDetails[] = $rs;
@@ -150,7 +150,7 @@ class reportView {
         $q = $db->query($query);
 		if  ($db->numRows($q) > 0)
 		{
-			while ($rs = mysql_fetch_array($q)) {
+			while ($rs = mysqli_fetch_array($q)) {
 				
 			 if ($rs['store_name'] <> '')
 				$financeDetails[] = $rs;
@@ -178,13 +178,13 @@ class reportView {
 //        WHERE store.u_id='" . $_SESSION['userid'] . "'";
 //
 //        $q = $db->query($query);
-//        while ($rs = mysql_fetch_array($q)) {
+//        while ($rs = mysqli_fetch_array($q)) {
 //             $query = "SELECT  COUNT(coupon.is_sponsored) as sponcount   FROM coupon
 //       LEFT JOIN         store                    ON    store.store_id = coupon.store
 //        WHERE store.store_id='" . $rs . "'";
 //        }
-//      $res = mysql_query($query) or die(mysql_error());
-//       $row = mysql_fetch_array($res);
+//      $res = mysqli_query($query) or die(mysqli_error());
+//       $row = mysqli_fetch_array($res);
 //      $storeId = $row['store_id'];
 //
 //

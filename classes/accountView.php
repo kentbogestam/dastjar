@@ -69,7 +69,7 @@ class accountView {
         $error = '';
 
         $QUE = "select company_id from employer where u_id='" . $_SESSION['userid'] . "'";
-        $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysql_error());
+        $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysqli_error());
         $row = mysqli_fetch_array($res);
         $companyId = $row['company_id'];
         //echo  "$companyId";
@@ -82,7 +82,7 @@ class accountView {
         }
         else
             $QUE = "select company_id from user where u_id='" . $_SESSION['userid'] . "'";
-        $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysql_error());
+        $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysqli_error());
         $row = mysqli_fetch_array($res);
         $companyId = $row['company_id'];
         //echo  "$companyId";
@@ -112,60 +112,60 @@ class accountView {
         $data['lAccount'] = $_POST['loadaccount'];
 
         $query = "SELECT * FROM employer WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $arr = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die(mysqli_error());
+        $arr = mysqli_fetch_array($res);
         $companyId = $arr['company_id'];
 
         $query = "SELECT pre_loaded_value  FROM company WHERE company_id = '" . $companyId . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $arr = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die(mysqli_error());
+        $arr = mysqli_fetch_array($res);
         $budget = $arr['pre_loaded_value'];
        
         $queryt = "SELECT company_id FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
-        $rest = mysql_query($queryt) or die(mysql_error());
-        $arrt = mysql_fetch_array($rest);
+        $rest = mysqli_query($queryt) or die(mysqli_error());
+        $arrt = mysqli_fetch_array($rest);
         $checkCompId = $arrt['company_id'];
 
         if($checkCompId == '')
         {
         $queryt = "SELECT company_id FROM employer WHERE u_id='" . $_SESSION['userid'] . "'";
-        $rest = mysql_query($queryt) or die(mysql_error());
-        $arrt = mysql_fetch_array($rest);
+        $rest = mysqli_query($queryt) or die(mysqli_error());
+        $arrt = mysqli_fetch_array($rest);
         $checkCompId = $arrt['company_id'];
         }
 
         if (isset($budget)) {
             //echo "here";die;
             $query = "UPDATE company SET pre_loaded_value = $budget + '" . $data['lAccount'] . "' where company_id  = '" . $checkCompId . "'";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($query) or die(mysqli_error());
         } else {
             // echo "Inhere";die;
             $query = "UPDATE company SET pre_loaded_value =  '" . $data['lAccount'] . "' where company_id ='" . $checkCompId . "'";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($query) or die(mysqli_error());
         }
 
         /////////////////// (change activ state of campaign into 1 from 3)
         $query3 = "SELECT * FROM campaign WHERE company_id = '" . $companyId . "' and (spons = '3' or s_activ = '3')";
-        $res3 = mysql_query($query3) or die(mysql_error());
-        while( $arr3 = mysql_fetch_array($res3))
+        $res3 = mysqli_query($query3) or die(mysqli_error());
+        while( $arr3 = mysqli_fetch_array($res3))
         {
         $campaignId = $arr3['campaign_id'];
 
         $query1 = "UPDATE campaign SET `spons` = '1',`s_activ` = '0' WHERE campaign_id = '" . $campaignId . "'";
-        $res1 = mysql_query($query1) or die(mysql_error());
+        $res1 = mysqli_query($query1) or die(mysqli_error());
 
         
         $query2 = "UPDATE c_s_rel SET `activ` = '1' WHERE campaign_id = '" . $campaignId . "' and activ != '2'";
-        $res2 = mysql_query($query2) or die(mysql_error());
+        $res2 = mysqli_query($query2) or die(mysqli_error());
 
         $query5 = "SELECT * FROM c_s_rel WHERE campaign_id = '" . $campaignId . "'";
-        $res5 = mysql_query($query5) or die(mysql_error());
-         while( $arr5 = mysql_fetch_array($res5))
+        $res5 = mysqli_query($query5) or die(mysqli_error());
+         while( $arr5 = mysqli_fetch_array($res5))
         {
         $couponId = $arr5['coupon_id'];
         
         $query4 = "UPDATE coupon SET `is_sponsored` = '1' WHERE coupon_id = '" . $couponId . "'";
-        $res4 = mysql_query($query4) or die(mysql_error());
+        $res4 = mysqli_query($query4) or die(mysqli_error());
         }
         }
         /////////////////////////////////////////////////
@@ -197,7 +197,7 @@ class accountView {
         $error = '';
 
         $QUE = "select company_id from employer where u_id='" . $_SESSION['userid'] . "'";
-        $res = mysqli_query($conn ,$QUE) or die("Get Company : " . mysql_error());
+        $res = mysqli_query($conn ,$QUE) or die("Get Company : " . mysqli_error());
         $row = mysqli_fetch_array($res);
         $companyId = $row['company_id'];
         //echo  "$companyId";
@@ -210,7 +210,7 @@ class accountView {
         }
         else {
             $QUE = "select company_id from user where u_id='" . $_SESSION['userid'] . "'";
-            $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysql_error());
+            $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysqli_error());
             $row = mysqli_fetch_array($res);
             $companyId = $row['company_id'];
             //echo  "$companyId";
@@ -290,7 +290,7 @@ class accountView {
         }
 
         $QUE = "select company_id from user where u_id='" . $_SESSION['userid'] . "'";
-        $res = mysqli_query($conn, $QUE) or die("Get Company : " . mysql_error());
+        $res = mysqli_query($conn, $QUE) or die("Get Company : " . mysqli_error());
         $row = mysqli_fetch_array($res);
         $companyId = $row['company_id'];
         //echo  "$companyId";
@@ -304,7 +304,7 @@ class accountView {
                 zip='" . $arrUser['zip'] . "',
                 country='" . $arrUser['country'] . "'
                 WHERE u_id='" . $_SESSION['userid'] . "' OR company_id='$companyId'";
-        $res = mysqli_query($conn, $query) or die(mysql_error());
+        $res = mysqli_query($conn, $query) or die(mysqli_error());
         $_SESSION['MESSAGE'] = UPDATED_COMPANY;
         $url = BASE_URL . 'viewComapany.php';
         $inoutObj->reDirect($url);
@@ -364,7 +364,7 @@ class accountView {
                phone = '" . $arrUser['phone'] . "',
                mobile_phone = '" . $arrUser['mobile_phone'] . "'
                WHERE u_id = '" . $_SESSION['userid'] . "'";
-            $res = mysqli_query($conn, $query) or die(mysql_error());
+            $res = mysqli_query($conn, $query) or die(mysqli_error());
             $_SESSION['MESSAGE'] = UPDATED_USER;
 
             if($reseller == '')
@@ -494,14 +494,14 @@ class accountView {
 //        $error = '';
 //
 //        $QUE = "select company_id from company where u_id='" . $_SESSION['userid'] . "'";
-//        $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-//        $row = mysql_fetch_array($res);
+//        $res = mysqli_query($QUE) or die("Get Company : " . mysqli_error());
+//        $row = mysqli_fetch_array($res);
 //        $companyId = $row['company_id'];
 //
 //
 //        $query = "SELECT usr.* FROM user as usr LEFT JOIN employer as emp ON (emp.company_id=usr.company_id) WHERE emp.company_id='" . $companyId . "'  LIMIT {$paging_limit}";
 //        $q = $db->query($query);
-//        while ($rs = mysql_fetch_array($q)) {
+//        while ($rs = mysqli_fetch_array($q)) {
 //            $data[] = $rs;
 //        }
 //        return $data;
@@ -552,7 +552,7 @@ class accountView {
 
 
         $QUE = "select company_id from employer where u_id='" . $_SESSION['userid'] . "'";
-        $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysql_error());
+        $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysqli_error());
        $row = mysqli_fetch_array($res);
        $companyId = $row['company_id'];
 
@@ -561,7 +561,7 @@ class accountView {
             $limit = "limit ".$paging_limit;
         
             $QUE = "SELECT usr.* FROM user as usr LEFT JOIN employer as emp ON (emp.u_id=usr.u_id) WHERE emp.company_id ='" . $companyId . "' AND $set_keywords 1 ".$limit;
-           $res = mysqli_query($conn , $QUE) or die(mysql_error());
+           $res = mysqli_query($conn , $QUE) or die(mysqli_error());
         
         return $res;
         
@@ -601,13 +601,13 @@ class accountView {
 //        $data = array();
 //        $error = '';
 //        $QUE = "select company_id from company where u_id='" . $_SESSION['userid'] . "'";
-//        $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-//        $row = mysql_fetch_array($res);
+//        $res = mysqli_query($QUE) or die("Get Company : " . mysqli_error());
+//        $row = mysqli_fetch_array($res);
 //        $companyId = $row['company_id'];
 //
 //
 //        $query = "SELECT * FROM user as usr LEFT JOIN employer as emp ON  (emp.company_id=usr.company_id)  WHERE emp.company_id='" . $companyId . "'";
-//        $res = mysql_query($query) or die(mysql_error());
+//        $res = mysqli_query($query) or die(mysqli_error());
 //        $total_records = $db->numRows($res);
 //
 //        return $total_records;
@@ -650,7 +650,7 @@ class accountView {
 
           
         $QUE = "select u_id from user where u_id='" . $_SESSION['userid'] . "' AND passwd = '" .$password_hash_old . "'";
-        $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysql_error());
+        $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysqli_error());
         $rowCount = mysqli_num_rows($res);
 
 
@@ -658,7 +658,7 @@ class accountView {
             $query = "UPDATE user SET
                passwd='" .$password_hash_new . "'
                 WHERE u_id='" . $_SESSION['userid'] . "'";
-            $res = mysqli_query($conn ,$query) or die(mysql_error());
+            $res = mysqli_query($conn ,$query) or die(mysqli_error());
             $_SESSION['MESSAGE'] = UPDATED_USERPASS;
         if($reseller == '')
         {
@@ -702,7 +702,7 @@ class accountView {
         $data = array();
         $q = $db->query("SELECT * FROM user  WHERE u_id ='" . $userid . "'");
 
-        // $res = mysql_query($query) or die(mysql_error());
+        // $res = mysqli_query($query) or die(mysqli_error());
         while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
@@ -744,7 +744,7 @@ class accountView {
                 phone='" . $arrUser['phone'] . "',
                 mobile_phone='" . $arrUser['mobile_phone'] . "'
                 WHERE u_id='" . $userid . "'";
-            $res = mysqli_query($conn , $query) or die(mysql_error());
+            $res = mysqli_query($conn , $query) or die(mysqli_error());
 
             $_SESSION['MESSAGE'] = UPDATEDNEW_USER;
             $url = BASE_URL . 'viewNewUser.php';
@@ -772,8 +772,8 @@ class accountView {
 //        $data = array();
 //        $error = '';
 //        $QUE = "select company_id from employer where u_id='" . $_SESSION['userid'] . "'";
-//        $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-//        $row = mysql_num_rows($res);
+//        $res = mysqli_query($QUE) or die("Get Company : " . mysqli_error());
+//        $row = mysqli_num_rows($res);
 //        //$companyId = $row['company_id'];
 //
 //        if($row) {

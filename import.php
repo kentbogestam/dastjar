@@ -52,15 +52,15 @@ if(strtolower($chk_ext[1] == "csv"))
 	   
 		/// Select user id from company id.
         $QUE = "select u_id from company where company_id='" . $company_id . "'";
-        $res = mysql_query($QUE) or die(mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($QUE) or die(mysql_error());
+        $row = mysqli_fetch_array($res);
         $u_id = $row['u_id'];
 		
 		/* Based on category_name here we will get the category id. */
 
 		$queryCat = "select category_id  from category inner join category_names_lang_list on category.category_id = category_names_lang_list.category inner join lang_text on lang_text.id = category_names_lang_list.names_lang_list where lower(lang) = '".trim(strtolower($lang))."' and lower(text)= '".trim(strtolower($category_name))."'";
-		$res = mysql_query($queryCat);
-		$data = mysql_fetch_array($res);
+		$res = mysqli_query($queryCat);
+		$data = mysqli_fetch_array($res);
 		$categoryId = $data['category_id'];
 
 		/* End code to get category id.*/
@@ -74,23 +74,23 @@ if(strtolower($chk_ext[1] == "csv"))
 		$queryPro = "INSERT INTO product(`product_id`,`u_id`,`company_id`, `small_image`,`product_name`,`is_sponsored`, `category`,`large_image`,`ean_code`,`product_number`,`is_public`,`start_of_publishing`,`product_info_page`,`s_activ`)
         VALUES ('" . $productId . "','" . $userId . "','" . $company_id . "', '" . $small_image . "','" . $product_name . "','" . $is_sponsered . "','" . $categoryId . "' ,'" . $large_image . "','" . $ean_code . "','" . $product_number . "','" . $is_public . "','" . $start_of_publishing . "','" . $product_info_page . "','" . $s_active . "');";
 
-		mysql_query($queryPro);
+		mysqli_query($queryPro);
 
 
 		$sloganLangId = uuid();
 		$_SQL = "insert into lang_text(id,lang,text) values('" . $sloganLangId . "','" . $lang . "','" . $product_name . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysql_error());
 
 		$_SQL = "insert into product_offer_slogan_lang_list(`product_id`,`offer_slogan_lang_list`) values('" . $productId . "','" . $sloganLangId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysql_error());
 
 	      ////////keyword entry///////
         $keywordId = uuid();
         $_SQL = "insert into lang_text(id,lang,text) values('" . $keywordId . "','" . $lang . "','" . $keyword . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysql_error());
 
         $_SQL = "insert into product_keyword(`product_id`,`offer_keyword`) values('" . $productId . "','" . $keywordId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysql_error());
 
     }
     fclose($handle);
@@ -123,7 +123,7 @@ if(strtolower($chk_ext[1] == "csv"))
 	   $amount_in_stock		=  $data[2];
       
 	   $sql = "INSERT into in_stock(store_id,product_id,in_stock,amount_in_stock) values('$store_id','$product_id','$in_stock]','$amount_in_stock')";
-       mysql_query($sql) or die(mysql_error());
+       mysqli_query($sql) or die(mysql_error());
     }
     fclose($handle);
     $_SESSION['MESSAGE'] = "<b>Successfully Imported Stock Data.</b>";

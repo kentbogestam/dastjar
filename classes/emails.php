@@ -31,11 +31,11 @@ class emails {
         } else {
             echo "Error: " . $sql . "<br>" . mysqli_error($conn);
         }
-        //$res = mysql_query($_SQL) or die(mysql_error());
+        //$res = mysqli_query($_SQL) or die(mysqli_error());
         //print $res;
         while ($row = mysqli_fetch_array($res))
             $result = $row['email'];
-        //$result = mysql_fetch_array($res);
+        //$result = mysqli_fetch_array($res);
 
 
         mysqli_close($conn);
@@ -205,7 +205,7 @@ function sendCategoryAdminMail($category)
 
     $_SQL = "SELECT * FROM user_support";
     $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
-    $result = mysql_fetch_array($res);
+    $result = mysqli_fetch_array($res);
     $to = $result['email'];
 
     $headers  = "From: Dastjar Admin<admin@dastjar.com> \r\n"; // header of mail content

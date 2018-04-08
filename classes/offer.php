@@ -373,8 +373,8 @@ class offer extends advertiseoffer{
         $campaignId = uuid();
         /// Select company id of this user
         $QUE = "select company_id from company where u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($QUE) or die("Get Company : " . mysql_error());
+        $row = mysqli_fetch_array($res);
         $companyId = $row['company_id'];
 
         $catImg = _UPLOAD_URLDIR_ . "category/" . $arrUser['small_image'];
@@ -383,7 +383,7 @@ class offer extends advertiseoffer{
         $arrUser['u_id'] = $_SESSION['userid'];
         $query = "INSERT INTO campaign(`campaign_id`,`company_id`,`u_id`, `small_image`,`large_image`, `spons`, `category`, `start_of_publishing`,`end_of_publishing`,`campaign_name`,`view_opt`,`infopage`,`code`,`code_type`,`value`)
                 VALUES ('" . $campaignId . "','" . $companyId . "','" . $_SESSION['userid'] . "', '" . $catImg . "', '" . $copImg . "','" . $arrUser['spons'] . "','" . $arrUser['category'] . "','" . $arrUser['start_of_publishing'] . "','" . $arrUser['end_of_publishing'] . "','" . $arrUser['campaign_name'] . "','" . $arrUser['viewopt'] . "','" . $arrUser['infopage'] . "','" . $arrUser['etanCode'] . "','" . $arrUser['codes'] . "','".$arrUser['discountValue']."');";
-        $res = mysql_query($query) or die("Inset campaign : " . mysqli_error($conn));
+        $res = mysqli_query($query) or die("Inset campaign : " . mysqli_error($conn));
 
         if ($arrUser['codes'] == '') {
             $query = "update campaign set `code` = NULL,`code_type` = NULL where campaign_id = '" . $campaignId . "'";
@@ -545,8 +545,8 @@ class offer extends advertiseoffer{
       $_SESSION['URL2']=$_SERVER['PHP_SELF'];
 
       $query = "SELECT pre_loaded_value FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
-      $res = mysql_query($query) or die(mysql_error());
-      $rs_comp = mysql_fetch_array($res);
+      $res = mysqli_query($query) or die(mysql_error());
+      $rs_comp = mysqli_fetch_array($res);
       $rs_comp['pre_loaded_value'];
       if($rs_comp['pre_loaded_value']){
       //$_SESSION['userid'];
@@ -558,8 +558,8 @@ class offer extends advertiseoffer{
       $query = "SELECT pre_loaded_value FROM user as usr
       LEFT JOIN company as camp ON       (camp.company_id=usr.company_id)
       WHERE usr.u_id='" . $_SESSION['userid'] . "'";
-      $res = mysql_query($query) or die(mysql_error());
-      $rs_comp = mysql_fetch_array($res);
+      $res = mysqli_query($query) or die(mysql_error());
+      $rs_comp = mysqli_fetch_array($res);
       $pre_loaded_value = $rs_comp['pre_loaded_value'];
       //$rs['new_pre_loaded_value'];
       }
@@ -578,8 +578,8 @@ class offer extends advertiseoffer{
 
 
       $query = "SELECT pre_loaded_value FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
-      $res = mysql_query($query) or die(mysql_error());
-      $rs = mysql_fetch_array($res);
+      $res = mysqli_query($query) or die(mysql_error());
+      $rs = mysqli_fetch_array($res);
       $rs['pre_loaded_value'];
       //echo $_SESSION['userid'];
       if ($arrUser['is_sponsored'] == 1 && ($rs['pre_loaded_value'] == '0' || $rs['pre_loaded_value'] == null)) {
@@ -723,30 +723,30 @@ class offer extends advertiseoffer{
       $campaignId = uuid();
       /// Select company id of this user
       $QUE = "select company_id from company where u_id='" . $_SESSION['userid'] . "'";
-      $res = mysql_query($QUE) or die(mysql_error());
-      $row = mysql_fetch_array($res);
+      $res = mysqli_query($QUE) or die(mysql_error());
+      $row = mysqli_fetch_array($res);
       $companyId = $row['company_id'];
       $query = "INSERT INTO campaign(`campaign_id`,`company_id`,`u_id`, `small_image`,`large_image`, `spons`, `category`, `start_of_publishing`,`end_of_publishing`,`campaign_name`,`keywords`,`infopage`)
       VALUES ('" . $campaignId . "','" . $companyId . "','" . $_SESSION['userid'] . "', '" . $catImg . "', '" . $copImg . "','" . $arrUser['spons'] . "','" . $arrUser['category'] . "','" . $arrUser['start_of_publishing'] . "','" . $arrUser['end_of_publishing'] . "','" . $arrUser['campaign_name'] . "','" . $arrUser['keywords'] . "','" . $arrUser['infopage'] . "');";
-      $res = mysql_query($query) or die(mysql_error());
+      $res = mysqli_query($query) or die(mysql_error());
       ////////Slogen entry///////
       $sloganLangId = uuid();
       $_SQL = "insert into lang_text(id,lang,text) values('" . $sloganLangId . "','" . $arrUser['lang'] . "','" . $arrUser['offer_slogan_lang_list'] . "')";
-      $res = mysql_query($_SQL) or die(mysql_error());
+      $res = mysqli_query($_SQL) or die(mysql_error());
       //echo"here";die();
       ////////Sub Slogen entry///////
       $subSloganLangId = uuid();
       $_SQL = "insert into lang_text(id,lang,text) values('" . $subSloganLangId . "','" . $arrUser['lang'] . "','" . $arrUser['offer_sub_slogan_lang_list'] . "')";
-      $res = mysql_query($_SQL) or die(mysql_error());
+      $res = mysqli_query($_SQL) or die(mysql_error());
 
 
       /// SLogen anf language table relation entry ////
       $_SQL = "insert into campaign_offer_slogan_lang_list(`campaign_id`,`offer_slogan_lang_list`) values('" . $campaignId . "','" . $sloganLangId . "')";
-      $res = mysql_query($_SQL) or die(mysql_error());
+      $res = mysqli_query($_SQL) or die(mysql_error());
 
       ///Sub slogan and language table relation entry ///
       $_SQL = "insert into campaign_offer_sub_slogan_lang_list(`campaign_id`,`offer_sub_slogan_lang_list`) values('" . $campaignId . "','" . $subSloganLangId . "')";
-      $res = mysql_query($_SQL) or die(mysql_error());
+      $res = mysqli_query($_SQL) or die(mysql_error());
 
       ///Start date and End Date and Valid days entry ///
 
@@ -758,11 +758,11 @@ class offer extends advertiseoffer{
       {
       $limitId = uuid();
       $_SQL = "insert into limit_period(`limit_id`,`end_time`,`start_time`,`valid_day`) values('" . $limitId . "','" . $arrUser['end_time'] . "','" . $arrUser['start_time'] . "','" . $arrUser['valid_day'] . "')";
-      $res = mysql_query($_SQL) or die(mysql_error());
+      $res = mysqli_query($_SQL) or die(mysql_error());
 
       ///RElation between LImit Period list and Coupon ///
       $_SQL = "insert into campaign_limit_period_list(`campaign_id`,`limit_period_list`) values('" . $campaignId . "','" . $limitId . "')";
-      $res = mysql_query($_SQL) or die(mysql_error());
+      $res = mysqli_query($_SQL) or die(mysql_error());
       }
 
 
@@ -874,7 +874,7 @@ class offer extends advertiseoffer{
         if ($reseller == '') {
 
             $query = "SELECT pre_loaded_value FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
-            $res = mysqli_query($conn , $query) or die(mysql_error());
+            $res = mysqli_query($conn , $query) or die(mysqli_error());
             $rs_comp = mysqli_fetch_array($res);
             $rs_comp['pre_loaded_value'];
             if ($rs_comp['pre_loaded_value']) {
@@ -884,7 +884,7 @@ class offer extends advertiseoffer{
                 $query = "SELECT pre_loaded_value FROM user as usr
           LEFT JOIN company as camp ON       (camp.company_id=usr.company_id)
          WHERE usr.u_id='" . $_SESSION['userid'] . "'";
-                $res = mysqli_query($conn , $query) or die(mysql_error());
+                $res = mysqli_query($conn , $query) or die(mysqli_error());
                 $rs_comp = mysqli_fetch_array($res);
                 $pre_loaded_value = $rs_comp['pre_loaded_value'];
                 //$rs['new_pre_loaded_value'];
@@ -903,7 +903,7 @@ class offer extends advertiseoffer{
 
 
             $query = "SELECT pre_loaded_value FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
-            $res = mysqli_query($conn , $query) or die(mysql_error());
+            $res = mysqli_query($conn , $query) or die(mysqli_error());
             $rs = mysqli_fetch_array($res);
             $rs['pre_loaded_value'];
             //echo $_SESSION['userid'];
@@ -1074,13 +1074,13 @@ class offer extends advertiseoffer{
         $campaignId = uuid();
         /// Select company id of this user
         $QUE = "select company_id from company where u_id='" . $_SESSION['userid'] . "'";
-        $res = mysqli_query($conn , $QUE) or die(mysql_error());
+        $res = mysqli_query($conn , $QUE) or die(mysqli_error());
         $row = mysqli_fetch_array($res);
         $companyId = $row['company_id'];
 
         if ($companyId == '') {
             $QUE33 = "select company_id from employer where u_id='" . $_SESSION['userid'] . "'";
-            $res33 = mysqli_query($conn , $QUE33) or die(mysql_error());
+            $res33 = mysqli_query($conn , $QUE33) or die(mysqli_error());
             $rs33 = mysqli_fetch_array($res33);
             $empCompId = $rs33['company_id'];
             $companyId = $empCompId;
@@ -1146,16 +1146,16 @@ class offer extends advertiseoffer{
 
 
          $_SQL = "insert into campaign_keyword(`campaign_id`,`system_key`) values('" . $campaignId . "','" . $Systemkey_companyId . "')";
-         $res = mysqli_query($conn , $_SQL) or die("keyword in relational table : " . mysql_error());
+         $res = mysqli_query($conn , $_SQL) or die("keyword in relational table : " . mysqli_error());
          
          
         /// SLogen anf language table relation entry ////
         $_SQL = "insert into campaign_offer_slogan_lang_list(`campaign_id`,`offer_slogan_lang_list`) values('" . $campaignId . "','" . $sloganLangId . "')";
-        $res = mysqli_query($conn , $_SQL) or die(mysql_error());
+        $res = mysqli_query($conn , $_SQL) or die(mysqli_error());
 
         ///Sub slogan and language table relation entry ///
         $_SQL = "insert into campaign_offer_sub_slogan_lang_list(`campaign_id`,`offer_sub_slogan_lang_list`) values('" . $campaignId . "','" . $subSloganLangId . "')";
-        $res = mysqli_query($conn , $_SQL) or die(mysql_error());
+        $res = mysqli_query($conn , $_SQL) or die(mysqli_error());
 
 
         ///Start date and End Date and Valid days entry ///
@@ -1166,11 +1166,11 @@ class offer extends advertiseoffer{
         if ($arrUser['valid_day'] != '') {
             $limitId = uuid();
             $_SQL = "insert into limit_period(`limit_id`,`end_time`,`start_time`,`valid_day`) values('" . $limitId . "','" . $arrUser['end_time'] . "','" . $arrUser['start_time'] . "','" . $arrUser['valid_day'] . "')";
-            $res = mysqli_query($conn , $_SQL) or die(mysql_error());
+            $res = mysqli_query($conn , $_SQL) or die(mysqli_error());
 
             ///RElation between LImit Period list and Coupon ///
             $_SQL = "insert into campaign_limit_period_list(`campaign_id`,`limit_period_list`) values('" . $campaignId . "','" . $limitId . "')";
-            $res = mysqli_query($conn , $_SQL) or die(mysql_error());
+            $res = mysqli_query($conn , $_SQL) or die(mysqli_error());
         }
 
 
@@ -1407,28 +1407,28 @@ class offer extends advertiseoffer{
         $standUniqueId = uuid();
         /// Select company id of this user
         $QUE = "select company_id from company where u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($QUE) or die(mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($QUE) or die(mysql_error());
+        $row = mysqli_fetch_array($res);
         $companyId = $row['company_id'];
         $query = "INSERT INTO product(`product_id`,`u_id`,`company_id`, `small_image`,`product_name`,`is_sponsored`, `category`,`large_image`,`ean_code`,`product_number`,`link`,`is_public`,`start_of_publishing`,`product_info_page`)
         VALUES ('" . $standUniqueId . "','" . $_SESSION['userid'] . "','" . $companyId . "', '" . $catImg . "','" . $arrUser['product_name'] . "','" . $arrUser['is_sponsored'] . "','" . $arrUser['category'] . "'
             ,'" . $copImg . "','" . $arrUser['ean_code'] . "','" . $arrUser['product_number'] . "','" . $arrUser['link'] . "','" . $arrUser['is_public'] . "','" . $arrUser['start_of_publishing'] . "','" . $arrUser['product_info_page'] . "');";
         //die();
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($query) or die(mysql_error());
 
         if ($reseller != '') {
             $query = "UPDATE product SET `reseller_status` = 'P' WHERE product_id = '" . $standUniqueId . "'";
-            $res = mysql_query($query);
+            $res = mysqli_query($query);
         }
 
         ////////Slogen entry///////
         $sloganLangId = uuid();
         $_SQL = "insert into lang_text(id,lang,text) values('" . $sloganLangId . "','" . $arrUser['lang'] . "','" . $arrUser['offer_slogan_lang_list'] . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysql_error());
 
         /// SLogen anf language table relation entry ////
         $_SQL = "insert into product_offer_slogan_lang_list(`product_id`,`offer_slogan_lang_list`) values('" . $standUniqueId . "','" . $sloganLangId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysql_error());
 
 
         ////////keyword entry///////
@@ -1436,25 +1436,25 @@ class offer extends advertiseoffer{
          {
         $keywordId = uuid();
         $_SQL = "insert into lang_text(id,lang,text) values('" . $keywordId . "','" . $arrUser['lang'] . "','" . $arrUser['keywords'] . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysql_error());
 
         $_SQL = "insert into product_keyword(`product_id`,`offer_keyword`) values('" . $standUniqueId . "','" . $keywordId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysql_error());
          }
 
          $SystemkeyId = uuid();
             $_SQL = "insert into lang_text(id,lang,text) values('" . $SystemkeyId . "','" . $arrUser['lang'] . "','" . $standUniqueId . "')";
-            $res = mysql_query($_SQL) or die(mysql_error());
+            $res = mysqli_query($_SQL) or die(mysql_error());
 
             $_SQL = "insert into product_keyword(`product_id`,`system_key`) values('" . $standUniqueId . "','" . $SystemkeyId . "')";
-            $res = mysql_query($_SQL) or die(mysql_error());
+            $res = mysqli_query($_SQL) or die(mysql_error());
          
          $Systemkey_companyId = uuid();
         $_SQL = "insert into lang_text(id,lang,text) values('" . $Systemkey_companyId . "','" . $arrUser['lang'] . "','" . $companyId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysql_error());
 
         $_SQL = "insert into product_keyword(`product_id`,`system_key`) values('" . $standUniqueId . "','" . $Systemkey_companyId . "')";
-        $res = mysql_query($_SQL) or die(mysql_error());
+        $res = mysqli_query($_SQL) or die(mysql_error());
          
       
             
@@ -1463,7 +1463,7 @@ class offer extends advertiseoffer{
 
         ///////Update user table activ field/////////////////////////////
         $query = "UPDATE user SET activ='3' WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($query) or die(mysql_error());
 
         $_SESSION['MESSAGE'] = STANDARD_OFFER_SUCCESS;
         $_SESSION['REG_STEP'] = 4;
@@ -1498,7 +1498,7 @@ class offer extends advertiseoffer{
         $arrUser['dishType'] = $_POST['dishName'];
 
         $query = "SELECT * FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
-        $res = mysqli_query($conn , $query) or die(mysql_error());
+        $res = mysqli_query($conn , $query) or die(mysqli_error());
         $rs_comp = mysqli_fetch_array($res);
 
         if($rs_comp['company_id'] != ''){
@@ -1612,7 +1612,7 @@ class offer extends advertiseoffer{
 
         if ($reseller == '') {
             $query = "SELECT pre_loaded_value FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
-            $res = mysqli_query($conn , $query) or die(mysql_error());
+            $res = mysqli_query($conn , $query) or die(mysqli_error());
             $rs_comp = mysqli_fetch_array($res);
             $rs_comp['pre_loaded_value'];
             if ($rs_comp['pre_loaded_value']) {
@@ -1622,7 +1622,7 @@ class offer extends advertiseoffer{
                 $query = "SELECT pre_loaded_value FROM user as usr
           LEFT JOIN company as camp ON       (camp.company_id=usr.company_id)
          WHERE usr.u_id='" . $_SESSION['userid'] . "'";
-                $res = mysqli_query($conn , $query) or die(mysql_error());
+                $res = mysqli_query($conn , $query) or die(mysqli_error());
                 $rs_comp = mysqli_fetch_array($res);
                 $pre_loaded_value = $rs_comp['pre_loaded_value'];
                 //$rs['new_pre_loaded_value'];
@@ -1639,7 +1639,7 @@ class offer extends advertiseoffer{
 
 
             $query = "SELECT pre_loaded_value FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
-            $res = mysqli_query($conn , $query) or die(mysql_error());
+            $res = mysqli_query($conn , $query) or die(mysqli_error());
             $rs = mysqli_fetch_array($res);
             $rs['pre_loaded_value'];
             //echo $_SESSION['userid'];
@@ -1840,13 +1840,13 @@ class offer extends advertiseoffer{
 //        $couponId = uuid();
 //        $query = "INSERT INTO coupon(`coupon_id`,product_id,`brand_name`, `small_image`, `large_image`, `is_sponsored`,`offer_type`,`infopage`,`startValidity`)
 //                 VALUES ('" . $couponId . "','" . $standUniqueId . "','" . $arrUser['brand_name'] . "', '" . $arrUser['small_image'] . "','" . $arrUser['large_image'] . "','" . $arrUser['is_sponsored'] . "','0','" . $arrUser['infopage'] . "','" . $arrUser['start_of_publishing'] . "');";
-//        $res = mysql_query($query) or die(mysql_error());
+//        $res = mysqli_query($query) or die(mysql_error());
         /// SLogen anf language table relation entry ////
 
         $_SQL = "insert into product_offer_slogan_lang_list(`product_id`,`offer_slogan_lang_list`) values('" . $standUniqueId . "','" . $sloganLangId . "')";
         $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
 //        $_SQL = "insert into product_offer_slogan_lang_list(`product_id `,`offer_slogan_lang_list`) values('" . $productId . "','" . $sloganLangId . "')";
-//        $res = mysql_query($_SQL) or die(mysql_error());
+//        $res = mysqli_query($_SQL) or die(mysql_error());
         ////////keyword entry///////
          if(trim($arrUser['keywords']) != "")
          {
@@ -1955,8 +1955,8 @@ class offer extends advertiseoffer{
 //     $query = "SELECT  ltext.lang FROM category as cat left join category_names_lang_list as cat_lang
 //            ON (cat.category_id = cat_lang.category)
 //            LEFT JOIN lang_text as ltext ON (cat_lang.names_lang_list = ltext.id) ";
-//        $res = mysql_query($query) or die(mysql_error());
-//        while ($rs = mysql_fetch_array($res)) {
+//        $res = mysqli_query($query) or die(mysql_error());
+//        while ($rs = mysqli_fetch_array($res)) {
 //            $data[] = $rs;
 //
 //            if ($selectedId == $rs['category_id']) {
@@ -2156,7 +2156,7 @@ class offer extends advertiseoffer{
 
         $q = $this->searchResellerStandard($paging_limit);
 
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         return $data;
@@ -2271,7 +2271,7 @@ class offer extends advertiseoffer{
 
         $q = $this->searchDeleteResellerStandard($paging_limit);
 
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         return $data;
@@ -2541,7 +2541,7 @@ class offer extends advertiseoffer{
 //            WHERE is_public='1' AND  product.u_id !='" . $_SESSION['userid'] . "' AND $set_keywords 1 LIMIT {$paging_l} ";
 //
 //        $q = $db->query($query);
-//        while ($rs = mysql_fetch_array($q)) {
+//        while ($rs = mysqli_fetch_array($q)) {
 //            $is_Public[] = $rs;
 //        }
 //        return $is_Public;
@@ -2588,7 +2588,7 @@ class offer extends advertiseoffer{
             LEFT JOIN  category_names_lang_list  ON category.category_id = category_names_lang_list.category
             LEFT JOIN  lang_text as cat  ON cat.id = category_names_lang_list.names_lang_list
            WHERE product.u_id='" . $_SESSION['userid'] . "' AND $set_keywords  s_activ='2' AND cat.lang = lang_text.lang GROUP BY product_id " . $limit;
-        $res = mysql_query($QUE);
+        $res = mysqli_query($QUE);
 
         return $res;
     }
@@ -3427,7 +3427,7 @@ class offer extends advertiseoffer{
                     $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
 
                   //  $_SQL = "DELETE FROM limit_period WHERE limit_id = '" . $limitId . "'";
-                  //  $res = mysql_query($_SQL) or die(mysql_error());
+                  //  $res = mysqli_query($_SQL) or die(mysql_error());
 
                     $query = "select * from coupon_offer_slogan_lang_list  where coupon = '" . $couponId . "'";
                     $res = mysqli_query($conn , $query) or die('1' . mysqli_error($conn));
@@ -3438,7 +3438,7 @@ class offer extends advertiseoffer{
                         $res1 = mysqli_query($conn , $_SQL1) or die(mysqli_error($conn));
 
                        // $_SQL2 = "DELETE FROM lang_text WHERE id = '" . $offslogen . "'";
-                       // $res2 = mysql_query($_SQL2) or die(mysql_error());
+                       // $res2 = mysqli_query($_SQL2) or die(mysql_error());
                     }
 
 
@@ -3451,7 +3451,7 @@ class offer extends advertiseoffer{
                         $res1 = mysqli_query($conn , $_SQL1) or die(mysqli_error($conn));
 
                       //  $_SQL2 = "DELETE FROM lang_text WHERE id = '" . $offtitle . "'";
-                      //  $res2 = mysql_query($_SQL2) or die(mysql_error());
+                      //  $res2 = mysqli_query($_SQL2) or die(mysql_error());
                     }
 
                     $query = "select * from coupon_keywords_lang_list  where coupon = '" . $couponId . "'";
@@ -3463,7 +3463,7 @@ class offer extends advertiseoffer{
                         $res1 = mysqli_query($conn , $_SQL1) or die(mysqli_error($conn));
 
                      //   $_SQL2 = "DELETE FROM lang_text WHERE id = '" . $ckeyword . "'";
-                     //   $res2 = mysql_query($_SQL2) or die(mysql_error());
+                     //   $res2 = mysqli_query($_SQL2) or die(mysql_error());
                     }
 
                     //////update c_s_rel
@@ -3604,7 +3604,7 @@ class offer extends advertiseoffer{
 
                     $limitId = uuid();
                     $_SQL = "insert into limit_period(`limit_id`,`end_time`,`start_time`,`valid_day`) values('" . $limitId . "','" . $arrUser['end_time'] . "','" . $arrUser['start_time'] . "','" . $arrUser['valid_day'] . "')";
-                    $res = mysqli_query($conn , $_SQL) or die(mysql_error($conn));
+                    $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
 
                     ///RElation between LImit Period list and Coupon ///
                     $_SQL = "insert into campaign_limit_period_list(`campaign_id`,`limit_period_list`) values('" . $campaignId . "','" . $limitId . "')";
@@ -3685,8 +3685,8 @@ class offer extends advertiseoffer{
             //////////////update coupon/////////////
             //common function update coupon
 //            $query = "select * from c_s_rel  where campaign_id = '" . $campaignid . "'";
-//            $res1 = mysql_query($query) or die(mysql_error());
-//            $rs = mysql_fetch_array($res1);
+//            $res1 = mysqli_query($query) or die(mysql_error());
+//            $rs = mysqli_fetch_array($res1);
 //            $couponId = $rs['coupon_id'];
 
 
@@ -4185,7 +4185,7 @@ class offer extends advertiseoffer{
                         $res1 = mysqli_query($conn , $_SQL1) or die(mysqli_error($conn));
 
                       //  $_SQL2 = "DELETE FROM lang_text WHERE id = '" . $offslogen . "'";
-                      //  $res2 = mysql_query($_SQL2) or die(mysql_error());
+                      //  $res2 = mysqli_query($_SQL2) or die(mysql_error());
                     }
 
                     $query3 = "select * from coupon_offer_title_lang_list  where coupon = '" . $couponId . "'";
@@ -4197,7 +4197,7 @@ class offer extends advertiseoffer{
                         $res8 = mysqli_query($conn , $_SQL8) or die(mysqli_error($conn));
 
                       //  $_SQL20 = "DELETE FROM lang_text WHERE id = '" . $offtitle . "'";
-                      //  $res20 = mysql_query($_SQL20) or die(mysql_error());
+                      //  $res20 = mysqli_query($_SQL20) or die(mysql_error());
                     }
 
                     $query4 = "select * from coupon_keywords_lang_list  where coupon = '" . $couponId . "'";
@@ -4209,7 +4209,7 @@ class offer extends advertiseoffer{
                         $res5 = mysqli_query($conn , $_SQL5) or die(mysqli_error($conn));
 
                       //  $_SQL6 = "DELETE FROM lang_text WHERE id = '" . $ckeyword . "'";
-                      //  $res6 = mysql_query($_SQL6) or die(mysql_error());
+                      //  $res6 = mysqli_query($_SQL6) or die(mysql_error());
                     }
                     //////update c_s_rel
                     $_SQL = "UPDATE c_s_rel SET activ='2', start_of_publishing = '" . $arrUser['start_of_publishing'] . "' WHERE product_id = '" . $productid . "'";
@@ -4454,7 +4454,7 @@ echo $arrUser['is_public'];die();
                 $res3 = mysqli_query($conn , $_SQL3) or die(mysqli_error($conn));
 
               //  $_SQL4 = "DELETE FROM limit_period WHERE limit_id = '" . $limitId . "'";
-              //  $res4 = mysql_query($_SQL4) or die(mysql_error());
+              //  $res4 = mysqli_query($_SQL4) or die(mysql_error());
 
                 $query5 = "select * from coupon_offer_slogan_lang_list  where coupon = '" . $couponId . "'";
                 $res5 = mysqli_query($conn , $query5) or die('1' . mysqli_error($conn));
@@ -4465,7 +4465,7 @@ echo $arrUser['is_public'];die();
                     $res6 = mysqli_query($conn , $_SQL6) or die(mysqli_error($conn));
 
                  //   $_SQL7 = "DELETE FROM lang_text WHERE id = '" . $offslogen . "'";
-                 //   $res7 = mysql_query($_SQL7) or die(mysql_error());
+                 //   $res7 = mysqli_query($_SQL7) or die(mysql_error());
                 }
 
 
@@ -4478,7 +4478,7 @@ echo $arrUser['is_public'];die();
                     $res9 = mysqli_query($conn , $_SQL9) or die(mysqli_error($conn));
 
                  //   $_SQL10 = "DELETE FROM lang_text WHERE id = '" . $offtitle . "'";
-                 //   $res10 = mysql_query($_SQL10) or die(mysql_error());
+                 //   $res10 = mysqli_query($_SQL10) or die(mysql_error());
                 }
 
                 $query11 = "select * from coupon_keywords_lang_list  where coupon = '" . $couponId . "'";
@@ -4490,7 +4490,7 @@ echo $arrUser['is_public'];die();
                     $res12 = mysqli_query($conn , $_SQL12) or die(mysqli_error($conn));
 
                  //   $_SQL13 = "DELETE FROM lang_text WHERE id = '" . $ckeyword . "'";
-                 //   $res13 = mysql_query($_SQL13) or die(mysql_error());
+                 //   $res13 = mysqli_query($_SQL13) or die(mysql_error());
                 }
             }
         }
@@ -4507,11 +4507,11 @@ echo $arrUser['is_public'];die();
 
 //
 //            echo     $query = "DELETE FROM `cumbari_admin` WHERE `lang_text`.`id` = '".$slogan_id."'";
-//             $res = mysql_query($query) or die(mysql_error());
+//             $res = mysqli_query($query) or die(mysql_error());
 //
 //
 //          echo      $query = "DELETE FROM `cumbari_admin` WHERE `lang_text`.`id` = '".$subslogan_id."'";
-// 	$res = mysql_query($query) or die(mysql_error());
+// 	$res = mysqli_query($query) or die(mysql_error());
     }
 
     function showcampoffer($paging_limit='0 , 10') {
@@ -4608,7 +4608,7 @@ echo $arrUser['is_public'];die();
                     $res5 = mysqli_query($conn , $_SQL5) or die(mysqli_error($conn));
 
                //     $_SQL6 = "DELETE FROM lang_text WHERE id = '" . $offslogen . "'";
-               //     $res6 = mysql_query($_SQL6) or die(mysql_error());
+               //     $res6 = mysqli_query($_SQL6) or die(mysql_error());
                 }
 
                 $query7 = "select * from coupon_offer_title_lang_list  where coupon = '" . $couponId . "'";
@@ -4620,7 +4620,7 @@ echo $arrUser['is_public'];die();
                     $res8 = mysqli_query($conn , $_SQL8) or die(mysqli_error($conn));
 
                 //    $_SQL9 = "DELETE FROM lang_text WHERE id = '" . $offtitle . "'";
-                //    $res9 = mysql_query($_SQL9) or die(mysql_error());
+                //    $res9 = mysqli_query($_SQL9) or die(mysql_error());
                 }
 
                 $query10 = "select * from coupon_keywords_lang_list  where coupon = '" . $couponId . "'";
@@ -4632,7 +4632,7 @@ echo $arrUser['is_public'];die();
                     $res11 = mysqli_query($conn , $_SQL11) or die(mysqli_error($conn));
 
                 //    $_SQL12 = "DELETE FROM lang_text WHERE id = '" . $ckeyword . "'";
-                //    $res12 = mysql_query($_SQL12) or die(mysql_error());
+                //    $res12 = mysqli_query($_SQL12) or die(mysql_error());
                 }
             }
         }
@@ -4821,7 +4821,7 @@ echo $arrUser['is_public'];die();
 
 
 
-        $res = mysql_query($QUE);
+        $res = mysqli_query($QUE);
 
         return $res;
     }
@@ -4833,8 +4833,8 @@ echo $arrUser['is_public'];die();
         $error = '';
 
         $query = "SELECT pre_loaded_value FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $rs = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die(mysql_error());
+        $rs = mysqli_fetch_array($res);
         $rs['pre_loaded_value'];
         $_SESSION['userid'];
         if ($rs['pre_loaded_value'] == '0' || $rs['pre_loaded_value'] == null) {
@@ -4871,8 +4871,8 @@ echo $arrUser['is_public'];die();
 
 
         $QUE = "select * from c_s_rel where campaign_id='" . $campaignId . "' AND store_id='" . $arrUser['store_id'] . "' AND activ = '1'";
-        $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($QUE) or die("Get Company : " . mysql_error());
+        $row = mysqli_fetch_array($res);
         $campaignid = $row['campaign_id'];
         //print_r($row);die();
         if ($campaignid) {
@@ -4883,13 +4883,13 @@ echo $arrUser['is_public'];die();
             exit();
         } else {
             $QUE = "select start_of_publishing from campaign where campaign_id='" . $campaignId . "'";
-            $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-            $row = mysql_fetch_array($res);
+            $res = mysqli_query($QUE) or die("Get Company : " . mysql_error());
+            $row = mysqli_fetch_array($res);
             $startdate = $row['start_of_publishing'];
 
             $QUE = "select end_of_publishing from campaign where campaign_id='" . $campaignId . "'";
-            $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-            $row = mysql_fetch_array($res);
+            $res = mysqli_query($QUE) or die("Get Company : " . mysql_error());
+            $row = mysqli_fetch_array($res);
             $enddate = $row['end_of_publishing'];
 
             if ($startdate < date('Y-m-d')) {
@@ -4900,7 +4900,7 @@ echo $arrUser['is_public'];die();
 //
 
             $_SQL = "insert into c_s_rel(`campaign_id`,`store_id`,`start_of_publishing`,`end_of_publishing`,`activ`) values('" . $campaignId . "','" . $arrUser['store_id'] . "','" . $finStartDate . "','" . $enddate . "','1')";
-            $res = mysql_query($_SQL) or die("limitttt id in relational table : " . mysql_error());
+            $res = mysqli_query($_SQL) or die("limitttt id in relational table : " . mysql_error());
 
 
             $_SESSION['MESSAGE'] = COUPON_OFFER_SUCCESS;
@@ -4938,8 +4938,8 @@ echo $arrUser['is_public'];die();
         $productId = $_GET['productId'];
 
         $QUE = "select * from c_s_rel where product_id='" . $productId . "' AND store_id='" . $arrUser['store_id'] . "'";
-        $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($QUE) or die("Get Company : " . mysql_error());
+        $row = mysqli_fetch_array($res);
         $productid = $row['product_id'];
         //print_r($row);die();
         if ($productid) {
@@ -4950,19 +4950,19 @@ echo $arrUser['is_public'];die();
             exit();
         } else {
             $QUE = "select start_of_publishing from product where product_id='" . $productId . "'";
-            $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-            $row = mysql_fetch_array($res);
+            $res = mysqli_query($QUE) or die("Get Company : " . mysql_error());
+            $row = mysqli_fetch_array($res);
             $startdate = $row['start_of_publishing'];
 
 
 
 
             $_SQL = "insert into c_s_rel(`product_id`,`store_id`,`start_of_publishing`,`activ`) values('" . $productId . "','" . $arrUser['store_id'] . "','" . $startdate . "','SE')";
-            $res = mysql_query($_SQL) or die("limitttt id in relational table : " . mysql_error());
+            $res = mysqli_query($_SQL) or die("limitttt id in relational table : " . mysql_error());
 
 
             $_SQL = "insert into product_price_list(`product_id`,`store_id`,`text`,`lang`) values('" . $productId . "','" . $arrUser['store_id'] . "','" . $arrUser['price'] . "','1')";
-            $res = mysql_query($_SQL) or die(mysql_error());
+            $res = mysqli_query($_SQL) or die(mysql_error());
 
 
 
@@ -4997,8 +4997,8 @@ echo $arrUser['is_public'];die();
         $campaignId = $_GET['campaignId'];
 
         $QUE = "select * from c_s_rel where campaign_id='" . $campaignId . "' AND store_id='" . $arrUser['store_id'] . "'";
-        $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($QUE) or die("Get Company : " . mysql_error());
+        $row = mysqli_fetch_array($res);
         $campaignid = $row['campaign_id'];
         //print_r($row);die();
         if ($campaignid) {
@@ -5012,18 +5012,18 @@ echo $arrUser['is_public'];die();
 
 
             $QUE = "select start_of_publishing from campaign where campaign_id='" . $campaignId . "'";
-            $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-            $row = mysql_fetch_array($res);
+            $res = mysqli_query($QUE) or die("Get Company : " . mysql_error());
+            $row = mysqli_fetch_array($res);
             $startdate = $row['start_of_publishing'];
 
             $QUE = "select end_of_publishing from campaign where campaign_id='" . $campaignId . "'";
-            $res = mysql_query($QUE) or die("Get Company : " . mysql_error());
-            $row = mysql_fetch_array($res);
+            $res = mysqli_query($QUE) or die("Get Company : " . mysql_error());
+            $row = mysqli_fetch_array($res);
             $enddate = $row['end_of_publishing'];
 
 
             $_SQL = "insert into c_s_rel(`campaign_id`,`store_id`,`start_of_publishing`,`end_of_publishing`,`activ`) values('" . $campaignId . "','" . $arrUser['store_id'] . "','" . $arrUser['start_of_publishing'] . "','" . $arrUser['end_of_publishing'] . "','1')";
-            $res = mysql_query($_SQL) or die("limitttt id in relational table : " . mysql_error());
+            $res = mysqli_query($_SQL) or die("limitttt id in relational table : " . mysql_error());
 
 
             $_SESSION['MESSAGE'] = COUPON_OFFER_SUCCESS;
@@ -5045,8 +5045,8 @@ echo $arrUser['is_public'];die();
                         WHERE  category.category_id='" . $categoryid . "'";
 
 
-        $res = mysql_query($query);
-        $data = mysql_fetch_array($res);
+        $res = mysqli_query($query);
+        $data = mysqli_fetch_array($res);
         return $data;
     }
 
@@ -5315,7 +5315,7 @@ echo $arrUser['is_public'];die();
 
         $q = $db->query($Query);
 
-        //$res = mysql_query($query) or die(mysql_error());
+        //$res = mysqli_query($query) or die(mysql_error());
 
         while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
@@ -5479,7 +5479,7 @@ echo $arrUser['is_public'];die();
 
         $q = $db->query($Query);
 
-        //$res = mysql_query($query) or die(mysql_error());
+        //$res = mysqli_query($query) or die(mysql_error());
 
         while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
@@ -5942,16 +5942,16 @@ echo $arrUser['is_public'];die();
         ////////category entry///////
 //        $categoryId = uuid();
 //        $_SQL = "insert into lang_text(id,lang,text) values('" . $categoryId . "','ENG','" . $arrUser['category'] . "')";
-//        $res = mysql_query($_SQL) or die("category in lang_text : " . mysql_error());
+//        $res = mysqli_query($_SQL) or die("category in lang_text : " . mysql_error());
 //
 //        ////////category icon  entry///////
 //        $categoryIconId = uuid();
 //        $_SQL = "insert into category(category_id ,small_image) values('" . $categoryIconId . "','" . $category_image . "')";
-//        $res = mysql_query($_SQL) or die("category in lang_text : " . mysql_error());
+//        $res = mysqli_query($_SQL) or die("category in lang_text : " . mysql_error());
 //
 //        ////////category and category icon entry///////
 //        $_SQL = "insert into category_names_lang_list(category_id ,names_lang_list) values('" . $categoryIconId . "','" . $categoryId . "')";
-//        $res = mysql_query($_SQL) or die("category in lang_text : " . mysql_error());
+//        $res = mysqli_query($_SQL) or die("category in lang_text : " . mysql_error());
         ////////Sub Slogen entry///////
         $subSloganLangId = uuid();
         $_SQL = "insert into lang_text(id,lang,text) values('" . $subSloganLangId . "','" . $arrUser['lang'] . "','" . $arrUser['offer_sub_slogan_lang_list'] . "')";
@@ -6243,16 +6243,16 @@ echo $arrUser['is_public'];die();
         ////////category entry///////
 //        $categoryId = uuid();
 //        $_SQL = "insert into lang_text(id,lang,text) values('" . $categoryId . "','ENG','" . $arrUser['category'] . "')";
-//        $res = mysql_query($_SQL) or die("category in lang_text : " . mysql_error());
+//        $res = mysqli_query($_SQL) or die("category in lang_text : " . mysql_error());
 //
 //        ////////category icon  entry///////
 //        $categoryIconId = uuid();
 //        $_SQL = "insert into category(category_id ,small_image) values('" . $categoryIconId . "','" . $category_image . "')";
-//        $res = mysql_query($_SQL) or die("category in lang_text : " . mysql_error());
+//        $res = mysqli_query($_SQL) or die("category in lang_text : " . mysql_error());
 //
 //        ////////category and category icon entry///////
 //        $_SQL = "insert into category_names_lang_list(category_id ,names_lang_list) values('" . $categoryIconId . "','" . $categoryId . "')";
-//        $res = mysql_query($_SQL) or die("category in lang_text : " . mysql_error());
+//        $res = mysqli_query($_SQL) or die("category in lang_text : " . mysql_error());
         ////////Sub Slogen entry///////
         $subSloganLangId = uuid();
         $_SQL = "insert into lang_text(id,lang,text) values('" . $subSloganLangId . "','" . $arrUser['lang'] . "','" . $arrUser['offer_sub_slogan_lang_list'] . "')";
@@ -6343,8 +6343,8 @@ echo $arrUser['is_public'];die();
                     $delivery_method = $row['delivery_method'];
                     if ($delivery_method == '') {
 //                $query = "select * from coupon_delivery_type where priority = '3'";
-//                $res = mysql_query($QUE) or die("Get  : " . mysql_error());
-//                $row = mysql_fetch_array($res);
+//                $res = mysqli_query($QUE) or die("Get  : " . mysql_error());
+//                $row = mysqli_fetch_array($res);
 //                $coupon_delivery_type = $row['coupon_delivery_type'];
                         $coupon_delivery_type = 'PINCODE';
                     } else if ($delivery_method == 'AUTO'){
@@ -6362,8 +6362,8 @@ echo $arrUser['is_public'];die();
                 ////////////////////////////////////////////
 //
 //                $QUE = "select coupon_delivery_type from store where store_id='" .$storeId . "'";
-//                $res = mysql_query($QUE) or die("Get  : " . mysql_error());
-//                $row = mysql_fetch_array($res);
+//                $res = mysqli_query($QUE) or die("Get  : " . mysql_error());
+//                $row = mysqli_fetch_array($res);
 //                $coupon_delivery_type = $row['coupon_delivery_type'];
                 // echo "here"; die();
 
@@ -6407,16 +6407,16 @@ echo $arrUser['is_public'];die();
 
 //                    $sloganLangId = uuid();
 //                    $_SQL = "insert into lang_text(id,lang,text) values('" . $sloganLangId . "','" . $data['lang1'] . "','" . $data['slogan'] . "')";
-//                    $res = mysql_query($_SQL) or die("title slogan in lang_text : " . mysql_error());
+//                    $res = mysqli_query($_SQL) or die("title slogan in lang_text : " . mysql_error());
 //                    ////////Sub Slogen entry///////
 //                    $subSloganLangId = uuid();
 //                    $_SQL = "insert into lang_text(id,lang,text) values('" . $subSloganLangId . "','" . $data['lang2'] . "','" . $data['subslogen'] . "')";
-//                    $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+//                    $res = mysqli_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
 //
 //                   ///////keyword
 //                    $keywordId = uuid();
 //                    $_SQL = "insert into lang_text(id,lang,text) values('" . $keywordId . "','" . $data['lang3'] . "','" . $data['keyword'] . "')";
-//                    $res = mysql_query($_SQL) or die("keyword in lang_text : " . mysql_error());
+//                    $res = mysqli_query($_SQL) or die("keyword in lang_text : " . mysql_error());
 
                         if (!$couponFlag) {
                             // We have change start date to c_s_rel table start , according to new logic. Earlier it was campaign table start date.
@@ -6451,7 +6451,7 @@ echo $arrUser['is_public'];die();
                         ///system_key
 						$sqlSysKey = "SELECT system_key FROM campaign_keyword WHERE campaign_id='".$data['campaign_id']."' AND system_key<>''";
 						$resSysKey = mysqli_query($conn , $sqlSysKey) or die("Get campaign system_key : " . mysqli_error($conn));
-                        while($rowSysKey = mysql_fetch_array($resSysKey))
+                        while($rowSysKey = mysqli_fetch_array($resSysKey))
 						{
 							$_SQL = "insert into coupon_keywords_lang_list(`coupon`,`keywords_lang_list`) values('" . $couponId . "','" . $rowSysKey['system_key'] . "')";
 							$res = mysqli_query($conn , $_SQL) or die("system_key id in relational table 1:" . mysqli_error($conn));
@@ -6462,7 +6462,7 @@ echo $arrUser['is_public'];die();
                             if ($data['limitPeriod']) {
 //                        $limitId = uuid();
 //                        $_SQL = "insert into limit_period(`limit_id`,`end_time`,`start_time`,`valid_day`) values('" . $limitId . "','" . $data['end_time'] . "','" . $data['start_time'] . "','" . $data['valid_day'] . "')";
-//                        $res = mysql_query($_SQL) or die("Insert limit period : " . mysql_error());
+//                        $res = mysqli_query($_SQL) or die("Insert limit period : " . mysql_error());
                                 ///RElation between LImit Period list and Coupon ///
                                 $_SQL = "insert into coupon_limit_period_list(`coupon`,`limit_period_list`) values('" . $couponId . "','" . $limitId . "')";
                                 $res = mysqli_query($conn , $_SQL) or die("limit id in relational table : " . mysqli_error($conn));
@@ -6516,16 +6516,16 @@ echo $arrUser['is_public'];die();
 
 //                    $sloganLangId = uuid();
 //                    $_SQL = "insert into lang_text(id,lang,text) values('" . $sloganLangId . "','" . $data['lang1'] . "','" . $data['slogan'] . "')";
-//                    $res = mysql_query($_SQL) or die("title slogan in lang_text : " . mysql_error());
+//                    $res = mysqli_query($_SQL) or die("title slogan in lang_text : " . mysql_error());
 //                    ////////Sub Slogen entry///////
 //                    $subSloganLangId = uuid();
 //                    $_SQL = "insert into lang_text(id,lang,text) values('" . $subSloganLangId . "','" . $data['lang2'] . "','" . $data['subslogen'] . "')";
-//                    $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+//                    $res = mysqli_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
 //
 //                   ///////keyword
 //                    $keywordId = uuid();
 //                    $_SQL = "insert into lang_text(id,lang,text) values('" . $keywordId . "','" . $data['lang3'] . "','" . $data['keyword'] . "')";
-//                    $res = mysql_query($_SQL) or die("keyword in lang_text : " . mysql_error());
+//                    $res = mysqli_query($_SQL) or die("keyword in lang_text : " . mysql_error());
                         if (!$couponFlag) {
                             
                             $_SQL = "insert into coupon(`coupon_id`,`group_id`,`store`,`small_image`, `large_image`, category, `is_sponsored`, `valid_from`, `end_of_publishing`, `offer_type`,`product_info_link`,`view_opt`,`brand_name`,`brand_icon`,`coupon_delivery_type`,`value`)
@@ -6571,8 +6571,8 @@ echo $arrUser['is_public'];die();
 
 
 //                $QUE = "select coupon_delivery_type from store where store_id='" .$storeId . "'";
-//                $res = mysql_query($QUE) or die("Get  : " . mysql_error());
-//                $row = mysql_fetch_array($res);
+//                $res = mysqli_query($QUE) or die("Get  : " . mysql_error());
+//                $row = mysqli_fetch_array($res);
 //                $coupon_delivery_type = $row['coupon_delivery_type'];
 
                 if (!$couponId) {
@@ -6615,14 +6615,14 @@ echo $arrUser['is_public'];die();
 
 //                    $sloganLangId = uuid();
 //                    $_SQL = "insert into lang_text(id,lang,text) values('" . $sloganLangId . "','" . $data['lang1'] . "','" . $data['slogen'] . "')";
-//                    $res = mysql_query($_SQL) or die(mysql_error());
+//                    $res = mysqli_query($_SQL) or die(mysql_error());
                         $subSloganLangId = uuid();
                         $_SQL = "insert into lang_text(id,lang,text) values('" . $subSloganLangId . "','" . $data['lang1'] . "','" . $data1['price'] . "')";
-                        $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+                        $res = mysqli_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
 
 //                     $keywordId = uuid();
 //                    $_SQL = "insert into lang_text(id,lang,text) values('" . $keywordId . "','" . $data['lang2'] . "','" . $data['keyword'] . "')";
-//                    $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+//                    $res = mysqli_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
 
                         if (!$couponFlag) {
                             $query = "INSERT INTO coupon(`coupon_id`,`group_id`,`store`,`small_image`, `large_image`, `is_sponsored`,`offer_type`,`product_info_link`, category,`valid_from`,`end_of_publishing`,`brand_name`,`brand_icon`,`coupon_delivery_type`,`code`,`code_type`)
@@ -6700,7 +6700,7 @@ echo $arrUser['is_public'];die();
                 $res3 = mysqli_query($conn , $_SQL3) or die(mysqli_error($conn));
 
              //   $_SQL4 = "DELETE FROM limit_period WHERE limit_id = '" . $limitId . "'";
-             //   $res4 = mysql_query($_SQL4) or die(mysql_error());
+             //   $res4 = mysqli_query($_SQL4) or die(mysql_error());
 
                 $query5 = "select * from coupon_offer_slogan_lang_list  where coupon = '" . $couponId . "'";
                 $res5 = mysqli_query($conn , $query5) or die('1' . mysqli_error($conn));
@@ -6711,7 +6711,7 @@ echo $arrUser['is_public'];die();
                     $res6 = mysqli_query($conn , $_SQL6) or die(mysqli_error($conn));
 
                  //   $_SQL7 = "DELETE FROM lang_text WHERE id = '" . $offslogen . "'";
-                 //   $res7 = mysql_query($_SQL7) or die(mysql_error());
+                 //   $res7 = mysqli_query($_SQL7) or die(mysql_error());
                 }
 
 
@@ -6724,7 +6724,7 @@ echo $arrUser['is_public'];die();
                     $res9 = mysqli_query($conn , $_SQL9) or die(mysqli_error($conn));
 
                  //   $_SQL10 = "DELETE FROM lang_text WHERE id = '" . $offtitle . "'";
-                 //   $res10 = mysql_query($_SQL10) or die(mysql_error());
+                 //   $res10 = mysqli_query($_SQL10) or die(mysql_error());
                 }
 
                 $query11 = "select * from coupon_keywords_lang_list  where coupon = '" . $couponId . "'";
@@ -6736,7 +6736,7 @@ echo $arrUser['is_public'];die();
                     $res12 = mysqli_query($conn , $_SQL12) or die(mysqli_error($conn));
 
                  //   $_SQL13 = "DELETE FROM lang_text WHERE id = '" . $ckeyword . "'";
-                 //   $res13 = mysql_query($_SQL13) or die(mysql_error());
+                 //   $res13 = mysqli_query($_SQL13) or die(mysql_error());
                 }
 
 
@@ -6758,7 +6758,7 @@ echo $arrUser['is_public'];die();
                     $res17 = mysqli_query($conn , $_SQL17) or die(mysqli_error($conn));
 
                  //   $_SQL18 = "DELETE FROM lang_text WHERE id = '" . $offslogen . "'";
-                 //   $res18 = mysql_query($_SQL18) or die(mysql_error());
+                 //   $res18 = mysqli_query($_SQL18) or die(mysql_error());
                 }
 
                 $query19 = "select * from coupon_offer_title_lang_list  where coupon = '" . $couponId . "'";
@@ -6770,7 +6770,7 @@ echo $arrUser['is_public'];die();
                     $res20 = mysqli_query($conn , $_SQL20) or die(mysqli_error($conn));
 
                 //    $_SQL21 = "DELETE FROM lang_text WHERE id = '" . $offtitle . "'";
-                //    $res21 = mysql_query($_SQL21) or die(mysql_error());
+                //    $res21 = mysqli_query($_SQL21) or die(mysql_error());
                 }
 
                 $query22 = "select * from coupon_keywords_lang_list  where coupon = '" . $couponId . "'";
@@ -6782,7 +6782,7 @@ echo $arrUser['is_public'];die();
                     $res23 = mysqli_query($conn , $_SQL23) or die(mysqli_error($conn));
 
                //     $_SQL24 = "DELETE FROM lang_text WHERE id = '" . $ckeyword . "'";
-               //     $res24 = mysql_query($_SQL24) or die(mysql_error());
+               //     $res24 = mysqli_query($_SQL24) or die(mysql_error());
                 }
             }
            
@@ -6835,7 +6835,7 @@ echo $arrUser['is_public'];die();
 
         $QUE = "select country from company where u_id = '" . $_SESSION['userid'] . "'";
 //	echo "<pre>";echo $QUE ; echo "</pre>"; die;
-        $res = mysqli_query($conn , $QUE) or die(mysql_error());
+        $res = mysqli_query($conn , $QUE) or die(mysqli_error());
         $row = mysqli_fetch_array($res);
         $compcont = $row['country'];
         return $compcont;
@@ -6878,7 +6878,7 @@ echo $arrUser['is_public'];die();
 //            WHERE product.u_id='" . $_SESSION['userid'] . "' AND s_activ='2' AND $set_keywords 1  LIMIT {$paging_limit} ";
 //
 //        $q = $db->query($query);
-//        while ($rs = mysql_fetch_array($q)) {
+//        while ($rs = mysqli_fetch_array($q)) {
 //            $data[] = $rs;
 //        }
 //        return $data;
@@ -7311,13 +7311,13 @@ echo $arrUser['is_public'];die();
 //        $couponId = uuid();
 //        $query = "INSERT INTO coupon(`coupon_id`,product_id,`brand_name`, `small_image`, `large_image`, `is_sponsored`,`offer_type`,`infopage`,`startValidity`)
 //                 VALUES ('" . $couponId . "','" . $standUniqueId . "','" . $arrUser['brand_name'] . "', '" . $arrUser['small_image'] . "','" . $arrUser['large_image'] . "','" . $arrUser['is_sponsored'] . "','0','" . $arrUser['infopage'] . "','" . $arrUser['start_of_publishing'] . "');";
-//        $res = mysql_query($query) or die(mysql_error());
+//        $res = mysqli_query($query) or die(mysql_error());
         /// SLogen anf language table relation entry ////
 
         $_SQL = "insert into product_offer_slogan_lang_list(`product_id`,`offer_slogan_lang_list`) values('" . $standUniqueId . "','" . $sloganLangId . "')";
         $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
 //        $_SQL = "insert into product_offer_slogan_lang_list(`product_id `,`offer_slogan_lang_list`) values('" . $productId . "','" . $sloganLangId . "')";
-//        $res = mysql_query($_SQL) or die(mysql_error());
+//        $res = mysqli_query($_SQL) or die(mysql_error());
 
          if(trim($arrUser['keywords']) != "")
          {
@@ -7471,7 +7471,7 @@ echo $arrUser['is_public'];die();
             $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
 
          //   $_SQL = "DELETE FROM limit_period WHERE limit_id = '" . $limitId . "'";
-         //   $res = mysql_query($_SQL) or die(mysql_error());
+         //   $res = mysqli_query($_SQL) or die(mysql_error());
 
             $query = "select * from coupon_offer_slogan_lang_list  where coupon = '" . $couponId . "'";
             $res = mysqli_query($conn , $query) or die('1' . mysqli_error($conn));
@@ -7482,7 +7482,7 @@ echo $arrUser['is_public'];die();
             $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
 
          //   $_SQL = "DELETE FROM lang_text WHERE id = '" . $offslogen . "'";
-         //   $res = mysql_query($_SQL) or die(mysql_error());
+         //   $res = mysqli_query($_SQL) or die(mysql_error());
 
 
 
@@ -7495,7 +7495,7 @@ echo $arrUser['is_public'];die();
             $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
 
          //   $_SQL = "DELETE FROM lang_text WHERE id = '" . $offtitle . "'";
-         //   $res = mysql_query($_SQL) or die(mysql_error());
+         //   $res = mysqli_query($_SQL) or die(mysql_error());
         }
 
         $_SQL = "UPDATE c_s_rel SET activ='2' WHERE store_id = '" . $storeId . "' AND campaign_id='" . $campaignId . "'";
@@ -7543,7 +7543,7 @@ echo $arrUser['is_public'];die();
             $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
 
          //   $_SQL = "DELETE FROM limit_period WHERE limit_id = '" . $limitId . "'";
-         //   $res = mysql_query($_SQL) or die(mysql_error());
+         //   $res = mysqli_query($_SQL) or die(mysql_error());
 
             $query = "select * from coupon_offer_slogan_lang_list  where coupon = '" . $couponId . "'";
             $res = mysqli_query($conn , $query) or die('1' . mysqli_error($conn));
@@ -7554,7 +7554,7 @@ echo $arrUser['is_public'];die();
             $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
 
          //   $_SQL = "DELETE FROM lang_text WHERE id = '" . $offslogen . "'";
-         //   $res = mysql_query($_SQL) or die(mysql_error());
+         //   $res = mysqli_query($_SQL) or die(mysql_error());
 
 
 
@@ -7567,7 +7567,7 @@ echo $arrUser['is_public'];die();
             $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
 
          //   $_SQL = "DELETE FROM lang_text WHERE id = '" . $offtitle . "'";
-         //   $res = mysql_query($_SQL) or die(mysql_error());
+         //   $res = mysqli_query($_SQL) or die(mysql_error());
         }
 
         $_SQL = "UPDATE c_s_rel SET activ='2' WHERE store_id = '" . $storeId . "' AND product_id='" . $productId . "'";
@@ -8312,7 +8312,7 @@ VALUES ('" . $campaignId . "','" . $stoId . "','" . $validFrom . "','" . $validT
 
                 /////////fetch campany id from campaign id////
                 $query3 = "select * from campaign where campaign_id = '" . $campaignId . "'";
-                $res3 = mysqli_query($conn , $query3) or die('12' . mysql_error($conn));
+                $res3 = mysqli_query($conn , $query3) or die('12' . mysqli_error($conn));
                 $rs3 = mysqli_fetch_array($res3, 1);
                 $companyId = $rs3['company_id'];
                 $discountValue = $rs3['value']; // fetch value as discount from campaign 
@@ -8373,7 +8373,7 @@ VALUES ('" . $campaignId . "','" . $stoId . "','" . $validFrom . "','" . $validT
                     $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
 
                 //    $_SQL1 = "DELETE FROM limit_period WHERE limit_id = '" . $limitId . "'";
-                //    $res1 = mysql_query($_SQL1) or die(mysql_error());
+                //    $res1 = mysqli_query($_SQL1) or die(mysql_error());
 
                     $query10 = "select * from coupon_offer_slogan_lang_list  where coupon = '" . $couponId . "'";
                     $res10 = mysqli_query($conn , $query10) or die('1' . mysqli_error($conn));
@@ -8384,7 +8384,7 @@ VALUES ('" . $campaignId . "','" . $stoId . "','" . $validFrom . "','" . $validT
                         $res3 = mysqli_query($conn , $_SQL3) or die(mysqli_error($conn));
 
                    //     $_SQL4 = "DELETE FROM lang_text WHERE id = '" . $offslogen . "'";
-                   //     $res4 = mysql_query($_SQL4) or die(mysql_error());
+                   //     $res4 = mysqli_query($_SQL4) or die(mysql_error());
                     }
 
 
@@ -8397,7 +8397,7 @@ VALUES ('" . $campaignId . "','" . $stoId . "','" . $validFrom . "','" . $validT
                         $res5 = mysqli_query($conn , $_SQL5) or die(mysqli_error($conn));
 
                    //     $_SQL6 = "DELETE FROM lang_text WHERE id = '" . $offtitle . "'";
-                   //     $res6 = mysql_query($_SQL6) or die(mysql_error());
+                   //     $res6 = mysqli_query($_SQL6) or die(mysql_error());
                     }
 
                     $query12 = "select * from coupon_keywords_lang_list  where coupon = '" . $couponId . "'";
@@ -8409,7 +8409,7 @@ VALUES ('" . $campaignId . "','" . $stoId . "','" . $validFrom . "','" . $validT
                         $res7 = mysqli_query($conn , $_SQL7) or die(mysqli_error($conn));
 
                    //     $_SQL8 = "DELETE FROM lang_text WHERE id = '" . $ckeyword . "'";
-                   //     $res8 = mysql_query($_SQL8) or die(mysql_error());
+                   //     $res8 = mysqli_query($_SQL8) or die(mysql_error());
                     }
                     //////update c_s_rel
                     $_SQL9 = "UPDATE c_s_rel SET activ='3'  WHERE campaign_id = '" . $campaignId . "'";

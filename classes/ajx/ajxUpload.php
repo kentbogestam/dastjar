@@ -231,10 +231,10 @@ if($imgUploaded) {
 
        
     $query = "UPDATE `cumbari_admin`.`campaign` SET  `small_image` = '".$icon."' WHERE `campaign`.`campaign_id` = '".$campaignid."'";
-    $res = mysql_query($query) or die(mysql_error());
+    $res = mysqli_query($query) or die(mysqli_error());
 
     $query = "UPDATE `cumbari_admin`.`coupon` SET  `small_image` = '".$icon."' WHERE `coupon`.`campaign_id` = '".$campaignid."'";
-    $res = mysql_query($query) or die(mysql_error());
+    $res = mysqli_query($query) or die(mysqli_error());
  }
     
    

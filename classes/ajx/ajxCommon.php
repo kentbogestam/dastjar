@@ -58,7 +58,7 @@ class ajxCommon {
             die("Connection failed: " . mysqli_connect_error());
         }
          
-        // $res = mysql_query($_SQL) or die(mysql_error());
+        // $res = mysqli_query($_SQL) or die(mysqli_error());
         
         $res = $db->query($_SQL);
         $count = $db->numRows($res);
@@ -113,7 +113,7 @@ class ajxCommon {
             ON (cat.category_id = cat_lang.category)
             LEFT JOIN lang_text as ltext ON (cat_lang.names_lang_list = ltext.id) WHERE ltext.lang='" . $lang . "' ";
         $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
-        while ($rs = mysql_fetch_array($res)) {
+        while ($rs = mysqli_fetch_array($res)) {
             $data[] = $rs;
 
             if ($selectedId == $rs['category_id']) {
@@ -161,7 +161,7 @@ class ajxCommon {
             die("Connection failed: " . mysqli_connect_error());
         }
 
-        // $res = mysql_query($_SQL) or die(mysql_error());
+        // $res = mysqli_query($_SQL) or die(mysqli_error());
 
         $res = $db->query($_SQL);
         $count = $db->numRows($res);

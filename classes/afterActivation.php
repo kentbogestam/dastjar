@@ -76,19 +76,19 @@ class afterActivation {
         $arrUser = array();
           
         $query = "SELECT campaign_id, company_id FROM campaign WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $arrUser1 = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die(mysqli_error());
+        $arrUser1 = mysqli_fetch_array($res);
         $camp_id = $arrUser1['campaign_id'];
         $comp_id = $arrUser1['company_id'];
 
         $query = "UPDATE company SET c_activ = '1'
                  WHERE company_id = '" . $comp_id . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($query) or die(mysqli_error());
 
         $this->updateStoreCampaign($camp_id);
         ///////Update user table activ field/////////////////////////////
         $query = "UPDATE user SET activ='5' WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($query) or die(mysqli_error());
 
         $_SESSION['active_state'] = 5;
 
@@ -127,19 +127,19 @@ class afterActivation {
         $arrUser = array();
 
         $query = "SELECT product_id, company_id FROM product WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $arrUser1 = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die(mysqli_error());
+        $arrUser1 = mysqli_fetch_array($res);
         $prod_id = $arrUser1['product_id'];
         $comp_id = $arrUser1['company_id'];
 
         $query = "UPDATE company SET c_activ = '1'
                  WHERE company_id = '" . $comp_id . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($query) or die(mysqli_error());
 
         $this->updateStoreStandard($prod_id);
         ///////Update user table activ field/////////////////////////////
         $query = "UPDATE user SET activ='5' WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($query) or die(mysqli_error());
 
         $_SESSION['active_state'] = 5;
 
@@ -203,8 +203,8 @@ class afterActivation {
         }
 
         $query = "SELECT campaign_id, company_id FROM campaign WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $arrUser1 = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die(mysqli_error());
+        $arrUser1 = mysqli_fetch_array($res);
         $camp_id = $arrUser1['campaign_id'];
         $comp_id = $arrUser1['company_id'];
 
@@ -213,12 +213,12 @@ class afterActivation {
                      pre_loaded_value = '" . $arrUser['pre_loaded_value'] . "',
                      c_activ = '1'
                  WHERE company_id = '" . $comp_id . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($query) or die(mysqli_error());
 
         $this->updateStoreCampaign($camp_id);
         ///////Update user table activ field/////////////////////////////
         $query = "UPDATE user SET activ='5' WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($query) or die(mysqli_error());
 
         $_SESSION['active_state'] = 5;
 
@@ -280,8 +280,8 @@ class afterActivation {
             $_SESSION['post'] = "";
 
             $query = "SELECT product_id, company_id FROM product WHERE u_id = '" . $_SESSION['userid'] . "'";
-            $res = mysql_query($query) or die(mysql_error());
-            $arrUser1 = mysql_fetch_array($res);
+            $res = mysqli_query($query) or die(mysqli_error());
+            $arrUser1 = mysqli_fetch_array($res);
             $prod_id = $arrUser1['product_id'];
             $comp_id = $arrUser1['company_id'];
 
@@ -290,12 +290,12 @@ class afterActivation {
                      pre_loaded_value = '" . $arrUser['pre_loaded_value'] . "',
                      c_activ = '1'
                  WHERE company_id = '" . $comp_id . "'";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($query) or die(mysqli_error());
 
             $this->updateStoreStandard($prod_id);
             ///////Update user table activ field/////////////////////////////
             $query = "UPDATE user SET activ='5' WHERE u_id = '" . $_SESSION['userid'] . "'";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($query) or die(mysqli_error());
 
             $_SESSION['active_state'] = 5;
 
@@ -370,13 +370,13 @@ class afterActivation {
 
     function updateStoreCampaign($campId) {
         $_SQL = "select store_id FROM store WHERE u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($_SQL) or die(mysql_error());
-        if (mysql_num_rows($res)) {
+        $res = mysqli_query($_SQL) or die(mysqli_error());
+        if (mysqli_num_rows($res)) {
             $query = "UPDATE store SET s_activ='1' WHERE u_id='" . $_SESSION['userid'] . "'";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($query) or die(mysqli_error());
 
             $query = "UPDATE c_s_rel SET activ = '1' WHERE campaign_id ='" . $campId . "'";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($query) or die(mysqli_error());
         }
     }
 
@@ -389,15 +389,15 @@ class afterActivation {
 
     function updateStoreStandard($prodId) {
         $_SQL = "select store_id FROM store WHERE u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($_SQL) or die(mysql_error());
-        if (mysql_num_rows($res)) {
+        $res = mysqli_query($_SQL) or die(mysqli_error());
+        if (mysqli_num_rows($res)) {
             $query = "UPDATE store SET s_activ='1'
 		WHERE u_id='" . $_SESSION['userid'] . "'";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($query) or die(mysqli_error());
 
             $query = "UPDATE c_s_rel SET activ = '1'
                 WHERE product_id ='" . $prodId . "'";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($query) or die(mysqli_error());
         }
     }
 // code related to advertise 
@@ -410,13 +410,13 @@ class afterActivation {
 
     function updateStoreAdvertise($advtId) {
         $_SQL = "select store_id FROM store WHERE u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($_SQL) or die(mysql_error());
-        if (mysql_num_rows($res)) {
+        $res = mysqli_query($_SQL) or die(mysqli_error());
+        if (mysqli_num_rows($res)) {
             $query = "UPDATE store SET s_activ='1' WHERE u_id='" . $_SESSION['userid'] . "'";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($query) or die(mysqli_error());
 
             $query = "UPDATE c_s_rel SET activ = '1' WHERE advertise_id ='" . $advtId . "'";
-            $res = mysql_query($query) or die(mysql_error());
+            $res = mysqli_query($query) or die(mysqli_error());
         }
     }
 
@@ -433,19 +433,19 @@ class afterActivation {
         $arrUser = array();
 
         $query = "SELECT advertise_id, company_id FROM advertise WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $arrUser1 = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die(mysqli_error());
+        $arrUser1 = mysqli_fetch_array($res);
         $advt_id = $arrUser1['advertise_id'];
         $comp_id = $arrUser1['company_id'];
 
         $query = "UPDATE company SET c_activ = '1'
                  WHERE company_id = '" . $comp_id . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($query) or die(mysqli_error());
 
         $this->updateStoreAdvertise($advt_id);
         ///////Update user table activ field/////////////////////////////
         $query = "UPDATE user SET activ='5' WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($query) or die(mysqli_error());
 
         $_SESSION['active_state'] = 5;
 
@@ -508,8 +508,8 @@ class afterActivation {
         }
 
         $query = "SELECT advertise_id, company_id FROM advertise WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $arrUser1 = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die(mysqli_error());
+        $arrUser1 = mysqli_fetch_array($res);
         $advt_id = $arrUser1['advertise_id'];
         $comp_id = $arrUser1['company_id'];
 
@@ -518,12 +518,12 @@ class afterActivation {
                      pre_loaded_value = '" . $arrUser['pre_loaded_value'] . "',
                      c_activ = '1'
                  WHERE company_id = '" . $comp_id . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($query) or die(mysqli_error());
 
         $this->updateStoreAdvertise($advt_id);
         ///////Update user table activ field/////////////////////////////
         $query = "UPDATE user SET activ='5' WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($query) or die(mysqli_error());
 
         $_SESSION['active_state'] = 5;
 

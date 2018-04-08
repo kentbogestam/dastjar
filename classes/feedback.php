@@ -40,7 +40,7 @@ class feedback {
 // Add feedback details in the database
         $query = "INSERT INTO feedback_messages(client_id,client_os,message)
                 VALUES ('".$arrUser['ccid']."','".$arrUser['cos']."', '".$arrUser['message']."');";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($query) or die(mysqli_error());
 
         $url = BASE_URL.'feedBackMessage.php';
         $inoutObj->reDirect($url);

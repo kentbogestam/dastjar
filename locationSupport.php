@@ -53,13 +53,13 @@ if (isset($_POST['continue'])) {
 
 ///////////////// condition for check same street address with same store name
 
-            mysql_query("SET CHARACTER SET 'utf8'") or die(mysql_error());
+            mysqli_query("SET CHARACTER SET 'utf8'") or die(mysql_error());
             $query1 = "select * from store where store_name ='" . $store_name . "' and street = '" . $street . "'";
-            $res1 = mysql_query($query1);
+            $res1 = mysqli_query($query1);
 
            if($res1 > 0)
            {
-            $rs1 = mysql_fetch_array($res1);
+            $rs1 = mysqli_fetch_array($res1);
 
             $checkStoreId = $rs1['store_id'];
 
@@ -93,8 +93,8 @@ if (isset($_POST['continue'])) {
             if ($country_code == '') {
                 // $country = 'india';
                 $QUE = "select iso from country where name ='" . strtoupper($country) . "'";
-                $res = mysql_query($QUE) or die(mysql_error());
-                $row = mysql_fetch_array($res);
+                $res = mysqli_query($QUE) or die(mysql_error());
+                $row = mysqli_fetch_array($res);
                 $country_code = $row['iso'];
             }
 
@@ -158,7 +158,7 @@ if (isset($_POST['continue'])) {
             {
             $queryPro = "INSERT INTO store(`store_id`,`u_id`,`latitude`,`longitude`,`store_name`,`street`,`city`, `country`,`country_code`,`phone`,`email`,`store_link`,`s_activ`,`access_type`,`chain`,`block`,`zip`)
         VALUES ('" . $storeId . "','" . $uId . "','" . $lat . "', '" . $long . "','" . $store_name . "','" . $street . "','" . $city . "' ,'" . $country . "','" . $country_code . "','" . $phone . "','" . $email . "','" . $store_link . "','" . $s_activ . "','" . $access_type . "','" . $chain . "','" . $block . "','" . $zip . "');";
-           mysql_query($queryPro);
+           mysqli_query($queryPro);
 
             }
 

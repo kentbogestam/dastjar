@@ -62,14 +62,14 @@ class brandView {
         $error = '';
 
         $query = "SELECT company_id FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die(mysqli_error());
+        $row = mysqli_fetch_array($res);
         $data1 = $row['company_id'];
         //print_r($data1);
 
         $query = "SELECT id,brand_name, icon FROM brands where active='1' AND brands.company_id='$data1' ";
-        $res = mysql_query($query) or die(mysql_error());
-        while ($rs = mysql_fetch_array($res)) {
+        $res = mysqli_query($query) or die(mysqli_error());
+        while ($rs = mysqli_fetch_array($res)) {
             $datas[] = $rs;
         }
         return $datas;
@@ -81,14 +81,14 @@ class brandView {
         $error = '';
 
 //        $query = "SELECT company_id FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
-//        $res = mysql_query($query) or die(mysql_error());
-//        $row = mysql_fetch_array($res);
+//        $res = mysqli_query($query) or die(mysqli_error());
+//        $row = mysqli_fetch_array($res);
 //        $data1 = $row['company_id'];
 //        //print_r($data1);
 
         $query = "SELECT id,brand_name, icon FROM brands where active='1' AND brands.id='$brandid' ";
-        $res = mysql_query($query) or die(mysql_error());
-        while ($rs = mysql_fetch_array($res)) {
+        $res = mysqli_query($query) or die(mysqli_error());
+        while ($rs = mysqli_fetch_array($res)) {
             $datas[] = $rs;
         }
         return $datas;
@@ -102,24 +102,24 @@ class brandView {
         $error = '';
 
         $query = "SELECT company_name FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die(mysqli_error());
+        $row = mysqli_fetch_array($res);
         $data1 = $row['company_name'];
 
         $query = "SELECT country FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die(mysqli_error());
+        $row = mysqli_fetch_array($res);
         $data3 = $row['country'];
 
         $query = "SELECT name FROM country WHERE iso='" . $data3 . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die(mysqli_error());
+        $row = mysqli_fetch_array($res);
         $data3 = $row['name'];
 
 
         $query = "SELECT brand_fee FROM cost WHERE country='" . $data3 . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die(mysqli_error());
+        $row = mysqli_fetch_array($res);
         $data2 = $row['brand_fee'];
         $data['company_name'] = $data1;
         $data['brand_fee'] = $data2;
@@ -195,14 +195,14 @@ class brandView {
         
         /*Start Implemented To skip Payment Option*/
         $query = "SELECT company_id FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die(mysqli_error());
+        $row = mysqli_fetch_array($res);
         $compId = $row['company_id'];
         
         $brandImg = IMAGE_AMAZON_PATH.'brands/'.$arrUser['icon'];
         $brandId = uuid();
         $_SQL = "INSERT into brands(`id`,`company_id`,`brand_name`,`icon`,active) VALUES('" . $brandId . "','" . $compId . "','" . $arrUser['brand_name'] . "','" . $brandImg . "','1')";
-        $res = mysql_query($_SQL) or die(mysql_error());   
+        $res = mysqli_query($_SQL) or die(mysqli_error());   
         $_SESSION['MESSAGE'] = BRAND_REGISTER_SUCCESS;
         $url = BASE_URL . 'getBrandView.php';
         $inoutObj->reDirect($url);
@@ -212,14 +212,14 @@ class brandView {
         /*Start skip Old Payment Option*/
         /*
         $query = "SELECT company_id,pre_loaded_value FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die(mysqli_error());
+        $row = mysqli_fetch_array($res);
         $compId = $row['company_id'];
         $pre_loaded_value = $row['pre_loaded_value'];
 
         $query = "SELECT brand_name FROM brands where company_id='".$compId."'";
-        $res = mysql_query($query) or die(mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die(mysqli_error());
+        $row = mysqli_fetch_array($res);
         $companyId = $row['company_id'];
          //print_r($companyId); die();
         
@@ -231,7 +231,7 @@ class brandView {
             $brandId = uuid();
             $_SQL = "INSERT into brands(`id`,`company_id`,`brand_name`,`icon`,active)
             VALUES('" . $brandId . "','" . $compId . "','" . $arrUser['brand_name'] . "','" . $brandImg . "','1')";
-            $res = mysql_query($_SQL) or die(mysql_error());
+            $res = mysqli_query($_SQL) or die(mysqli_error());
             
             //remainder value in the account
             $total =$pre_loaded_value - $arrUser['amount'];
@@ -252,7 +252,7 @@ class brandView {
             $brandId = uuid();
             $_SQL = "INSERT into brands(`id`,`company_id`,`brand_name`,`icon`,active)
             VALUES('" . $brandId . "','" . $compId . "','" . $arrUser['brand_name'] . "','" . $brandImg . "','0')";
-            $res = mysql_query($_SQL) or die(mysql_error());
+            $res = mysqli_query($_SQL) or die(mysqli_error());
             //$_SESSION['MESSAGE'] = BRAND_REGISTER_SUCCESS;
             $url = BASE_URL . 'payment.php?action=registerBrand&amount='.$_POST['amount'].'&userId='.$_SESSION['userid'].'&brandId='.$brandId;
             $inoutObj->reDirect($url);
@@ -325,20 +325,20 @@ class brandView {
         }
 
         $query = "SELECT * FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die(mysqli_error());
+        $row = mysqli_fetch_array($res);
         $compId = $row['company_id'];
 
         $query = "SELECT icon FROM brands WHERE company_id='" . $compId . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die(mysqli_error());
+        $row = mysqli_fetch_array($res);
         $iconName = $row['icon'];
         //unlink(UPLOAD_DIR . 'brands/' . $iconName);
 
         $brandImg = IMAGE_AMAZON_PATH.'brands/'.$arrUser['icon'];
 
         $query = "UPDATE brands SET icon ='" .$brandImg. "',brand_name  ='" .$arrUser['brandName']. "' WHERE company_id  = '" . $compId . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($query) or die(mysqli_error());
 
         $_SESSION['MESSAGE'] = EDIT_ICON_SUCCESS;
         $url = BASE_URL . 'getBrandView.php';
@@ -349,12 +349,12 @@ class brandView {
     function registeredBrandUpdate($brandId) {
         $inoutObj = new inOut();
         $query = "SELECT * FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $row = mysql_fetch_array($res);
+        $res = mysqli_query($query) or die(mysqli_error());
+        $row = mysqli_fetch_array($res);
         $compId = $row['company_id'];
 
         $query = "UPDATE brands SET active ='1' WHERE id  = '" . $brandId . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = mysqli_query($query) or die(mysqli_error());
         if($res) {
             $_SESSION['MESSAGE'] = BRAND_REGISTER_SUCCESS;
         } else {
@@ -380,15 +380,15 @@ class brandView {
         $categoryId = uuid();
         $query = "INSERT INTO category(`category_id`,`small_image`)
                 VALUES ('" . $categoryId . "','" . $arrUser['small_image'] . "',);";
-        $res = mysql_query($query) or die("Inset campaign : " . mysql_error());
+        $res = mysqli_query($query) or die("Inset campaign : " . mysqli_error());
 
         $nameLangList = uuid();
         $_SQL = "insert into category_names_lang_list(`category`,`names_lang_list`) values('" . $categoryId . "','" . $nameLangList . "')";
-        $res = mysql_query($_SQL) or die("Insert limit period : " . mysql_error());
+        $res = mysqli_query($_SQL) or die("Insert limit period : " . mysqli_error());
 
 
         $_SQL = "insert into lang_text(id,lang,text) values('" . $nameLangList . "','" . $arrUser['lang'] . "','" . $arrUser['text']. "')";
-        $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+        $res = mysqli_query($_SQL) or die("sub slogan in lang_text : " . mysqli_error());
 
 
 

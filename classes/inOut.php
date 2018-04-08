@@ -127,8 +127,8 @@ class inOut {
 
 //// to check at which stage the user has completed registration process/////////
 //            $query = "SELECT activ FROM user WHERE u_id =  '".$_SESSION['userid']."'";
-//            $res = mysql_query($query) or die(mysql_error());
-//            $row = mysql_fetch_array($res);
+//            $res = mysqli_query($query) or die(mysqli_error());
+//            $row = mysqli_fetch_array($res);
             //echo $row;
             if($_SESSION['active_state']==1) {
                 $url = BASE_URL.'registrationStep.php?reg_step=1';
@@ -262,8 +262,8 @@ class inOut {
 
 //// to check at which stage the user has completed registration process/////////
 //            $query = "SELECT activ FROM user WHERE u_id =  '".$_SESSION['userid']."'";
-//            $res = mysql_query($query) or die(mysql_error());
-//            $row = mysql_fetch_array($res);
+//            $res = mysqli_query($query) or die(mysqli_error());
+//            $row = mysqli_fetch_array($res);
             //echo $row;
             if($_SESSION['active_state']==1) {
                 $url = BASE_URL.'registrationResellerStep.php?reg_step=1';
@@ -366,8 +366,8 @@ class inOut {
         // To protect MySQL injection
         //$username = stripslashes($username);
         //$password = stripslashes($password);
-       // $username = mysql_real_escape_string($username);
-       // $password = mysql_real_escape_string($password);
+       // $username = mysqli_real_escape_string($username);
+       // $password = mysqli_real_escape_string($password);
 
         //$password_sha1 = sha1($password);
         $query = "select * from user where u_id = '".$userid."'";
@@ -610,8 +610,8 @@ class inOut {
         // To protect MySQL injection
         $username = stripslashes($username);
         $password = stripslashes($password);
-        $username = mysql_real_escape_string($username);
-        $password = mysql_real_escape_string($password);
+        $username = mysqli_real_escape_string($username);
+        $password = mysqli_real_escape_string($password);
 
         $query = "select * from user_support where email = '".$username."'";
          $res= $db->query($query);

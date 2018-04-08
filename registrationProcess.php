@@ -16,22 +16,22 @@
    ////////////////////////////////////////
    /* $db = new db();
     $que = "select * from category";
-    $res = mysql_query($que);
-   while($row = mysql_fetch_array($res))
+    $res = mysqli_query($que);
+   while($row = mysqli_fetch_array($res))
    {
     print_r($row);
    }
    
    echo "//////////////////<br>";
    $que = "select * from lang_text";
-    $res = mysql_query($que);
-    while($row = mysql_fetch_array($res))
+    $res = mysqli_query($que);
+    while($row = mysqli_fetch_array($res))
     {
         print_r($row);
     }
     
     $que = "insert into category_names_lang_list(category_id,names_lang_list) values('','')";
-   //$res = mysql_query($que);   */
+   //$res = mysqli_query($que);   */
    /////////////////////////////////////////
    
    

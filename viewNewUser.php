@@ -74,7 +74,8 @@ $_SESSION['MESSAGE'] = "";
 </tr>
 <tr>
 <td width="24%">&nbsp;</td>
-<td  width="455"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="border2">
+<td  width="455">
+<!--<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="border2">
 <tr>
 <td height="25" colspan="3" align="left" class="bg_darkgray1" style="padding-left:5px;">Search</td>
 </tr>
@@ -104,7 +105,7 @@ $_SESSION['MESSAGE'] = "";
 </table></td>
 </tr>
 
-<!--<tr>
+<tr>
 <td height="25" align="center"  class='bg_lightgray'><strong>Status</strong></td>
 <td height="25" align="center"  class='bg_lightgray'><div align="left">
 <select name="status" style="width:80px;">
@@ -115,9 +116,10 @@ echo 'selected="selected"'; ?> value="1">Active</option>
 echo 'selected="selected"'; ?> value="0">Inactive</option>
 </select>
 </div></td>
-</tr>-->
+</tr>
 <tr></tr>
-</table></td>
+</table>
+</td>-->
 <td width="24%" valign="top"><div align="center" class="main_bg"><a href="addNewUser.php"> <strong>ADD NEW USER</strong> </a></div></td>
 </tr>
 </table>

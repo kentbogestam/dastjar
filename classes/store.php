@@ -73,7 +73,7 @@ class store {
             $query = "UPDATE dish_type SET
                     dish_activate='0'
                     WHERE dish_id='" . $_GET['dishId'] . "' ";
-            $res = mysqli_query($conn, $query) or die(mysql_error());
+            $res = mysqli_query($conn, $query) or die(mysqli_error());
             $url = BASE_URL . 'showDishes.php';
             $inoutObj->reDirect($url);
 
@@ -114,7 +114,7 @@ class store {
 
         $q = $db->query("SELECT * FROM dish_type WHERE u_id = '" . $_SESSION['userid'] . "' AND $set_keywords dish_activate='" . $dishActivate . "' ");
         
-        // $res = mysql_query($query) or die(mysql_error());
+        // $res = mysqli_query($query) or die(mysqli_error());
         while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
@@ -242,7 +242,7 @@ class store {
             $res = mysqli_query($conn , $query) or die('3' . mysqli_error($conn));
 
             //$query = "UPDATE coupon SET store_id = '$storeUniqueId' WHERE campaign_id='" . $camp_id . "'";
-            //$res = mysql_query($query) or die(mysql_error());
+            //$res = mysqli_query($query) or die(mysqli_error());
         } else {
            
             $query = "SELECT * FROM advertise WHERE u_id='" . $_SESSION['userid'] . "'";
@@ -261,7 +261,7 @@ class store {
                 $res = mysqli_query($query) or die('3' . mysqli_error($conn));
 
             //$query = "UPDATE coupon SET store_id = '$storeUniqueId' WHERE campaign_id='" . $camp_id . "'";
-            //$res = mysql_query($query) or die(mysql_error());
+            //$res = mysqli_query($query) or die(mysqli_error());
         } else {
             $query = "SELECT * FROM product WHERE u_id='" . $_SESSION['userid'] . "'";
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
@@ -274,7 +274,7 @@ class store {
             $res = mysqli_query($conn , $query) or die("1" . mysqli_error($conn));
 
             //$query = "UPDATE coupon SET store_id = '$storeUniqueId' WHERE product_id='" . $product_id . "'";
-            //$res = mysql_query($query) or die("2" . mysql_error());
+            //$res = mysqli_query($query) or die("2" . mysqli_error());
         }
         }
 
@@ -522,8 +522,8 @@ class store {
     function getStoreDetail($uid) {
         $options = "";
         $query = "SELECT * FROM store WHERE u_id = '" . $uid . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        while ($rs = mysql_fetch_array($res)) {
+        $res = mysqli_query($query) or die(mysqli_error());
+        while ($rs = mysqli_fetch_array($res)) {
             $data[] = $rs;
         }
         return $data;
@@ -547,7 +547,7 @@ class store {
 
         $options = "";
         $query = "SELECT company.*,country.name as cname,country.iso as ciso FROM company left join country on (country.iso = company.country) WHERE company.u_id = '" . $uid . "'";
-        $res = mysqli_query($conn ,$query) or die(mysql_error());
+        $res = mysqli_query($conn ,$query) or die(mysqli_error());
         while ($rs = mysqli_fetch_array($res)) {
             $data[] = $rs;
         }
@@ -571,7 +571,7 @@ class store {
 
         $options = "";
         $query = "SELECT * FROM user WHERE u_id = '" . $uid . "'";
-        $res = mysqli_query($conn , $query) or die(mysql_error());
+        $res = mysqli_query($conn , $query) or die(mysqli_error());
         while ($rs = mysqli_fetch_array($res)) {
             $data1[] = $rs;
         }
@@ -609,7 +609,7 @@ class store {
 
         $q = $db->query("SELECT * FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND $set_keywords s_activ='1'  LIMIT {$paging_limit} ");
 
-        // $res = mysql_query($query) or die(mysql_error());
+        // $res = mysqli_query($query) or die(mysqli_error());
         while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
@@ -648,7 +648,7 @@ class store {
         $Query = "SELECT * FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND $set_keywords s_activ='2' LIMIT {$paging_limit}";
         $q = $db->query($Query);
 
-        //$res = mysql_query($query) or die(mysql_error());
+        //$res = mysqli_query($query) or die(mysqli_error());
 
         while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
@@ -676,7 +676,7 @@ class store {
         $data = array();
         $q = $db->query("SELECT * FROM store LEFT JOIN coupon_delivery_method ON (store.store_id = coupon_delivery_method.store)  WHERE store.u_id = '" . $_SESSION['userid'] . "' AND store.store_id='" . $storeid . "' ");
       
-        // $res = mysql_query($query) or die(mysql_error());
+        // $res = mysqli_query($query) or die(mysqli_error());
         while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
@@ -756,7 +756,7 @@ class store {
         //         dish_lang='" . $arrUser['lang'] . "',
         //         dish_name='" . $arrUser['dishType'] . "'
         //         WHERE dish_id='" . $dishid . "' ";
-        // $res = mysqli_query($conn, $query) or die(mysql_error());
+        // $res = mysqli_query($conn, $query) or die(mysqli_error());
         // $_SESSION['MESSAGE'] = UPDATED_DISH;
         $url = BASE_URL . 'showDishes.php';
         $inoutObj->reDirect($url);
@@ -900,7 +900,7 @@ class store {
 
         $q = $db->query("SELECT * FROM dish_type WHERE dish_type.u_id = '" . $_SESSION['userid'] . "' AND dish_type.dish_id='" . $dishid . "'");
 
-        // $res = mysql_query($query) or die(mysql_error());
+        // $res = mysqli_query($query) or die(mysqli_error());
         while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
@@ -929,7 +929,7 @@ class store {
         
         $q = $db->query("SELECT * FROM store WHERE store.u_id = '" . $_SESSION['userid'] . "' AND store.store_id='" . $storeid . "'");
 
-        // $res = mysql_query($query) or die(mysql_error());
+        // $res = mysqli_query($query) or die(mysqli_error());
         while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
@@ -1003,8 +1003,8 @@ class store {
            $QUE = "SELECT * FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND $set_keywords  s_activ='1'";
         }
         //echo $QUE;
-        // $res = mysql_query($query) or die(mysql_error());
-        $res = mysqli_query($conn,$QUE) or die(mysql_error());
+        // $res = mysqli_query($query) or die(mysqli_error());
+        $res = mysqli_query($conn,$QUE) or die(mysqli_error());
         $total_records = $db->numRows($res);
 
         return $total_records;
@@ -1019,8 +1019,8 @@ class store {
 //        $db->makeConnection();
 //        $_SQL = "SELECT text FROM product_price_list WHERE store_id = '" . $_GET['storeId'] ."'";
 //
-//        $res = mysql_query($_SQL);
-//        $rs = mysql_fetch_array($res);
+//        $res = mysqli_query($_SQL);
+//        $rs = mysqli_fetch_array($res);
 //         $data = $rs['text'];
 //
 //        if($data)
@@ -1136,7 +1136,7 @@ class store {
 
         $q = $db->query("SELECT * FROM store WHERE access_type = '0' AND $set_keywords s_activ='1'  LIMIT {$paging_limit} ");
 
-         //$res = mysql_query($q) or die(mysql_error());
+         //$res = mysqli_query($q) or die(mysqli_error());
         while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
@@ -1215,8 +1215,8 @@ class store {
 
         $q = $db->query("SELECT store_id FROM c_s_rel WHERE campaign_id = '" . $campaignid . "' AND  activ='1'");
 
-         //$res = mysql_query($q) or die(mysql_error());
-      //  $rs = mysql_fetch_array($q);
+         //$res = mysqli_query($q) or die(mysqli_error());
+      //  $rs = mysqli_fetch_array($q);
         while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs[0];
         }
@@ -1302,7 +1302,7 @@ class store {
 
         $q = $db->query("SELECT * FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND s_activ='1' AND  $set_keywords s_activ='1'  LIMIT {$paging_limit} ");
 
-         //$res = mysql_query($q) or die(mysql_error());
+         //$res = mysqli_query($q) or die(mysqli_error());
         while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
@@ -1322,8 +1322,8 @@ class store {
 
         $q = $db->query("SELECT store_id FROM c_s_rel WHERE campaign_id = '" . $campaignid . "' AND  activ='1'");
 
-         //$res = mysql_query($q) or die(mysql_error());
-      //  $rs = mysql_fetch_array($q);
+         //$res = mysqli_query($q) or die(mysqli_error());
+      //  $rs = mysqli_fetch_array($q);
         while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs[0];
         }

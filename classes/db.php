@@ -34,7 +34,7 @@ class db {
 *      Description: To close the database Connection.
     */
     function closeConnection() {
-        mysql_close($this->link);
+        mysqli_close($this->link);
     }
     /* Function Header :query($query)
 *             Args: $emailId
@@ -45,7 +45,7 @@ class db {
     public function query($query) {
         $conn = $this->makeConnection();
         $res = mysqli_query($conn, $query);
-        //$res = mysql_query($query,$this->link) or die(mysql_error());
+        //$res = mysqli_query($query,$this->link) or die(mysqli_error());
         if(!$res) {
             trigger_error('FAILED: '.$query, E_USER_NOTICE);
         }else {
@@ -96,7 +96,7 @@ class db {
 *      Description: To get the id generated in the last query.
     */
     function insertId() {
-        return mysql_insert_id($this->link);
+        return mysqli_insert_id($this->link);
     }
 
     /* Function Header :process_submission( $table, $submission, $id=array())
@@ -117,9 +117,9 @@ class db {
         /**
          * Get the array of fields from the table, and free the result
          */
-        //echo "no of field:".mysql_num_fields( $this->result );
-        for( $i = 0; $i < mysql_num_fields( $this->result ); ++$i ) {
-            $info = mysql_fetch_field( $this->result );
+        //echo "no of field:".mysqli_num_fields( $this->result );
+        for( $i = 0; $i < mysqli_num_fields( $this->result ); ++$i ) {
+            $info = mysqli_fetch_field( $this->result );
             $fieldArray[$info->name] = 1;
         }
 
@@ -145,8 +145,8 @@ class db {
             $this->sql = "INSERT INTO $table (" . implode(',', array_keys( $fields ) ). ") VALUES (". implode(',',array_values( $fields ) ). ")";
 
             $this->result = $this->query($this->sql);
-            if( mysql_affected_rows() > 0 ) {
-                return( mysql_insert_id() );
+            if( mysqli_affected_rows() > 0 ) {
+                return( mysqli_insert_id() );
             } else {
                 return( 0 );
             }
