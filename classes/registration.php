@@ -354,7 +354,7 @@ class registration {
 
             // Add company details in the database
             $compUniqueId = uuid();
-            echo $_SESSION['userid'];
+            //echo $_SESSION['userid'];
 			$pre_loaded_value = 10000;
              $query = "INSERT INTO company(`company_id` ,`u_id` ,`company_name` ,`orgnr` ,`street` ,`zip` ,`city` ,`country` ,`tzcountries` ,`timezones` ,`currencies`,`low_level`,`pre_loaded_value`)
                 VALUES ('" . $compUniqueId . "', '" . $_SESSION['userid'] . "', '" . $arrUser['company_name'] . "', '" . $arrUser['orgnr'] . "', '" . $arrUser['street'] . "', '" . $arrUser['zip'] . "', '" . $arrUser['city'] . "', '" . $arrUser['country'] . "', '" . $arrUser['tzcountries'] . "', '" . $arrUser['timezones'] . "', '" . $arrUser['currencies'] . "', '" . $arrUser['lowLevel'] . "',".$pre_loaded_value.");";
