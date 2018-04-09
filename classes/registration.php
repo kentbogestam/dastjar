@@ -140,7 +140,7 @@ class registration {
             foreach($fields as $key=>$value) {
             $postvars .= $key . "=" . $value . "&";
             }
-            $url = "http://dastjar.com/anar/public/api/v1/save-password";
+            $url = "https://dastjar.com/anar/public/api/v1/save-password";
             curl_setopt($ch,CURLOPT_URL,$url);
             curl_setopt($ch,CURLOPT_POST, 1);                //0 for a get request
             curl_setopt($ch,CURLOPT_POSTFIELDS,$postvars);
