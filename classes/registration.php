@@ -151,9 +151,9 @@ class registration {
             $err = curl_error($ch);
             curl_close ($ch);
             if ($err) {
-            echo "cURL Error #:" . $err;
+            //echo "cURL Error #:" . $err;
             } else {
-            echo $response;
+            //echo $response;
             }
 
 
