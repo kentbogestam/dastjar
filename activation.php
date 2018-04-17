@@ -600,6 +600,12 @@
                else {
                
                ?>
+            <form name="register" action="" id="registerform" method="Post">
+               
+            </form>
+            <?
+               }
+               ?>
          </table>
       </div>
    </div>
