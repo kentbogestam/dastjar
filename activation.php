@@ -600,62 +600,6 @@
                else {
                
                ?>
-            <form name="register" action="" id="registerform" method="Post">
-               <table width="100%" border="0">
-                  <tr>
-                     <td>&nbsp;</td>
-                  </tr>
-                  <tr>
-                     <td class="redwhitebutton">1 Register</td>
-                  </tr>
-                  <tr>
-                     <td  >&nbsp;</td>
-                  </tr>
-                  <tr>
-                     <td class="redwhitebutton">2 Add Company</td>
-                  </tr>
-                 <!--  <tr>
-                     <td  >&nbsp;</td>
-                  </tr>
-                  <?php if(!$_SESSION['Retailers']) {?>
-                  <tr>
-                     <td class="redwhitebutton">3 Add Offer</td>
-                  </tr>
-                  <? } ?> -->
-                  <tr>
-                     <td  >&nbsp;</td>
-                  </tr>
-                  <tr>
-                     <td class="blackbutton">3 Activate</td>
-                  </tr>
-                  <tr>
-                     <td  >&nbsp;</td>
-                  </tr>
-               </table>
-               <input class="text_field_new" type="hidden" name="m" value="noOfferDetails">
-               <table BORDER=0  width="100%">
-                  <tr>
-                     <td ></td>
-                     <td>
-                        <div  style="  color: brown; text-align: center; font-size: 20px; font-weight: bold;"> Your Company has been added successfully updated.<br>
-                           You can just click to activate your Account. 
-                        </div>
-                     </td>
-                     <td ></td>
-                  </tr>
-               </table>
-               <table width="100%" BORDER=0>
-                  <tr>
-                     <td  width="27%">&nbsp;</td>
-                     <td align="center" width="51%" ><INPUT   type="submit" value="Activate" name="Activate" id="Activate" class="button "></td>
-                     <td  width="22%">&nbsp;</td>
-                  </tr>
-               </table>
-            </form>
-            <?
-               }
-            }
-               ?>
          </table>
       </div>
    </div>
