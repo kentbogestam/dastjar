@@ -1,3 +1,4 @@
+
 <?php
    /* File Name   : activation.php
    *  Description : activation Form
@@ -5,7 +6,7 @@
    *  Date        : 4th,Dec,2010  Creation
    */
    header('Content-Type: text/html; charset=utf-8');
-   include_once("cumbari.php");
+  // include_once("cumbari.php");
    $regObj = new registration();
    $activateObj = new activate();
    $afterActivationObj = new afterActivation();
@@ -37,7 +38,7 @@
          <table width="100%" border="0" cellpadding="0" cellspacing="0">
             <tr>
                <td>
-                  <?
+                  <?php
                      // Campaign Exist
                                          if ($data['act_camp'] == 1) {
                                              if ($data['spons'] == 0) {
@@ -95,19 +96,19 @@
                         </tr>
                         <tr align="center" class="bg_lightgray_2_txt">
                            <td align="left" valign="top"><img src="<?php echo $data['small_image'] ?>" height="30" width="30"/></td>
-                           <td align="left" valign="top"><? echo $data['campaign_name']; ?></td>
-                           <td align="left" valign="top"><? echo $data['text']; ?></td>
-                           <td align="left" valign="top"><? echo $data['keyword']; ?></td>
+                           <td align="left" valign="top"><?php echo $data['campaign_name']; ?></td>
+                           <td align="left" valign="top"><?php echo $data['text']; ?></td>
+                           <td align="left" valign="top"><?php echo $data['keyword']; ?></td>
                            <td align="left" valign="top"><img src="<?php echo $data['large_image'] ?>" height="30" width="30"/></td>
-                           <td align="left" valign="top"><?  $d=$data['start_of_publishing'];
+                           <td align="left" valign="top"><?php  $d=$data['start_of_publishing'];
                               $timeStamp = explode(" ",$d);
                                 $start_date = $timeStamp[0];?>
-                              <? echo $start_date; ?>
+                              <?php echo $start_date; ?>
                            </td>
-                           <td align="left" valign="top"><?  $d=$data['end_of_publishing'];
+                           <td align="left" valign="top"><?php  $d=$data['end_of_publishing'];
                               $timeStamp = explode(" ",$d);
                                  $end_date = $timeStamp[0];?>
-                              <? echo $end_date; ?>
+                              <?php echo $end_date; ?>
                            </td>
                         </tr>
                      </table>
@@ -132,7 +133,7 @@
                </td>
             </tr>
             <!--//FETCH RECORDS FROM CCODE TABLE// -->
-            <?
+            <?php
                } elseif ($data['spons'] == 1) {
                
                    ?>
@@ -140,7 +141,7 @@
             <form name="register" action="payment.php" id="registerform" method="Post">
                <input class="text_field_new" type="hidden" name="m" value="sponsoredCampaignActivate">
                <input class="text_field_new" type="hidden" name="action" value="loadAccountAct">
-               <input class="text_field_new" type="hidden" name="userId" value="<?=$_SESSION['userid']?>">
+               <input class="text_field_new" type="hidden" name="userId" value="<?php $_SESSION['userid']?>">
                <table width="100%" border="0" >
                   <tr>
                      <td>&nbsp;</td>
@@ -225,7 +226,7 @@
                   </table>
                </div>
             </form>
-            <?
+            <?php
                }
                }
                //====================
@@ -286,19 +287,19 @@
                   </tr>
                   <tr align="center" class="bg_lightgray_2_txt">
                      <td align="left" valign="top"><img src="<?php echo $data['small_image'] ?>" height="30" width="30"/></td>
-                     <td align="left" valign="top"><? echo $data['advertise_name']; ?></td>
-                     <td align="left" valign="top"><? echo $data['text']; ?></td>
-                     <td align="left" valign="top"><? echo $data['keyword']; ?></td>
+                     <td align="left" valign="top"><?php echo $data['advertise_name']; ?></td>
+                     <td align="left" valign="top"><?php echo $data['text']; ?></td>
+                     <td align="left" valign="top"><?php echo $data['keyword']; ?></td>
                      <td align="left" valign="top"><img src="<?php echo $data['large_image'] ?>" height="30" width="30"/></td>
-                     <td align="left" valign="top"><?  $d=$data['start_of_publishing'];
+                     <td align="left" valign="top"><?php  $d=$data['start_of_publishing'];
                         $timeStamp = explode(" ",$d);
                           $start_date = $timeStamp[0];?>
-                        <? echo $start_date; ?>
+                        <?php echo $start_date; ?>
                      </td>
-                     <td align="left" valign="top"><?  $d=$data['end_of_publishing'];
+                     <td align="left" valign="top"><?php  $d=$data['end_of_publishing'];
                         $timeStamp = explode(" ",$d);
                            $end_date = $timeStamp[0];?>
-                        <? echo $end_date; ?>
+                        <?php echo $end_date; ?>
                      </td>
                   </tr>
                </table>
@@ -323,7 +324,7 @@
             </td>
             </tr>
             <!--//FETCH RECORDS FROM CCODE TABLE// -->
-            <?
+            <?php
                } elseif ($data['spons'] == 1) {
                
                    ?>
@@ -331,7 +332,7 @@
             <form name="register" action="payment.php" id="registerform" method="Post">
                <input class="text_field_new" type="hidden" name="m" value="sponsoredAdvertiseActivate">
                <input class="text_field_new" type="hidden" name="action" value="loadAccountAct">
-               <input class="text_field_new" type="hidden" name="userId" value="<?=$_SESSION['userid']?>">
+               <input class="text_field_new" type="hidden" name="userId" value="<?php $_SESSION['userid']?>">
                <table width="100%" border="0" >
                   <tr>
                      <td>&nbsp;</td>
@@ -416,7 +417,7 @@
                   </table>
                </div>
             </form>
-            <?
+            <?php
                }
                }
                // Product Exist
@@ -466,10 +467,10 @@
                   </tr>
                   <tr align="center">
                      <td><img src="<?php echo $data['small_image'] ?>" height="30" width="30"/></td>
-                     <td><? echo $data['product_name']; ?></td>
-                     <td><? echo $data['lang']; ?></td>
+                     <td><?php echo $data['product_name']; ?></td>
+                     <td><?php echo $data['lang']; ?></td>
                      <td><img src="<?php echo $data['large_image'] ?>" height="30" width="30"/></td>
-                     <?  $d=$data['start_of_publishing'];
+                     <?php  $d=$data['start_of_publishing'];
                         $timeStamp = explode(" ",$d);
                           $start_date = $timeStamp[0];?>
                      <td><? echo $start_date; ?></td>
@@ -489,7 +490,7 @@
                </table>
             </form>
             <!--//FETCH RECORDS FROM CCODE TABLE// -->
-            <?
+            <?php
                }
                elseif ($data['is_sponsored'] == 1) {
                
@@ -498,7 +499,7 @@
             <form name="register" action="payment.php" id="registerform" method="Post">
                <input class="text_field_new" type="hidden" name="m" value="sponsoredStandardActivate">
                <input class="text_field_new" type="hidden" name="action" value="loadAccountAct">
-               <input class="text_field_new" type="hidden" name="userId" value="<?=$_SESSION['userid']?>">
+               <input class="text_field_new" type="hidden" name="userId" value="<?php $_SESSION['userid']?>">
                <table width="100%" border="0">
                   <tr>
                      <td>&nbsp;</td>
@@ -593,7 +594,7 @@
                </table>
             </form>
             <!--//FETCH RECORDS FROM CCODE TABLE// -->
-            <?
+            <?php
                }
                }
                //No Offer
@@ -652,7 +653,7 @@
                   </tr>
                </table>
             </form>
-            <?
+            <?php
                }
                ?>
          </table>
@@ -660,5 +661,5 @@
    </div>
 </div>
 <?php
-   include("footer.php");
-   ?>
+   include("footer.php") ;
+?>
