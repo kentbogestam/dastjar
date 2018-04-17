@@ -614,6 +614,14 @@
                   <tr>
                      <td class="redwhitebutton">2 Add Company</td>
                   </tr>
+                 <!--  <tr>
+                     <td  >&nbsp;</td>
+                  </tr>
+                  <?php if(!$_SESSION['Retailers']) {?>
+                  <tr>
+                     <td class="redwhitebutton">3 Add Offer</td>
+                  </tr>
+                  <? } ?> -->
                   <tr>
                      <td  >&nbsp;</td>
                   </tr>
