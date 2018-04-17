@@ -602,6 +602,25 @@
                ?>
             <form name="register" action="" id="registerform" method="Post">
                
+               <input class="text_field_new" type="hidden" name="m" value="noOfferDetails">
+               <table BORDER=0  width="100%">
+                  <tr>
+                     <td ></td>
+                     <td>
+                        <div  style="  color: brown; text-align: center; font-size: 20px; font-weight: bold;"> Your Company has been added successfully updated.<br>
+                           You can just click to activate your Account. 
+                        </div>
+                     </td>
+                     <td ></td>
+                  </tr>
+               </table>
+               <table width="100%" BORDER=0>
+                  <tr>
+                     <td  width="27%">&nbsp;</td>
+                     <td align="center" width="51%" ><INPUT   type="submit" value="Activate" name="Activate" id="Activate" class="button "></td>
+                     <td  width="22%">&nbsp;</td>
+                  </tr>
+               </table>
             </form>
             <?
                }
