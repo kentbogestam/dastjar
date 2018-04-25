@@ -25,6 +25,7 @@ class db {
         {
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
+        mysqli_set_charset($this->link,"utf8");
         return($this->link);
     }
     /* Function Header :closeConnection()
