@@ -455,7 +455,7 @@
                   </tr>
                </table>
                <input class="text_field_new" type="hidden" name="m" value="unsponsoredStandardActivate">
-               <p><b/>Your Standard Offer Starts on the following date.</p>
+               <!-- <p><b/>Your Standard Offer Starts on the following date.</p>
                <table width="100%" border="0">
                   <tr  class='bg_lightgray'>
                      <th>Category Icon</th>
@@ -474,7 +474,7 @@
                           $start_date = $timeStamp[0];?>
                      <td><? echo $start_date; ?></td>
                   </tr>
-               </table>
+               </table> -->
                <table BORDER=0 width="100%">
                   <tr >
                      <td  width="27%">&nbsp;</td>
