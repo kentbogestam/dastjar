@@ -320,6 +320,7 @@
                  <div id="with-altField1"></div>
                   <div id="withAltField1" class="box">
                    <img class="cal_icon" id="cal_icon" src="client/js/newJs/images/calendar.gif">   <input class="text_field_new" type="text" id="altField1" name="altField1" value="<?=$data[0]['store_close_dates']?>">
+                   <label><?=$data[0]['store_close_dates']?></label>
                   </div>
                </td>
             </tr>
