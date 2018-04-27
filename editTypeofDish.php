@@ -46,7 +46,7 @@
          <input type="hidden" name="m" value="saveNewStore">
          <table width="100%"  border="0">
             <tr>
-               <td class="redwhitebutton">Add Dish</td>
+               <td class="redwhitebutton">Edit Type of Dish</td>
             </tr>
          </table>
          <table width="100%" border="0" cellspacing="15">
