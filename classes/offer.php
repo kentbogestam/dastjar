@@ -4091,39 +4091,39 @@ class offer extends advertiseoffer{
             //echo "Cat Resp icon"; die();
             //print_r($_SESSION['preview']);
             //echo $_POST['smallimage']."iiiiiii".$category_image = $_POST["category_image"]; die();
-            if (!empty($category_image)) {
+            // if (!empty($category_image)) {
 
-                $categoryImageName = explode(".", $category_image);
-                $cat_filename = $CategoryIconName . "." . $categoryImageName[1];
-                //move_uploaded_file($_FILES["icon"]["tmp_name"],UPLOAD_DIR."Category/" .$cat_filename);
-                $fileOriginal = UPLOAD_DIR . "category_lib/" . $category_image;
-                //$crop = '5';
-                //$size = 'iphone4_cat';
-                $path = UPLOAD_DIR . "category/";
-                $fileThumbnail = $path . $cat_filename;
-                copy($fileOriginal, $fileThumbnail);
-                //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
-                $arrUser['small_image'] = $cat_filename;
-            } else {
-                if ($_SESSION['preview']['small_image'] != "") {
-                    $arrUser['small_image'] = $_SESSION['preview']['small_image'];
-                } elseif ($_POST['smallimage'] == "") {
-                    $error.= ERROR_SMALL_IMAGE;
-                } else {
-                    $arrUser['small_image'] = $_POST['smallimage'];
-                }
-            }
+            //     $categoryImageName = explode(".", $category_image);
+            //     $cat_filename = $CategoryIconName . "." . $categoryImageName[1];
+            //     //move_uploaded_file($_FILES["icon"]["tmp_name"],UPLOAD_DIR."Category/" .$cat_filename);
+            //     $fileOriginal = UPLOAD_DIR . "category_lib/" . $category_image;
+            //     //$crop = '5';
+            //     //$size = 'iphone4_cat';
+            //     $path = UPLOAD_DIR . "category/";
+            //     $fileThumbnail = $path . $cat_filename;
+            //     copy($fileOriginal, $fileThumbnail);
+            //     //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
+            //     $arrUser['small_image'] = $cat_filename;
+            // } else {
+            //     if ($_SESSION['preview']['small_image'] != "") {
+            //         $arrUser['small_image'] = $_SESSION['preview']['small_image'];
+            //     } elseif ($_POST['smallimage'] == "") {
+            //         $error.= ERROR_SMALL_IMAGE;
+            //     } else {
+            //         $arrUser['small_image'] = $_POST['smallimage'];
+            //     }
+            // }
         }
 
         /////////////////////////// upload smallimages into server///////////////////
-        $file1 = _UPLOAD_IMAGE_ . 'category/' . $arrUser['small_image'];
-        $dir1 = "category";
-        $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
-        system($command);
-        //echo "End UPLOAD"; die();
-        //// Upload Coupen image//////
-        $coupenName = "cpn_" . md5(time());
-        $info = pathinfo($_FILES["picture"]["name"]);
+        // $file1 = _UPLOAD_IMAGE_ . 'category/' . $arrUser['small_image'];
+        // $dir1 = "category";
+        // $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
+        // system($command);
+        // //echo "End UPLOAD"; die();
+        // //// Upload Coupen image//////
+        // $coupenName = "cpn_" . md5(time());
+        // $info = pathinfo($_FILES["picture"]["name"]);
 
         // if (!empty($_FILES["picture"]["name"])) {
 
@@ -4165,10 +4165,10 @@ class offer extends advertiseoffer{
         // }
 
         /////////////////////////// upload largeimages into server///////////////////
-        $file2 = _UPLOAD_IMAGE_ . 'coupon/' . $arrUser['large_image'];
-        $dir2 = "coupon";
-        $command2 = IMAGE_DIR_PATH . $file2 . " " . $dir2;
-        system($command2);
+        // $file2 = _UPLOAD_IMAGE_ . 'coupon/' . $arrUser['large_image'];
+        // $dir2 = "coupon";
+        // $command2 = IMAGE_DIR_PATH . $file2 . " " . $dir2;
+        // system($command2);
 //echo $error;
         //die();
         $arrUser['large_image'] = $_SESSION['preview']['large_image'];
