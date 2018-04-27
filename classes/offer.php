@@ -4038,7 +4038,7 @@ class offer extends advertiseoffer{
                 $arrUser['product_info_page'] = $filestring;
             }
         }
-        $arrUser['product_name'] = addslashes($productName);
+        $arrUser['product_name'] = addslashes(mysqli_real_escape_string($conn,$productName));
         $arrUser['ean_code'] = $eanCode;
         $arrUser['is_public'] = '1';
         $arrUser['product_number'] = $productNumber;
@@ -4047,7 +4047,7 @@ class offer extends advertiseoffer{
         $arrUser['language'] = $_POST['lang'];
         $arrUser['dish_id'] = $_POST['select2'];
         $arrUser['preparation_Time'] = $_POST['preparationTime'];
-        $arrUser['product_description'] = $_POST['productDescription'];
+        $arrUser['product_description'] = mysqli_real_escape_string($conn,$_POST['productDescription']);
         // echo $arrUser['is_public'];die();
         $error.= ( $arrUser['offer_slogan_lang_list'] == '') ? ERROR_TITLE_SLOGAN : '';
 
