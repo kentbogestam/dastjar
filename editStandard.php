@@ -196,13 +196,13 @@
             <td align="left" valign="top">
                <?php if ($_SESSION['preview']['small_image']) {
                   ?>
-               <!-- <img src="upload/category/<?=$_SESSION['preview']['small_image'] ?>">-->
+               <!-- <img src="<?=$data[0]['small_image']?>"> -->
                <input class="text_field_new" type="hidden" name="smallimage" id="smallimage" value="<?=$_SESSION['preview']['small_image'] ?>">
                <br>
                <?
                   }
                   ?>
-               <INPUT class="text_field_new" type=file name="icon" id="icon" onBlur="iconPreview(this.form);">
+              <!--  <INPUT class="text_field_new" type=file name="icon" id="icon" onBlur="iconPreview(this.form);"> -->
                <div id='error_icon' class="error"></div>
                <div>
                   <input class="text_field_new" type="hidden" id="selected_image" name="selected_image" value="0">
@@ -220,29 +220,26 @@
       </table>
       <table  border="0" align="center" cellpadding="0" cellspacing="0">
          <tr id="short_preview" style="display:inline;">
-            <td width="422" align="center" valign="top" style="background-image:url(client/images/iphone_large-2.png); width:270px; height:559px; background-repeat:no-repeat;">
-               <div style="margin-top:150px; width:225px; margin-left:auto; margin-right:auto;" >
-                  <table width="100%" border="0" cellpadding="0" cellspacing="0">
+            <td width="422" align="center" valign="top" style="background-image:url(client/images/iphone_large-3.png); width:270px; height:559px; background-repeat:no-repeat;">
+               <div style="margin-top:80px; width:225px; margin-left:5px; margin-right:auto;" >
+                  <table border="0" cellpadding="0" cellspacing="0">
                      <tr>
                         <td width="41"  align="left" style="padding-left:5px; padding-right:5px;">
-                           <div id="upload_area" style="vertical-align:top;"><img src="" id="myCatIcon" name="myCatIcon"></div>
+                           <div id="upload_area" style="vertical-align:top;"><img src="<?=$data[0]['small_image']?>"  height = 30 width = 50 id="myCatIcon" name="myCatIcon"></div>
                         </td>
                         <td rowspan="2" valign="top">
                            <table width="98%" border="0" cellpadding="0" cellspacing="0">
                               <tr>
-                                 <td width="108" class="mob_title" id="tslogan"></td>
+                                 <td class="mob_title_2" id="tslogan"></td>
                                  <td width="21" align="right" nowrap style="padding-right:3px;">
-                                    <div style="float:right"><font size="-3">??km</font></div>
+                                    <div><font size="-3"></font></div>
                                  </td>
                               </tr>
-                              <tr>
+                              <!--<tr>
                                  <td valign="top" colspan="2" class="mob_txt" id="sslogan"></td>
-                              </tr>
+                                 </tr>-->
                            </table>
                         </td>
-                     </tr>
-                     <tr>
-                        <td>&nbsp;</td>
                      </tr>
                   </table>
                </div>
@@ -348,7 +345,7 @@
                <div class="adddishes">
                   <select id= "xx" selected="<?=isset($data[0]['dish_type']) ? $data[0]['dish_type'] : ''?>" name="select2" style="width:406px; background-color:#e4e3dd; border:#abadb3 solid 1px;" class="text_field_new" >
                      <?php foreach($listDishes as $key =>$value) { ?>
-                     <option value = <?php echo $value['dish_id']?> <?php if(isset($data[0]['dish_type']) ? $data[0]['dish_type'] : '' ==  $value['dish_id']) echo "selected"; ?> ><?php echo $value['dish_name']?></option>
+                     <option value = <?php echo $value['dish_id']?> <?php if($data[0]['dish_type'] == $value['dish_id']) echo "selected"; ?> ><?php echo $value['dish_name']?></option>
                      <?php } ?>
                   </select>
                   <div id='error_startDateStand' class="error"></div>

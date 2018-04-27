@@ -136,7 +136,9 @@
                                     <td width="51%" align="right" style="color:#881d0a;">
                                        <?php if ($_REQUEST['m'] == "showOutdatedStore") {
                                           ?> <? } else { ?>
-                                       <img src="lib/grid/images/lang.png">&nbsp;Add Language&nbsp;&nbsp;&nbsp;<img src="lib/grid/images/delete.gif">&nbsp;Delete&nbsp;&nbsp;&nbsp;
+                                       <img src="lib/grid/images/lang.png">&nbsp;Add Language&nbsp;&nbsp;&nbsp;
+                                       <img src="lib/grid/images/edite.gif">&nbsp;Edit&nbsp;&nbsp;&nbsp;
+                                       <img src="lib/grid/images/delete.gif">&nbsp;Delete&nbsp;&nbsp;&nbsp;
                                        <? } ?>
                                        <img src="lib/grid/images/view.gif">&nbsp;View&nbsp;&nbsp;&nbsp;<!--<img src="lib/grid/images/active.gif">Active&nbsp;&nbsp;&nbsp;<img src="lib/grid/images/deactive.gif">Inactive &nbsp;&nbsp;&nbsp;-->
                                     </td>
@@ -159,7 +161,8 @@
                                     <td align="center"><?php echo $data1['dish_name']; ?></td>
                                     <td align="center"><?php echo $data1['dish_lang']; ?></td>
                                     <td align="center">
-                                       <a href="viewDish.php?dishId=<?=$data1['dish_id']; ?>" class="a2" title="View"><img src="lib/grid/images/view.gif"></a>&nbsp;&nbsp;
+                                       <a href="viewDish.php?dishId=<?=$data1['dish_id']; ?>" class="a2" title="View"><img src="lib/grid/images/view.gif"></a>&nbsp;|&nbsp;
+                                       <a href="editTypeofDish.php?dishId=<?=$data1['dish_id']; ?>" class="a2" title="Edit"><img src="lib/grid/images/edite.gif"></a>&nbsp;&nbsp;
                                        <?php if ($_REQUEST['m'] == "showOutdatedStore") {
                                           ?>
                                        <!--<a href="javascript:delete_re('storeId=<?=$data1['store_id']; ?>')" onClick="" class="a2" title="Delete">
