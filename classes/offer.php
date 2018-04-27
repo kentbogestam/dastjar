@@ -1479,6 +1479,30 @@ class offer extends advertiseoffer{
         }
     }
 
+    function editTypeofdishsave(){
+        $inoutObj = new inOut();
+        $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+        $arrUser = array();
+        $arrUser['dishid'] = $_POST['dishid'];
+        $arrUser['dishName'] = mysqli_real_escape_string($conn,$_POST['dishName']);
+        $arrUser['lang'] = $_POST['lang'];
+       
+
+        $query = "UPDATE dish_type SET
+                    dish_lang='" .  $arrUser['lang'] . "',dish_name = '" .  $arrUser['dishName'] . "'
+                    WHERE dish_id='" . $arrUser['dishid'] . "' ";
+        $res = mysqli_query($conn, $query) or die(mysql_error());
+        $url = BASE_URL . 'showDishes.php';
+        $inoutObj->reDirect($url);
+
+        exit();
+    }
+
 
     function addDishes(){
 
@@ -1495,7 +1519,7 @@ class offer extends advertiseoffer{
         $error = '';
 
         $arrUser['lang'] = $_POST['lang'];
-        $arrUser['dishType'] = $_POST['dishName'];
+        $arrUser['dishType'] = mysqli_real_escape_string($conn,$_POST['dishName']);
 
         $query = "SELECT * FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
         $res = mysqli_query($conn , $query) or die(mysql_error());
@@ -1518,6 +1542,16 @@ class offer extends advertiseoffer{
         $db = new db();
         $db->makeConnection();
         $q = $db->query("SELECT dish_id,dish_name FROM dish_type WHERE u_id = '" . $_SESSION['userid'] . "' AND  dish_activate='1'");
+        while ($rs = mysqli_fetch_array($q)) {
+            $data[] = $rs;
+        }
+        return $data;
+    }
+
+    public function getTypeOfDishDetail($dishId){
+        $db = new db();
+        $db->makeConnection();
+        $q = $db->query("SELECT dish_name,dish_lang FROM dish_type WHERE dish_id = '" . $dishId . "' ");
         while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
@@ -4277,7 +4311,7 @@ echo $arrUser['is_public'];die();
 
             ///////////update product
 
-            $query = "UPDATE product SET dish_type = '" . $arrUser['dish_id'] . "',is_sponsored = '" . $arrUser['is_sponsored'] . "',product_name = '" . $arrUser['product_name'] . "',product_info_page = '" . $arrUser['product_info_page'] . "', preparation_Time = '" . $arrUser['preparation_Time'] . "',start_of_publishing = '" . $arrUser['start_of_publishing'] . "',is_public = '" . $arrUser['is_public'] . "',link = '" . $arrUser['link'] . "',start_of_publishing='" . $arrUser['start_of_publishing'] . "'  WHERE product_id = '" . $productid . "'";
+            $query = "UPDATE product SET dish_type = '" . $arrUser['dish_id'] . "',is_sponsored = '" . $arrUser['is_sponsored'] . "',product_name = '" . $arrUser['product_name'] . "',product_info_page = '" . $arrUser['product_info_page'] . "', preparation_Time = '" . $arrUser['preparation_Time'] . "',start_of_publishing = '" . $arrUser['start_of_publishing'] . "',is_public = '" . $arrUser['is_public'] . "',link = '" . $arrUser['link'] . "',start_of_publishing='" . $arrUser['start_of_publishing'] . "',product_description = '" . $arrUser['product_description'] . "',dish_type = '" . $arrUser['dish_id'] . "'  WHERE product_id = '" . $productid . "'";
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
             if ($icon <> '' || $category_image <> '') {
