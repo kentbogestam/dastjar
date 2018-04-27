@@ -1620,14 +1620,14 @@ class offer extends advertiseoffer{
             }
         }
         $arrUser['dish_id'] = $_POST['select2'];
-        $arrUser['product_name'] = addslashes($_POST['productName']);
+        $arrUser['product_name'] = addslashes(mysqli_real_escape_string($conn,$_POST['productName']));
         $arrUser['ean_code'] = $_POST['eanCode'];                        //ye bhi nhi aa rha hai
         $arrUser['is_public'] = $_POST['publicProduct'];              //ye bhi nhi aa rha hai
         $arrUser['product_number'] = $_POST['productNumber'];    //ye bhi nhi aa rha hai
         $arrUser['start_of_publishing'] = $_POST['startDateStand'];
         $arrUser['lang'] = $_POST['lang'];
         $arrUser['preparationTime'] = $_POST['preparationTime'];
-        $arrUser['productDescription'] = $_POST['productDescription'];
+        $arrUser['productDescription'] = mysqli_real_escape_string($conn,$_POST['productDescription']);
         $error.= ( $arrUser['offer_slogan_lang_list'] == '') ? ERROR_TITLE_SLOGAN : '';
 
         $error.= ( $arrUser['is_sponsored'] == '') ? ERROR_STANDARD_SPONSORED : '';
