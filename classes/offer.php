@@ -1495,7 +1495,7 @@ class offer extends advertiseoffer{
         $error = '';
 
         $arrUser['lang'] = $_POST['lang'];
-        $arrUser['dishType'] = $_POST['dishName'];
+        $arrUser['dishType'] = mysqli_real_escape_string($conn,$_POST['dishName']);
 
         $query = "SELECT * FROM company WHERE u_id='" . $_SESSION['userid'] . "'";
         $res = mysqli_query($conn , $query) or die(mysql_error());
