@@ -3890,9 +3890,9 @@ class offer extends advertiseoffer{
         if ($_FILES['picture']['name'] <> '') {
             //$_SESSION['preview']['large_image'] = $_FILES['picture']['name']; //<> '' ? $_FILES['picture']['name'] : $_POST['largeimage']['name'] ;
         }
-
+//echo $_POST['productDescription'];die();
         $_SESSION['preview']['offer_slogan_lang_list'] = $_POST['titleSloganStand'];
-        $_SESSION['preview']['product_name'] = $_POST['productName'];
+        $_SESSION['preview']['product_name'] = mysqli_real_escape_string($conn,$_POST['productName']);
         $_SESSION['preview']['brand_name'] = $_POST['standOfferName'];  //ye bhi nhi aa rha
         $_SESSION['preview']['product_number'] = $_POST['productNumber']; //ye nhi aa rha
         $_SESSION['preview']['productId'] = $productid;
@@ -3900,7 +3900,7 @@ class offer extends advertiseoffer{
         $_SESSION['preview']['lang'] = $_POST['lang'];
         $_SESSION['preview']['dish_id'] = $_POST['select2'];
         $_SESSION['preview']['preparation_Time'] = $_POST['preparationTime'];
-        $_SESSION['preview']['product_description'] = $_POST['productDescription'];
+        $_SESSION['preview']['product_description'] = mysqli_real_escape_string($conn,$_POST['productDescription']);
 
         //// Upload Coupen image//////
         $coupenName = "cpn_" . md5(time());
