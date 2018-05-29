@@ -159,7 +159,7 @@
                         </td>
                      </tr>
                      <tr>
-                        <td colspan="4" align="center" style="padding-top:20px;"><input type="submit" value="Submit company information" class="button_another" name="addCompany" id="addCompany" /></td>
+                        <td colspan="4" align="center" style="padding-top:20px;"><div align="center" class="main_bg"><a href="reDirectStrip.php"><strong>Add Payment</strong></a></div><input type="submit" value="Submit company information" class="button_another" name="addCompany" id="addCompany" /></td>
                      </tr>
                      <tr>
                         <td COLSPAN='5' align="center"><br />
@@ -177,3 +177,12 @@
 <div><? include("footer.php"); ?></div>
 </body>
 </html>
+
+
+<style type="text/css">
+   .main_bg{
+       display: inline-block;border-radius: 100px;
+       padding: 6px 12px;
+       vertical-align: middle;line-height: 24px;
+    }
+</style>

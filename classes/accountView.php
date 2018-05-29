@@ -394,6 +394,32 @@ class accountView {
         return $data;
     }
 
+    function stripePayment(){
+        $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+
+        $q = $db->query("SELECT online_payment FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND  s_activ='1'");
+        $q2 = $db->query("SELECT stripe_user_id FROM user WHERE u_id = '" . $_SESSION['userid'] . "'");
+
+        while ($rs = mysqli_fetch_array($q)) {
+            $data[] = $rs;
+        }
+
+        while ($rs2 = mysqli_fetch_array($q2)) {
+            $data2[] = $rs2;
+        }
+
+        if($data[0]['online_payment'] == 1 && $data2[0]['stripe_user_id'] != null){
+            return "Yes";
+        }else{
+            return "No";
+        }
+    }
+
     function saveNewUserInfo() {
         //$privatekey = "6Ldv8r4SAAAAAOIpAG7IaDQryd7rDtzMKhCug1DO";
         $inoutObj = new inOut();
@@ -464,7 +490,7 @@ class accountView {
               foreach($fields as $key=>$value) {
                 $postvars .= $key . "=" . $value . "&";
               }
-              $url = "https://dastjar.com/anar/public/api/v1/save-password";
+              $url = "https://anar.dastjar.com/api/v1/save-password";
               curl_setopt($ch,CURLOPT_URL,$url);
               curl_setopt($ch,CURLOPT_POST, 1);                //0 for a get request
               curl_setopt($ch,CURLOPT_POSTFIELDS,$postvars);

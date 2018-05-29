@@ -33,9 +33,9 @@
 
 <script language="JavaScript" src="client/js/jsStore.js" type="text/javascript"></script>
 <style type="text/css">
-   <!--
+    /*
       .center{width:900px; margin-left:auto; margin-right:auto;}
-      -->
+    */
 </style>
 <body>
    <div class="center">

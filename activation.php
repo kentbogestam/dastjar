@@ -19,7 +19,7 @@
    //echo "<pre>"; print_r($data);echo "</pre>";
    ?>
 <style type="text/css">
-   <!--
+   /*
       body, td, th {
         color: #000000;
       }
@@ -28,7 +28,7 @@
         margin-left:auto;
         margin-right:auto;
       }
-      -->
+      */
 </style>
 <link rel="stylesheet" type="text/css" href="client/css/stylesheet123.css" />
 <div class="center">

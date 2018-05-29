@@ -140,7 +140,7 @@ class registration {
             foreach($fields as $key=>$value) {
             $postvars .= $key . "=" . $value . "&";
             }
-            $url = "http://dastjar.com/anar/public/api/v1/save-password";
+            $url = "https://anar.dastjar.com/api/v1/save-password";
             curl_setopt($ch,CURLOPT_URL,$url);
             curl_setopt($ch,CURLOPT_POST, 1);                //0 for a get request
             curl_setopt($ch,CURLOPT_POSTFIELDS,$postvars);
@@ -824,7 +824,7 @@ function putCcode($d)
 
 
     function saveStripDetail($access_token,$stripe_publishable_key,$stripe_user_id,$refresh_token){
-       $db = new db();
+        $db = new db();
         $conn = $db->makeConnection();
         // Check connection
         if (!$conn) {

@@ -11,6 +11,7 @@
    include_once("main.php");
    $accountObj = new accountView();
    $data = $accountObj->getCompanyDetail();
+   $stripePayment = $accountObj->stripePayment();
    //echo"<pre>";print_r($data);echo"</pre>";
    include_once("header.php");
    ?>
@@ -104,8 +105,11 @@
             </tr>
             <tr>
                <td>&nbsp;</td>
-               <td>&nbsp;</td>
-               <td>&nbsp;</td>
+               <td>Stripe Payment:</td>
+               <td><b/><?=
+                        $stripePayment;
+                     ?>
+               </td>
             </tr>
             <tr>
                <td>&nbsp;</td>

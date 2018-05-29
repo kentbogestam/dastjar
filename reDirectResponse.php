@@ -25,6 +25,8 @@ $url = 'https://connect.stripe.com/oauth/token';
 		'grant_type' => 'authorization_code',
 		'client_id' => 'ca_BsQwDxmv6Nde3fzblaLT8KiuPh7q02px',
 		'code' => $code,
+		// test 'client_secret' => 'sk_test_EypGXzv2qqngDIPIkuK6aXNi'
+		// live 'client_secret' => 'sk_live_INm31rvosK6bnFT48xjipoBP'
 		'client_secret' => 'sk_test_EypGXzv2qqngDIPIkuK6aXNi'
 	);
 
@@ -45,6 +47,5 @@ $url = 'https://connect.stripe.com/oauth/token';
 	$storeObj = new registration();
 
 	$storeObj->saveStripDetail($access_token,$stripe_publishable_key,$stripe_user_id,$refresh_token);
-	
 ?> 
 

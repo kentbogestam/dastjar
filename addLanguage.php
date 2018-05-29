@@ -48,13 +48,13 @@ $data = $offerObj->viewcampaignDetailById($campaignid,$lang);
 <META http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 <style type="text/css">
-    <!--
+    /*
     .style4 {
         font-size: 10px;
         font-weight: bold;
     }
     .style6 {font-size: 9px}.center{width:900px; margin-left:auto; margin-right:auto;}
-    -->
+    */
 </style>
 <body>
 <div class="center">

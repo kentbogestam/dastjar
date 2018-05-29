@@ -495,7 +495,7 @@ class inOut {
     }
 
     function validSteps() {
-        if (isset($_SESSION[userid]) && $_SESSION['active_state']==5) {
+        if (isset($_SESSION['userid']) && $_SESSION['active_state']==5) {
         }
 
         else {

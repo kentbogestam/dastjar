@@ -22,11 +22,11 @@ define('_HOME_', "http://localhost/dastjar/");
 /* End Here for Local Setting */
 define('FUNCTION_DIR', 'function/');
 //define('TIME_ZONE','Asia/Calcutta');
-define('UPLOAD_DIR', BASEPATH . 'dastjar/upload/');
+define('UPLOAD_DIR', BASEPATH . 'admin/upload/');
 define('_UPLOAD_URLDIR_', $base_url . 'upload/');
 
 /////////// upload image dirctory/////////
-define('_UPLOAD_IMAGE_', $basePath . 'dastjar/upload/');
+define('_UPLOAD_IMAGE_', $basePath . 'admin/upload/');
 
 define('IMAGE_AMAZON_PATH', 'https://s3-eu-west-1.amazonaws.com/dastjar-coupons/upload/');
 

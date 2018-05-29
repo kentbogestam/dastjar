@@ -63,13 +63,13 @@ $uid = $_GET['backuid'];
 <META http-equiv="Content-Type" content="text/html; charset=utf-8">
 <!--<script language="JavaScript" src="client/js/jsCampaignOffer.js" type="text/javascript"></script>-->
 <style type="text/css">
-    <!--
+    /*
     .style4 {
         font-size: 10px;
         font-weight: bold;
     }
     .style6 {font-size: 9px}
-    -->
+    */
 </style>
 <body>
 <div class="center">

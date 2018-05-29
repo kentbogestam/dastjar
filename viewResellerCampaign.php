@@ -108,13 +108,13 @@ include_once("main.php");
 
 <!--<script language="JavaScript" src="client/js/jsCampaignOffer.js" type="text/javascript"></script>-->
 <style type="text/css">
-    <!--
+    /*
     .style4 {
         font-size: 10px;
         font-weight: bold;
     }
     .style6 {font-size: 9px}
-    -->
+    */
 </style>
 
 
