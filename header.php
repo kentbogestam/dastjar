@@ -5,8 +5,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta name="viewport" content="width=device-width, intial-scale=1" />
+      <meta name="mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="msapplication-starturl" content="/" />
+      <meta name="theme-color" content="#f48c5b" />
+
+      <link rel="manifest" href="/manifest.json" />
+
       <title>Dastjar</title>
-      <META http-equiv="Content-Type" content="text/html; charset=utf-8">
       <link href="client/css/stylesheet123.css" rel="stylesheet" type="text/css" />
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 

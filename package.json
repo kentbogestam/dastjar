@@ -1,0 +1,25 @@
+{
+  "name": "dastjar",
+  "version": "1.0.0",
+  "description": "Dastjar App",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kentbogestam/dastjar.git"
+  },
+  "author": "mayank",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kentbogestam/dastjar/issues"
+  },
+  "homepage": "https://github.com/kentbogestam/dastjar#readme",
+  "devDependencies": {
+    "sw-precache-webpack-plugin": "^0.11.5"
+  }
+}

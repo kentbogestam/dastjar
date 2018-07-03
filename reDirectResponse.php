@@ -25,7 +25,13 @@ $url = 'https://connect.stripe.com/oauth/token';
 		'grant_type' => 'authorization_code',
 		'client_id' => $stripe_client_id,
 		'code' => $code,
+<<<<<<< HEAD
 		'client_secret' => $stripe_client_secret
+=======
+		// test 'client_secret' => 'sk_test_EypGXzv2qqngDIPIkuK6aXNi'
+		// live 'client_secret' => 'sk_live_INm31rvosK6bnFT48xjipoBP'
+		'client_secret' => 'sk_test_EypGXzv2qqngDIPIkuK6aXNi'
+>>>>>>> a50a492f89880d95bf2eddabaa2bddbd3eff0f03
 	);
 	
 	$req = curl_init($url);

@@ -107,13 +107,13 @@ include_once("main.php");
 
 
 <style type="text/css">
-    <!--
-    .style4 {
-        font-size: 10px;
-        font-weight: bold;
-    }
-    .style6 {font-size: 9px}
-    -->
+    /*
+        .style4 {
+            font-size: 10px;
+            font-weight: bold;
+        }
+        .style6 {font-size: 9px}
+    */
 </style>
 
 

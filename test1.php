@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* Function Header :saveNewStandardOffersDetails()
      *             Args: none
      *           Errors: none
@@ -297,3 +298,14 @@
             exit();
         }
     }
+=======
+<?php
+/* File Name   : activation.php
+*  Description : activation Form
+*  Author      : Deo
+*  Date        : 4th,Dec,2010  Creation
+*/
+
+phpinfo();
+?>
+>>>>>>> a50a492f89880d95bf2eddabaa2bddbd3eff0f03

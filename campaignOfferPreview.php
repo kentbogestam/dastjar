@@ -50,14 +50,13 @@ $catName = $offerObj->getCategoryNameById($categoryid);
 
 
 <style type="text/css">
-    <!--
+    /*
     .style4 {
         font-size: 10px;
         font-weight: bold;
     }
     .style6 {font-size: 9px}.center{width:900px; margin-left:auto; margin-right:auto;}
-
-    -->
+    */
 </style><div class="center">
 <form name="register" action="" id="registerform" method="Post" enctype="multipart/form-data">
     <div id="message" align="center"><h2>&nbsp;

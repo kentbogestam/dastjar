@@ -33,10 +33,9 @@ if (isset($_POST['continue']) AND $editId != '') {
 <?php include 'config/defines.php'; ?>
  <script language="JavaScript" src="client/js/jquery.js" type="text/javascript"></script>
  <script language="JavaScript" src="client/js/jsAddCategory.js" type="text/javascript"></script><style type="text/css">
-<!--
+/*
 .center{width:900px; margin-left:auto; margin-right:auto;}
-
--->
+*/
 </style>
  <div class="center">
 

@@ -140,10 +140,14 @@ class registration {
             foreach($fields as $key=>$value) {
             $postvars .= $key . "=" . $value . "&";
             }
+<<<<<<< HEAD
             $url = USER_APP_BASE_URL . "api/v1/save-password";
             // echo $url;
             // die();
 
+=======
+            $url = "https://anar.dastjar.com/api/v1/save-password";
+>>>>>>> a50a492f89880d95bf2eddabaa2bddbd3eff0f03
             curl_setopt($ch,CURLOPT_URL,$url);
             curl_setopt($ch,CURLOPT_POST, 1);                //0 for a get request
             curl_setopt($ch,CURLOPT_POSTFIELDS,$postvars);

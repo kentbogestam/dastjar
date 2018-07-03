@@ -47,7 +47,7 @@ if ($_SESSION['MESSAGE']) {
 <script language="JavaScript" src="client/js/ajaxupload.js" type="text/javascript"></script>
 <script language="JavaScript" src="client/js/jsCampaignOffer.js" type="text/javascript"></script>
 <style type="text/css">
-<!--
+/*
 .style4 {
 	font-size: 10px;
 	font-weight: bold;
@@ -60,7 +60,7 @@ if ($_SESSION['MESSAGE']) {
 	margin-left:auto;
 	margin-right:auto;
 }
--->
+*/
 </style>
 <div class="center">
 <div>
