@@ -28,9 +28,8 @@ include_once("header.php");
 
 <script language="JavaScript" src="client/js/jsChangePassword.js" type="text/javascript"></script>
 <style type="text/css">
-<!--
-.center{width:900px; margin-left:auto; margin-right:auto;}
--->
+/*.center{width:900px; margin-left:auto; margin-right:auto;}
+*/
 </style>
 <div class="center">
 <table width="100%" border="0">

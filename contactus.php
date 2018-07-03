@@ -24,7 +24,7 @@ include_once("header.php");
                 <td>&nbsp;</td>
               </tr>
               <tr>
-                <td>Cumbari AB</td>
+                <td>Dastjar AB</td>
               </tr>
               <tr>
                 <td>Organization number: 556803-8110</td>
@@ -46,7 +46,7 @@ include_once("header.php");
                   Sweden </td>
               </tr>
               <tr>
-                <td>e-mail <a href="mailto:info@cumbari.com" target="_blank">info@cumbari.com</a><br></td>
+                <td>e-mail <a href="mailto:info@dastjar.com" target="_blank">info@dastjar.com</a><br></td>
               </tr>
               <tr>
                 <td>Phone: +46 703770250</td>

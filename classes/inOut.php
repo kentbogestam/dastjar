@@ -12,15 +12,12 @@ class inOut {
 *      Description: User Login default function
     */
     function svrInOutDflt() {
-
-
-
         if(isset($_REQUEST['m']) && $_REQUEST['m']!='') {
             $mode=$_REQUEST['m'];
         }else {
             $mode='';
         }
-        // echo "Hiiiiiiiiiiiiiii"; exit;
+        // echo $mode; exit;
 
         switch($mode) {
             case 'in':
@@ -102,7 +99,7 @@ class inOut {
             $_SESSION['username'] = $data['fname']." ".$data['lname'];
             $_SESSION['useremail']= $data['email'];
 			$_SESSION['usersessionid']=session_id();
-            date_default_timezone_set (TIME_ZONE);
+            date_default_timezone_set(TIME_ZONE);
 
            /* Code to enter user login entry in user_activity table */
 
@@ -495,7 +492,7 @@ class inOut {
     }
 
     function validSteps() {
-        if (isset($_SESSION[userid]) && $_SESSION['active_state']==5) {
+        if (isset($_SESSION['userid']) && $_SESSION['active_state']==5) {
         }
 
         else {
@@ -610,8 +607,8 @@ class inOut {
         // To protect MySQL injection
         $username = stripslashes($username);
         $password = stripslashes($password);
-        $username = mysql_real_escape_string($username);
-        $password = mysql_real_escape_string($password);
+        $username = addslashes($username);
+        $password = addslashes($password);
 
         $query = "select * from user_support where email = '".$username."'";
          $res= $db->query($query);

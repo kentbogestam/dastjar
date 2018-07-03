@@ -167,6 +167,10 @@ echo "Deleted Standard";
 <?php
 $i = 1 + $pager->get_limit_offset();
 foreach ($data as $data1) {
+  $content = @file_get_contents($data1['small_image']);
+  if (!strpos($http_response_header[0], "200")) { 
+      $data1['small_image'] = 'images/placeholder-image.png';
+  } 
 ?>
 <tr bgcolor="#FFFFFF">
 <!--<td class="bg_lightgray" align="left" style="padding-left:5px;">

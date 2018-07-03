@@ -26,10 +26,8 @@ if(isset($_POST['Activate'])) {
 //}
 include_once("header.php");
 ?><style type="text/css">
-<!--
-.center{width:900px; margin-left:auto; margin-right:auto;}
-
--->
+/*.center{width:900px; margin-left:auto; margin-right:auto;}
+*/
 </style>
 <div class="center">
 <div id="main_color">

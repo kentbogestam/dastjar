@@ -45,6 +45,8 @@ class support {
 		
 	
 	 function searchUsers($paging_limit=0) {
+      $db = new db();
+      $db->makeConnection();
 
         if (isset($_REQUEST['keyword']) OR isset($_REQUEST['key']) OR isset($_REQUEST['ke'])) {
             $set_keywords = "";
@@ -67,7 +69,7 @@ class support {
   
         $QUE = "SELECT user.u_id,email,fname,lname,company_name,role  FROM user LEFT JOIN company ON  user.u_id = company.u_id WHERE user.role = 'Store Admin' AND $set_keywords 1 ".$limit;
 
-        $res = mysql_query($QUE);
+        $res = $db->query($QUE);
 
         return $res;
     }
@@ -83,7 +85,7 @@ class support {
 
         $q = $this->searchUsers($paging_limit);
 
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         return $data;
@@ -106,6 +108,9 @@ class support {
    
     function searchCategory($paging_limit=0,$lang='eng')
     {
+        $db = new db();
+        $db->makeConnection();
+     
      if (isset($_REQUEST['key'])) {
             $set_keywords = "";
             if ($_REQUEST['key']) {
@@ -122,7 +127,7 @@ class support {
          $QUE = "SELECT * FROM category_names_lang_list LEFT JOIN lang_text ON lang_text.id = category_names_lang_list.names_lang_list
                 LEFT JOIN category ON category.category_id = category_names_lang_list.category
                   WHERE lang_text.lang = '" . $lang . "' AND $set_keywords 1 ".$limit;
-         $res = mysql_query($QUE);
+         $res = $db->query($QUE);
 
 
 
@@ -139,7 +144,7 @@ class support {
 
         $q = $this->searchCategory($paging_limit,$lang);
 
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         return $data;
@@ -392,6 +397,9 @@ class support {
 
     function searchPartner($paging_limit=0)
     {
+        $db = new db();
+        $db->makeConnection();
+
     if (isset($_REQUEST['key']) OR isset($_REQUEST['ke'])) {
             $set_keywords = "";
             
@@ -411,7 +419,7 @@ class support {
 
         $QUE = "SELECT * FROM partner  WHERE $set_keywords 1 ".$limit;
 
-        $res = mysql_query($QUE);
+        $res = $db->query($QUE);
 
         return $res;
 
@@ -426,7 +434,7 @@ class support {
 
         $q = $this->searchPartner($paging_limit);
 
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         return $data;
@@ -563,6 +571,9 @@ class support {
 
     function searchCcode($paging_limit=0)
     {
+        $db = new db();
+        $db->makeConnection();
+
     if (isset($_REQUEST['value']) OR isset($_REQUEST['status']) OR isset($_REQUEST['start']) OR isset($_REQUEST['end'])) {
             $set_keywords = "";
 
@@ -594,7 +605,7 @@ class support {
 
         $QUE = "SELECT * FROM ccode  WHERE $set_keywords 1 ".$limit;
 
-        $res = mysql_query($QUE);
+        $res = $db->query($QUE);
 
         return $res;
 
@@ -609,7 +620,7 @@ class support {
 
         $q = $this->searchCcode($paging_limit);
 
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         return $data;
@@ -727,8 +738,8 @@ function getAllUser()
     $inoutObj = new inOut();
 
     $query = "SELECT * FROM user";
-        $res = mysql_query($query);
-         while($rs = mysql_fetch_array($res)) {
+        $res = $db->query($query);
+         while($rs = mysqli_fetch_array($res)) {
         $data[] = $rs;
 
          }
@@ -758,13 +769,16 @@ function getCampaignDetails($paging_limit='0 , 10',$uId) {
 
         $q = $this->searchAllCampaign($paging_limit,$uId);
 
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         return $data;
     }
 
 function searchAllCampaign($paging_limit=0,$uId) {
+
+        $db = new db();
+        $db->makeConnection();
 
         if (isset($_REQUEST['keyword']) OR isset($_REQUEST['key']) OR isset($_REQUEST['ke'])) {
             // $qstr1 = " store_name REGEXP '[[:<:]]".trim($_REQUEST['keyword'])."[[:>:]]' ";
@@ -788,8 +802,8 @@ function searchAllCampaign($paging_limit=0,$uId) {
             $limit = "limit ".$paging_limit;
 
         $query = "select * from employer where u_id = '" . $uId . "'";
-        $res = mysql_query($query);
-        $rs = mysql_fetch_array($res);
+        $res = $db->query($query);
+        $rs = mysqli_fetch_array($res);
         $companyId = $rs['company_id'];
 
        
@@ -808,7 +822,7 @@ function searchAllCampaign($paging_limit=0,$uId) {
                         campaign.company_id='" . $companyId . "' AND $set_keywords 1 AND (s_activ='0' or s_activ='3') AND lang_text.lang = subsloganT.lang AND (reseller_status = 'A' OR reseller_status = '') GROUP BY campaign_id ".$limit;
     
 
-        $res = mysql_query($QUE);
+        $res = $db->query($QUE);
 
         return $res;
     }

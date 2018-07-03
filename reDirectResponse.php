@@ -23,11 +23,11 @@ $url = 'https://connect.stripe.com/oauth/token';
 
     $token_request_body = array(
 		'grant_type' => 'authorization_code',
-		'client_id' => 'ca_BsQwDxmv6Nde3fzblaLT8KiuPh7q02px',
+		'client_id' => $stripe_client_id,
 		'code' => $code,
-		'client_secret' => 'sk_test_EypGXzv2qqngDIPIkuK6aXNi'
+		'client_secret' => $stripe_client_secret
 	);
-
+	
 	$req = curl_init($url);
 	curl_setopt($req, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($req, CURLOPT_POST, true );
@@ -43,8 +43,6 @@ $url = 'https://connect.stripe.com/oauth/token';
 	curl_close($req);
 	
 	$storeObj = new registration();
-
 	$storeObj->saveStripDetail($access_token,$stripe_publishable_key,$stripe_user_id,$refresh_token);
-	
 ?> 
 

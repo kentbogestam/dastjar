@@ -33,9 +33,9 @@
 
 <script language="JavaScript" src="client/js/jsStore.js" type="text/javascript"></script>
 <style type="text/css">
-   <!--
+   /*
       .center{width:900px; margin-left:auto; margin-right:auto;}
-      -->
+    */
 </style>
 <body>
    <div class="center">
@@ -58,7 +58,7 @@
                </td>
             </tr>
             <tr>
-               <td width="50%" class="inner_grid">Dish name 
+               <td width="50%" class="inner_grid">Dish Type 
                   <span class='mandatory'>*</span>:
                </td>
                <td width="27%">

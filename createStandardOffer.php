@@ -11,7 +11,6 @@
    $compcont = $standardObj->companycountry();
    if ($compcont == 'Sweden') {
        $lang = 'SWE';
-       //echo $lang;die;
    }
    else {
        $lang = 'ENG';
@@ -37,26 +36,44 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <link rel="stylesheet" href="client/css/stylesheet123.css" type="text/css">
-<link rel="stylesheet" href="client/css/datePicker.css" type="text/css">
-<script language="JavaScript" src="client/js/date.js" type="text/javascript"></script>
+    <link href="//stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet"
+    href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/css/bootstrap-material-design.min.css"/>
+    <link rel="stylesheet"
+    href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/css/ripples.min.css"/>
+    <link rel="stylesheet" href="client/css/bootstrap-material-datetimepicker.css" />
+    <link href='//fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	
 <script language="JavaScript" src="client/js/jquery.bgiframe.js" type="text/javascript"></script>
-<script language="JavaScript" src="client/js/jquery.datePicker.js" type="text/javascript"></script>
 <script language="JavaScript" src="client/js/ajaxuploadStand.js" type="text/javascript"></script>
 <script language="JavaScript" src="client/js/jsStandardOffer.js" type="text/javascript"></script>
 <!--<link rel="stylesheet" type="text/css" href="lib/vtip/css/vtip.css" />-->
 <style type="text/css">
-   body {
-   }
-   a {
-   }
    img {
-   border: 0
+       border: 0
    }
    .center {
-   width:900px;
-   margin-left:auto;
-   margin-right:auto;
+       width:900px;
+    margin-left:auto;
+    margin-right:auto;
    }
+   
+   tr{
+	   margin-bottom: 10px;
+   }
+   
+   	.dtp > .dtp-content > .dtp-date-view > header.dtp-header{
+		background: #821015;
+	}
+
+	.dtp div.dtp-date, .dtp div.dtp-time {
+		background: #a72626;
+	}
+
+  body{
+    background-color: #fff; 
+  }
 </style>
 <body>
    <div class="center">
@@ -234,7 +251,7 @@
                                     <table border="0" cellpadding="0" cellspacing="0">
                                        <tr>
                                           <td width="41"  align="left" style="padding-left:5px; padding-right:5px;">
-                                             <div id="upload_area" style="vertical-align:top;"><img src=""  height = 30 width = 50 id="myCatIcon" name="myCatIcon"></div>
+                                             <div id="upload_area" style="vertical-align:top;"><img src="images/placeholder-image.png"  height = 30 width = 50 id="myCatIcon" name="myCatIcon"></div>
                                           </td>
                                           <td rowspan="2" valign="top">
                                              <table width="98%" border="0" cellpadding="0" cellspacing="0">
@@ -361,14 +378,14 @@
                                     -->
                                  <tr>
                                     <?php
-                                       $d = date("Y/m/d");
+                                       $d = date("d/m/Y H:m");
                                         ?>
                                     <td width="50%" align="left" valign="top" class="td_pad_left">Release date of product<span class='mandatory'>*</span>:</td>
                                     <td width="50%" align="left" valign="top" class="td_pad_right">
                                        <table border="0" align="left" cellpadding="0" cellspacing="0">
                                           <tr>
                                              <td><input type="text" name="startDateStand" readonly="readonly" value="<? echo $d;
-                                                ?>" id="startDateStand" class="startDateStand dp-applied text_field_new123" /></td>
+                                                ?>" id="startDateStand" class="startDateStand dp-applied text_field_new123" required/></td>
                                              <td style="padding-left:10px;"><a title="<?=RELEASE_DATE_OF_PRODUCT
                                                 ?>" class="vtip"><b><small>?</small></b></a></td>
                                           </tr>
@@ -489,16 +506,24 @@
    </div>
    <? include("footer.php"); ?>
 </body>
-<script type="text/javascript">
- /*  console.log($('#xx').val());
-   if($('#xx').val()=='addNewDishTpye')
-   {
-      alert('dss');
-   }*/
-   // $('.add_tpye_of_dish').on('change',function(){
-   //       $('#addDishType-popup').show();
-   // });
 
+    <script src="//stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/ripples.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/material.min.js"></script>
+<script type="text/javascript" src="//rawgit.com/FezVrasta/bootstrap-material-design/master/dist/js/material.min.js"></script>
+<script type="text/javascript" src="//momentjs.com/downloads/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="client/js/bootstrap-material-datetimepicker.js"></script>
+
+<script type="text/javascript">
+        $(document).ready(function(){
+            $('#startDateStand').bootstrapMaterialDatePicker
+            ({
+                weekStart: 0, format: 'DD/MM/YYYY HH:mm',  shortTime : true, clearButton: true
+            });
+
+            $.material.init();
+        });
+		
    $("#icon").change(function() {
      readURL(this);
    });

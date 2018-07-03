@@ -8,6 +8,6 @@
  * 
 */ 	
 	include_once("cumbari.php");
-    include_once("home.php");
+    include_once("login.php");
 	 
 ?>

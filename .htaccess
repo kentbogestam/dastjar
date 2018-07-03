@@ -1,0 +1,7 @@
+#RewriteEngine On
+# RewriteCond %{HTTPS_HOST} !^admin.dastjar.com$ [NC]
+# RewriteRule ^(.*)$ https://admin.dastjar.com/admin/index.php [L,R=301]1]
+
+#Redirect /index.php https://admin.dastjar.com/admin/
+
+Redirect /index.php https://admin.datjar.com/admin/index.php

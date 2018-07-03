@@ -21,42 +21,42 @@
    $openCloseList = explode(",",$data[0]['store_open_close_day_time']);
    foreach ($openCloseList as $key => $value) {
       $getDay = explode("::",$value);
-      if(strcmp($getDay[0],All)==1){
+      if(strcmp($getDay[0],ALL)==1){
         $getTime = explode("to",$getDay[1]);
         $allDayOpen = $getTime[0];
         $allDayClose = $getTime[1];
       }
-      if(strcmp($getDay[0],Mon)==1){
+      if(strcmp($getDay[0],MON)==1){
         $getTime = explode("to",$getDay[1]);
         $monDayOpen = $getTime[0];
         $monDayClose = $getTime[1];
       }
-      if(strcmp($getDay[0],Tue)==1){
+      if(strcmp($getDay[0],TUE)==1){
         $getTime = explode("to",$getDay[1]);
         $tueDayOpen = $getTime[0];
         $tueDayClose = $getTime[1];
       }
-      if(strcmp($getDay[0],Wed)==1){
+      if(strcmp($getDay[0],WED)==1){
         $getTime = explode("to",$getDay[1]);
         $wedDayOpen = $getTime[0];
         $wedDayClose = $getTime[1];
       }
-      if(strcmp($getDay[0],Thu)==1){
+      if(strcmp($getDay[0],THU)==1){
         $getTime = explode("to",$getDay[1]);
         $thuDayOpen = $getTime[0];
         $thuDayClose = $getTime[1];
       }
-      if(strcmp($getDay[0],Fri)==1){
+      if(strcmp($getDay[0],FRI)==1){
         $getTime = explode("to",$getDay[1]);
         $friDayOpen = $getTime[0];
         $friDayClose = $getTime[1];
       }
-      if(strcmp($getDay[0],Sat)==1){
+      if(strcmp($getDay[0],SAT)==1){
         $getTime = explode("to",$getDay[1]);
         $satDayOpen = $getTime[0];
         $satDayClose = $getTime[1];
       }
-      if(str_replace(' ', '', $getDay[0]) == Sun){
+      if(str_replace(' ', '', $getDay[0]) == SUN){
         $getTime = explode("to",$getDay[1]);
         $sunDayOpen = $getTime[0];
         $sunDayClose = $getTime[1];

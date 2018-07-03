@@ -22,25 +22,17 @@ function isWebKit(){
     return RegExp(" AppleWebKit/").test(navigator.userAgent);
 }
 var selectedRadio = null;
-function ajaxUpload(form,url_action,id_element){
-    //alert($("#icon").val());
-    if($("#icon").val()=="")
-    {
-       
-		//var btn1 = document.register.cat_icon;
-		
-		if(!short_validation()){
-            //alert("validation")
 
+function ajaxUpload(form,url_action,id_element){
+    if($("#icon").val()=="")
+    {		
+		if(!short_validation()){
             return false;
             exit;
         }
-		//alert(selectedRadio);
-		//alert($m('category_image_div').innerHTML);
         $m('short_preview').style.display="inline";
         $m('upload_area').innerHTML = $m('category_image_div').innerHTML;
         $m('tslogan').innerHTML = $m('titleSloganStand').value;
-        //$m('sslogan').innerHTML = $m('subSlogan').value;
     }
     else
     {
@@ -48,7 +40,7 @@ function ajaxUpload(form,url_action,id_element){
         return false;
         exit;
     }
-    //    alert("here");
+
     var html_show_loading = ""; //"File Uploading Please Wait...&lt;br /&gt;&lt;img src=\'lib/php_ajax_image_upload/images/loader_light_blue.gif\' width=\'128\' height=\'15\' border=\'0\' /&gt;";
     var html_error_http = ""; //'&lt;img src=\'images/error.gif\' width=\'16\' height=\'16\' border=\'0\' /&gt; Error in Upload, check settings and path info in source code.';
     var detectWebKit = isWebKit();
@@ -121,7 +113,6 @@ function short_validation()
     $("#error_productDescription").html('');
     $("#error_icon").html('');
     $("#error_cat_icon").html('');
-	// $("#error_linkedCatStand").html('');
 
     if(($.trim($("#titleSloganStand").val()).length == 0))
     {
@@ -182,10 +173,7 @@ function short_validation()
                 }
             
            
-        }
-//alert//(errorMsg);
-//
-    
+        }    
 	
        // if(!isValidPngImage($("#icon").val()))
 //        {
@@ -195,8 +183,6 @@ function short_validation()
 //        }
         //alert(error);
 	
-//alert(error);
-
 
    if(error=="true")
     {
@@ -207,19 +193,14 @@ function short_validation()
 }
 
 function valButton(btn) {
-    //var btn21 = document.getElementById("cat_icon");
 	var btn1 = document.register.cat_icon;
-    //alert(btn1.length); return false;
     var cnt = 0;
     for (var i=btn1.length-1; i > -1; i--) {
-        //alert(btn1[i].value)
         if (btn1[i].checked==true)
         {
-           //alert(btn1[i].value)
 		   selectedRadioArray = btn1[i].value.split(".");
 		   selectedRadio = selectedRadioArray[0];
 		   cnt = 1; 
-            //alert(cnt);
         }
     }
     if (cnt > 0)

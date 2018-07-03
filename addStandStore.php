@@ -27,11 +27,32 @@ include_once("header.php");
 
 <script language="JavaScript" src="client/js/ajaxuploadStand.js" type="text/javascript"></script>
 
+    <link href="//stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet"
+    href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/css/bootstrap-material-design.min.css"/>
+    <link rel="stylesheet"
+    href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/css/ripples.min.css"/>
+    <link rel="stylesheet" href="client/css/bootstrap-material-datetimepicker.css" />
+    <link href='//fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 
 <style type="text/css">
 
     a { }
     img { border: 0 }.center{width:900px; margin-left:auto; margin-right:auto;}
+	
+		.dtp > .dtp-content > .dtp-date-view > header.dtp-header{
+		    background: #821015;
+		}
+
+		.dtp div.dtp-date, .dtp div.dtp-time {
+    		background: #a72626;
+		}
+
+        body{
+            background-color: #fff; 
+        }
 </style>
 <script language="JavaScript" src="client/js/jsAddStandCoupon.js" type="text/javascript"></script>
 <body>
@@ -81,6 +102,27 @@ include_once("header.php");
 
 </div></td>
 		</tr>
+
+        <tr>
+            <td width="50%" align="left">Publishing Start Date<span class='mandatory'>*</span>:</td>
+            <td align="left"><div align="center" class="normalfont" >
+        
+            <input class="dp-applied text_field_new" type="text" name="publishing_start_date" id="publishing_start_date" value="" required>
+            <div id='error_price' class="error123"></div>
+
+            </div></td>
+        </tr>
+
+        <tr>
+            <td width="50%" align="left">Publishing End Date<span class='mandatory'>*</span>:</td>
+            <td align="left"><div align="center" class="normalfont" >
+        
+            <input class="text_field_new" type="text" name="publishing_end_date" id="publishing_end_date" value="" required>
+             <div id='error_price' class="error123"></div>
+
+            </div></td>
+        </tr>
+
 </table>
 
 
@@ -98,5 +140,32 @@ include_once("header.php");
 </form>
 </div>
     <? include("footer.php"); ?>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script src="//stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/ripples.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/material.min.js"></script>
+<script type="text/javascript" src="//rawgit.com/FezVrasta/bootstrap-material-design/master/dist/js/material.min.js"></script>
+<script type="text/javascript" src="//momentjs.com/downloads/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="client/js/bootstrap-material-datetimepicker.js"></script>
+
+<script type="text/javascript">
+        $(document).ready(function(){
+            $('#publishing_start_date').bootstrapMaterialDatePicker
+            ({
+                weekStart: 0, format: 'DD/MM/YYYY HH:mm', shortTime : true, clearButton: true
+            }).on('change', function(e, date)
+            {
+                $('#publishing_end_date').bootstrapMaterialDatePicker('setMinDate', date);
+            });
+
+            $('#publishing_end_date').bootstrapMaterialDatePicker
+            ({
+                weekStart: 0, format: 'DD/MM/YYYY HH:mm',  shortTime : true, clearButton: true
+            });
+
+            $.material.init();
+        });
+</script>
 </body>
 </html>
