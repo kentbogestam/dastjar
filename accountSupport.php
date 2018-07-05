@@ -21,8 +21,6 @@ if(!isset($_SESSION['supportuserid'])) {
     $inoutObj->reDirect($url);
     exit;
 }
-
-
 	   
 	   
 ?>

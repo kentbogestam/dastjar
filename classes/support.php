@@ -158,6 +158,7 @@ class support {
         $data = array();
         $inoutObj = new inOut();
         
+        $arrUser['cNGer'] = $_POST['cNGer'];
         $arrUser['cNEng'] = $_POST['cNEng'];
         $arrUser['cNSwe'] = $_POST['cNSwe'];
        $arrUser['icon'] = $_POST['icon'];
@@ -194,30 +195,37 @@ class support {
         $catImg = _UPLOAD_URLDIR_ . 'category_lib/' . $arrUser['small_image'];
 
         $langId1 = uuid();
-        $_SQL = "insert into lang_text(id,lang,text) values('" . $langId1 . "','ENG','" . $arrUser['cNEng'] . "')";
-        $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+        $_SQL = "insert into lang_text(id,lang,text) values('" . $langId1 . "','GER','" . $arrUser['cNGer'] . "')";
+        $res = $db->query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
 
         $langId2 = uuid();
-        $_SQL = "insert into lang_text(id,lang,text) values('" . $langId2 . "','SWE','" . $arrUser['cNSwe'] . "')";
-        $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+        $_SQL = "insert into lang_text(id,lang,text) values('" . $langId2 . "','ENG','" . $arrUser['cNEng'] . "')";
+        $res = $db->query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+
+        $langId3 = uuid();
+        $_SQL = "insert into lang_text(id,lang,text) values('" . $langId3 . "','SWE','" . $arrUser['cNSwe'] . "')";
+        $res = $db->query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
 
         $catNameId = uuid();
         $_SQL = "insert into category_names_lang_list(category,names_lang_list) values('" . $catNameId . "','" . $langId1 . "')";
-        $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+        $res = $db->query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
 
         $_SQL = "insert into category_names_lang_list(category,names_lang_list) values('" . $catNameId . "','" . $langId2 . "')";
-        $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+        $res = $db->query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+
+        $_SQL = "insert into category_names_lang_list(category,names_lang_list) values('" . $catNameId . "','" . $langId3 . "')";
+        $res = $db->query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
 
         $_SQL = "insert into category(category_id,small_image) values('" . $catNameId . "','" . $catImg . "')";
-        $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+        $res = $db->query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
 
          $_SQL = "SELECT * FROM categories";
-        $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
-        $rs = mysql_fetch_array($res);
+        $res = $db->query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+        $rs = mysqli_fetch_array($res);
         $id = $rs['id'];
         
         $_SQL = "insert into categories_list_of_categories(categories,list_of_categories) values('" . $id . "','" . $catNameId . "')";
-        $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+        $res = $db->query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
 
     
 
@@ -238,11 +246,11 @@ class support {
         $inoutObj = new inOut();
 
         $query = "DELETE FROM categories_list_of_categories WHERE list_of_categories = '" . $catId . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = $db->query($query) or die(mysql_error());
 
         $query="SELECT small_image FROM category WHERE category_id = '" . $catId . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $rs = mysql_fetch_array($res);
+        $res = $db->query($query) or die(mysql_error());
+        $rs = mysqli_fetch_array($res);
         $small_img = $rs['small_image'];
         $pathArr = explode("/",$small_img);
         $arrSize = count($pathArr);
@@ -253,20 +261,20 @@ class support {
         
 
         $query = "DELETE FROM category WHERE category_id = '" . $catId . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = $db->query($query) or die(mysql_error());
 
         $query = "SELECT * FROM category_names_lang_list WHERE category = '" . $catId . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        while($rs = mysql_fetch_array($res))
+        $res = $db->query($query) or die(mysql_error());
+        while($rs = mysqli_fetch_array($res))
         {
              $nameLang = $rs['names_lang_list'];
              $query1 = "DELETE FROM lang_text WHERE id = '" . $nameLang . "'";
-             $res1 = mysql_query($query1) or die(mysql_error());
+             $res1 = $db->query($query1) or die(mysql_error());
 
         }
 
         $query = "DELETE FROM category_names_lang_list WHERE category = '" . $catId . "'";
-         $res = mysql_query($query) or die(mysql_error());
+         $res = $db->query($query) or die(mysql_error());
             
      
    }
@@ -283,8 +291,9 @@ class support {
         LEFT JOIN category ON category.category_id = category_names_lang_list.category
         WHERE category.category_id = '" . $editId . "' order by lang";
 
-         $res = mysql_query($QUE);
-        while($rs = mysql_fetch_array($res))
+        $res = $db->query($QUE);
+
+        while($rs = mysqli_fetch_array($res))
         {
         $data[] = $rs;
         
@@ -313,8 +322,8 @@ class support {
         {
         
         $query = "SELECT * FROM category WHERE category_id = '" . $editId . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        $rs = mysql_fetch_array($res);
+        $res = $db->query($query) or die(mysql_error());
+        $rs = mysqli_fetch_array($res);
         $image = $rs['small_image'];
        $path =  explode("/",$image);
        $count = count($path);
@@ -364,15 +373,15 @@ class support {
        if($arrUser['icon'] != '')
        {
         $_SQL = "UPDATE category SET small_image = '" .  $catImg  . "' WHERE category_id = '" . $editId . "'";
-        $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+        $res = $db->query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
 
        }
 
         $_SQL = "UPDATE lang_text SET text = '" .  $arrUser['cNEng'] . "' WHERE id = '" . $arrUser['names_lang_eng'] . "' AND lang = 'ENG' ";
-        $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+        $res = $db->query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
 
         $_SQL = "UPDATE lang_text SET text = '" .  $arrUser['cNSwe'] . "' WHERE id = '" . $arrUser['names_lang_swe'] . "' AND lang = 'SWE' ";
-        $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+        $res = $db->query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
 
 
         $_SESSION['MESSAGE'] = EDIT_CATEGORY;
@@ -459,7 +468,7 @@ class support {
         $partnerId = uuid();
         $_SQL = "insert into partner(partner_id,city,company_name,country,orgnr,street,version,zip) 
             values('" . $partnerId . "','" . $arrUser['city'] . "','" . $arrUser['company'] . "','" . $arrUser['country'] . "','" . $arrUser['orgnr'] . "','" .  $arrUser['street'] . "','" .  $arrUser['version'] . "','" .  $arrUser['zip'] . "')";
-        $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+        $res = $db->query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
 
        $_SESSION['MESSAGE'] = ADD_PARTNER;
         $url = BASE_URL . 'showPartner.php';
@@ -477,7 +486,7 @@ class support {
         $inoutObj = new inOut();
 
         $query = "DELETE FROM partner WHERE partner_id  = '" . $partId . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = $db->query($query) or die(mysql_error());
 
         
 
@@ -494,8 +503,8 @@ class support {
         $QUE = "SELECT * FROM partner WHERE partner_id = '" . $editId . "'";
         
 
-         $res = mysql_query($QUE);
-        while($rs = mysql_fetch_array($res))
+         $res = $db->query($QUE);
+        while($rs = mysqli_fetch_array($res))
         {
         $data[] = $rs;
 
@@ -522,7 +531,7 @@ class support {
 
         $_SQL = "UPDATE partner SET city = '" .  $arrUser['city']  . "',company_name = '" .  $arrUser['company']  . "',country = '" .  $arrUser['country']  . "'
             ,orgnr = '" .  $arrUser['orgnr']  . "',street = '" .  $arrUser['street']  . "',version = '" .  $arrUser['version']  . "',zip  = '" .  $arrUser['zip']  . "' WHERE partner_id = '" . $editId . "'";
-        $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+        $res = $db->query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
 
         $_SESSION['MESSAGE'] = EDIT_PARTNER;
         $url = BASE_URL . 'showPartner.php';
@@ -547,7 +556,7 @@ class support {
         $ccodeId = uuid();
         $_SQL = "insert into ccode(ccode,start_of_validity,end_of_validity,activ,value)
             values('" . $ccodeId . "','" . $arrUser['start_of_publishing'] . "','" . $arrUser['end_of_publishing'] . "','1','" . $arrUser['value'] . "')";
-        $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+        $res = $db->query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
 
        $_SESSION['MESSAGE'] = ADD_CCODE;
         $url = BASE_URL . 'showCcode.php';
@@ -639,8 +648,8 @@ class support {
         $QUE = "SELECT * FROM ccode WHERE ccode = '" . $editId . "'";
 
 
-         $res = mysql_query($QUE);
-        while($rs = mysql_fetch_array($res))
+         $res = $db->query($QUE);
+        while($rs = mysqli_fetch_array($res))
         {
         $data[] = $rs;
 
@@ -664,7 +673,7 @@ class support {
 
         $_SQL = "UPDATE ccode SET start_of_validity  = '" .  $arrUser['start_of_publishing']  . "',end_of_validity = '" .  $arrUser['end_of_publishing']  . "',value = '" .  $arrUser['value']  . "'
             WHERE ccode = '" . $editId . "'";
-        $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+        $res = $db->query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
 
         $_SESSION['MESSAGE'] = EDIT_CCODE;
         $url = BASE_URL . 'showCcode.php';
@@ -681,7 +690,7 @@ class support {
         $inoutObj = new inOut();
 
         $query = "DELETE FROM ccode WHERE ccode  = '" . $cId . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = $db->query($query) or die(mysql_error());
 
        
 
@@ -697,7 +706,7 @@ class support {
 
          $_SQL = "UPDATE ccode SET activ   = '0'
             WHERE ccode = '" . $cId . "'";
-        $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+        $res = $db->query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
 
       // $_SESSION['MESSAGE'] = ACTIVE;
         $url = BASE_URL . 'showCcode.php';
@@ -716,7 +725,7 @@ class support {
 
          $_SQL = "UPDATE ccode SET activ   = '1'
             WHERE ccode = '" . $cId . "'";
-        $res = mysql_query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
+        $res = $db->query($_SQL) or die("sub slogan in lang_text : " . mysql_error());
 
        //$_SESSION['MESSAGE'] = DEACTIVE;
         $url = BASE_URL . 'showCcode.php';
@@ -838,16 +847,16 @@ function searchAllCampaign($paging_limit=0,$uId) {
             
 
             $query2 = "select * from campaign_limit_period_list  where campaign_id = '".$campaignId."'";
-            $res2 = mysql_query($query2) or die('1' . mysql_error());//die();
-            $rs2 = mysql_fetch_array($res2);
+            $res2 = $db->query($query2) or die('1' . mysql_error());//die();
+            $rs2 = mysqli_fetch_array($res2);
             $limitId = $rs2['limit_period_list'];//die();
 
 
             $_SQL3 = "DELETE FROM campaign_limit_period_list  WHERE campaign_id = '". $campaignId ."' AND limit_period_list = '" . $limitId . "' ";
-            $res3 = mysql_query($_SQL3) or die(mysql_error());
+            $res3 = $db->query($_SQL3) or die(mysql_error());
 
             $_SQL4 = "DELETE FROM limit_period WHERE limit_id = '" . $limitId . "'";
-            $res4 = mysql_query($_SQL4) or die(mysql_error());
+            $res4 = $db->query($_SQL4) or die(mysql_error());
 
 
               ///////// delete small image and large image
@@ -856,8 +865,8 @@ function searchAllCampaign($paging_limit=0,$uId) {
            // system ("/usr/local/bin/cumbari_s3del.sh $file ");
 
             $querydel = "select * from campaign where campaign_id = '".$campaignId."'";
-            $resdel = mysql_query($querydel);
-            $rsdel = mysql_fetch_array($resdel);
+            $resdel = $db->query($querydel);
+            $rsdel = mysqli_fetch_array($resdel);
             $small_image = $rsdel['small_image'];
             $large_image = $rsdel['large_image'];
 
@@ -873,113 +882,113 @@ function searchAllCampaign($paging_limit=0,$uId) {
 
 
             $query1 = "DELETE FROM campaign WHERE campaign_id = '".$campaignId."'";
-            $res1 = mysql_query($query1) or die(mysql_error());
+            $res1 = $db->query($query1) or die(mysql_error());
 
           
             
             $query5 = "select * from campaign_offer_slogan_lang_list  where campaign_id = '".$campaignId."'";
-            $res5 = mysql_query($query5) or die('1' . mysql_error());
-            while($rs5 = mysql_fetch_array($res5))
+            $res5 = $db->query($query5) or die('1' . mysql_error());
+            while($rs5 = mysqli_fetch_array($res5))
             {
             $offslogen = $rs5['offer_slogan_lang_list'];
 
             $_SQL6 = "DELETE FROM campaign_offer_slogan_lang_list  WHERE campaign_id = '".$campaignId."'";
-            $res6 = mysql_query($_SQL6) or die(mysql_error());
+            $res6 = $db->query($_SQL6) or die(mysql_error());
 
             $_SQL7 = "DELETE FROM lang_text WHERE id = '" . $offslogen . "'";
-            $res7 = mysql_query($_SQL7) or die(mysql_error());
+            $res7 = $db->query($_SQL7) or die(mysql_error());
             }
 
 
             $query8 = "select * from campaign_offer_sub_slogan_lang_list  where campaign_id = '".$campaignId."'";
-            $res8 = mysql_query($query8) or die('1' . mysql_error());
-            while($rs8 = mysql_fetch_array($res8))
+            $res8 = $db->query($query8) or die('1' . mysql_error());
+            while($rs8 = mysqli_fetch_array($res8))
             {
             $offtitle = $rs8['offer_sub_slogan_lang_list'];
 
             $_SQL9 = "DELETE FROM campaign_offer_sub_slogan_lang_list WHERE campaign_id = '".$campaignId."'";
-            $res9 = mysql_query($_SQL9) or die(mysql_error());
+            $res9 = $db->query($_SQL9) or die(mysql_error());
 
             $_SQL10 = "DELETE FROM lang_text WHERE id = '" . $offtitle . "'";
-            $res10 = mysql_query($_SQL10) or die(mysql_error());
+            $res10 = $db->query($_SQL10) or die(mysql_error());
             }
 
             $query11 = "select * from campaign_keyword  where campaign_id = '".$campaignId."'";
-            $res11 = mysql_query($query11) or die('1' . mysql_error());
-            while($rs11 = mysql_fetch_array($res11))
+            $res11 = $db->query($query11) or die('1' . mysql_error());
+            while($rs11 = mysqli_fetch_array($res11))
             {
             $ckeyword = $rs11['offer_keyword'];
 
             $_SQL12 = "DELETE FROM campaign_keyword WHERE campaign_id = '".$campaignId."'";
-            $res12 = mysql_query($_SQL12) or die(mysql_error());
+            $res12 = $db->query($_SQL12) or die(mysql_error());
 
             $_SQL13 = "DELETE FROM lang_text WHERE id = '" . $ckeyword . "'";
-            $res13 = mysql_query($_SQL13) or die(mysql_error());
+            $res13 = $db->query($_SQL13) or die(mysql_error());
 
             }
 
 
         $query14 = "select * from c_s_rel  where campaign_id = '" . $campaignId . "'";
-        $res14 = mysql_query($query14) or die(mysql_error());
-        while ($rs14 = mysql_fetch_array($res14)) {
+        $res14 = $db->query($query14) or die(mysql_error());
+        while ($rs14 = mysqli_fetch_array($res14)) {
             $couponId = $rs14['coupon_id'];
 
 
           if($couponId) {
      /////////// delete coupon
              $query15 = "DELETE FROM coupon WHERE coupon_id = '".$couponId."'";
-                    $res15 = mysql_query($query15) or die(mysql_error());
+                    $res15 = $db->query($query15) or die(mysql_error());
 
                     $query16 = "select * from coupon_limit_period_list  where coupon = '" . $couponId . "'";
-                    $res16 = mysql_query($query16) or die('1' . mysql_error());
-                    $rs16 = mysql_fetch_array($res16);
+                    $res16 = $db->query($query16) or die('1' . mysql_error());
+                    $rs16 = mysqli_fetch_array($res16);
                     $limitId = $rs16['limit_period_list'];
 
 
                     $_SQL17 = "DELETE FROM coupon_limit_period_list WHERE coupon = '" . $couponId . "' AND limit_period_list = '" . $limitId . "' ";
-                    $res17 = mysql_query($_SQL17) or die(mysql_error());
+                    $res17 = $db->query($_SQL17) or die(mysql_error());
 
                     $_SQL18 = "DELETE FROM limit_period WHERE limit_id = '" . $limitId . "'";
-                    $res18 = mysql_query($_SQL18) or die(mysql_error());
+                    $res18 = $db->query($_SQL18) or die(mysql_error());
 
                     $query19 = "select * from coupon_offer_slogan_lang_list  where coupon = '" . $couponId . "'";
-                    $res19 = mysql_query($query19) or die('1' . mysql_error());
-                    while($rs19 = mysql_fetch_array($res19))
+                    $res19 = $db->query($query19) or die('1' . mysql_error());
+                    while($rs19 = mysqli_fetch_array($res19))
                  {
                     $offslogen = $rs19['offer_slogan_lang_list'];
 
                     $_SQL26 = "DELETE FROM coupon_offer_slogan_lang_list WHERE coupon = '" . $couponId . "'";
-                    $res26 = mysql_query($_SQL26) or die(mysql_error());
+                    $res26 = $db->query($_SQL26) or die(mysql_error());
 
                     $_SQL27 = "DELETE FROM lang_text WHERE id = '" . $offslogen . "'";
-                    $res27 = mysql_query($_SQL27) or die(mysql_error());
+                    $res27 = $db->query($_SQL27) or die(mysql_error());
                  }
 
 
                     $query20 = "select * from coupon_offer_title_lang_list  where coupon = '" . $couponId . "'";
-                    $res20 = mysql_query($query20) or die('1' . mysql_error());
-                    while($rs20 = mysql_fetch_array($res20))
+                    $res20 = $db->query($query20) or die('1' . mysql_error());
+                    while($rs20 = mysqli_fetch_array($res20))
                   {
                     $offtitle = $rs20['offer_title_lang_list'];
 
                     $_SQL21 = "DELETE FROM coupon_offer_title_lang_list WHERE coupon = '" . $couponId . "'";
-                    $res21 = mysql_query($_SQL21) or die(mysql_error());
+                    $res21 = $db->query($_SQL21) or die(mysql_error());
 
                     $_SQL22 = "DELETE FROM lang_text WHERE id = '" . $offtitle . "'";
-                    $res22 = mysql_query($_SQL22) or die(mysql_error());
+                    $res22 = $db->query($_SQL22) or die(mysql_error());
                   }
 
                      $query23 = "select * from coupon_keywords_lang_list  where coupon = '" . $couponId . "'";
-                    $res23 = mysql_query($query23) or die('1' . mysql_error());
-                    while($rs23 = mysql_fetch_array($res23))
+                    $res23 = $db->query($query23) or die('1' . mysql_error());
+                    while($rs23 = mysqli_fetch_array($res23))
                   {
                     $ckeyword = $rs23['keywords_lang_list'];
 
                     $_SQL24 = "DELETE FROM coupon_keywords_lang_list WHERE coupon = '" . $couponId . "'";
-                    $res24 = mysql_query($_SQL24) or die(mysql_error());
+                    $res24 = $db->query($_SQL24) or die(mysql_error());
 
                     $_SQL25 = "DELETE FROM lang_text WHERE id = '" . $ckeyword . "'";
-                     $res25 = mysql_query($_SQL25) or die(mysql_error());
+                     $res25 = $db->query($_SQL25) or die(mysql_error());
 
                     }
 
@@ -987,7 +996,7 @@ function searchAllCampaign($paging_limit=0,$uId) {
           }
 
            $_SQL28 = "DELETE FROM c_s_rel WHERE coupon_id='" . $couponId . "'";
-            $res28 = mysql_query($_SQL28) or die(mysql_error());
+            $res28 = $db->query($_SQL28) or die(mysql_error());
         }
 
         $url = BASE_URL . 'showPermntDeleteCampaign.php?uId='.$uId;
@@ -1020,7 +1029,7 @@ function searchAllCampaign($paging_limit=0,$uId) {
 
         $q = $this->searchAllStandard($paging_limit,$uId);
 
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         return $data;
@@ -1028,6 +1037,9 @@ function searchAllCampaign($paging_limit=0,$uId) {
 
 
     function searchAllStandard($paging_limit=0,$uId) {
+        $db = new db();
+        $db->makeConnection();
+
         if (isset($_REQUEST['keyword']) OR isset($_REQUEST['key']) OR isset($_REQUEST['ke'])) {
             // $qstr1 = " store_name REGEXP '[[:<:]]".trim($_REQUEST['keyword'])."[[:>:]]' ";
             // $qstr2 = " email REGEXP '[[:<:]]".trim($_REQUEST['key'])."[[:>:]]' ";
@@ -1053,8 +1065,8 @@ function searchAllCampaign($paging_limit=0,$uId) {
             $limit = "limit ".$paging_limit;
 
         $query = "select * from employer where u_id = '" . $uId . "'";
-        $res = mysql_query($query);
-        $rs = mysql_fetch_array($res);
+        $res = $db->query($query);
+        $rs = mysqli_fetch_array($res);
         $companyId = $rs['company_id'];
 
            $QUE = "SELECT product.*, lang_text.text as slogen,keyw.text as keyword,cat.text as category FROM product
@@ -1070,7 +1082,7 @@ function searchAllCampaign($paging_limit=0,$uId) {
 
 
 
-        $res = mysql_query($QUE);
+        $res = $db->query($QUE);
 
         return $res;
     }
@@ -1090,8 +1102,8 @@ function permanentDeleteStandard($productId,$uId){
            // system ("/usr/local/bin/cumbari_s3del.sh $file ");
 
             $querydel = "select * from product where product_id = '".$productId."'";
-            $resdel = mysql_query($querydel);
-            $rsdel = mysql_fetch_array($resdel);
+            $resdel = $db->query($querydel);
+            $rsdel = mysqli_fetch_array($resdel);
             $small_image = $rsdel['small_image'];
             $large_image = $rsdel['large_image'];
 
@@ -1107,53 +1119,53 @@ function permanentDeleteStandard($productId,$uId){
 
 
           $query14 = "DELETE FROM product WHERE product_id = '".$productId."'";
-                $res14 = mysql_query($query14) or die(mysql_error());
+                $res14 = $db->query($query14) or die(mysql_error());
 
                 $query15 = "select * from product_offer_slogan_lang_list  where product_id = '" . $productId . "'";
-                $res15 = mysql_query($query15) or die('1' . mysql_error());
-               while($rs15 = mysql_fetch_array($res15))
+                $res15 = $db->query($query15) or die('1' . mysql_error());
+               while($rs15 = mysqli_fetch_array($res15))
                    {
                 $offslogen = $rs15['offer_slogan_lang_list'];
 
 
                 $_SQL16 = "DELETE FROM product_offer_slogan_lang_list WHERE product_id = '" . $productId . "'";
-                $res16 = mysql_query($_SQL16) or die(mysql_error());
+                $res16 = $db->query($_SQL16) or die(mysql_error());
 
                 $_SQL17 = "DELETE FROM lang_text WHERE id = '" . $offslogen . "'";
-                $res17 = mysql_query($_SQL17) or die(mysql_error());
+                $res17 = $db->query($_SQL17) or die(mysql_error());
 
                    }
 
                
 
                 $query18 = "select * from product_keyword  where product_id = '" . $productId . "'";
-                $res18 = mysql_query($query18) or die('1' . mysql_error());
-                while($rs18 = mysql_fetch_array($res18))
+                $res18 = $db->query($query18) or die('1' . mysql_error());
+                while($rs18 = mysqli_fetch_array($res18))
                     {
                 $ckeyword = $rs18['offer_keyword'];
 
                 $_SQL19 = "DELETE FROM product_keyword  WHERE product_id = '" . $productId . "'";
-                $res19 = mysql_query($_SQL19) or die(mysql_error());
+                $res19 = $db->query($_SQL19) or die(mysql_error());
 
                 $_SQL20 = "DELETE FROM lang_text WHERE id = '" . $ckeyword . "'";
-                $res20 = mysql_query($_SQL20) or die(mysql_error());
+                $res20 = $db->query($_SQL20) or die(mysql_error());
                     }
 
                 $query21 = "select * from product_price_list  where product_id = '" . $productId . "'";
-                $res21 = mysql_query($query21) or die('1' . mysql_error());
-                while($rs21 = mysql_fetch_array($res21))
+                $res21 = $db->query($query21) or die('1' . mysql_error());
+                while($rs21 = mysqli_fetch_array($res21))
                     {
               
                 $_SQL22 = "DELETE FROM product_price_list  WHERE product_id = '" . $productId . "'";
-                $res22 = mysql_query($_SQL22) or die(mysql_error());
+                $res22 = $db->query($_SQL22) or die(mysql_error());
 
                     }
 
 //////////////// delete coupon
 
                      $query1 = "select * from c_s_rel  where product_id = '" . $productId . "'";
-        $res1 = mysql_query($query1) or die(mysql_error());
-        while ($rs1 = mysql_fetch_array($res1)) {
+        $res1 = $db->query($query1) or die(mysql_error());
+        while ($rs1 = mysqli_fetch_array($res1)) {
             $productId = $rs1['product_id'];
             $couponId =$rs1['coupon_id'];
             $storeId =$rs1['store_id'];
@@ -1162,55 +1174,55 @@ function permanentDeleteStandard($productId,$uId){
 
             if($couponId) {
                 $query3 = "DELETE FROM coupon WHERE coupon_id = '".$couponId."'";
-                $res3 = mysql_query($query3) or die(mysql_error());
+                $res3 = $db->query($query3) or die(mysql_error());
 
                 $query4 = "select * from coupon_offer_slogan_lang_list  where coupon = '" . $couponId . "'";
-                $res4 = mysql_query($query4) or die('1' . mysql_error());
-               while($rs4 = mysql_fetch_array($res4))
+                $res4 = $db->query($query4) or die('1' . mysql_error());
+               while($rs4 = mysqli_fetch_array($res4))
                    {
                 $offslogen = $rs4['offer_slogan_lang_list'];
 
 
                 $_SQL5 = "DELETE FROM coupon_offer_slogan_lang_list WHERE coupon = '" . $couponId . "'";
-                $res5 = mysql_query($_SQL5) or die(mysql_error());
+                $res5 = $db->query($_SQL5) or die(mysql_error());
 
                 $_SQL6 = "DELETE FROM lang_text WHERE id = '" . $offslogen . "'";
-                $res6 = mysql_query($_SQL6) or die(mysql_error());
+                $res6 = $db->query($_SQL6) or die(mysql_error());
 
                    }
 
                 $query7 = "select * from coupon_offer_title_lang_list  where coupon = '" . $couponId . "'";
-                $res7 = mysql_query($query7) or die('1' . mysql_error());
-                while($rs7 = mysql_fetch_array($res7))
+                $res7 = $db->query($query7) or die('1' . mysql_error());
+                while($rs7 = mysqli_fetch_array($res7))
                     {
                  $offtitle = $rs7['offer_title_lang_list'];
 
                 $_SQL8 = "DELETE FROM coupon_offer_title_lang_list WHERE coupon = '" . $couponId . "'";
-                $res8 = mysql_query($_SQL8) or die(mysql_error());
+                $res8 = $db->query($_SQL8) or die(mysql_error());
 
                   $_SQL9 = "DELETE FROM lang_text WHERE id = '" . $offtitle . "'";
-                  $res9 = mysql_query($_SQL9) or die(mysql_error());
+                  $res9 = $db->query($_SQL9) or die(mysql_error());
 
                     }
 
                 $query10 = "select * from coupon_keywords_lang_list  where coupon = '" . $couponId . "'";
-                $res10 = mysql_query($query10) or die('1' . mysql_error());
-                while($rs10 = mysql_fetch_array($res10))
+                $res10 = $db->query($query10) or die('1' . mysql_error());
+                while($rs10 = mysqli_fetch_array($res10))
                     {
                 $ckeyword = $rs10['keywords_lang_list'];
 
                 $_SQL11 = "DELETE FROM coupon_keywords_lang_list WHERE coupon = '" . $couponId . "'";
-                $res11 = mysql_query($_SQL11) or die(mysql_error());
+                $res11 = $db->query($_SQL11) or die(mysql_error());
 
                 $_SQL12 = "DELETE FROM lang_text WHERE id = '" . $ckeyword . "'";
-                $res12 = mysql_query($_SQL12) or die(mysql_error());
+                $res12 = $db->query($_SQL12) or die(mysql_error());
                     }
 
                 
 
             }
             $_SQL13 = "DELETE FROM c_s_rel WHERE coupon_id='" . $couponId . "'";
-            $res13 = mysql_query($_SQL13) or die(mysql_error());
+            $res13 = $db->query($_SQL13) or die(mysql_error());
 
         }
        
@@ -1252,8 +1264,8 @@ function permanentDeleteStandard($productId,$uId){
            $QUE = "SELECT * FROM store WHERE u_id = '" . $uId . "' AND $set_keywords  s_activ='1'";
         }
         //echo $QUE;
-        // $res = mysql_query($query) or die(mysql_error());
-        $res = mysql_query($QUE) or die(mysql_error());
+        // $res = $db->query($query) or die(mysql_error());
+        $res = $db->query($QUE) or die(mysql_error());
         $total_records = $db->numRows($res);
 
         return $total_records;
@@ -1283,8 +1295,8 @@ function permanentDeleteStandard($productId,$uId){
 
         $q = $db->query("SELECT * FROM store WHERE u_id = '" . $uId . "' AND $set_keywords s_activ='1'  LIMIT {$paging_limit} ");
 
-        // $res = mysql_query($query) or die(mysql_error());
-        while ($rs = mysql_fetch_array($q)) {
+        // $res = $db->query($query) or die(mysql_error());
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         return $data;
@@ -1298,7 +1310,7 @@ function permanentDeleteStandard($productId,$uId){
      
         $q = $db->query("SELECT * FROM store LEFT JOIN coupon_delivery_method ON (coupon_delivery_method.store = store.store_id)
             WHERE store.u_id = '" . $uid . "' AND store.store_id='" . $storeid . "'");
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         return $data;
@@ -1325,12 +1337,12 @@ function permanentDeleteStandard($productId,$uId){
         if($ccode != '')
         {
         $_SQL = "select * from company left join country on (country.iso = company.country) where company.ccode = '" . $ccode . "'";
-        $res = mysql_query($_SQL);
+        $res = $db->query($_SQL);
         }else {
         $_SQL = "select * from company";
-        $res = mysql_query($_SQL);
+        $res = $db->query($_SQL);
         }
-        while($rs = mysql_fetch_array($res))
+        while($rs = mysqli_fetch_array($res))
         {
             $data[] = $rs;
         }
@@ -1349,14 +1361,14 @@ function permanentDeleteStandard($productId,$uId){
        $value = $_POST['value'];
       // echo $companyId;
        $_SQL = "select ccode from company where company_id = '" .$companyId . "'";
-       $res = mysql_query($_SQL);
-       $rs = mysql_fetch_array($res);
+       $res = $db->query($_SQL);
+       $rs = mysqli_fetch_array($res);
        $checkCcode = $rs['ccode'];
 
        if($checkCcode == '')
        {
          $query = "update company set `ccode` = '" . $ccode . "',`cc_value` = '" . $value . "' where company_id = '" . $companyId . "' ";
-         $res = mysql_query($query);
+         $res = $db->query($query);
          $_SESSION['MESSAGE'] = ASSIGNCCODE;
          $url = BASE_URL . 'showCcode.php';
         $inoutObj->reDirect($url);
@@ -1397,7 +1409,7 @@ function getAdvertiseDetails($paging_limit='0 , 10',$uId) {
 
         $q = $this->searchAllAdvertise($paging_limit,$uId);
 
-        while ($rs = mysql_fetch_array($q)) {
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         return $data;
@@ -1427,8 +1439,8 @@ function searchAllAdvertise($paging_limit=0,$uId) {
             $limit = "limit ".$paging_limit;
 
         $query = "select * from employer where u_id = '" . $uId . "'";
-        $res = mysql_query($query);
-        $rs = mysql_fetch_array($res);
+        $res = $db->query($query);
+        $rs = mysqli_fetch_array($res);
         $companyId = $rs['company_id'];
 
        
@@ -1447,7 +1459,7 @@ function searchAllAdvertise($paging_limit=0,$uId) {
                         advertise.company_id='" . $companyId . "' AND $set_keywords 1 AND (s_activ='0' or s_activ='3') AND lang_text.lang = subsloganT.lang AND (reseller_status = 'A' OR reseller_status = '') GROUP BY advertise_id ".$limit;
     
 
-        $res = mysql_query($QUE);
+        $res = $db->query($QUE);
 
         return $res;
     }
@@ -1462,8 +1474,8 @@ function searchAllAdvertise($paging_limit=0,$uId) {
         //////////////////// delete advertise           
         
             $querydel = "select * from advertise where advertise_id = '".$advertiseId."'";
-            $resdel = mysql_query($querydel);
-            $rsdel = mysql_fetch_array($resdel);
+            $resdel = $db->query($querydel);
+            $rsdel = mysqli_fetch_array($resdel);
             $small_image = $rsdel['small_image'];
             $large_image = $rsdel['large_image'];
 
@@ -1479,101 +1491,101 @@ function searchAllAdvertise($paging_limit=0,$uId) {
 
 
             $query1 = "DELETE FROM advertise WHERE advertise_id = '".$advertiseId."'";
-            $res1 = mysql_query($query1) or die(mysql_error());
+            $res1 = $db->query($query1) or die(mysql_error());
 
           
             
             $query5 = "select * from advertise_offer_slogan_lang_list  where advertise_id = '".$advertiseId."'";
-            $res5 = mysql_query($query5) or die('1' . mysql_error());
-            while($rs5 = mysql_fetch_array($res5))
+            $res5 = $db->query($query5) or die('1' . mysql_error());
+            while($rs5 = mysqli_fetch_array($res5))
             {
             $offslogen = $rs5['offer_slogan_lang_list'];
 
             $_SQL6 = "DELETE FROM advertise_offer_slogan_lang_list  WHERE advertise_id = '".$advertiseId."'";
-            $res6 = mysql_query($_SQL6) or die(mysql_error());
+            $res6 = $db->query($_SQL6) or die(mysql_error());
 
             $_SQL7 = "DELETE FROM lang_text WHERE id = '" . $offslogen . "'";
-            $res7 = mysql_query($_SQL7) or die(mysql_error());
+            $res7 = $db->query($_SQL7) or die(mysql_error());
             }
 
 
             $query8 = "select * from advertise_offer_sub_slogan_lang_list  where advertise_id = '".$advertiseId."'";
-            $res8 = mysql_query($query8) or die('1' . mysql_error());
-            while($rs8 = mysql_fetch_array($res8))
+            $res8 = $db->query($query8) or die('1' . mysql_error());
+            while($rs8 = mysqli_fetch_array($res8))
             {
             $offtitle = $rs8['offer_sub_slogan_lang_list'];
 
             $_SQL9 = "DELETE FROM advertise_offer_sub_slogan_lang_list WHERE advertise_id = '".$advertiseId."'";
-            $res9 = mysql_query($_SQL9) or die(mysql_error());
+            $res9 = $db->query($_SQL9) or die(mysql_error());
 
             $_SQL10 = "DELETE FROM lang_text WHERE id = '" . $offtitle . "'";
-            $res10 = mysql_query($_SQL10) or die(mysql_error());
+            $res10 = $db->query($_SQL10) or die(mysql_error());
             }
 
             $query11 = "select * from advertise_keyword  where advertise_id = '".$advertiseId."'";
-            $res11 = mysql_query($query11) or die('1' . mysql_error());
-            while($rs11 = mysql_fetch_array($res11))
+            $res11 = $db->query($query11) or die('1' . mysql_error());
+            while($rs11 = mysqli_fetch_array($res11))
             {
             $ckeyword = $rs11['offer_keyword'];
 
             $_SQL12 = "DELETE FROM advertise_keyword WHERE advertise_id = '".$advertiseId."'";
-            $res12 = mysql_query($_SQL12) or die(mysql_error());
+            $res12 = $db->query($_SQL12) or die(mysql_error());
 
             $_SQL13 = "DELETE FROM lang_text WHERE id = '" . $ckeyword . "'";
-            $res13 = mysql_query($_SQL13) or die(mysql_error());
+            $res13 = $db->query($_SQL13) or die(mysql_error());
 
             }
 
 
         $query14 = "select * from c_s_rel  where advertise_id = '" . $advertiseId . "'";
-        $res14 = mysql_query($query14) or die(mysql_error());
-        while ($rs14 = mysql_fetch_array($res14)) {
+        $res14 = $db->query($query14) or die(mysql_error());
+        while ($rs14 = mysqli_fetch_array($res14)) {
             $couponId = $rs14['coupon_id'];
 
 
           if($couponId) {
      /////////// delete coupon
              $query15 = "DELETE FROM coupon WHERE coupon_id = '".$couponId."'";
-                    $res15 = mysql_query($query15) or die(mysql_error());        
+                    $res15 = $db->query($query15) or die(mysql_error());        
 
                     $query19 = "select * from coupon_offer_slogan_lang_list  where coupon = '" . $couponId . "'";
-                    $res19 = mysql_query($query19) or die('1' . mysql_error());
-                    while($rs19 = mysql_fetch_array($res19))
+                    $res19 = $db->query($query19) or die('1' . mysql_error());
+                    while($rs19 = mysqli_fetch_array($res19))
                  {
                     $offslogen = $rs19['offer_slogan_lang_list'];
 
                     $_SQL26 = "DELETE FROM coupon_offer_slogan_lang_list WHERE coupon = '" . $couponId . "'";
-                    $res26 = mysql_query($_SQL26) or die(mysql_error());
+                    $res26 = $db->query($_SQL26) or die(mysql_error());
 
                     $_SQL27 = "DELETE FROM lang_text WHERE id = '" . $offslogen . "'";
-                    $res27 = mysql_query($_SQL27) or die(mysql_error());
+                    $res27 = $db->query($_SQL27) or die(mysql_error());
                  }
 
 
                     $query20 = "select * from coupon_offer_title_lang_list  where coupon = '" . $couponId . "'";
-                    $res20 = mysql_query($query20) or die('1' . mysql_error());
-                    while($rs20 = mysql_fetch_array($res20))
+                    $res20 = $db->query($query20) or die('1' . mysql_error());
+                    while($rs20 = mysqli_fetch_array($res20))
                   {
                     $offtitle = $rs20['offer_title_lang_list'];
 
                     $_SQL21 = "DELETE FROM coupon_offer_title_lang_list WHERE coupon = '" . $couponId . "'";
-                    $res21 = mysql_query($_SQL21) or die(mysql_error());
+                    $res21 = $db->query($_SQL21) or die(mysql_error());
 
                     $_SQL22 = "DELETE FROM lang_text WHERE id = '" . $offtitle . "'";
-                    $res22 = mysql_query($_SQL22) or die(mysql_error());
+                    $res22 = $db->query($_SQL22) or die(mysql_error());
                   }
 
                      $query23 = "select * from coupon_keywords_lang_list  where coupon = '" . $couponId . "'";
-                    $res23 = mysql_query($query23) or die('1' . mysql_error());
-                    while($rs23 = mysql_fetch_array($res23))
+                    $res23 = $db->query($query23) or die('1' . mysql_error());
+                    while($rs23 = mysqli_fetch_array($res23))
                   {
                     $ckeyword = $rs23['keywords_lang_list'];
 
                     $_SQL24 = "DELETE FROM coupon_keywords_lang_list WHERE coupon = '" . $couponId . "'";
-                    $res24 = mysql_query($_SQL24) or die(mysql_error());
+                    $res24 = $db->query($_SQL24) or die(mysql_error());
 
                     $_SQL25 = "DELETE FROM lang_text WHERE id = '" . $ckeyword . "'";
-                     $res25 = mysql_query($_SQL25) or die(mysql_error());
+                     $res25 = $db->query($_SQL25) or die(mysql_error());
 
                     }
 
@@ -1581,7 +1593,7 @@ function searchAllAdvertise($paging_limit=0,$uId) {
           }
 
            $_SQL28 = "DELETE FROM c_s_rel WHERE coupon_id='" . $couponId . "'";
-            $res28 = mysql_query($_SQL28) or die(mysql_error());
+            $res28 = $db->query($_SQL28) or die(mysql_error());
         }
 
         $url = BASE_URL . 'showPermntDeleteAdvertise.php?uId='.$uId;

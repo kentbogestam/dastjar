@@ -33,7 +33,6 @@
 
 <script language="JavaScript" src="client/js/jsStore.js" type="text/javascript"></script>
 <style type="text/css">
-<<<<<<< HEAD
    /*
 =======
     /*
