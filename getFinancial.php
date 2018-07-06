@@ -93,6 +93,12 @@ your account:</strong></td>
 <tr>
 		<td>&nbsp;</td>
 
+<td align="left"><strong>Stripe </strong></td>
+<td><b/> <a href="https://stripe.com/">Go to our Stripe account</a> </td>
+</tr>
+<!--<tr>
+		<td>&nbsp;</td>
+
 <td align="left"><strong>Company Account Status:</strong></td>
 <td><b/><?php echo $data1['pre_loaded_value']; ?></td>
 </tr>
@@ -101,7 +107,7 @@ your account:</strong></td>
 
 <td align="left"><strong>Discount Coupon Left:</strong></td>
 <td><b/><?php echo $data1['cc_value']; ?></td>
-</tr>
+</tr> -->
 </table>
 <div align="center">
 <?php

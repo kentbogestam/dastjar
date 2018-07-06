@@ -94,11 +94,11 @@ include_once("main.php");
             { echo 'NULL';}
                 ?>           </td>
         </tr>
-        <tr>
+        <!--<tr>
             <td>&nbsp;</td>
             <td><b>Coupon data:</b></td>
             <td><?=$data[0]['delivery_method']?>                
-            </td>
+            </td>-->
         </tr>
         <tr>
             <td>&nbsp;</td>

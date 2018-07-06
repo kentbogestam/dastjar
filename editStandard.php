@@ -40,36 +40,24 @@
         $inoutObj->reDirect($url);
          exit();
    }
-   
-   //if (isset($_SESSION['postPaymentStand'])) {
-   //    $x = ($_SESSION['postPaymentStand']);
-   //    $data[0]['product_id'] = $x['productId'];
-   //    $data[0]['lang'] = $x['lang'];
-   //    $data[0]['slogen'] = $x['titleSloganStand'];
-   //    $data[0]['is_sponsored'] = $x['sponsStand'];
-   //    $data[0]['category'] = $x['linkedCatStand'];
-   //    $data[0]['link'] = $x['link'];
-   //    $data[0]['keywords'] = $x['searchKeywordStand'];
-   //    $data[0]['product_name'] = $x['productName'];
-   //    $data[0]['ean_code'] = $x['eanCode'];
-   //    $data[0]['product_number'] = $x['productNumber'];
-   //    $data[0]['is_public'] = $x['publicProduct'];
-   //    $data[0]['product_info_page'] = $x['descriptiveStand'];
-   //    $data[0]['start_of_publishing'] = $x['startDateStand'];
-   //    $data[0]['large_image'] = $_SESSION['preview']['large_image'];
-   //    if(!$_REQUEST['ldacc'])
-   //        unset($_SESSION["postPaymentStand"]);
-   //}
+
    
    ?>
 <?php include 'config/defines.php'; ?>
-<link rel="stylesheet" href="client/css/datePicker.css" type="text/css">
 <link rel="stylesheet" href="client/css/stylesheet123.css" type="text/css">
-<script language="JavaScript" src="client/js/date.js" type="text/javascript"></script>
 <script language="JavaScript" src="client/js/jquery.bgiframe.js" type="text/javascript"></script>
-<script language="JavaScript" src="client/js/jquery.datePicker.js" type="text/javascript"></script>
 <script language="JavaScript" src="client/js/ajaxuploadStand.js" type="text/javascript"></script>
 <script language="JavaScript" src="client/js/jsStandardOffer.js" type="text/javascript"></script>
+
+    <link href="//stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet"
+    href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/css/bootstrap-material-design.min.css"/>
+    <link rel="stylesheet"
+    href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/css/ripples.min.css"/>
+    <link rel="stylesheet" href="client/css/bootstrap-material-datetimepicker.css" />
+    <link href='//fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 <!--<link rel="stylesheet" type="text/css" href="lib/vtip/css/vtip.css" />-->
 <META http-equiv="Content-Type" content="text/html; charset=utf-8">
 <style type="text/css">
@@ -77,6 +65,9 @@
    }
    img {
    border: 0
+   }
+   body {
+    background-color: #fff; 
    }
 </style>
 <div class="center">
@@ -196,13 +187,13 @@
             <td align="left" valign="top">
                <?php if ($_SESSION['preview']['small_image']) {
                   ?>
-               <!-- <img src="upload/category/<?=$_SESSION['preview']['small_image'] ?>">-->
+               <!-- <img src="<?=$data[0]['small_image']?>"> -->
                <input class="text_field_new" type="hidden" name="smallimage" id="smallimage" value="<?=$_SESSION['preview']['small_image'] ?>">
                <br>
                <?
                   }
                   ?>
-               <INPUT class="text_field_new" type=file name="icon" id="icon" onBlur="iconPreview(this.form);">
+              <!--  <INPUT class="text_field_new" type=file name="icon" id="icon" onBlur="iconPreview(this.form);"> -->
                <div id='error_icon' class="error"></div>
                <div>
                   <input class="text_field_new" type="hidden" id="selected_image" name="selected_image" value="0">
@@ -220,29 +211,26 @@
       </table>
       <table  border="0" align="center" cellpadding="0" cellspacing="0">
          <tr id="short_preview" style="display:inline;">
-            <td width="422" align="center" valign="top" style="background-image:url(client/images/iphone_large-2.png); width:270px; height:559px; background-repeat:no-repeat;">
-               <div style="margin-top:150px; width:225px; margin-left:auto; margin-right:auto;" >
-                  <table width="100%" border="0" cellpadding="0" cellspacing="0">
+            <td width="422" align="center" valign="top" style="background-image:url(client/images/iphone_large-3.png); width:270px; height:559px; background-repeat:no-repeat;">
+               <div style="margin-top:85px; width:225px; margin-left:-45px; margin-right:auto;" >
+                  <table border="0" cellpadding="0" cellspacing="0">
                      <tr>
                         <td width="41"  align="left" style="padding-left:5px; padding-right:5px;">
-                           <div id="upload_area" style="vertical-align:top;"><img src="" id="myCatIcon" name="myCatIcon"></div>
+                           <div id="upload_area" style="vertical-align:top;"><img src="<?=$data[0]['small_image']?>"  height = 30 width = 50 id="myCatIcon" name="myCatIcon"></div>
                         </td>
                         <td rowspan="2" valign="top">
                            <table width="98%" border="0" cellpadding="0" cellspacing="0">
                               <tr>
-                                 <td width="108" class="mob_title" id="tslogan"></td>
+                                 <td class="mob_title_2" id="tslogan"></td>
                                  <td width="21" align="right" nowrap style="padding-right:3px;">
-                                    <div style="float:right"><font size="-3">??km</font></div>
+                                    <div><font size="-3"></font></div>
                                  </td>
                               </tr>
-                              <tr>
+                              <!--<tr>
                                  <td valign="top" colspan="2" class="mob_txt" id="sslogan"></td>
-                              </tr>
+                                 </tr>-->
                            </table>
                         </td>
-                     </tr>
-                     <tr>
-                        <td>&nbsp;</td>
                      </tr>
                   </table>
                </div>
@@ -304,7 +292,7 @@
             </tr> -->
          <tr>
       </table>
-      <div class="redwhitebutton_small123">Add your Coupon View</div>
+     <!--  <div class="redwhitebutton_small123">Add your Coupon View</div> -->
       <table  width="100%" border="0" cellspacing="15">
          <!--  <tr>
             <td width="505" align="left" valign="top" class="inner_grid">Large deal icon <font size="2">(Image must be in jpeg or png format only e.g. image.png or image.jpg.The size must be at least 247 x 130 pixels)</font>
@@ -334,8 +322,9 @@
             <td align="left" valign="top">
                <?  $d=$data[0]['start_of_publishing'];
                   $timeStamp = explode(" ",$d);
-                  $start_date = $timeStamp[0];?>
-               <input type="text"  style="width:380px;" name="startDateStand" readonly="readonly" value="<?=$start_date
+                  $start_date = $timeStamp[0];
+                  $start_date = date("d/m/Y H:i", strtotime($data[0]['start_of_publishing']));?>
+               <input type="text" style="width:380px;" name="startDateStand" readonly="readonly" value="<?=$start_date
                   ?>" id="startDateStand" class="startDateStand dp-applied text_field_new" />
                <div id='error_startDateStand' class="error"></div>
             </td>
@@ -348,7 +337,7 @@
                <div class="adddishes">
                   <select id= "xx" selected="<?=isset($data[0]['dish_type']) ? $data[0]['dish_type'] : ''?>" name="select2" style="width:406px; background-color:#e4e3dd; border:#abadb3 solid 1px;" class="text_field_new" >
                      <?php foreach($listDishes as $key =>$value) { ?>
-                     <option value = <?php echo $value['dish_id']?> <?php if(isset($data[0]['dish_type']) ? $data[0]['dish_type'] : '' ==  $value['dish_id']) echo "selected"; ?> ><?php echo $value['dish_name']?></option>
+                     <option value = <?php echo $value['dish_id']?> <?php if($data[0]['dish_type'] == $value['dish_id']) echo "selected"; ?> ><?php echo $value['dish_name']?></option>
                      <?php } ?>
                   </select>
                   <div id='error_startDateStand' class="error"></div>
@@ -485,7 +474,25 @@
    <span class='mandatory'>* These Fields Are Mandatory </span>
 </div>
 <? include("footer.php"); ?>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/ripples.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/material.min.js"></script>
+<script type="text/javascript" src="//rawgit.com/FezVrasta/bootstrap-material-design/master/dist/js/material.min.js"></script>
+<script type="text/javascript" src="//momentjs.com/downloads/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="client/js/bootstrap-material-datetimepicker.js"></script>
+
 <script language="JavaScript">
+        $(document).ready(function(){
+            $('#startDateStand').bootstrapMaterialDatePicker
+            ({
+                weekStart: 0, format: 'DD/MM/YYYY HH:mm',  shortTime : true, clearButton: true
+            });
+
+            $.material.init();
+        });
+
    //alert("sdfsfs");
    getCatImage('<?=$data[0]['category'
       ]?>');

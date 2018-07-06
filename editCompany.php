@@ -12,6 +12,7 @@
    $regObj = new registration();
    $accountObj = new accountView();
    $data = $accountObj->getCompanyDetail();
+   $stripePayment = $accountObj->stripePayment();
    $data1 = $data[0];
    //print_r($data1);
    $countryList = $regObj->getCountryList();
@@ -32,6 +33,14 @@
    .td td{ padding-top:5px; padding-bottom:5px;}
 </style>
 <script language="JavaScript" src="client/js/jsUpdateCompany.js" type="text/javascript"></script>
+<center style="margin-top: 10px;">
+   <?php
+           if($_SESSION['MESSAGE']) {
+            echo $_SESSION['MESSAGE'];
+           $_SESSION['MESSAGE']="";
+            }
+       ?>
+    </center>
 <div class="center">
    <form name="register" action="" id="registerform" method="Post">
       <div style="margin-top:20px">
@@ -159,8 +168,12 @@
                         </td>
                      </tr>
                      <tr>
-                        <td colspan="4" align="center" style="padding-top:20px;"><input type="submit" value="Submit company information" class="button_another" name="addCompany" id="addCompany" /></td>
+                        <td align="left">&nbsp;</td>
+<!--                        <td align="left"><div align="center" class="main_bg" <?php if($stripePayment == "Yes"){ echo 'style="background-color: grey; background-image: none;"'; }?>><a <?php if($stripePayment == "Yes"){ echo 'type="button" disabled'; }else{ echo 'href="reDirectStrip.php"'; }?>><strong>Add Payment</strong></a></div><input style="margin-left:45px;"  type="submit" value="Submit your company information"  name="addCompany" class="button_another" id="addCompany"></td>  -->
+                        <td align="left"><div align="center" class="main_bg"><a href="reDirectStripEditCompany.php"><strong>Add Payment</strong></a></div><input style="margin-left:45px;"  type="submit" value="Submit your company information"  name="addCompany" class="button_another" id="addCompany"></td>
+						
                      </tr>
+
                      <tr>
                         <td COLSPAN='5' align="center"><br />
                            <br />
@@ -177,3 +190,12 @@
 <div><? include("footer.php"); ?></div>
 </body>
 </html>
+
+
+<style type="text/css">
+   .main_bg{
+       display: inline-block;border-radius: 100px;
+       padding: 6px 12px;
+       vertical-align: middle;line-height: 24px;
+    }
+</style>

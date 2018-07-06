@@ -140,7 +140,10 @@ class registration {
             foreach($fields as $key=>$value) {
             $postvars .= $key . "=" . $value . "&";
             }
-            $url = "http://dastjar.com/anar/public/api/v1/save-password";
+            $url = USER_APP_BASE_URL . "api/v1/save-password";
+            // echo $url;
+            // die();
+
             curl_setopt($ch,CURLOPT_URL,$url);
             curl_setopt($ch,CURLOPT_POST, 1);                //0 for a get request
             curl_setopt($ch,CURLOPT_POSTFIELDS,$postvars);
@@ -824,13 +827,13 @@ function putCcode($d)
 
 
     function saveStripDetail($access_token,$stripe_publishable_key,$stripe_user_id,$refresh_token){
-       $db = new db();
+        $db = new db();
         $conn = $db->makeConnection();
         // Check connection
         if (!$conn) {
             die("Connection failed: " . mysqli_connect_error());
         }else{}
-
+	
         $query = "update user SET access_token='" . $access_token . "',stripe_publishable_key='" . $stripe_publishable_key . "',stripe_user_id='" . $stripe_user_id . "',`refresh_token`='" . $refresh_token . "'   WHERE u_id='" . $_SESSION['userid'] . "'";
         $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
             $inoutObj = new inOut();
@@ -841,6 +844,24 @@ function putCcode($d)
 
         }
 
+        function saveStripDetailEditCompany($access_token,$stripe_publishable_key,$stripe_user_id,$refresh_token){
+            $db = new db();
+            $conn = $db->makeConnection();
+            // Check connection
+            if (!$conn) {
+                die("Connection failed: " . mysqli_connect_error());
+            }else{}
+        
+            $query = "update user SET access_token='" . $access_token . "',stripe_publishable_key='" . $stripe_publishable_key . "',stripe_user_id='" . $stripe_user_id . "',`refresh_token`='" . $refresh_token . "'   WHERE u_id='" . $_SESSION['userid'] . "'";
+            $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+                $inoutObj = new inOut();
+                $_SESSION['MESSAGE'] = CREATE_STRIPACCOUNT_SUCCESS;
+    
+                $url = BASE_URL . 'editCompany.php';
+                $inoutObj->reDirect($url);
+    
+            }
+    
 
 }
 ?>

@@ -47,7 +47,7 @@ class PhocaGalleryImageMagic
 		// While front upload we don't display the process page
 		if ($frontUpload == 0) {
 			$stopText = PhocaGalleryRenderProcess::displayStopThumbnailsCreating();
-			echo $stopText;
+//			echo $stopText;
 		}
 		// Memory - - - - - - - -
 		$memory = 8;

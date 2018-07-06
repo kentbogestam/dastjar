@@ -25,6 +25,7 @@ class db {
         {
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
+        mysqli_set_charset($this->link,"utf8");
         return($this->link);
     }
     /* Function Header :closeConnection()
@@ -48,6 +49,7 @@ class db {
         //$res = mysql_query($query,$this->link) or die(mysql_error());
         if(!$res) {
             trigger_error('FAILED: '.$query, E_USER_NOTICE);
+			die();
         }else {
             return $res ;
         }

@@ -24,7 +24,7 @@ $ccodeDetail = $supportObj->getCcode($ccode);
 
 
 <style type="text/css">
-<!--
+/*
 .style4 {
 	font-size: 10px;
 	font-weight: bold;
@@ -32,7 +32,7 @@ $ccodeDetail = $supportObj->getCcode($ccode);
 .style6 {
 	font-size: 9px
 }
--->
+*/
 </style>
 <link href="client/css/stylesheet123.css" rel="stylesheet" type="text/css">
 <link href="lib/grid/css/grid.css" rel="stylesheet" type="text/css" />

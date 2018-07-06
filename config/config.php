@@ -8,25 +8,26 @@
 
 /* Local Setting */
 
-$base_url = "http://localhost/dastjar/";
+$base_url = "https://admin-dev.dastjar.com/";
+$user_app_base_url = "https://anar-dev.dastjar.com/";
+
 $basePath = $_SERVER["DOCUMENT_ROOT"] . '/';
 
-$base_url = "http://localhost/dastjar/";
-
 define('BASEPATH', $basePath);
-define('BASE_PATH_NO_ADMIN', 'http://localhost/dastjar/');
+define('USER_APP_BASE_URL', $user_app_base_url);
+define('BASE_PATH_NO_ADMIN', 'https://admin-dev.dastjar.com/');
 define('BASE_URL', $base_url);
-define('_HOME_', "http://localhost/dastjar/");
+define('_HOME_', "https://admin-dev.dastjar.com/");
 
 
 /* End Here for Local Setting */
 define('FUNCTION_DIR', 'function/');
 //define('TIME_ZONE','Asia/Calcutta');
-define('UPLOAD_DIR', BASEPATH . 'dastjar/upload/');
+define('UPLOAD_DIR', BASEPATH . 'upload/');
 define('_UPLOAD_URLDIR_', $base_url . 'upload/');
 
 /////////// upload image dirctory/////////
-define('_UPLOAD_IMAGE_', $basePath . 'dastjar/upload/');
+define('_UPLOAD_IMAGE_', $basePath . 'upload/');
 
 define('IMAGE_AMAZON_PATH', 'https://s3-eu-west-1.amazonaws.com/dastjar-coupons/upload/');
 
@@ -60,6 +61,12 @@ define('PERCH_EMAIL_PASSWORD', '4504d2abb7065c');
 ///////////////////////
 // Register for google map key with your domain and update it
 define('_GKEY_', 'ABQIAAAA4I2FJ12u6k_VsKf1ZkAGxBRpedP_AkQ-0qMxmraAuu868TnwrBSjQz5UviQktpqH1TVF0HGxFVl12A');
+
+/* Stripe ID and KEY */
+$stripe_client_id = 'ca_BsQwDxmv6Nde3fzblaLT8KiuPh7q02px'; // test 
+//$stripe_client_id = 'ca_BsQwCBSJ8NG6N6346v26Ep5z51raygS9'; // live 
+$stripe_client_secret = 'sk_test_EypGXzv2qqngDIPIkuK6aXNi'; // test 
+//$stripe_client_secret = 'sk_live_INm31rvosK6bnFT48xjipoBP'; // live 
 
 $category_array = array();
 $category_array[1] = "Shopping";

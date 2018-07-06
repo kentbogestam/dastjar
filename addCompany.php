@@ -18,12 +18,7 @@
    include_once("header.php");
    ?>
 <?php include 'config/defines.php'; ?>
-<?php
-   if($_SESSION['MESSAGE']) {
-       echo $_SESSION['MESSAGE'];
-       $_SESSION['MESSAGE']="";
-   }
-   ?>
+
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <script type="text/javascript" src="lib/vtip/js/jquery.js"></script>
@@ -32,16 +27,26 @@
       <script language="JavaScript" src="client/js/jsAddCompany.js" type="text/javascript"></script>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
       <style type="text/css">
-         <!--
+         /*
             body,td,th {
                 .center{width:900px; margin-left:auto; margin-right:auto;}
             
             }
-            -->
+            */
       </style>
    </head>
    <body>
+   <center>
+   <?php
+           if($_SESSION['MESSAGE']) {
+            echo $_SESSION['MESSAGE'];
+           $_SESSION['MESSAGE']="";
+            }
+       ?>
+    </center>
+
       <div class="center">
+
          <div id="main_color">
             <div id="singbutton_portion"></div>
             <div id="mainbutton">
@@ -183,7 +188,7 @@
                               </tr>
                               <tr>
                                  <td align="left">&nbsp;</td>
-                                 <td align="left"><div align="center" class="main_bg"  ><a href="reDirectStrip.php" ><strong>Add Payment</strong></a></div><input style="margin-left:45px;"  type="submit" value="Submit your company information"  name="addCompany" class="button_another" id="addCompany"></td>
+                                 <td align="left"><div align="center" class="main_bg"  ><a href="reDirectStrip.php"><strong>Add Payment</strong></a></div><input style="margin-left:45px;"  type="submit" value="Submit your company information"  name="addCompany" class="button_another" id="addCompany"></td>
                               </tr>
 
                               <tr>

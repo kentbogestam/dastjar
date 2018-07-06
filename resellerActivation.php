@@ -10,19 +10,15 @@ $regObj = new registration();
 $activateObj = new activate();
 $afterActivationObj = new afterActivation();
 
-//$regObj->isValidResellerRegistrationStep();
-
 if (isset($_POST['Activate'])) {
     $afterActivationObj->svrActivationDflt();
 }
 $data = $activateObj->svrActivateDefault();
 include_once("header.php");
-//echo "<pre>"; print_r($data);echo "</pre>";
 ?><style type="text/css">
-<!--
-.center{width:900px; margin-left:auto; margin-right:auto;}
-
--->
+/*
+    .center{width:900px; margin-left:auto; margin-right:auto;}
+*/
 </style>
 <div class="center">
 <div id="main">
@@ -496,10 +492,6 @@ include_once("header.php");
 
         </table>
     </div>
-
-
-
-
     
 </div>
 </div>

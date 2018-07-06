@@ -12,15 +12,15 @@ include("Paging.php");
 include("mainSupport.php");
 $supportObj = new support();
 $inoutObj = new inOut();
-$case = $_GET['m'];
-$uId = $_GET['uId'];
+
+$case = $_SESSION['MESSAGE'];
+$uId = $_SESSION['supportuserid'];
 
 if($uId == '')
 {
     $uId = 'default';
 }
-if ($uId != '') {
-
+else if ($uId != '') {
     $records_per_page = PAGING;
     $total_records = $supportObj->getTotalStandard($uId);
      
@@ -186,6 +186,7 @@ if ($_SESSION['MESSAGE']) {
                     <td width="15%" align="center" class="bg_darkgray1"><strong>Keyword</strong></td>
                     <td width="15%" align="center" class="bg_darkgray1"><strong>Action</strong></td>
                 </tr>
+
             <?php
                             foreach ($data as $data1) {
             ?>

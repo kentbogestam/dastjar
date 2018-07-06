@@ -6,7 +6,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // collect value of input field
    $orgnr = $_POST['orgnr'];
    $service = $_POST['service'];
-   $value = $_POST['value'];
 	
 // Get info about service is paid
 	if ($service=="get") {
@@ -22,6 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     		if (empty($orgnr)) {
 		   die("Missing organisation number");
  		} 
+ 		   $value = $_POST['value'];
+
           $status=setPaidStatus($orgnr, $value);
           echo $status;
         }

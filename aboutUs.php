@@ -24,16 +24,14 @@ include_once("header.php");
                   internet and the <br/>
                   real world meets.</h1>
               </div>
-              <div style="width: auto; font-family:Monotype Corsiva; font-size: 15px; font-style: normal;"> Cumbari is driven by curiosity and guided by insights from <br/>
+              <div style="width: auto; font-family:Monotype Corsiva; font-size: 15px; font-style: normal;"> Dastjar is driven by curiosity and guided by insights from <br/>
                 countless mistakes and
                 successes in the telecom and computer<br/>
-                business. The core team of Cumbari has been
+                business. The core team of Dastjar has been
                 working with most aspects of IP and electronic services<br />
                 since the 80s. </div>
-              <div style="width: auto; font-family: Trebuchet MS; font-size: 14px; font-style: normal; margin-top: 30px;"><b/> <span >Kent Bogestam, System architect</span> <br/>
-                <span >Harald Hynell, Interaction designer and marketing</span> <br/>
-                <span >Ove Näslund, SW Designer</span> <br/>
-                <span >Andreas Jönsson, Business development</span> </div>
+              <div style="width: auto; font-family: Trebuchet MS; font-size: 14px; font-style: normal; margin-top: 30px;"><b/> <span >Kent Bogestam, CTO</span> <br/>
+                <span >Alex Heidarian, CEO</span> <br/>
             </div></td>
           <td width="15%">&nbsp;</td>
         </tr>

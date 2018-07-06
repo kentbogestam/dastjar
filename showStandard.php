@@ -69,10 +69,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
   <tr>
      <td align="left">
-        <h2><?
-           if ($_GET['m'] == "showStandoffer") {
-           //echo "Standard Offer";
-                                                                           }
+        <h2><?php
                                                                            echo "Menu";
                                                                            ?></h2>
      </td>
@@ -128,6 +125,18 @@
               <?php
                  $i = 1 + $pager->get_limit_offset();
                  foreach ($data as $data1) {
+                     
+                    $content = @file_get_contents($data1['small_image']);
+                        if (!strpos($http_response_header[0], "200")) { 
+                            $data1['small_image'] = 'images/placeholder-image.png';
+                        } 
+/*
+                    try {
+                        getimagesize($data1['small_image']);
+                    } catch (Exception $e) {
+                        $data1['small_image'] = 'images/placeholder-image.png';
+                    }
+                    */
                      ?>
               <tr bgcolor="#FFFFFF" style="font-size:18px; font-weight:bold;">
                  <!--<td class="bg_lightgray" align="left" style="padding-left:5px;">

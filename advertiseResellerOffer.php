@@ -45,14 +45,13 @@ if ($_SESSION['MESSAGE']) {
 <script language="JavaScript" src="client/js/ajaxupload.js" type="text/javascript"></script>
 <script language="JavaScript" src="client/js/jsAdvertiseOffer.js" type="text/javascript"></script>
 <style type="text/css">
-    <!--
+    /*
     .style4 {
         font-size: 10px;
         font-weight: bold;
     }
     .style6 {font-size: 9px} .center{width:900px; margin-left:auto; margin-right:auto;}
-
-    -->
+    */
 </style>
 <div class="center">
   <div>

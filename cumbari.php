@@ -9,7 +9,7 @@ session_start();
 /* Include  Config DB  Files */
 //error_reporting(E_ALL); 
 ini_set('display_errors', 1);
-error_reporting(E_ALL & ~E_NOTICE);
+error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 
 require('config/defines.php');
 require('config/dbConfig.php');

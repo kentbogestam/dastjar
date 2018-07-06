@@ -3,13 +3,6 @@
  *  Author  :Himanshu Singh  Date: 25th,Nov,2010  Creation
 */
 $(document).ready(function(){
-
-    $(function()
-    {
-        $('.startDateStand').datePicker({
-            autoFocusNextInput: true
-        });
-    });
 	
 	$("#continue").click(function(){
 
@@ -267,7 +260,6 @@ function showAdvancedSearchStand(){
 
 
 function showAdvancedInfoPageStnad(){
-   // alert("rrrr");
     var id = document.getElementById("infopageStand");
     if(id.style.display == "none"){
         id.style.display = "inline";
@@ -352,7 +344,6 @@ function isNumeric(val)
 }
 
 function getCatImage(catId,form){
-    //alert(catId)
     $.post('classes/ajx/ajxCommon.php',{
         catId:catId,
         m:"getCatImg"
@@ -360,9 +351,7 @@ function getCatImage(catId,form){
     function(data){
 	
         if(data)
-        {
-            //alert(data);
-            var imageData = "<img src=upload/category_lib/"+data+">";
+        {            var imageData = "<img src=upload/category_lib/"+data+">";
             $("#category_image").val(data);
             $("#category_image_div").html(imageData);
                    
@@ -376,8 +365,6 @@ function iconPreviewCat(imageData)
 {
 	
 	if(!short_validation()){
-            //alert("validation")
-
             return false;
             exit;
         }
@@ -399,8 +386,6 @@ function iconPreview(form)
 {
 
 	if(!short_validation()){
-            //alert("validation")
-
             return false;
             exit;
         }
@@ -408,12 +393,6 @@ function iconPreview(form)
 		{
 		 $("#tslogan").html($("#titleSloganStand").val());
 		 $("#sslogan").html($("#subSlogan").val());
-//			//alert(document.getElementById('iconF').value); return false;
-//		//var myicon=document.getElementById('icon');
-//		var myiconsrc=document.getElementById('icon').files[0].getAsDataURL();
-//		var IMGsrc = "<img src='"+myiconsrc+"' width='30' height='30'>"
-//		document.getElementById("upload_area").innerHTML = IMGsrc;
-
 		}
 	return false;
 }

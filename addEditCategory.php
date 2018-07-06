@@ -33,10 +33,9 @@ if (isset($_POST['continue']) AND $editId != '') {
 <?php include 'config/defines.php'; ?>
  <script language="JavaScript" src="client/js/jquery.js" type="text/javascript"></script>
  <script language="JavaScript" src="client/js/jsAddCategory.js" type="text/javascript"></script><style type="text/css">
-<!--
+/*
 .center{width:900px; margin-left:auto; margin-right:auto;}
-
--->
+*/
 </style>
  <div class="center">
 
@@ -59,10 +58,18 @@ if (isset($_POST['continue']) AND $editId != '') {
 </table>
 
 
+<?php
+    // echo '<pre>';
+    // print_r($data); 
+    // echo '</pre>';
+//    die();
+?>
+
 <div align="center">
 		<form name="category" action="" id="category" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="names_lang_swe" value="<?=$data[1]['names_lang_list']?>"/>
                     <input type="hidden" name="names_lang_eng" value="<?=$data[0]['names_lang_list']?>"/>
+                    <input type="hidden" name="names_lang_ger" value="<?=$data[1]['names_lang_list']?>"/>
+                    <input type="hidden" name="names_lang_swe" value="<?=$data[2]['names_lang_list']?>"/>
        <br>
         <input type="hidden" name="m" value="">
         <div id="msg" align="center">
@@ -87,25 +94,26 @@ if (isset($_POST['continue']) AND $editId != '') {
                 </tr>
 
                 <tr>
-                    <td width="50%" align="left" class="inner_grid"> Category Name In German<span class='mandatory'>*</span> :</td>
-                    <td width="50%" align="left">
-                         <INPUT class="text_field_new" type="text" name="cNGer" id="cNGer" value="<?=$data[0]['text']?>">
-                       <a title="<?=CAT_NAME_GER?>" class="vtip"><b><small>?</small></b></a><br/>
-                        <div id='error_cnger' class="error"></div></td>
-                </tr>
-                <tr>
                     <td width="50%" align="left" class="inner_grid"> Category Name In English<span class='mandatory'>*</span> :</td>
                     <td width="50%" align="left">
                          <INPUT class="text_field_new" type="text" name="cNEng" id="cNEng" value="<?=$data[0]['text']?>">
                        <a title="<?=CAT_NAME_ENG?>" class="vtip"><b><small>?</small></b></a><br/>
                         <div id='error_cneng' class="error"></div></td>
                 </tr>
+                
+                <tr>
+                    <td width="50%" align="left" class="inner_grid"> Category Name In German<span class='mandatory'>*</span> :</td>
+                    <td width="50%" align="left">
+                         <INPUT class="text_field_new" type="text" name="cNGer" id="cNGer" value="<?=$data[1]['text']?>">
+                       <a title="<?=CAT_NAME_GER?>" class="vtip"><b><small>?</small></b></a><br/>
+                        <div id='error_cnger' class="error"></div></td>
+                </tr>
 
                 <tr>
 
                     <td align="left" class="inner_grid">Category Name In Swedish<span class='mandatory'>*</span>:</td>
                     <td align="left">
-                        <INPUT class="text_field_new" type="test" name="cNSwe" id="cNSwe" value="<?=$data[1]['text']?>"/>
+                        <INPUT class="text_field_new" type="test" name="cNSwe" id="cNSwe" value="<?=$data[2]['text']?>"/>
                         <a title="<?=CAT_NAME_SWE?>" class="vtip"><b><small>?</small></b></a><br/>
                         <div id='error_cnswe' class="error"></div></td>
                 </tr>
