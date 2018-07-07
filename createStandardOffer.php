@@ -158,7 +158,7 @@
                                     ?>">
                                  <div id='error_productDescription' class="error" ></div>
                               </td>
-                              <td align="right" valign="middle" ><a title="<?=STITLE_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
+                              <td align="right" valign="middle" ><a title="<?=DESCRIPTION_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
                            </tr>
 
                            <tr>
@@ -179,6 +179,7 @@
                                     <option value="00:59:00">59 Minutes</option>
                                  </select>
                               </td>
+                              <td align="right" valign="middle" ><a title="<?=PREP_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
                            </tr>
 
                            <!-- <tr>
@@ -394,7 +395,7 @@
                                     </td>
                                  </tr>
                                   <tr>
-                                    <td width="50%" align="left" valign="top" class="td_pad_left"><p>Type of Dish<span class='mandatory'>*</span></p><a style="font-size: 15px;vertical-align: top; cursor:pointer; text-decoration: underline;" id="add_tpye_of_dish">Add New Tpye Of Dish</a>:</td>
+                                    <td width="50%" align="left" valign="top" class="td_pad_left"><p>Type of Dish<span class='mandatory'>*</span></p><a style="font-size: 15px;vertical-align: top; cursor:pointer; text-decoration: underline;" id="add_tpye_of_dish">Add New Type Of Dish</a>:</td>
                                     <td width="50%" align="left" valign="top" class="td_pad_right">
                                       <?php $value = 0; ?>
                                       <div class="adddishes">

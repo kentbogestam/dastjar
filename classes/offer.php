@@ -3977,6 +3977,10 @@ class offer extends advertiseoffer{
         $arrUser['dish_id'] = $_POST['select2'];
         $arrUser['preparation_Time'] = $_POST['preparationTime'];
         $arrUser['product_description'] = mysqli_real_escape_string($conn,$_POST['productDescription']);
+
+        $arrUser['start_of_publishing'] = DateTime::createFromFormat('d/m/Y H:i', $arrUser['start_of_publishing']);
+        $arrUser['start_of_publishing'] = $arrUser['start_of_publishing']->format('Y-m-d H:i:s');
+
         $error.= ( $arrUser['offer_slogan_lang_list'] == '') ? ERROR_TITLE_SLOGAN : '';
 
         $error.= ( $arrUser['start_of_publishing'] == '') ? ERROR_START_OF_PUBLISHING : '';
