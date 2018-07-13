@@ -162,8 +162,6 @@ $(document).ready(function(){
 //            error = "true";
 //        }
 
-
-
         
         if(($.trim($("#phone").val()).length == 0) && ($.trim($("#mob").val()).length == 0))
         {

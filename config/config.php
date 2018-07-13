@@ -64,7 +64,9 @@ define('_GKEY_', 'ABQIAAAA4I2FJ12u6k_VsKf1ZkAGxBRpedP_AkQ-0qMxmraAuu868TnwrBSjQz
 
 /* Stripe ID and KEY */
 $stripe_client_id = 'ca_BsQwDxmv6Nde3fzblaLT8KiuPh7q02px'; // test 
-//$stripe_client_id = 'ca_BsQwCBSJ8NG6N6346v26Ep5z51raygS9'; // live 
+//$stripe_client_id = 'ca_BsQwCBSJ8NG6N6346v26Ep5z51raygS9'; // live
+$stripe_pub_id = 'pk_test_5P1GedJTk0HsWb3AnjYBbz6G'; // test 
+//$stripe_pub_id = 'pk_live_VGfy6Y668OALZbbUVbY9FwXV'; // live  
 $stripe_client_secret = 'sk_test_EypGXzv2qqngDIPIkuK6aXNi'; // test 
 //$stripe_client_secret = 'sk_live_INm31rvosK6bnFT48xjipoBP'; // live 
 

@@ -210,7 +210,7 @@
          </div>
          <table width="100%" border="0" cellpadding="0" cellspacing="0">
             <tr>
-               <td colspan="2" id="step6" onClick="javascript:window.location.href='activation.php'" class="register_inactive" > 4 Activate</td>
+               <td colspan="2" id="step6" onClick="javascript:window.location.href='activation.php'" class="register_inactive" > 3 Activate</td>
             </tr>
             <tr>
                <td >&nbsp;</td>

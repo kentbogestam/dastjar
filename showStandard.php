@@ -124,12 +124,7 @@
               </tr>
               <?php
                  $i = 1 + $pager->get_limit_offset();
-				/* echo "<pre>";
-				 print_r($data);
-				 echo "</pre>";
-
-				 die();
-				 */
+		
                  foreach ($data as $data1) {
                      
                     $content = @file_get_contents($data1['small_image']);

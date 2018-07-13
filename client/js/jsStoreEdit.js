@@ -79,13 +79,19 @@ $(document).ready(function(){
         }
 
 
-        if(($.trim($("#phoneNo").val()).length == 0))
+        if($.trim($("#phoneNo").val()).length == 0)
         {
             var errorMsg = "Please Enter Phone Number.<br/>";
             $("#error_phoneNo").html(errorMsg);
             error = "true";
         }
 
+        if(phoneValidator($.trim($("#phoneNo").val())))
+        {
+            var errorMsg = "Please Enter Valid Phone Number.<br/>";
+            $("#error_phoneNo").html(errorMsg);
+            error = "true";            
+        }
 
         // if(($.trim($("#imageStore").val()).length == 0))
         // {
@@ -140,7 +146,7 @@ function isValidEmailAddress(emailAddress) {
 
 function phoneValidator(val)
 {
-    if(val.match(/^[1-9]/))
+    if(val.match(/[^0-9]/g))
     {
         return true;
     }

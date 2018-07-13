@@ -143,7 +143,7 @@
                               <td align="left" valign="top"  class="inner_grid">Dish Name<span class='mandatory'>*</span>:<br>
                               </td>
                               <td align="left" valign="top" >
-                                 <INPUT class="text_field_new" type=text name="titleSloganStand" id="titleSloganStand" maxlength="50" onBlur="iconPreview(this.form); getTitleForProduct(this.form);standardPreview(this.form);" value="<?=isset($_SESSION['post']['titleSloganStand']) ? $_SESSION['post']['titleSloganStand'] : ''
+                                 <INPUT class="text_field_new" type=text name="titleSloganStand" id="titleSloganStand" maxlength="24" onBlur="iconPreview(this.form); getTitleForProduct(this.form);standardPreview(this.form);" value="<?=isset($_SESSION['post']['titleSloganStand']) ? $_SESSION['post']['titleSloganStand'] : ''
                                     ?>">
                                  <div id='error_titleSloganStand' class="error" ></div>
                               </td>
@@ -154,11 +154,11 @@
                               <td align="left" valign="top"  class="inner_grid">Description. Max. 50 characters<span class='mandatory'>*</span>:<br>
                               </td>
                               <td align="left" valign="top" >
-                                 <INPUT class="text_field_new" type=text name="productDescription" id="productDescription" maxlength="150" onBlur="iconPreview(this.form);" value="<?=isset($_SESSION['post']['productDescription']) ? $_SESSION['post']['productDescription'] : ''
+                                 <INPUT class="text_field_new" type=text name="productDescription" id="productDescription" maxlength="50" onBlur="iconPreview(this.form);" value="<?=isset($_SESSION['post']['productDescription']) ? $_SESSION['post']['productDescription'] : ''
                                     ?>">
                                  <div id='error_productDescription' class="error" ></div>
                               </td>
-                              <td align="right" valign="middle" ><a title="<?=STITLE_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
+                              <td align="right" valign="middle" ><a title="<?=DESCRIPTION_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
                            </tr>
 
                            <tr>
@@ -179,6 +179,7 @@
                                     <option value="00:59:00">59 Minutes</option>
                                  </select>
                               </td>
+                              <td align="right" valign="middle" ><a title="<?=PREP_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
                            </tr>
 
                            <!-- <tr>
@@ -247,7 +248,7 @@
                         <table  border="0" align="center" cellpadding="0" cellspacing="0">
                            <tr id="short_preview" style="display:inline;">
                               <td width="422" align="center" valign="top" style="background-image:url(client/images/iphone_large-3.png); width:270px; height:559px; background-repeat:no-repeat;">
-                                 <div style="margin-top:80px; width:225px; margin-left:5px; margin-right:auto;" >
+                                 <div style="margin-top:100px; width:225px; margin-left:-50px; margin-right:auto;" >
                                     <table border="0" cellpadding="0" cellspacing="0">
                                        <tr>
                                           <td width="41"  align="left" style="padding-left:5px; padding-right:5px;">
@@ -394,7 +395,7 @@
                                     </td>
                                  </tr>
                                   <tr>
-                                    <td width="50%" align="left" valign="top" class="td_pad_left"><p>Type of Dish<span class='mandatory'>*</span></p><a style="font-size: 15px;vertical-align: top; cursor:pointer; text-decoration: underline;" id="add_tpye_of_dish">Add New Tpye Of Dish</a>:</td>
+                                    <td width="50%" align="left" valign="top" class="td_pad_left"><p>Type of Dish<span class='mandatory'>*</span></p><a style="font-size: 15px;vertical-align: top; cursor:pointer; text-decoration: underline;" id="add_tpye_of_dish">Add New Type Of Dish</a>:</td>
                                     <td width="50%" align="left" valign="top" class="td_pad_right">
                                       <?php $value = 0; ?>
                                       <div class="adddishes">
@@ -406,6 +407,7 @@
                                           <div id='error_startDateStand' class="error"></div>
                                       </div>
                                     </td>
+                              <td align="right" valign="middle"><a title="<?=TYPE_OF_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
                                  </tr>
                                  <tr>
                                     <td colspan="4">
@@ -515,7 +517,7 @@
 <script type="text/javascript" src="client/js/bootstrap-material-datetimepicker.js"></script>
 
 <script type="text/javascript">
-        $(document).ready(function(){
+      $(document).ready(function(){
             $('#startDateStand').bootstrapMaterialDatePicker
             ({
                 weekStart: 0, format: 'DD/MM/YYYY HH:mm',  shortTime : true, clearButton: true

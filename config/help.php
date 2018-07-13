@@ -24,6 +24,7 @@ define("LOWLEVEL_TEXT","The level when you like to be remembered that your accou
 define("CLANGUAGE_TEXT","This lists the current languages available for the clients.  The selected language will be displayed depending on the client's settings.");
 define("TITEL_TEXT","Your campaign title text is shown in the display list view.  Due to the size of the text only 19 characters may be displayed, so try to shorten down your message.  Preview your campaign title in the emulator below.");
 define("DESCRIPTION_TEXT","Describes the offer itself on max two lines below the title in the list view.  Max 50 characters will fit into the 2 lines.  Preview your campaign description in the emulator below.");
+define("PREP_TEXT","Add the time you want the consumer to see as the minimum time it takes to prepare this meal.");
 define("CCATEGORY_TEXT","By selecting a category you choose under which tab the client will find your offer.  It is only possible to select one category.");
 define("ICON_TEXT","Icon must be in png format only (e.g. icon.png).The size must be at least 45 x 60 pixels");
 define("SPONSOR_TEXT","Sponsored campaigns will be listed in the top positions in the deal list when possible");
@@ -106,6 +107,10 @@ define("CHAIN_TEXT","The chain to which your location belong.");
 define("BLOCK_TEXT","If your chain belongs to a block, add the name of the block here.");
 define("ZIP_TEXT","Your location's zip code.");
 define("MAP_TEXT","Verify that your location is correctly placed on the map. If not, move the cursor on the map to the correct place.");
+define("TYPE_OF_TEXT","Define if the restaurant is of type Take Away e.g Customer can order and take food with them or Catering e.g You take orders for customers to pick up later the same day or another day or both options fits.");
+define("ONLINE_PAY_TEXT","Deselect if your location's should not accept web payment from stripe.");
+define("STORE_CLOSE_TEXT","Select the days your loaction is closed.");
+define("IMAGE_RESTAURANT","Upload an image to represent your location in users app.");
 
 
 

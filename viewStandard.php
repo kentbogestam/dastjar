@@ -193,7 +193,7 @@ if(isset($_POST['continue'])) {
     </table>
 </div>
 
-<div align="center">
+<!--<div align="center">
     <h4 class="bg_darkgray123">
     		Your Coupon View</h4>
     <table BORDER=0 width="100%">
@@ -203,12 +203,12 @@ if(isset($_POST['continue'])) {
             <td width="42%">
                 <img src="<?=$data[0]['large_image']?>" width="180" height="180">        </td>
         </tr>
-      <!--  <tr align="left" >
+        <tr align="left" >
             <td>&nbsp;</td>
             <td><b> Product Name:</b>        </td>
             <td>
                 <?=$data[0]['product_name']?></td>
-        </tr>-->
+        </tr>
 
         <tr align="left" >
             <td>&nbsp;</td>
@@ -219,7 +219,7 @@ if(isset($_POST['continue'])) {
                     echo "Yes"; ?>            </td>
         </tr>
     </table>
-</div>
+</div> -->
 <div align="center">
     <h4 class="bg_darkgray123">
     		Your Info Page</h4>

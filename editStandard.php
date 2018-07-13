@@ -31,7 +31,7 @@
            $lang = $selectLanguage;
        }
    $data = $standardObj->viewStandardDetailById($productid,$lang);
-   //echo "<pre>";print_r($data);echo "</pre>";
+
    if($data[0] == '')
        {
         $inoutObj = new inOut();
@@ -40,26 +40,7 @@
         $inoutObj->reDirect($url);
          exit();
    }
-   
-   //if (isset($_SESSION['postPaymentStand'])) {
-   //    $x = ($_SESSION['postPaymentStand']);
-   //    $data[0]['product_id'] = $x['productId'];
-   //    $data[0]['lang'] = $x['lang'];
-   //    $data[0]['slogen'] = $x['titleSloganStand'];
-   //    $data[0]['is_sponsored'] = $x['sponsStand'];
-   //    $data[0]['category'] = $x['linkedCatStand'];
-   //    $data[0]['link'] = $x['link'];
-   //    $data[0]['keywords'] = $x['searchKeywordStand'];
-   //    $data[0]['product_name'] = $x['productName'];
-   //    $data[0]['ean_code'] = $x['eanCode'];
-   //    $data[0]['product_number'] = $x['productNumber'];
-   //    $data[0]['is_public'] = $x['publicProduct'];
-   //    $data[0]['product_info_page'] = $x['descriptiveStand'];
-   //    $data[0]['start_of_publishing'] = $x['startDateStand'];
-   //    $data[0]['large_image'] = $_SESSION['preview']['large_image'];
-   //    if(!$_REQUEST['ldacc'])
-   //        unset($_SESSION["postPaymentStand"]);
-   //}
+
    
    ?>
 <?php include 'config/defines.php'; ?>
@@ -100,14 +81,12 @@
       <div id="msg" align="center">
          <?
             if (($_SESSION['MESSAGE_NO_REORD'])) {
-               //echo "here";
-               echo $_SESSION['MESSAGE_NO_REORD'];
+//               echo $_SESSION['MESSAGE_NO_REORD'];
                $_SESSION['MESSAGE_NO_REORD'] = '';
               
             }
             if (($_SESSION['MESSAGE'])) {
-               //echo "here";
-               echo $_SESSION['MESSAGE'];
+  //             echo $_SESSION['MESSAGE'];
                $_SESSION['MESSAGE'] = '';
                
             }
@@ -206,13 +185,13 @@
             <td align="left" valign="top">
                <?php if ($_SESSION['preview']['small_image']) {
                   ?>
-               <!-- <img src="<?=$data[0]['small_image']?>"> -->
+               <input type="hidden" name="dish_image_original" value="<?=$data[0]['small_image']?>"> 
                <input class="text_field_new" type="hidden" name="smallimage" id="smallimage" value="<?=$_SESSION['preview']['small_image'] ?>">
                <br>
                <?
                   }
                   ?>
-              <!--  <INPUT class="text_field_new" type=file name="icon" id="icon" onBlur="iconPreview(this.form);"> -->
+               <INPUT class="text_field_new" type=file name="icon" id="icon" onBlur="iconPreview(this.form);"> 
                <div id='error_icon' class="error"></div>
                <div>
                   <input class="text_field_new" type="hidden" id="selected_image" name="selected_image" value="0">
@@ -231,7 +210,7 @@
       <table  border="0" align="center" cellpadding="0" cellspacing="0">
          <tr id="short_preview" style="display:inline;">
             <td width="422" align="center" valign="top" style="background-image:url(client/images/iphone_large-3.png); width:270px; height:559px; background-repeat:no-repeat;">
-               <div style="margin-top:80px; width:225px; margin-left:5px; margin-right:auto;" >
+               <div style="margin-top:85px; width:225px; margin-left:-45px; margin-right:auto;" >
                   <table border="0" cellpadding="0" cellspacing="0">
                      <tr>
                         <td width="41"  align="left" style="padding-left:5px; padding-right:5px;">
@@ -311,7 +290,7 @@
             </tr> -->
          <tr>
       </table>
-      <div class="redwhitebutton_small123">Add your Coupon View</div>
+     <!--  <div class="redwhitebutton_small123">Add your Coupon View</div> -->
       <table  width="100%" border="0" cellspacing="15">
          <!--  <tr>
             <td width="505" align="left" valign="top" class="inner_grid">Large deal icon <font size="2">(Image must be in jpeg or png format only e.g. image.png or image.jpg.The size must be at least 247 x 130 pixels)</font>
@@ -342,8 +321,8 @@
                <?  $d=$data[0]['start_of_publishing'];
                   $timeStamp = explode(" ",$d);
                   $start_date = $timeStamp[0];
-                  $start_date = date("d/m/Y H:i:s", strtotime($data[0]['start_of_publishing']));?>
-               <input type="text" style="width:380px;" name="startDateStand" readonly="readonly" value="<?=$data[0]['start_of_publishing']
+                  $start_date = date("d/m/Y H:i", strtotime($data[0]['start_of_publishing']));?>
+               <input type="text" style="width:380px;" name="startDateStand" readonly="readonly" value="<?=$start_date
                   ?>" id="startDateStand" class="startDateStand dp-applied text_field_new" />
                <div id='error_startDateStand' class="error"></div>
             </td>
@@ -512,9 +491,24 @@
             $.material.init();
         });
 
-   //alert("sdfsfs");
-   getCatImage('<?=$data[0]['category'
-      ]?>');
+$("#icon").change(function() {
+     readURL(this);
+   });
+
+   function readURL(input) {
+
+   if (input.files && input.files[0]) {
+       var reader = new FileReader();
+
+       reader.onload = function(e) {
+         $('#myCatIcon').attr('src', e.target.result);
+       }
+
+       reader.readAsDataURL(input.files[0]);
+     }
+   }
+
+//   getCatImage('<?=$data[0]['category']?>');
 </script>
 <script language="JavaScript" src="client/js/jsImagePreview.js" type="text/javascript"></script>
 <script>

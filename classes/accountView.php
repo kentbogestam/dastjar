@@ -425,10 +425,12 @@ class accountView {
         $inoutObj = new inOut();
         $db = new db();
         $conn = $db->makeConnection();
+
         // Check connection
         if (!$conn) {
             die("Connection failed: " . mysqli_connect_error());
         }else{}
+
         $arrUser = array();
         $error = '';
         $arrUser['email'] = $_POST['emailid'];
@@ -453,8 +455,6 @@ class accountView {
             $userId = uuid();
             $password_sha256 = $arrUser['passwd'];
             $password_hash = hash_hmac('sha256', $password_sha256, $userId);
-             //$password_sha1 = sha1($arrUser['passwd']);
-             //print_r($password_sha1);die();
 
             $QUE = "select company_id from employer where u_id='" . $_SESSION['userid'] . "'";
             $res = mysqli_query($conn, $QUE) or die("Get Company : " . mysqli_error($conn));
@@ -490,7 +490,7 @@ class accountView {
               foreach($fields as $key=>$value) {
                 $postvars .= $key . "=" . $value . "&";
               }
-              $url = "https://anar.dastjar.com/api/v1/save-password";
+              $url = USER_APP_BASE_URL . "api/v1/save-password";
               curl_setopt($ch,CURLOPT_URL,$url);
               curl_setopt($ch,CURLOPT_POST, 1);                //0 for a get request
               curl_setopt($ch,CURLOPT_POSTFIELDS,$postvars);

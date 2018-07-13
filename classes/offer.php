@@ -1629,9 +1629,8 @@ class offer extends advertiseoffer{
         if (!empty($_FILES["icon"]["name"])) {
             //echo "Cat in"; die();
             if (!empty($_FILES["icon"]["name"])) {
-                //echo "Cat in"; die();
-                if (strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpg") {
-                    if ($_FILES["icon"]["error"] > 0) {
+                $file_extension = strtolower($info['extension']);
+                if ($file_extension == "png" || $file_extension == "jpg" || $file_extension == "jpeg") {      if ($_FILES["icon"]["error"] > 0) {
                         $error.=$_FILES["icon"]["error"] . "<br />";
                     } else {
                         $cat_filename = $CategoryIconName . "." . strtolower($info['extension']);
@@ -2726,8 +2725,7 @@ class offer extends advertiseoffer{
         $CategoryIconName = "cat_icon_" . md5(time());
         $info = pathinfo($_FILES["icon"]["name"]);
 //echo $_FILES["icon"]["name"]; die();
-        if (!empty($_FILES["icon"]["name"])) {
-
+        if (!empty($_FILES["icon"]["name"]) && $_FILES["icon"]["name"]!=$_POST['dish_image_original']) {
             if (strtolower($info['extension']) == "png") {
                 if ($_FILES["icon"]["error"] > 0) {
                     $error.=$_FILES["icon"]["error"] . "<br />";
@@ -3977,6 +3975,10 @@ class offer extends advertiseoffer{
         $arrUser['dish_id'] = $_POST['select2'];
         $arrUser['preparation_Time'] = $_POST['preparationTime'];
         $arrUser['product_description'] = mysqli_real_escape_string($conn,$_POST['productDescription']);
+
+        $arrUser['start_of_publishing'] = DateTime::createFromFormat('d/m/Y H:i', $arrUser['start_of_publishing']);
+        $arrUser['start_of_publishing'] = $arrUser['start_of_publishing']->format('Y-m-d H:i:s');
+
         $error.= ( $arrUser['offer_slogan_lang_list'] == '') ? ERROR_TITLE_SLOGAN : '';
 
         $error.= ( $arrUser['start_of_publishing'] == '') ? ERROR_START_OF_PUBLISHING : '';
@@ -3985,10 +3987,10 @@ class offer extends advertiseoffer{
         $info = pathinfo($_FILES["icon"]["name"]);
 
         if (!empty($_FILES["icon"]["name"])) {
-            //echo "Cat in"; die();
             if (!empty($_FILES["icon"]["name"])) {
 
-                if (strtolower($info['extension']) == "png") {
+			$file_extension = strtolower($info['extension']);
+                if ($file_extension == "png" || $file_extension == "jpg" || $file_extension == "jpeg") {
                     if ($_FILES["icon"]["error"] > 0) {
                         $error.=$_FILES["icon"]["error"] . "<br />";
                     } else {
@@ -4001,6 +4003,10 @@ class offer extends advertiseoffer{
                         $fileThumbnail = $path . $cat_filename;
                         createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                         $arrUser['small_image'] = $cat_filename;
+                        $file1 = _UPLOAD_IMAGE_ . 'category/' . $arrUser['small_image'];
+                        $dir1 = "category";                        
+                        $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
+                        system($command);
                     }
                 } else {
                     $error.=NOT_VALID_EXT;
@@ -4091,13 +4097,6 @@ class offer extends advertiseoffer{
         //     }
         // }
 
-        /////////////////////////// upload largeimages into server///////////////////
-        // $file2 = _UPLOAD_IMAGE_ . 'coupon/' . $arrUser['large_image'];
-        // $dir2 = "coupon";
-        // $command2 = IMAGE_DIR_PATH . $file2 . " " . $dir2;
-        // system($command2);
-//echo $error;
-        //die();
         $arrUser['large_image'] = $_SESSION['preview']['large_image'];
 
         $_SESSION['preview'] = $arrUser;

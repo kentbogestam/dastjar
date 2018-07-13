@@ -21,42 +21,42 @@
    $openCloseList = explode(",",$data[0]['store_open_close_day_time']);
    foreach ($openCloseList as $key => $value) {
       $getDay = explode("::",$value);
-      if(strcmp($getDay[0],ALL)==1){
+      if(strcmp($getDay[0],All)==1){
         $getTime = explode("to",$getDay[1]);
         $allDayOpen = $getTime[0];
         $allDayClose = $getTime[1];
       }
-      if(strcmp($getDay[0],MON)==1){
+      if(strcmp($getDay[0],Mon)==1){
         $getTime = explode("to",$getDay[1]);
         $monDayOpen = $getTime[0];
         $monDayClose = $getTime[1];
       }
-      if(strcmp($getDay[0],TUE)==1){
+      if(strcmp($getDay[0],Tue)==1){
         $getTime = explode("to",$getDay[1]);
         $tueDayOpen = $getTime[0];
         $tueDayClose = $getTime[1];
       }
-      if(strcmp($getDay[0],WED)==1){
+      if(strcmp($getDay[0],Wed)==1){
         $getTime = explode("to",$getDay[1]);
         $wedDayOpen = $getTime[0];
         $wedDayClose = $getTime[1];
       }
-      if(strcmp($getDay[0],THU)==1){
+      if(strcmp($getDay[0],Thu)==1){
         $getTime = explode("to",$getDay[1]);
         $thuDayOpen = $getTime[0];
         $thuDayClose = $getTime[1];
       }
-      if(strcmp($getDay[0],FRI)==1){
+      if(strcmp($getDay[0],Fri)==1){
         $getTime = explode("to",$getDay[1]);
         $friDayOpen = $getTime[0];
         $friDayClose = $getTime[1];
       }
-      if(strcmp($getDay[0],SAT)==1){
+      if(strcmp($getDay[0],Sat)==1){
         $getTime = explode("to",$getDay[1]);
         $satDayOpen = $getTime[0];
         $satDayClose = $getTime[1];
       }
-      if(str_replace(' ', '', $getDay[0]) == SUN){
+      if(str_replace(' ', '', $getDay[0]) == Sun){
         $getTime = explode("to",$getDay[1]);
         $sunDayOpen = $getTime[0];
         $sunDayClose = $getTime[1];
@@ -90,6 +90,8 @@
    $zoom = "18";
    $menu = "store";
    $menu = 'class="selected"';
+
+
    if ($_GET['m'] == "showOutdatedStore")
        $deleted = 'class="selected"';
    else
@@ -112,7 +114,7 @@
 </style>
 <body>
    <div class="center">
-      <form name="registerform" action="" id="registerform" method="Post">
+      <form name="registerform" action="" id="registerform" method="Post" enctype="multipart/form-data">
         <input type="hidden" name="opencloseTimeing" value="" id="opencloseTimeing">
          <input type="hidden" name="m" value="editSaveStore">
          <input type="hidden" name="storeId" value="<?=$storeId
@@ -278,6 +280,7 @@
                     <?php } ?>
                   </select>
                </td> -->
+               <td align="right"><a title="<?=STORE_OPEN_CLOSE_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
             <!-- <tr>
                <td></td>
@@ -323,6 +326,7 @@
                    <label><?=$data[0]['store_close_dates']?></label>
                   </div>
                </td>
+		<td align="right"><a title="<?=STORE_CLOSE_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
             <tr>
                <td class="inner_grid">Link to the location home<span class='mandatory'>*</span>:</td>
@@ -353,6 +357,7 @@
                      ?>" type="hidden" style="width:150px;" />
                   <div id='error_coordinate' class="error"></div>
                </td>
+		<td align="right"><a title="<?=TYPE_OF_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
             <tr>
                <td width="592" valign="top">Map
@@ -367,11 +372,11 @@
                <td></td>
                <td>You can set your location on map by click or drag</td>
             </tr>
-           <!--  <tr>
+             <tr>
                <td>Uplod Image For Restaurent<span class='mandatory'>*</span>:</td>
                <td>
                   <div class="file-upload">
-                     <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
+                     <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' );$('.image-removed').val('0');">Add Image</button>
                      <div class="image-upload-wrap">
                         <input class="file-upload-input" type='file' id="imageStore" name="imageStore" onBlur="iconPreview(this.form);"  onchange="readURL(this);" accept="image/" />
                         <div class="drag-text">
@@ -380,7 +385,9 @@
                         </div>
                      </div>
                      <div class="file-upload-content">
-                        <img class="file-upload-image" src="#" alt="your image" />
+                        <input type="hidden" name="image_removed" class="image-removed" value="0">
+      					        <input type="hidden" name="store_image_original" value="<?=$data[0]['store_image']?>">
+                        <img class="file-upload-image" src="<?=$data[0]['store_image']?>" alt="<?=$data[0]['store_name']?>" onerror="removeUpload()"/>
                         <div class="image-title-wrap">
                            <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
                         </div>
@@ -388,7 +395,7 @@
                   </div>
                   <div id='error_storeImage' class="error"></div>
                </td>
-            </tr> -->
+            </tr> 
          </table>
          <div align="center"><br />
             <br />
@@ -721,6 +728,14 @@
              $('.all1').hide();
             }
          });
+
+          if(typeof("<?=$data[0]['store_image']?>") != "undefined" && "<?=$data[0]['store_image']?>" !== null){
+                  $('.image-upload-wrap').hide();
+                  $('.file-upload-image').attr('src', "<?=$data[0]['store_image']?>");
+                  $('.file-upload-image').attr('alt', "<?=$data[0]['store_name']?>");
+                  $('.file-upload-content').show();
+                  $('.image-title').html("Image");
+          }
       });
      $('#add_tpye_of_dish').click(function(){
         $('#addDishType-popup').show();
@@ -988,32 +1003,34 @@
       .full_width_input input{width: 99.3%;}
    </style>
    <script type="text/javascript">
-      function readURL(input) {
-            if (input.files && input.files[0]) {
-      
-              var reader = new FileReader();
-      
-              reader.onload = function(e) {
-                $('.image-upload-wrap').hide();
-      
-                $('.file-upload-image').attr('src', e.target.result);
-                $('.file-upload-content').show();
-      
-                $('.image-title').html(input.files[0].name);
-              };
-      
-              reader.readAsDataURL(input.files[0]);
-      
-            } else {
-              removeUpload();
-            }
+
+         
+            function readURL(input) {
+              if (input.files && input.files[0]) {
+        
+                var reader = new FileReader();
+        
+                reader.onload = function(e) {
+                  $('.image-upload-wrap').hide();
+                  $('.file-upload-image').attr('src', e.target.result);
+                  $('.file-upload-content').show();
+                  $('.image-title').html(input.files[0].name);
+                };
+        
+                reader.readAsDataURL(input.files[0]);
+        
+              } else {
+                removeUpload();
+              }
           }
       
           function removeUpload() {
             $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+            $('.image-removed').val("1");
             $('.file-upload-content').hide();
             $('.image-upload-wrap').show();
           }
+
           $('.image-upload-wrap').bind('dragover', function () {
                   $('.image-upload-wrap').addClass('image-dropping');
               });

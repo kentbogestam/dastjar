@@ -98,10 +98,12 @@
                      <option value="3">Both</option>
                   </select>
                </td>
+               <td align="right"><a title="<?=TYPE_OF_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
             <tr>
                <td height="42" align="left">Online Payment<span class='mandatory'>*</span>:</td>
                <td><input type="checkbox" name="onlinePayment" value="1"  checked />Online Payment</td>
+               <td align="right"><a title="<?=ONLINE_PAY_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
             <tr>
                <td class="inner_grid">Phone Number<span class='mandatory'>*</span>:</td>
@@ -157,6 +159,7 @@
                       <?php } ?>
                   </select>
                </td>
+               <td align="right"><a title="<?=STORE_CLOSE_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr> -->
             <!--  <tr>
                <td class="inner_grid">
@@ -184,7 +187,7 @@
                <td align="right"><a title="<?=METHOD_FOR_RECEIVING_COUPON_DATA_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr> -->
                 <tr>
-                  <td>Location is close following dates</td>
+                  <td>Location is closed following dates</td>
                <td style="position: relative;">
                  <div id="with-altField"><span class="cross"><img src="client/js/newJs/images/error.png"></span></div>
                   <div id="withAltField" class="box">
@@ -194,6 +197,7 @@
                      <input class="text_field_new" type="text" id="altField" name="altField" value="">
                   </div>
                </td>
+               <td align="right"><a title="<?=STORE_CLOSE_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
             <tr>
                <td class="inner_grid">Street Address<span class='mandatory'>*</span>:</td>
@@ -283,7 +287,7 @@
                   <input name="zoom" id="zoom" value="<?=$zoom ?>" type="hidden" style="width:150px;" />        
             </tr>
             <tr>
-               <td>Upload Image For Restaurent<span class='mandatory'>*</span>:</td>
+               <td>Upload Image For Restaurant<span class='mandatory'>*</span>:</td>
                <td>
                   <div class="file-upload">
                      <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
@@ -303,6 +307,7 @@
                   </div>
                         <div id='error_storeImage' class="error"></div>
                </td>
+               <td align="right"><a title="<?=IMAGE_RESTAURANT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
          </table>
          <div align="center">
