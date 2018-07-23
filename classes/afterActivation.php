@@ -127,19 +127,19 @@ class afterActivation {
         $arrUser = array();
 
         $query = "SELECT product_id, company_id FROM product WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = $db->query($query);
         $arrUser1 = mysql_fetch_array($res);
         $prod_id = $arrUser1['product_id'];
         $comp_id = $arrUser1['company_id'];
 
         $query = "UPDATE company SET c_activ = '1'
                  WHERE company_id = '" . $comp_id . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = $db->query($query);
 
         $this->updateStoreStandard($prod_id);
         ///////Update user table activ field/////////////////////////////
         $query = "UPDATE user SET activ='5' WHERE u_id = '" . $_SESSION['userid'] . "'";
-        $res = mysql_query($query) or die(mysql_error());
+        $res = $db->query($query);
 
         $_SESSION['active_state'] = 5;
 

@@ -85,10 +85,9 @@ include_once("header.php");
 
             )echo "selected='selected'"; ?> value="">Select Location</option>
                         <?php foreach ($stores as $stores1) {
-                            // print_r($stores1);  ?>
+                              ?>
                             <option  value="<?=$stores1['store_id'] ?>"><? echo $stores1['store_name']; ?></option>
-
-<? } ?>
+						<? } ?>
                     </select>
                     <div id='error_selectStore' class="error123"></div>
     </div></td>
@@ -107,7 +106,9 @@ include_once("header.php");
             <td width="50%" align="left">Publishing Start Date<span class='mandatory'>*</span>:</td>
             <td align="left"><div align="center" class="normalfont" >
         
-            <input class="dp-applied text_field_new" type="text" name="publishing_start_date" id="publishing_start_date" value="" required>
+            <input class="dp-applied text_field_new" type="text" name="" id="publishing_start_date" value="" required>
+            <input type="hidden" id="date-start-utc" name="publishing_start_date">
+
             <div id='error_price' class="error123"></div>
 
             </div></td>
@@ -117,7 +118,9 @@ include_once("header.php");
             <td width="50%" align="left">Publishing End Date<span class='mandatory'>*</span>:</td>
             <td align="left"><div align="center" class="normalfont" >
         
-            <input class="text_field_new" type="text" name="publishing_end_date" id="publishing_end_date" value="" required>
+            <input class="text_field_new" type="text" name="" id="publishing_end_date" value="" required>
+            <input type="hidden" id="date-end-utc" name="publishing_end_date">
+
              <div id='error_price' class="error123"></div>
 
             </div></td>
@@ -157,11 +160,15 @@ include_once("header.php");
             }).on('change', function(e, date)
             {
                 $('#publishing_end_date').bootstrapMaterialDatePicker('setMinDate', date);
+                $('#date-start-utc').val(moment.utc(date).format('DD/MM/YYYY HH:mm'));
             });
 
             $('#publishing_end_date').bootstrapMaterialDatePicker
             ({
                 weekStart: 0, format: 'DD/MM/YYYY HH:mm',  shortTime : true, clearButton: true
+            }).on('change', function(e, date)
+            {
+                $('#date-end-utc').val(moment.utc(date).format('DD/MM/YYYY HH:mm'));
             });
 
             $.material.init();

@@ -902,6 +902,10 @@ class store {
         }        
 
         $storeUniqueId = uuid();
+        $arrUser['store_name'] = mysqli_real_escape_string($conn, $arrUser['store_name']);
+        $arrUser['street'] = mysqli_real_escape_string($conn, $arrUser['street']);
+        $arrUser['city'] = mysqli_real_escape_string($conn, $arrUser['city']);
+
         if($_POST['opencloseTimeing']){
             $query = "update store SET store_type='" . $arrUser['store_type'] . "',latitude='" . $arrUser['latitude'] . "',longitude='" . $arrUser['longitude'] . "',`store_name`='" . $arrUser['store_name'] . "' ,`street`='" . $arrUser['street'] . "', `city`='" . $arrUser['city'] . "', `country`='" . $arrUser['country'] . "', `email`='" . $arrUser['email'] . "', `phone`='" . $arrUser['phone'] . "', `store_link`='" . $arrUser['link'] . "'
             , `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "' , `store_open_close_day_time`='" .$arrUser['store_open_close_day_time'] . "' , `store_close_dates`='" . $arrUser['close_dates'] . "'   WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
@@ -909,6 +913,7 @@ class store {
             $query = "update store SET store_type='" . $arrUser['store_type'] . "',latitude='" . $arrUser['latitude'] . "',longitude='" . $arrUser['longitude'] . "',`store_name`='" . $arrUser['store_name'] . "' ,`street`='" . $arrUser['street'] . "', `city`='" . $arrUser['city'] . "', `country`='" . $arrUser['country'] . "', `email`='" . $arrUser['email'] . "', `phone`='" . $arrUser['phone'] . "', `store_link`='" . $arrUser['link'] . "'
             , `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "' , `store_close_dates`='" . $arrUser['close_dates'] . "'   WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
         }
+
         $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
          $query = "delete from coupon_delivery_method where store = '" . $_GET['storeId'] . "' and delivery_method in ('BARCODE','AUTO')";

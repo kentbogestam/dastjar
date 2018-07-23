@@ -21,11 +21,9 @@ class inOut {
 
         switch($mode) {
             case 'in':
-            //echo "here"; die();
                 $this->usrLogin($_POST['username'],$_POST['password']);
                 break;
              case 'inReseller':
-            //echo "here"; die();
                 $this->usrResellerLogin($_POST['username'],$_POST['password']);
                 break;
             case 'out':
@@ -34,8 +32,7 @@ class inOut {
 //            default:
 //                $this->usrLogin('','');
 
-             case 'support_in':
-            //echo "here"; die();
+            case 'support_in':
                 $this->supportLogin($_POST['username'],$_POST['password']);
                 break;
         }
@@ -47,9 +44,7 @@ class inOut {
 *     Return Value: none
 *      Description: User Log In function
     */
-    function usrLogin($username,$password,$userid='') {
-
-       
+    function usrLogin($username,$password,$userid='') {       
 		// Login by user.
 		if(empty($userid))
 		{

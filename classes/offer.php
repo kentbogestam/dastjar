@@ -293,7 +293,7 @@ class offer extends advertiseoffer{
 
         if (!empty($_FILES["picture"]["name"])) {
 
-            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg") {
+            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
                 if ($_FILES["picture"]["error"] > 0) {
                     $error.=$_FILES["picture"]["error"] . "<br />";
                 } else {
@@ -968,7 +968,7 @@ class offer extends advertiseoffer{
 
         if (!empty($_FILES["picture"]["name"])) {
 
-            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg") {
+            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
                 if ($_FILES["picture"]["error"] > 0) {
                     $error.=$_FILES["picture"]["error"] . "<br />";
                 } else {
@@ -1278,7 +1278,7 @@ class offer extends advertiseoffer{
 
         if (!empty($_FILES["picture"]["name"])) {
 
-            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg") {
+            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
                 if ($_FILES["picture"]["error"] > 0) {
                     $error.=$_FILES["picture"]["error"] . "<br />";
                 } else {
@@ -1630,7 +1630,8 @@ class offer extends advertiseoffer{
             //echo "Cat in"; die();
             if (!empty($_FILES["icon"]["name"])) {
                 $file_extension = strtolower($info['extension']);
-                if ($file_extension == "png" || $file_extension == "jpg" || $file_extension == "jpeg") {      if ($_FILES["icon"]["error"] > 0) {
+                if ($file_extension == "png" || $file_extension == "jpg" || $file_extension == "jpeg" 
+            || $file_extension == "gif" || $file_extension == "bmp") {      if ($_FILES["icon"]["error"] > 0) {
                         $error.=$_FILES["icon"]["error"] . "<br />";
                     } else {
                         $cat_filename = $CategoryIconName . "." . strtolower($info['extension']);
@@ -2750,7 +2751,8 @@ class offer extends advertiseoffer{
         $coupenName = "cpn_" . md5(time());
         $info = pathinfo($_FILES["picture"]["name"]);
         if (!empty($_FILES["picture"]["name"])) {
-            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "jpeg") {
+            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "jpeg" 
+        || $file_extension == "gif" || $file_extension == "bmp" || strtolower($info['extension']) == "png") {
                 if ($_FILES["picture"]["error"] > 0) {
                     $error.=$_FILES["picture"]["error"] . "<br />";
                 } else {
@@ -3126,7 +3128,7 @@ class offer extends advertiseoffer{
         $info = pathinfo($_FILES["picture"]["name"]);
         if (!empty($_FILES["picture"]["name"])) {
 
-            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg") {
+            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
                 if ($_FILES["picture"]["error"] > 0) {
                     $error.=$_FILES["picture"]["error"] . "<br />";
                 } else {
@@ -3865,7 +3867,7 @@ class offer extends advertiseoffer{
 
         if (!empty($_FILES["picture"]["name"])) {
 //echo 'k';die();
-            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg") {
+            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
                 if ($_FILES["picture"]["error"] > 0) {
                     $error.=$_FILES["picture"]["error"] . "<br />";
                 } else {
@@ -3990,7 +3992,7 @@ class offer extends advertiseoffer{
             if (!empty($_FILES["icon"]["name"])) {
 
 			$file_extension = strtolower($info['extension']);
-                if ($file_extension == "png" || $file_extension == "jpg" || $file_extension == "jpeg") {
+                if ($file_extension == "png" || $file_extension == "jpg" || $file_extension == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
                     if ($_FILES["icon"]["error"] > 0) {
                         $error.=$_FILES["icon"]["error"] . "<br />";
                     } else {
@@ -5046,7 +5048,7 @@ class offer extends advertiseoffer{
 
         if (!empty($_FILES["picture"]["name"])) {
 
-            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "jpeg") {
+            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "jpeg" || $file_extension == "gif" || $file_extension == "bmp" || strtolower($info['extension']) == "png") {
                 if ($_FILES["picture"]["error"] > 0) {
                     $error.=$_FILES["picture"]["error"] . "<br />";
                 } else {
@@ -5429,7 +5431,7 @@ class offer extends advertiseoffer{
 
         if (!empty($_FILES["picture"]["name"])) {
 
-            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg") {
+            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
                 if ($_FILES["picture"]["error"] > 0) {
                     $error.=$_FILES["picture"]["error"] . "<br />";
                 } else {
@@ -6640,7 +6642,7 @@ class offer extends advertiseoffer{
 
         if (!empty($_FILES["picture"]["name"])) {
 
-            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg") {
+            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
                 if ($_FILES["picture"]["error"] > 0) {
                     $error.=$_FILES["picture"]["error"] . "<br />";
                 } else {
@@ -6849,7 +6851,7 @@ class offer extends advertiseoffer{
 
         if (!empty($_FILES["picture"]["name"])) {
 
-            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg") {
+            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
                 if ($_FILES["picture"]["error"] > 0) {
                     $error.=$_FILES["picture"]["error"] . "<br />";
                 } else {
