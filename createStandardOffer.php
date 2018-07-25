@@ -378,15 +378,13 @@
                                     </tr>
                                     -->
                                  <tr>
-                                    <?php
-                                       $d = date("d/m/Y H:m");
-                                        ?>
                                     <td width="50%" align="left" valign="top" class="td_pad_left">Release date of product<span class='mandatory'>*</span>:</td>
                                     <td width="50%" align="left" valign="top" class="td_pad_right">
                                        <table border="0" align="left" cellpadding="0" cellspacing="0">
                                           <tr>
-                                             <td><input type="text" name="startDateStand" readonly="readonly" value="<? echo $d;
-                                                ?>" id="startDateStand" class="startDateStand dp-applied text_field_new123" required/></td>
+                                             <td><input type="text" name="" readonly="readonly" value="" id="startDateStand" class="startDateStand dp-applied text_field_new123" required/>
+                                              <input type="hidden" id="date-start-utc" name="startDateStand">
+                                              </td>
                                              <td style="padding-left:10px;"><a title="<?=RELEASE_DATE_OF_PRODUCT
                                                 ?>" class="vtip"><b><small>?</small></b></a></td>
                                           </tr>
@@ -518,10 +516,24 @@
 
 <script type="text/javascript">
       $(document).ready(function(){
+                <?php
+                  $start_date = date("Y-m-d H:i:s");
+                ?>
+
+                dStart = <?php echo "'" . $start_date . "'"; ?>;
+                var offset = moment().utcOffset();
+                dStart = moment.utc(dStart).utcOffset(offset).format("DD/MM/YYYY HH:mm");
+                $('#startDateStand').val(dStart);
+                $('#date-start-utc').val(dStart);
+
             $('#startDateStand').bootstrapMaterialDatePicker
             ({
                 weekStart: 0, format: 'DD/MM/YYYY HH:mm',  shortTime : true, clearButton: true
+            }).on('change', function(e, date)
+            {
+                $('#date-start-utc').val(moment.utc(date).format('DD/MM/YYYY HH:mm'));
             });
+
 
             $.material.init();
         });
