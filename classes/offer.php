@@ -1651,8 +1651,6 @@ class offer extends advertiseoffer{
             } else {
                 if ($_SESSION['preview']['small_image'] != "") {
                     $arrUser['small_image'] = $_SESSION['preview']['small_image'];
-                } elseif ($_POST['smallimage'] == "") {
-                    $error.= ERROR_SMALL_IMAGE;
                 } else {
                     $arrUser['small_image'] = $_POST['smallimage'];
                 }
@@ -1676,8 +1674,6 @@ class offer extends advertiseoffer{
             } else {
                 if ($_SESSION['preview']['small_image'] != "") {
                     $arrUser['small_image'] = $_SESSION['preview']['small_image'];
-                } elseif ($_POST['smallimage'] == "") {
-                    $error.= ERROR_SMALL_IMAGE;
                 } else {
                     $arrUser['small_image'] = $_POST['smallimage'];
                 }
@@ -1725,8 +1721,6 @@ class offer extends advertiseoffer{
 
         //         if ($_SESSION['preview']['large_image'] != "") {
         //             $arrUser['large_image'] = $_SESSION['preview']['large_image'];
-        //         } elseif ($_POST['largeimage'] == "") {
-        //             $error.= ERROR_SMALL_IMAGE;
         //         } else {
         //             $arrUser['large_image'] = $_POST['largeimage'];
         //         }

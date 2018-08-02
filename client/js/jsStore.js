@@ -97,14 +97,6 @@ $(document).ready(function(){
             error = "true";
         }
 
-
-        if(($.trim($("#imageStore").val()).length == 0))
-        {
-            var errorMsg = "Please Uplode png formate Image.<br/>";
-            $("#error_storeImage").html(errorMsg);
-            error = "true";
-        }
-
         if($.trim($("#link").val()).length == 0)
         {
             var errorMsg = "Please Enter Link to the Location Home.<br/>";

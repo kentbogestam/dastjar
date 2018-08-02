@@ -127,18 +127,15 @@
 		
                  foreach ($data as $data1) {
                      
-                    $content = @file_get_contents($data1['small_image']);
-                        if (!strpos($http_response_header[0], "200")) { 
-                            $data1['small_image'] = 'images/placeholder-image.png';
-                        } 
-/*
-                    try {
-                        getimagesize($data1['small_image']);
-                    } catch (Exception $e) {
+                    if($data1['small_image'] == null){
                         $data1['small_image'] = 'images/placeholder-image.png';
-                    }
-                    */
-                     ?>
+                    }else{
+                      $content = @file_get_contents($data1['small_image']);
+                      if (!strpos($http_response_header[0], "200")) { 
+                        $data1['small_image'] = 'images/placeholder-image.png';
+                      }
+                    } 
+                  ?>
               <tr bgcolor="#FFFFFF" style="font-size:18px; font-weight:bold;">
                  <!--<td class="bg_lightgray" align="left" style="padding-left:5px;">
                     <input name='list[]' id='check_box<?=$i

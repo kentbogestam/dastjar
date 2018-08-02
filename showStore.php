@@ -159,9 +159,14 @@
                                  <?php
                                     $i = 1 + $pager->get_limit_offset();
                                     foreach ($data as $data1) {
-                                       $content = @file_get_contents($data1['store_image']);
-                                       if (!strpos($http_response_header[0], "200")) { 
-                                           $data1['store_image'] = 'images/placeholder-image.png';
+                                       if($data1['store_image'] == null){
+                                          $data1['store_image'] = 'images/placeholder-image.png';
+                                       }elseif(substr($data1['store_image'],-1) == "/"){                                                     $data1['store_image'] = 'images/placeholder-image.png';
+                                       }else{
+                                           $content = @file_get_contents($data1['store_image']);
+                                           if (!strpos($http_response_header[0], "200")) { 
+                                             $data1['store_image'] = 'images/placeholder-image.png';
+                                           }
                                        }
                                     ?>
                                  <tr bgcolor="#FFFFFF">
