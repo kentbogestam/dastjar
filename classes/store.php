@@ -774,9 +774,6 @@ class store {
 
     function editSaveStore($storeid) {
 
-        // print_r($data);
-        //echo $_REQUEST['s'];
-        // die();
         //  echo "<pre>";print_r($_POST['opencloseTimeing']);/*print_r($_POST) ;*/
         
         $inoutObj = new inOut();
@@ -805,7 +802,6 @@ class store {
         if($_POST['opencloseTimeing']){
             $arrUser['store_open_close_day_time'] = $_POST['opencloseTimeing'];
         }
-
 
         $arrUser['close_dates'] = $_POST['altField1'];
          

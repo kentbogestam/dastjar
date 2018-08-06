@@ -345,6 +345,7 @@
                          <div class="select_time">
                              <div class='input-group date' id='datetimepicker3'>
                                 <select id = "allOpen">
+                                          <option>Select Opening Time</option>
                                    <?php foreach($openCloseingTime as $key =>$value) { ?>
                                            <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                    <?php } ?>
@@ -359,6 +360,7 @@
                          <div class="select_time">
                              <div class='input-group date' id='datetimepicker3'>
                                   <select id = "allClose">
+                                          <option>Select Closing Time</option>
                                    <?php foreach($openCloseingTime as $key =>$value) { ?>
                                            <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                    <?php } ?>
@@ -383,6 +385,7 @@
                          <div class="select_time">
                              <div class='input-group date' id='datetimepicker3'>
                                 <select id = "monOpen">
+                                          <option>Select Opening Time</option>
                                    <?php foreach($openCloseingTime as $key =>$value) { ?>
                                            <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                    <?php } ?>
@@ -396,7 +399,8 @@
                          </label>
                          <div class="select_time">
                              <div class='input-group date' id='datetimepicker3'>
-                                  <select id = "monClose">
+                                <select id = "monClose">
+                                       <option>Select Closing Time</option>
                                    <?php foreach($openCloseingTime as $key =>$value) { ?>
                                            <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                    <?php } ?>
@@ -418,6 +422,7 @@
                              <div class="select_time">
                                  <div class='input-group date' id='datetimepicker3'>
                                     <select id = "tueOpen">
+                                             <option>Select Opening Time</option>
                                        <?php foreach($openCloseingTime as $key =>$value) { ?>
                                                <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                        <?php } ?>
@@ -432,6 +437,7 @@
                              <div class="select_time">
                                  <div class='input-group date' id='datetimepicker3'>
                                       <select id = "tueClose">
+                                                <option>Select Closing Time</option>
                                        <?php foreach($openCloseingTime as $key =>$value) { ?>
                                                <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                        <?php } ?>
@@ -453,6 +459,7 @@
                          <div class="select_time">
                              <div class='input-group date' id='datetimepicker3'>
                                 <select id = "wedOpen">
+                                          <option>Select Opening Time</option>
                                    <?php foreach($openCloseingTime as $key =>$value) { ?>
                                            <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                    <?php } ?>
@@ -467,6 +474,7 @@
                          <div class="select_time">
                              <div class='input-group date' id='datetimepicker3'>
                                   <select id = "wedClose">
+                                          <option>Select Closing Time</option>
                                    <?php foreach($openCloseingTime as $key =>$value) { ?>
                                            <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                    <?php } ?>
@@ -488,6 +496,7 @@
                          <div class="select_time">
                              <div class='input-group date' id='datetimepicker3'>
                                 <select id = "thuOpen">
+                                          <option>Select Opening Time</option>
                                    <?php foreach($openCloseingTime as $key =>$value) { ?>
                                            <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                    <?php } ?>
@@ -502,6 +511,7 @@
                          <div class="select_time">
                              <div class='input-group date' id='datetimepicker3'>
                                   <select id = "thuClose">
+                                             <option>Select Closing Time</option>
                                    <?php foreach($openCloseingTime as $key =>$value) { ?>
                                            <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                    <?php } ?>
@@ -523,6 +533,7 @@
                          <div class="select_time">
                              <div class='input-group date' id='datetimepicker3'>
                                 <select id = "friOpen">
+                                          <option>Select Opening Time</option>
                                    <?php foreach($openCloseingTime as $key =>$value) { ?>
                                            <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                    <?php } ?>
@@ -537,6 +548,7 @@
                          <div class="select_time">
                              <div class='input-group date' id='datetimepicker3'>
                                   <select id = "friClose">
+                                             <option>Select Closing Time</option>
                                    <?php foreach($openCloseingTime as $key =>$value) { ?>
                                            <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                    <?php } ?>
@@ -558,6 +570,7 @@
                          <div class="select_time">
                              <div class='input-group date' id='datetimepicker3'>
                                 <select id = "satOpen">
+                                         <option>Select Opening Time</option>
                                    <?php foreach($openCloseingTime as $key =>$value) { ?>
                                            <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                    <?php } ?>
@@ -572,6 +585,7 @@
                          <div class="select_time">
                              <div class='input-group date' id='datetimepicker3'>
                                   <select id = "satClose">
+                                         <option>Select Closing Time</option>
                                    <?php foreach($openCloseingTime as $key =>$value) { ?>
                                            <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                    <?php } ?>
@@ -593,6 +607,7 @@
                          <div class="select_time">
                              <div class='input-group date' id='datetimepicker3'>
                                 <select id = "sunOpen">
+                                          <option>Select Opening Time</option>
                                    <?php foreach($openCloseingTime as $key =>$value) { ?>
                                            <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                    <?php } ?>
@@ -607,6 +622,7 @@
                          <div class="select_time">
                              <div class='input-group date' id='datetimepicker3'>
                                   <select id = "sunClose">
+                                          <option>Select Closing Time</option>
                                    <?php foreach($openCloseingTime as $key =>$value) { ?>
                                            <option value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                    <?php } ?>
@@ -652,34 +668,34 @@
       $('[id*=submit-btn]').click(function(){
         var dataString = new Array();
         var i = 0;
-        if($('[id*=allOpen]').val() != '00:00:00'){
+        if($('[id*=allOpen]').val() != 'Select Opening Time' && $('[id*=allClose]').val() != 'Select Closing Time'){
           dataString = 'All :: '+$('[id*=allOpen]').val()+' to '+$('[id*=allClose]').val();
         }else{
-          if($('[id*=monOpen]').val() != '00:00:00'){
+          if($('[id*=monOpen]').val() != 'Select Opening Time' && $('[id*=monClose]').val() != 'Select Closing Time'){
             dataString[i] = 'Mon :: '+$('[id*=monOpen]').val()+' to '+$('[id*=monClose]').val();
             i = i+1;
           }
-          if($('[id*=tueOpen]').val() != '00:00:00'){
+          if($('[id*=tueOpen]').val() != 'Select Opening Time' && $('[id*=tueClose]').val() != 'Select Closing Time'){
             dataString[i] = ['Tue :: '+$('[id*=tueOpen]').val()+' to '+$('[id*=tueClose]').val()];
             i = i+1;
           }
-          if($('[id*=wedOpen]').val() != '00:00:00'){
+          if($('[id*=wedOpen]').val() != 'Select Opening Time' && $('[id*=wedClose]').val() != 'Select Closing Time'){
             dataString[i] = ['Wed :: '+$('[id*=wedOpen]').val()+' to '+$('[id*=wedClose]').val()];
             i = i+1;
           }
-          if($('[id*=thuOpen]').val() != '00:00:00'){
+          if($('[id*=thuOpen]').val() != 'Select Opening Time' && $('[id*=thuClose]').val() != 'Select Closing Time'){
             dataString[i] = ['Thu :: '+$('[id*=thuOpen]').val()+' to '+$('[id*=thuClose]').val()];
             i = i+1;
           }
-          if($('[id*=friOpen]').val() != '00:00:00'){
+          if($('[id*=friOpen]').val() != 'Select Opening Time' && $('[id*=friClose]').val() != 'Select Closing Time'){
             dataString[i] = ['Fri :: '+$('[id*=friOpen]').val()+' to '+$('[id*=friClose]').val()];
             i = i+1;
           }
-          if($('[id*=satOpen]').val() != '00:00:00'){
+          if($('[id*=satOpen]').val() != 'Select Opening Time' && $('[id*=satClose]').val() != 'Select Closing Time'){
             dataString[i] = ['Sat :: '+$('[id*=satOpen]').val()+' to '+$('[id*=satClose]').val()];
             i = i+1;
           }
-          if($('[id*=sunOpen]').val() != '00:00:00'){
+          if($('[id*=sunOpen]').val() != 'Select Opening Time' && $('[id*=sunClose]').val() != 'Select Closing Time'){
             dataString[i] = ['Sun :: '+$('[id*=sunOpen]').val()+' to '+$('[id*=sunClose]').val()];
             i = i+1;
           }

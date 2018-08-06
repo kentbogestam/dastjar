@@ -78,7 +78,6 @@ $(document).ready(function(){
             error = "true";
         }
 
-
         if($.trim($("#phoneNo").val()).length == 0)
         {
             var errorMsg = "Please Enter Phone Number.<br/>";
@@ -160,9 +159,9 @@ function phoneValidator(val)
 
 function isURL(val) {
      var urlregex = new RegExp("^(http:\/\/www.|https:\/\/www.|ftp:\/\/www.|www.|http:\/\/.){1}([0-9A-Za-z]+\.)");
-      if(urlregex.test(val))
    // if(val.match(/http:\/\/[A-Za-z0-9\.-]{3,}\.[A-Za-z]{3}/))
-       {
+
+    if(urlregex.test(val)){
        return true;
     }
     else{

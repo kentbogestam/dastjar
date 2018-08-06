@@ -159,7 +159,8 @@
                                  <?php
                                     $i = 1 + $pager->get_limit_offset();
                                     foreach ($data as $data1) {
-                                       if($data1['store_image'] == null){
+                                       
+                                       if($data1['store_image']==null || $data1['store_image']=="null"){
                                           $data1['store_image'] = 'images/placeholder-image.png';
                                        }elseif(substr($data1['store_image'],-1) == "/"){                                                     $data1['store_image'] = 'images/placeholder-image.png';
                                        }else{

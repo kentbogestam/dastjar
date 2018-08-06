@@ -32,11 +32,7 @@
                 .center{width:900px; margin-left:auto; margin-right:auto;}
             
             }
-<<<<<<< HEAD
             */
-=======
-        */
->>>>>>> a50a492f89880d95bf2eddabaa2bddbd3eff0f03
       </style>
    </head>
    <body>
