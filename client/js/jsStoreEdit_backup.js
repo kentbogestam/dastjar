@@ -69,6 +69,10 @@ $(document).ready(function(){
             var errorMsg = "Please Enter City.<br />";
             $("#error_cityStore").html(errorMsg);
             error = "true";
+        }else if(isValidName($.trim($("#cityStore").val()))){
+            var errorMsg = "Invalid City Name.<br />";
+            $("#error_cityStore").html(errorMsg);
+            error = "true";            
         }
 
         if (!isValidEmailAddress($.trim($("#email").val())))
@@ -77,7 +81,6 @@ $(document).ready(function(){
             $("#error_email").html(errorMsg);
             error = "true";
         }
-
 
         if($.trim($("#phoneNo").val()).length == 0)
         {
@@ -160,12 +163,23 @@ function phoneValidator(val)
 
 function isURL(val) {
      var urlregex = new RegExp("^(http:\/\/www.|https:\/\/www.|ftp:\/\/www.|www.|http:\/\/.){1}([0-9A-Za-z]+\.)");
-      if(urlregex.test(val))
    // if(val.match(/http:\/\/[A-Za-z0-9\.-]{3,}\.[A-Za-z]{3}/))
-       {
+
+    if(urlregex.test(val)){
        return true;
     }
     else{
+        return false;
+    }
+}
+
+function isValidName(val){
+    var citynameval = val.replace(" ",""); 
+    if (citynameval.match('^[a-zA-Z]$')) {
+    alert(citynameval);
+
+        return true;
+    } else {
         return false;
     }
 }

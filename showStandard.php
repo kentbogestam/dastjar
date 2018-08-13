@@ -145,7 +145,7 @@
                     <td align="center"><?php echo $i; ?> </td>-->
                  <td align="center"><?php echo $data1['slogen']; ?></td>
                  <!--<td align="center"><?php echo $data1['product_name']; ?></td>-->
-                 <td align="center"><img src="<?php echo $data1['small_image'] ?>" height="30" width="30"/></td>
+                 <td align="center"><img src="<?php echo $data1['small_image'] ?>" onerror="this.src='images/placeholder-image.png'" height="30" width="30"/></td>
                  <!--                                                                <td align="center"><?php echo $data1['keywords']; ?></td>-->
                  <!--<td align="center"><?php echo $data1['category']; ?></td>-->
                  <td align="center" style="display:none;"><?php

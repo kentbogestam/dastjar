@@ -372,7 +372,7 @@
                <td>You can set your location on map by click or drag</td>
             </tr>
              <tr>
-               <td>Uplod Image For Restaurent<span class='mandatory'>*</span>:</td>
+               <td>Upload Image For Restaurent<span class='mandatory'>*</span>:</td>
                <td>
                   <div class="file-upload">
                      <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' );$('.image-removed').val('0');">Add Image</button>
@@ -380,7 +380,7 @@
                         <input class="file-upload-input" type='file' id="imageStore" name="imageStore" onBlur="iconPreview(this.form);"  onchange="readURL(this);" accept="image/" />
                         <div class="drag-text">
                            <h3>Drag and drop a file or select add Image</h3>
-                           <samp>Please uplode only png Image</samp>
+                           <samp>Please upload only png Image</samp>
                         </div>
                      </div>
                      <div class="file-upload-content">

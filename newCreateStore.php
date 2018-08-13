@@ -295,7 +295,7 @@
                         <input class="file-upload-input" type='file' id="imageStore" name="imageStore" onBlur="iconPreview(this.form);"  onchange="readURL(this);" accept="image" />
                         <div class="drag-text">
                            <h3>Drag and drop a file or select add Image</h3>
-                           <samp>Please uplode only png Image</samp>
+                           <samp>Please upload only png Image</samp>
                         </div>
                      </div>
                      <div class="file-upload-content">

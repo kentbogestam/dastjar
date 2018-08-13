@@ -263,33 +263,7 @@
             </tr>-->
       </table>
       <div class="redwhitebutton_small123">Advanced Options-Optional</div>
-      <table cellspacing="15"   style="display:inline_row;" id="advancedSearchStand" width="100%">
-         <tr>
-            <td width="515" align="left" valign="top" class="inner_grid">Keywords<span class='mandatory'>*</span>:</td>
-            <td width="227" align="left" valign="top">
-               <INPUT class="text_field_new" type=text name="searchKeywordStand" id="searchKeywordStand" maxlength="90" value="<?=$data[0]['keyword']
-                  ?>">
-               <div id='error_searchKeywordStand' class="error"></div>
-            </td>
-            <td align="right" valign="top"><a title="<?=SKEYWORD_TEXT
-               ?>" class="vtip"><b><small>?</small></b></a></td>
-         </tr>
-         <!-- <tr>
-            <td align="left" valign="top" class="inner_grid">EAN Code:<br></td>
-            <td  align="left" valign="top"><INPUT class="text_field_new" type=text name="eanCode" id="eanCode" value="<?=$data[0]['ean_code']
-               ?>">
-              <div id='error_eanCode' class="error"></div></td>
-             <td align="right" valign="middle"><a title="<?=SEAN_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
-            </tr> -->
-         <!-- <tr>
-            <td align="left" valign="top" class="inner_grid">Product Number:<br></td>
-            <td  align="left" valign="top"><INPUT class="text_field_new" type=text name="productNumber" value="<?=$data[0]['product_number']
-               ?>" id="productNumber">
-              <div id='error_productNumber' class="error"> </div></td>
-             <td align="right" valign="middle"><a title="<?=PRODUCTNUMBER_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
-            </tr> -->
-         <tr>
-      </table>
+      
      <!--  <div class="redwhitebutton_small123">Add your Coupon View</div> -->
       <table  width="100%" border="0" cellspacing="15">
          <!--  <tr>
@@ -315,8 +289,20 @@
             <td align="right" valign="top"><a title="<?=SPICTURE_TEXT
                ?>" class="vtip"><b><small>?</small></b></a> </td>
             </tr> -->
+
+        <tr>
+            <td width="515" align="left" valign="top" class="inner_grid">Keywords<span class='mandatory'>*</span>:</td>
+            <td width="227" align="left" valign="top">
+               <INPUT class="text_field_new" type=text name="searchKeywordStand" id="searchKeywordStand" maxlength="90" value="<?=$data[0]['keyword']
+                  ?>">
+               <div id='error_searchKeywordStand' class="error"></div>
+            </td>
+            <td align="right" valign="top"><a title="<?=SKEYWORD_TEXT
+               ?>" class="vtip"><b><small>?</small></b></a></td>
+        </tr>
+
          <tr>
-            <td class="inner_grid">Release date of product<span class='mandatory'>*</span>:</td>
+            <td class="inner_grid td_pad_top">Release date of product<span class='mandatory'>*</span>:</td>
             <td align="left" valign="top">               
                <input type="text" style="width:380px;" name="" readonly="readonly" value="<?=$start_date
                   ?>" id="startDateStand" class="startDateStand dp-applied text_field_new" />
@@ -325,8 +311,9 @@
             </td>
             <td align="right" valign="top"><a title="<?=RELEASE_DATE_OF_PRODUCT?>" class="vtip"><b><small>?</small></b></a> </td>
          </tr>
+
          <tr>
-            <td width="50%" align="left" valign="top" class="td_pad_left">Type of Dish<span class='mandatory'>*</span>:</td>
+            <td class="inner_grid">Type of Dish<span class='mandatory'>*</span>:</td>
             <td width="50%" align="left" valign="top" class="td_pad_right">
                <?php $value = 0; ?>
                <div class="adddishes">

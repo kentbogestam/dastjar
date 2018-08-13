@@ -33,10 +33,9 @@ $selected_tab_css = ' style="background-color:#ADDFFF" ';
 
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"><style type="text/css">
-<!--
+/*
 .center{width:900px; margin-left:auto; margin-right:auto;}
-
--->
+*/
 </style></head>
 <body>
 <div class="center">

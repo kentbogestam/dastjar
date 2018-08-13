@@ -425,12 +425,10 @@ class accountView {
         $inoutObj = new inOut();
         $db = new db();
         $conn = $db->makeConnection();
-
         // Check connection
         if (!$conn) {
             die("Connection failed: " . mysqli_connect_error());
         }else{}
-
         $arrUser = array();
         $error = '';
         $arrUser['email'] = $_POST['emailid'];
@@ -443,7 +441,8 @@ class accountView {
         $arrUser['mobile_phone'] = trim($_POST['mob']);
         $arrUser['storeID'] = $_POST['select2'];
         
-        if ($error != '') {
+			
+			if ($error != '') {
              $_SESSION['MESSAGE'] = $error;
              $_SESSION['post'] = $_POST;
              $url = BASE_URL . 'addNewUser.php';
@@ -454,14 +453,13 @@ class accountView {
             $_SESSION['post'] = "";
             $userId = uuid();
             $password_sha256 = $arrUser['passwd'];
-            $password_hash = hash_hmac('sha256', $password_sha256, $userId);
+            $password_hash = hash_hmac('sha256', $password_sha256, $userId);             
 
             $QUE = "select company_id from employer where u_id='" . $_SESSION['userid'] . "'";
             $res = mysqli_query($conn, $QUE) or die("Get Company : " . mysqli_error($conn));
             $row = mysqli_fetch_array($res);
             $companyId = $row['company_id'];
             
-          
            $query = "INSERT INTO user(`u_id`, `email`, `passwd`, `fname`, `lname`, `role`, `phone`, `mobile_phone`,`email_varify_code`,`activ`,`company_id`,`store_id`)
                 VALUES ('" . $userId . "', '" . $arrUser['email'] . "', '" .$password_hash . "', '" . $arrUser['fname'] . "', '" . $arrUser['lname'] . "','" . $arrUser['role'] . "', '"  .$arrUser['cprefix']. $arrUser['phone'] . "', '"  .$arrUser['cprefix']. $arrUser['mobile_phone'] . "','" . $arrUser['email_varify_code'] . "','5','" . $companyId . "','" .  $arrUser['storeID'] . "');";
             $res = mysqli_query($conn ,$query) or die(mysqli_error($conn));
@@ -507,6 +505,8 @@ class accountView {
                 //echo $response;
               }
             
+		
+			
             $url = BASE_URL . 'viewNewUser.php';
             $_SESSION['MESSAGE'] = INSERTED_USER;
             $inoutObj->reDirect($url);

@@ -93,8 +93,6 @@ function setPaidStatus($orgnr, $value){
 
 	$paid = "update company set paid='$value' where orgnr='$orgnr'";
 
-
-
 	if ($db->query($paid)) {
 		echo "status updated to: " . $value;
 	} else {
