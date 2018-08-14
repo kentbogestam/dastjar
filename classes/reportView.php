@@ -5,7 +5,7 @@
  *  Author  :Himanshu Singh  Date: 10th,December,2010  Creation
  */
 //$_SESSION['COMP_ID']="";
-include('lib/resizer/resizer.php');
+include_once('lib/resizer/resizer.php');
 
 class reportView {
     /* Function Header :svrReportDflt()

@@ -23,12 +23,8 @@
        $pager = new pager($total_records, $records_per_page, @$_GET['_p']);
        $paging_limit = $pager->get_limit();
        $data = $standObj->showStandardOffersDetails($paging_limit);
-       //echo "<pre>"; print_r($data);echo "</pre>";
-       $standObj->svrOfferDflt();
-   
-   
-   //print_r($is_Public);
-   } else {
+       $standObj->svrOfferDflt(); 
+    } else {
        $_SESSION['MESSAGE'] = "Please Login";
        header("location:login.php");
        exit;
@@ -38,7 +34,8 @@
 <link href="client/css/stylesheet123.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" src="lib/grid/js/grid.js" type="text/javascript"></script>
 <body>
-   <div class="center">
+  1
+   <div class="center">    
       <div id="msg" align="center" style="margin-top:20px;">
          <?php
             if ($_SESSION['MESSAGE']) {
@@ -70,8 +67,8 @@
   <tr>
      <td align="left">
         <h2><?php
-                                                                           echo "Menu";
-                                                                           ?></h2>
+              echo "Menu";
+        ?></h2>
      </td>
      <td>&nbsp;</td>
      <td valign="bottom">&nbsp;</td>
@@ -150,23 +147,23 @@
                  <!--<td align="center"><?php echo $data1['category']; ?></td>-->
                  <td align="center" style="display:none;"><?php
                     $d = $data1['is_sponsored'];
-                                                                                if ($d == 0)
-                                                                                    echo "No";
-                                                                                else
-                                                                                    echo "Yes"; ?></td>
+                    if ($d == 0)
+                      echo "No";
+                    else
+                      echo "Yes"; ?></td>
                  <? $keyString = wordwrap($data1['keyword'], 20, "<br>", 1); ?>
                  <td align="center"><?php echo $keyString; ?></td>
                  <!--<td align="center"><?php echo $data1['link']; ?></td>-->
                  <!--<td align="center"><?
                     echo "<br><a href='";
-                                                                            echo $url = BASE_URL . 'addStandStore.php?productId=' . $data1['product_id'];
-                                                                            echo "'>Add Store</a>";
-                                                                            ?></td>
+                    echo $url = BASE_URL . 'addStandStore.php?productId=' . $data1['product_id'];
+                    echo "'>Add Store</a>";
+                      ?></td>
                     <td align="center" ><?
                        echo "<br><a href='";
-                                                                               echo $url = BASE_URL . 'inviteRetailersStand.php?productId=' . $data1['product_id'];
-                                                                               echo "'>Mail to Retailers</a>";
-                                                                               ?></td>-->
+                       echo $url = BASE_URL . 'inviteRetailersStand.php?productId=' . $data1['product_id'];
+                      echo "'>Mail to Retailers</a>";
+                    ?></td>-->
                  <td align="center">
                     <table border="0" align="center" cellpadding="0" cellspacing="0">
                        <tr>
@@ -220,9 +217,9 @@
                  <td width="67%" align="left"><?php echo $pager->get_title('&nbsp;Displaying Results {FROM} to {TO} of {TOTAL}'); ?></td>
                  <td width="33%" align="right"><?php
                     echo $pager->get_prev('<a href="{LINK_HREF}">Prev</a>&nbsp;');
-                                                                                echo $pager->get_range('<a href="{LINK_HREF}">{LINK_LINK}</a>', ' &raquo ') . '';
-                                                                                echo $pager->get_next('<a href="{LINK_HREF}">&nbsp;Next</a>');
-                                                                                ?></td>
+                    echo $pager->get_range('<a href="{LINK_HREF}">{LINK_LINK}</a>', ' &raquo ') . '';
+                    echo $pager->get_next('<a href="{LINK_HREF}">&nbsp;Next</a>');
+                  ?></td>
               </tr>
            </table>
            <input type="hidden" name="action" value="check_box_action">
@@ -317,80 +314,85 @@
                                              <!--<td align="center"><?php echo $is_Public1['category']; ?></td>-->
                                              <td align="center"><?php
                                                 $d = $is_Public1['is_sponsored'];
-                                                                                                            if ($d == 0)
-                                                                                                                echo "No";
-                                                                                                            else
-                                                                                                                echo "Yes"; ?></td>
-                                             <!--<td align="center"><?php echo $is_Public1['link']; ?></td>-->
-                                             <!--<td align="center"><?
-                                                echo "<br><a href='";
-                                                
-                                                                                                        echo $url = BASE_URL . 'addStandStore.php?productId=' . $is_Public1['product_id'];
-                                                                                                        echo "'>Add Store</a>";
-                                                                                                        ?></td>-->
-                                             <td class="bg_lightgray" align="center">
-                                                <a href="viewPublicProduct.php?productId=<?=$is_Public1['product_id'];
-                                                   ?>" class="a2" title="View"><img src="lib/grid/images/view.gif"></a>
-                                                &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="<?=BASE_URL . 'addStandStore.php?productId=' . $is_Public1['product_id'];?>" class="a2" title="Add Location"><img src="lib/grid/images/active.gif"></a>
-                                             </td>
-                                          </tr>
-                                          <?
-                                             $i++;
-                                             }
-                                             ?>
-                                       </table>
-                                       <br>
-                                       <table width='100%'>
-                                          <?php
-                                             if ($total_records1 == 0) {
-                                                 echo "No Records Found";
-                                             }
-                                             ?>
-                                          <!-- with selected html starts-->
-                                          <!--<tr>
-                                             <td width='350' align="left">&nbsp;&nbsp;&nbsp;&nbsp;<img src="lib/grid/images/arrow.gif">
-                                             <a href="#" onClick="checkall(true)" ><font color="#FF0000">Check all</font> </a> /
-                                             <a href="#" onClick="checkall(false)"><font color="#FF0000">Uncheck all </font> </a>&nbsp
-                                             <select id='select_action' name='select_action' onChange="return confirm_msg();">
-                                             <option value="">--With Selected--</option>
-                                             <option value="1">Activate</option>
-                                             <option value="0">De-Activate</option>
-                                             <option value="delete">Delete</option>
-                                             </select>                              </td>
-                                             </tr>-->
-                                          <!-- with selected htl ends-->
-                                       </table>
-                                       <table width="100%" border="0" cellpadding="6" cellspacing="0" class="border">
-                                          <tr>
-                                             <td width="67%" align="left"><?php echo $pager1->get_title('&nbsp;Displaying Results {FROM} to {TO} of {TOTAL}'); ?></td>
-                                             <td width="33%" align="right"><?php
-                                                echo $pager1->get_prev('<a href="{LINK_HREF}">Prev</a>&nbsp;');
-                                                                                                            echo $pager1->get_range('<a href="{LINK_HREF}">{LINK_LINK}</a>', ' &raquo ') . '';
-                                                                                                            echo $pager1->get_next('<a href="{LINK_HREF}">&nbsp;Next</a>');
-                                                                                                            ?></td>
-                                          </tr>
-                                       </table>
-                                       <input type="hidden" name="action" value="check_box_action">
-                                    </form>
-                                    <?php } else {
-                                       ?>
-                                    <table width="95%" border="0" cellpadding="6" cellspacing="0" class="border">
-                                       <tr>
-                                          <td width="67%" align="center">No Record Found.</td>
-                                       </tr>
-                                    </table>
-                                    <?php } ?>
-                                    <br />
-                                    <br />                      
-                                 </td>
-                              </tr>
-                           </table>
-                        </td>
-                     </tr>
-                  </table>
-               </td>
-            </tr>
+                if ($d == 0)
+                    echo "No";
+                else
+                    echo "Yes"; ?></td>
+                    <!--<td align="center"><?php echo $is_Public1['link']; ?></td>-->
+                    <!--<td align="center"><?
+                    echo "<br><a href='";
+                    echo $url = BASE_URL . 'addStandStore.php?productId=' . $is_Public1['product_id'];
+                    echo "'>Add Store</a>";
+                    ?></td>-->
+  
+                 <td class="bg_lightgray" align="center">
+                    <a href="viewPublicProduct.php?productId=<?=$is_Public1['product_id'];
+                      ?>" class="a2" title="View"><img src="lib/grid/images/view.gif"></a>
+                 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="<?=BASE_URL . 'addStandStore.php?productId=' . $is_Public1['product_id'];?>" class="a2" title="Add Location"><img src="lib/grid/images/active.gif"></a>
+              </td>
+          </tr>
+            <?
+                $i++;
+            }
+            ?>
          </table>
+         <br>
+  
+         <table width='100%'>
+            <?php
+              if ($total_records1 == 0) {
+                echo "No Records Found";
+              }
+            ?>
+            <!-- with selected html starts-->
+            <!--<tr>
+            <td width='350' align="left">&nbsp;&nbsp;&nbsp;&nbsp;<img src="lib/grid/images/arrow.gif">
+           <a href="#" onClick="checkall(true)" ><font color="#FF0000">Check all</font> </a> /
+           <a href="#" onClick="checkall(false)"><font color="#FF0000">Uncheck all </font> </a>&nbsp
+          <select id='select_action' name='select_action' onChange="return confirm_msg();">
+          <option value="">--With Selected--</option>
+          <option value="1">Activate</option>
+          <option value="0">De-Activate</option>
+          <option value="delete">Delete</option>
+          </select>                              </td>
+          </tr>-->
+         <!-- with selected htl ends-->
+        </table>
+     
+        <table width="100%" border="0" cellpadding="6" cellspacing="0" class="border">
+           <tr>
+            <td width="67%" align="left"><?php echo $pager1->get_title('&nbsp;Displaying Results {FROM} to {TO} of {TOTAL}'); ?></td>
+            <td width="33%" align="right"><?php
+                echo $pager1->get_prev('<a href="{LINK_HREF}">Prev</a>&nbsp;');
+                echo $pager1->get_range('<a href="{LINK_HREF}">{LINK_LINK}</a>', ' &raquo ') . '';
+                echo $pager1->get_next('<a href="{LINK_HREF}">&nbsp;Next</a>');
+            ?></td>
+          </tr>
+        </table>
+      
+        <input type="hidden" name="action" value="check_box_action">
+      </form>
+        
+                    <?php } else {
+                    ?>
+        
+      <table width="95%" border="0" cellpadding="6" cellspacing="0" class="border">
+        <tr>
+          <td width="67%" align="center">No Record Found.</td>
+        </tr>
+      </table>
+      <?php } ?>
+        <br />
+        <br />                      
+          </td>
+        </tr>
+      </table>
+         </td>
+        </tr>
+      </table>
+          </td>
+        </tr>
+      </table>
       </div>
    </div>
    <? include("footer.php"); ?>

@@ -70,6 +70,8 @@ $stripe_pub_id = 'pk_test_5P1GedJTk0HsWb3AnjYBbz6G'; // test
 $stripe_client_secret = 'sk_test_EypGXzv2qqngDIPIkuK6aXNi'; // test 
 //$stripe_client_secret = 'sk_live_INm31rvosK6bnFT48xjipoBP'; // live 
 
+define('STRPIE_CLIENT_SECRET', $stripe_client_secret);
+
 /* Google Captcha ID and KEY */
 $captcha_site_key = '6Le-8UgUAAAAAHADYrs839SRaC8d8XacoiH9w5ao'; // test 
 //$captcha_site_key = '6LeDA0kUAAAAANgrH6YdoQmix-_OawzmczkQr094'; // live 

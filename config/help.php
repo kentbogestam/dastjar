@@ -147,7 +147,13 @@ define("CCODE_TEXT","Enter CCODE");
 define("ACTIVE","Your CCODE are active");
 define("DEACTIVE","Your CCODE are deactive");
 
-////
 define("ASSIGNCCODE","<li class='notice_success'>CCode are Assigned.</li>");
+define("PRODUCT_NAME", "Product name");
+define("PLAN_NICKNAME", "Plan nickname");
+define("PRICE", "Price");
+define("CURRENCY", "Currency");
+
+define("DESCRIPTION", "Description");
+define("USAGE_TYPE", "Usage type");
 
 ?>

@@ -60,13 +60,13 @@ else {
 
 
 <style type="text/css">
-    <!--
+    /*
     .style4 {
         font-size: 10px;
         font-weight: bold;
     }
     .style6 {font-size: 9px}
-    -->
+    */
 </style>
 <body>
 <div class="center">
@@ -235,4 +235,4 @@ else {
 	<br />
 </div></div>
 <? include("footer.php"); ?>
-</boyd>
+</body>

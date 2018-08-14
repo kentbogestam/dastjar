@@ -27,7 +27,6 @@ if ($uId != '') {
     $pager = new pager($total_records, $records_per_page, @$_GET['_p']);
     $paging_limit = $pager->get_limit();
     $data = $supportObj->getCampaignDetails($paging_limit, $uId);
-    //echo"<pre>";  print_r($data);echo"</pre>";//die();
 }
 
 if ($case == 'deleteCategory') {
@@ -48,7 +47,6 @@ if (!isset($_SESSION['supportuserid'])) {
 }
 
 $userName = $supportObj->getAllUser();
-//echo"<pre>";  print_r($userName);echo"</pre>";//die();
 ?>
 <script>
 
@@ -85,14 +83,14 @@ $userName = $supportObj->getAllUser();
                 <tr>
                     <td height="20"></td>
                 </tr>
+                
                 <div align="center"><h2><?php
-if ($_SESSION['MESSAGE']) {
-    echo $_SESSION['MESSAGE'];
-    $_SESSION['MESSAGE'] = "";
-}
-?></h2></div>
-
-
+                    if ($_SESSION['MESSAGE']) {
+                        echo $_SESSION['MESSAGE'];
+                        $_SESSION['MESSAGE'] = "";
+                    }
+                    ?>        
+                </h2></div>
 
                 <tr>
                     <td width="24%">&nbsp;</td>
@@ -171,113 +169,94 @@ if ($_SESSION['MESSAGE']) {
 
                                     <option  value="">Select </option>
                         <?
-                                                                                         foreach ($userName as $userName1) {
-                                                                                             if ($uId == $userName1['u_id']) {
-                                                                                                 $selected = 'selected';
-                                                                                             } else {
-                                                                                                 $selected = '';
-                                                                                             }
+                            foreach ($userName as $userName1) {
+                                if ($uId == $userName1['u_id']) {
+                                    $selected = 'selected';
+                                } else {
+                                    $selected = '';
+                                }
                         ?>
-                                                                                             <option <? echo $selected ?> value="<? echo $userName1['u_id']; ?> "> <? echo $userName1['fname']; ?> ( <? echo $userName1['email']; ?> )</option>
+                        <option <? echo $selected ?> value="<? echo $userName1['u_id']; ?> "> <? echo $userName1['fname']; ?> ( <? echo $userName1['email']; ?> )</option>
                         <? } ?>
-                                                                                     </select>
-                                                                                 </td>
-                                                                             </tr>
+                        </select>
+                        </td>
+                        </tr>
 
-                                                                         </table>
-
-
+                    </table>
 
 
-                                                                         <table width="100%" cellpadding="0" cellspacing="2" class="border">
-
-                                                                             <tr align="center" height="26" >
-                                                                                 <td width="15%" height="25" class="bg_darkgray1" align="center"><strong>Title Slogan</strong></td>
-                                                                                 <td width="17%" class="bg_darkgray1"><strong>Campaign Name</strong></td>
-                                                                                 <td width="15%" align="center" class="bg_darkgray1"><strong>Icon</strong></td>
-                                                                                 <td width="15%" align="center" class="bg_darkgray1"><strong>Sponsored</strong></td>
-                                                                                 <td width="15%" align="center" class="bg_darkgray1"><strong>Start Date</strong></td>
-                                                                                 <td width="15%" align="center" class="bg_darkgray1"><strong>End Date</strong></td>
-                                                                                 <td width="15%" align="center" class="bg_darkgray1"><strong>Keyword</strong></td>
-                                                                                 <td width="15%" align="center" class="bg_darkgray1"><strong>Action</strong></td>
-                                                                             </tr>
-            <?php
-                                                                                         foreach ($data as $data1) {
+                    <table width="100%" cellpadding="0" cellspacing="2" class="border">
+                        <tr align="center" height="26" >
+                            <td width="15%" height="25" class="bg_darkgray1" align="center"><strong>Title Slogan</strong></td>
+                            <td width="17%" class="bg_darkgray1"><strong>Campaign Name</strong></td>
+                            <td width="15%" align="center" class="bg_darkgray1"><strong>Icon</strong></td>
+                            <td width="15%" align="center" class="bg_darkgray1"><strong>Sponsored</strong></td>
+                            <td width="15%" align="center" class="bg_darkgray1"><strong>Start Date</strong></td>
+                            <td width="15%" align="center" class="bg_darkgray1"><strong>End Date</strong></td>
+                            <td width="15%" align="center" class="bg_darkgray1"><strong>Keyword</strong></td>
+                            <td width="15%" align="center" class="bg_darkgray1"><strong>Action</strong></td>
+                        </tr>
+            <?php                                                                        foreach ($data as $data1) {
             ?>
+                    <tr align="center" height="26" >
 
-                                                                                             <tr align="center" height="26" >
-
-                                                                                                 <td align="center"><?php echo $data1['slogan']; ?></td>
-                                                                                                 <td align="center"><?php echo $data1['campaign_name']; ?></td>
-                                                                                                 <td align="center"><img src="<?php echo $data1['small_image']; ?>" height="30" width="30"/></td>
-                                                                                                 <td align="center"><?=($data1['spons'] == 0 ? "No" : "Yes"); ?></td>
+                        <td align="center"><?php echo $data1['slogan']; ?></td>
+                        <td align="center"><?php echo $data1['campaign_name']; ?></td>
+                        <td align="center"><img src="<?php echo $data1['small_image']; ?>" height="30" width="30"/></td>     
+                        <td align="center"><?=($data1['spons'] == 0 ? "No" : "Yes"); ?></td>
 
                 <?
-                                                                                             $d = $data1['start_of_publishing'];
-                                                                                             $timeStamp = explode(" ", $d);
-                                                                                             $start_date = $timeStamp[0];
+                    $d = $data1['start_of_publishing'];
+                    $timeStamp = explode(" ", $d);
+                    $start_date = $timeStamp[0];
                 ?>
 
-                                                                                             <td align="center"><?php echo $start_date; ?></td>
-                <?
-                                                                                             $d = $data1['end_of_publishing'];
-                                                                                             $timeStamp = explode(" ", $d);
-                                                                                             $end_date = $timeStamp[0];
+                    <td align="center"><?php echo $start_date; ?></td>
+                <?                                                                   $d = $data1['end_of_publishing'];
+                    $timeStamp = explode(" ", $d);
+                    $end_date = $timeStamp[0];
                 ?>
-                                                                                             <td align="center"><?php echo $end_date; ?></td>
-                                                                                             <td align="center"><?php echo $data1['keyword']; ?></td>
-                                                                                             <td align="center"><strong><a href="viewSupportCampaign.php?campaignId=<?=$data1['campaign_id']; ?>&backuid=<?=$uId; ?>" title="view" ><img src="lib/grid/images/view.gif"></a></strong>&nbsp;&nbsp;|&nbsp;&nbsp;<strong><a href="#" title="Delete" onClick="deleteCampaign('<?=$data1['campaign_id']; ?>','<?=$uId; ?>');"> <img src="lib/grid/images/delete.gif"></a></strong></td>
-                                                                                         </tr>
+                    <td align="center"><?php echo $end_date; ?></td>
+                    <td align="center"><?php echo $data1['keyword']; ?></td>
+                    <td align="center"><strong><a href="viewSupportCampaign.php?campaignId=<?=$data1['campaign_id']; ?>&backuid=<?=$uId; ?>" title="view" ><img src="lib/grid/images/view.gif"></a></strong>&nbsp;&nbsp;|&nbsp;&nbsp;<strong><a href="#" title="Delete" onClick="deleteCampaign('<?=$data1['campaign_id']; ?>','<?=$uId; ?>');"> <img src="lib/grid/images/delete.gif"></a></strong></td>
+                </tr>
 
             <?php } ?>
 
+                </table>
 
-                                                                                     </table>
-
-                                                                                     <br>
-                                                                                     <table width='100%'  cellpadding="0" cellspacing="0">
+                        <br>
+                <table width='100%'  cellpadding="0" cellspacing="0">
             <?php
-                                                                                         if ($total_records == 0) {
-                                                                                             echo "No Records Found";
-                                                                                         }
+                if ($total_records == 0) {
+                    echo "No Records Found";                                    
+                }
             ?>
-                                                                                     </table>
+            </table>
 
-                                                                                     <table width="100%"  cellpadding="0" cellspacing="0" class="border">
-                                                                                         <tr>
-                                                                                             <td width="67%" align="left"><?php echo $pager->get_title('Displaying Results {FROM} to {TO} of {TOTAL}'); ?></td>
-                                                                                             <td width="33%" align="right">
+            <table width="100%"  cellpadding="0" cellspacing="0" class="border">
+                <tr>
+                    <td width="67%" align="left"><?php echo $pager->get_title('Displaying Results {FROM} to {TO} of {TOTAL}'); ?></td>
+                    <td width="33%" align="right">
                     <?php
-                                                                                         echo $pager->get_prev('<a href="{LINK_HREF}">Prev</a>&nbsp;');
-                                                                                         echo $pager->get_range('<a href="{LINK_HREF}">{LINK_LINK}</a>', ' &raquo ') . '';
-                                                                                         echo $pager->get_next('<a href="{LINK_HREF}">&nbsp;Next</a>');
+                        echo $pager->get_prev('<a href="{LINK_HREF}">Prev</a>&nbsp;');
+                        echo $pager->get_range('<a href="{LINK_HREF}">{LINK_LINK}</a>', ' &raquo ') . '';
+                        echo $pager->get_next('<a href="{LINK_HREF}">&nbsp;Next</a>');
                     ?>
-                                                                                     </td>
-                                                                                 </tr>
-                                                                             </table>
-
-                                                                             </form>
-                                                                         </td>
-                                                                     </tr>
-                                                                     <tr>
-                                                                         <td>&nbsp;</td>
-                                                                     </tr>
-
-                                                                     <tr>
-                                                                         <td height="30" align="left">
-
-                                                                         </td>
-                                                                     </tr>
-                                                                     </table>
-                                                                     </div>
+                        </td>                                                    </tr>
+                    </table>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td height="30" align="left">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
 <?php
-                                                                                         include_once("footer.php");
+        include_once("footer.php");
 ?>
-
-
-
-
-
-
-
-
