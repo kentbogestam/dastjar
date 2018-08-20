@@ -4,7 +4,7 @@
  *  Author  :Himanshu Singh  Date: 23rd,Nov,2010  Creation
 */
 
-include('lib/resizer/resizer.php');
+include_once('lib/resizer/resizer.php');
 
 class support {
     /* Function Header :svrOfferDflt()
@@ -755,7 +755,7 @@ function getAllUser()
          return $data;
 }
 
-function getTotalCampaign($uId) {
+  function getTotalCampaign($uId) {
 
         //$inoutObj = new inOut();
         $db = new db();
@@ -1602,16 +1602,7 @@ function searchAllAdvertise($paging_limit=0,$uId) {
 
    }
 
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
+
    
    
  }

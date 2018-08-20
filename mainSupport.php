@@ -49,7 +49,7 @@ $selected_tab_css = ' style="background-color:#ADDFFF" ';
 <li><a <?=$import?> href="import.php">Import</a>
 <li><a <?=$delete?> href="showPermntDeleteCampaign.php">Delete</a>
 <li><a <?=$location?> href="locationSupport.php">Location</a>
-<li><a <?=$account?> href="accountSupport.php">Account</a>
+<li><a <?=$account?> href="productSupport.php">Account</a>
 
 
 </ul>

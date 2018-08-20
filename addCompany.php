@@ -12,9 +12,11 @@
    $regObj = new registration();
    $regObj->isValidRegistrationStep();
    $countryList = $regObj->getCountryList();
+
    if ($_POST['addCompany']) {
        $regObj->svrRegDflt();
    }
+   
    include_once("header.php");
    ?>
 <?php include 'config/defines.php'; ?>

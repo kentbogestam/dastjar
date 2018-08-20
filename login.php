@@ -8,12 +8,12 @@ include_once("cumbari.php");
 $inoutObj = new inOut();
 //$inoutObj->validSteps();
 if(isset($_SESSION['userid']) && $_SESSION['active_state']==5) {
-    $url = BASE_URL . 'showCampaign.php';
+    $url = BASE_URL . 'showStandard.php';
     $inoutObj->reDirect($url);
     exit;
 }
+
 if(isset($_POST['SLogin']) || $_SESSION['userid']) {
-//echo "In"; die();
     $inOutObj = new inOut();
     $inOutObj->svrInOutDflt();
 }

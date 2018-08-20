@@ -291,7 +291,6 @@ class registration {
      */
 
     function saveCompanyDetails() {
-        //print_r($_POST); die();
         $inoutObj = new inOut();
         $db = new db();
 
@@ -381,7 +380,7 @@ class registration {
             $_SESSION['MESSAGE'] = ADD_COUNTRY_SUCCESS;
             $_SESSION['REG_STEP'] = 2;
             $_SESSION['active_state'] = 2;
-            $url = BASE_URL . 'registrationStep.php';
+            $url = BASE_URL . 'AddSubscription.php';
             $inoutObj->reDirect($url);
             exit();
         }

@@ -35,9 +35,8 @@ $selected_tab_css = ' style="background-color:#ADDFFF" ';
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <style type="text/css">
-<!--
-.center{width:900px; margin-left:auto; margin-right:auto;}
--->
+/*.center{width:900px; margin-left:auto; margin-right:auto;}
+*/
 </style>
 
 </head>
@@ -72,6 +71,7 @@ $selected_tab_css = ' style="background-color:#ADDFFF" ';
 </div>-->
 <div class="frm_cls">
 <table border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
   <!--<tr>
     <td nowrap><input type="radio" <?=$show?> onClick="javascript:window.location.href='showCampaign.php'" name="deals">
 Campaign Offer </td>
@@ -101,14 +101,9 @@ Show Deleted Advertise </td>
     <td><input type="radio" <?=$showdeletestand?> onClick="javascript:window.location.href='showDeleteStandard.php'" name="deals">
 Show Deleted Dish </td>
     
-    
- 
-    
-    <td width="20">&nbsp;</td>
-
-    
-  </tr>
   
+    <td width="20">&nbsp;</td>    
+  </tr>
 </table>
 
 </div>

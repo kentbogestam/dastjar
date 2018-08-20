@@ -146,21 +146,16 @@ class inOut {
                 $_SESSION['MESSAGE'] = EMAIL_VARIFICATION_CHECK;
                 $url = BASE_URL.'registrationStep.php?reg_step=8';
                 $this->reDirect($url);
-
             }
 
             else {
                 if (isset($_SESSION['MAIL_URL'])) {
-
-              
                     $url = $_SESSION['MAIL_URL'];
                     $_SESSION['MAIL_URL'] = "";
                     $this->reDirect($url);
                     exit();
-
                 }
                 else {
-                    //$url = BASE_URL.'showCampaign.php';
                     $url = BASE_URL.'showStandard.php';
                     $this->reDirect($url);
                 }
@@ -403,11 +398,6 @@ class inOut {
         $res= $db->query($query);
 
         /* End code */
-
-        //session_regenerate_id();
-        //session_unset();
-        //session_destroy();
-
 		unset($_SESSION['userid']);
 		unset($_SESSION['active_state']);
 		unset($_SESSION['userrole']);

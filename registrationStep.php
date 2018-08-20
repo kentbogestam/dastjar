@@ -15,7 +15,6 @@
        $_SESSION['REG_STEP'] = $_GET['reg_step'];
    }
    include_once("header.php");
-   //echo $_SESSION["Retailers"];
    ?>
 <link rel="stylesheet" type="text/css" href="client/css/stylesheet123.css" />
 <script type="text/javascript" src="lib/vtip/js/jquery.js"></script>
@@ -56,10 +55,7 @@
                    echo $_SESSION['MESSAGE'];
                    $_SESSION['MESSAGE'] = '';
                    ?>
-            <!--  <script>
-               buttonLinkAction('<?=$_SESSION['REG_STEP']
-                  ?>');
-               </script> -->
+
             <?php
                }
                ?>
@@ -76,10 +72,7 @@
                    echo $_SESSION['MESSAGE'];
                    $_SESSION['MESSAGE'] = '';
                    ?>
-            <!--  <script>
-               buttonLinkAction('<?=$_SESSION['REG_STEP']
-                  ?>');
-               </script> -->
+
             <?php
                }
                ?>
