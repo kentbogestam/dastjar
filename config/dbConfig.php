@@ -6,23 +6,22 @@
  */
 /* Offline Setting */
 
-<<<<<<< HEAD
-define("SERVER", "34.241.164.53");
-define("PORT", "3306");
-define("DATABASE", "dastjar");
-define("USER", "root");
-define("PASSWORD", "Test@321D");
-=======
 /*define("SERVER", "localhost");
 define("PORT", "3306");
 define("DATABASE", "Secondphase_dastjar");
 define("USER", "root");
 define("PASSWORD", "alirezakent");*/
 
+define("SERVER", "34.241.164.53");
+define("PORT", "3306");
+define("DATABASE", "dastjar");
+define("USER", "root");
+define("PASSWORD", "Test@321D");
+
+/*
 define("SERVER", "localhost");
 define("PORT", "3306");
 define("DATABASE", "dastjar");
 define("USER", "root");
-define("PASSWORD", "12345");
->>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
+define("PASSWORD", "12345"); */
 ?>

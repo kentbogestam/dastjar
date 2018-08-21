@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-RewriteEngine On
-RewriteCond %{HTTPS} off
-RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
-=======
 #RewriteEngine On
 # RewriteCond %{HTTPS_HOST} !^admin.dastjar.com$ [NC]
 # RewriteRule ^(.*)$ https://admin.dastjar.com/admin/index.php [L,R=301]1]
@@ -10,4 +5,3 @@ RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
 #Redirect /index.php https://admin.dastjar.com/admin/
 
 Redirect /index.php https://admin.datjar.com/admin/index.php
->>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
