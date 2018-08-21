@@ -301,7 +301,7 @@ class Billing{
         // echo BASE_URL . "upload/log" . date("Ymd",$t) . ".txt";
         // die();
 
-        $myfile = fopen(BASE_URL . "/upload/log" . date("Ymd",$t) . ".txt", "a") or die("Unable to open file!");
+        $myfile = fopen("upload/log" . date("Ymd",$t) . ".txt", "a") or die("Unable to open file!");
         $txt = date("Y-m-d",$t) . " - " . $str . "  \n";
         fwrite($myfile, $txt);
         fclose($myfile);
