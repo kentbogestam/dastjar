@@ -22,6 +22,7 @@ define('UPLOAD_DIR', BASEPATH . 'admin/upload/');
 define('_UPLOAD_URLDIR_', $base_url . 'upload/');
 define('_UPLOAD_IMAGE_', $basePath . 'admin/upload/');
 
+/////////// upload image dirctory/////////
 define('IMAGE_AMAZON_PATH', 'https://s3-eu-west-1.amazonaws.com/dastjar-coupons/upload/');
 define('IMAGE_DIR_PATH', $basePath . 'admin/lib/bin/cumbari_s3.sh');
 define('IMAGE_DIR_PATH_DELETE', $basePath . 'admin/lib/bin/cumbari_s3del.sh');
@@ -39,7 +40,8 @@ $stripe_client_secret = 'sk_test_EypGXzv2qqngDIPIkuK6aXNi'; // test
 
 define('STRPIE_CLIENT_SECRET', $stripe_client_secret);
 // Google Captcha ID and KEY 
-$captcha_site_key = '6Le-8UgUAAAAAHADYrs839SRaC8d8XacoiH9w5ao'; // test 
+$captcha_site_key = '6Ldv8r4SAAAAABEn-2Eas-LCkM8B8oWgSeVuehJq';
+//$captcha_site_key = '6Le-8UgUAAAAAHADYrs839SRaC8d8XacoiH9w5ao'; // test 
 //$captcha_site_key = '6LeDA0kUAAAAANgrH6YdoQmix-_OawzmczkQr094'; // live 
 $captcha_secret_key = '6Le-8UgUAAAAAPuaEkq19jbaC1k16Kys541kOjB4'; // test 
 //$captcha_secret_key = '6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX'; //   
@@ -61,6 +63,7 @@ define('UPLOAD_DIR', BASEPATH . 'admin/upload/');
 define('_UPLOAD_URLDIR_', $base_url . 'upload/');
 define('_UPLOAD_IMAGE_', $basePath . 'admin/upload/');
 
+/////////// upload image dirctory/////////
 define('IMAGE_AMAZON_PATH', 'https://s3-eu-west-1.amazonaws.com/dastjar-coupons/upload/');
 define('IMAGE_DIR_PATH', $basePath . 'admin/lib/bin/cumbari_s3.sh');
 define('IMAGE_DIR_PATH_DELETE', $basePath . 'admin/lib/bin/cumbari_s3del.sh');
@@ -82,14 +85,10 @@ define('STRPIE_CLIENT_SECRET', $stripe_client_secret);
 $captcha_site_key = '6Le-8UgUAAAAAHADYrs839SRaC8d8XacoiH9w5ao'; // test 
 //$captcha_site_key = '6LeDA0kUAAAAANgrH6YdoQmix-_OawzmczkQr094'; // live 
 $captcha_secret_key = '6Le-8UgUAAAAAPuaEkq19jbaC1k16Kys541kOjB4'; // test 
-//$captcha_secret_key = '6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX'; //  
+//$captcha_secret_key = '6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX'; // live
 */
 
 /* End Here for Local Setting */
-
-
-/////////// upload image dirctory/////////
-
 
 /* Get site user info */
 
