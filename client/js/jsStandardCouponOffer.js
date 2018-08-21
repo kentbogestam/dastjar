@@ -47,7 +47,7 @@ $(document).ready(function(){
         //        }
 
         if($.trim($("#smallimage").val()).length==0){
-            if(document.getElementById("category_lib").style.display!="none")
+            /*if(document.getElementById("category_lib").style.display!="none")
             {
                 var chkbtn = document.getElementById("cat_icon")
                 if(!valButton(chkbtn))
@@ -56,8 +56,9 @@ $(document).ready(function(){
                     $("#error_cat_icon").html(errorMsg);
                     error = "true";
                 }
-            }
-            else
+            }*/
+
+            if(document.getElementById("category_lib").style.display=="none")
             {
                 if(!isValidPngImage($("#icon").val()))
                 {

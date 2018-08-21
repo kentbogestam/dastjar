@@ -159,7 +159,17 @@
                                  <?php
                                     $i = 1 + $pager->get_limit_offset();
                                     foreach ($data as $data1) {
-                                        ?>
+										if($data1['store_image'] == null || $data1['store_image']=="null"){
+                                          $data1['store_image'] = 'images/placeholder-image.png';
+                                        }elseif(substr($data1['store_image'],-1) == "/"){   
+											$data1['store_image'] = 'images/placeholder-image.png';
+										}else{
+                                           $content = @file_get_contents($data1['store_image']);
+                                           if (!strpos($http_response_header[0], "200")) { 
+                                             $data1['store_image'] = 'images/placeholder-image.png';
+                                           }
+                                        }
+                                    ?>
                                  <tr bgcolor="#FFFFFF">
                                     <!--<td class="bg_lightgray" align="center" style="padding-left:5px;"><input name='check[]' id='check_box<?=$i
                                        ?>' type='checkbox' style='size:10px;border:0px;'
@@ -167,7 +177,7 @@
                                           ?>'></td>
                                        <td align="center"><?php echo $i; ?> </td>-->
                                     <td align="center"><?php echo $data1['store_name']; ?></td>
-                                    <td align="center"><img src="<?php echo $data1['store_image'] ?>" height="30" width="30"/></td>
+                                    <td align="center"><img src="<?php echo $data1['store_image'] ?>" onerror="this.src='images/placeholder-image.png'" height="30" width="30"/></td>
                                     <td align="center"><?php echo $data1['email']; ?></td>
                                     <td align="center"><?php echo $data1['phone']; ?></td>
                                     <td align="center"><?php echo $data1['street']; ?></td>

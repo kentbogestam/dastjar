@@ -85,10 +85,9 @@ include_once("header.php");
 
             )echo "selected='selected'"; ?> value="">Select Location</option>
                         <?php foreach ($stores as $stores1) {
-                            // print_r($stores1);  ?>
+                              ?>
                             <option  value="<?=$stores1['store_id'] ?>"><? echo $stores1['store_name']; ?></option>
-
-<? } ?>
+						<? } ?>
                     </select>
                     <div id='error_selectStore' class="error123"></div>
     </div></td>
@@ -107,7 +106,13 @@ include_once("header.php");
             <td width="50%" align="left">Publishing Start Date<span class='mandatory'>*</span>:</td>
             <td align="left"><div align="center" class="normalfont" >
         
+<<<<<<< HEAD
             <input class="dp-applied text_field_new" type="text" name="publishing_start_date" id="publishing_start_date" value="" required>
+=======
+            <input class="dp-applied text_field_new" type="text" name="" id="publishing_start_date" value="<?php echo date('d/m/Y 00:00'); ?>" required>
+            <input type="hidden" id="date-start-utc" name="publishing_start_date" value="">
+
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
             <div id='error_price' class="error123"></div>
 
             </div></td>
@@ -117,7 +122,13 @@ include_once("header.php");
             <td width="50%" align="left">Publishing End Date<span class='mandatory'>*</span>:</td>
             <td align="left"><div align="center" class="normalfont" >
         
+<<<<<<< HEAD
             <input class="text_field_new" type="text" name="publishing_end_date" id="publishing_end_date" value="" required>
+=======
+            <input class="text_field_new" type="text" name="" id="publishing_end_date" value="<?php echo date('d/m/Y 23:59'); ?>" required>
+            <input type="hidden" id="date-end-utc" name="publishing_end_date" value="">
+
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
              <div id='error_price' class="error123"></div>
 
             </div></td>
@@ -150,6 +161,7 @@ include_once("header.php");
 <script type="text/javascript" src="client/js/bootstrap-material-datetimepicker.js"></script>
 
 <script type="text/javascript">
+<<<<<<< HEAD
         $(document).ready(function(){
             $('#publishing_start_date').bootstrapMaterialDatePicker
             ({
@@ -157,11 +169,39 @@ include_once("header.php");
             }).on('change', function(e, date)
             {
                 $('#publishing_end_date').bootstrapMaterialDatePicker('setMinDate', date);
+=======
+
+                dStart = "<?php echo date('Y-m-d 00:00:00'); ?>";  
+                dStart = moment(dStart).toDate();
+                dStart = moment.utc(dStart).format("DD/MM/YYYY HH:mm");
+                $('#date-start-utc').val(dStart);
+
+                dEnd = "<?php echo date('Y-m-d 23:59:00'); ?>";
+                dEnd = moment(dEnd).toDate();
+                dEnd = moment.utc(dEnd).format("DD/MM/YYYY HH:mm");
+                $('#date-end-utc').val(dEnd);
+
+        $(document).ready(function(){
+            $('#publishing_start_date').bootstrapMaterialDatePicker
+            ({
+                weekStart: 0, format: 'DD/MM/YYYY HH:mm', clearButton: true
+            }).on('change', function(e, date)
+            {
+                $('#publishing_end_date').bootstrapMaterialDatePicker('setMinDate', date);
+                $('#date-start-utc').val(moment.utc(date).format('DD/MM/YYYY HH:mm'));
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
             });
 
             $('#publishing_end_date').bootstrapMaterialDatePicker
             ({
+<<<<<<< HEAD
                 weekStart: 0, format: 'DD/MM/YYYY HH:mm',  shortTime : true, clearButton: true
+=======
+                weekStart: 0, format: 'DD/MM/YYYY HH:mm', clearButton: true
+            }).on('change', function(e, date)
+            {
+                $('#date-end-utc').val(moment.utc(date).format('DD/MM/YYYY HH:mm'));
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
             });
 
             $.material.init();

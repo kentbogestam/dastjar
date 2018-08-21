@@ -26,8 +26,17 @@ if(isset($_POST['Activate'])) {
 //}
 include_once("header.php");
 ?><style type="text/css">
+<<<<<<< HEAD
 /*
 .center{width:900px; margin-left:auto; margin-right:auto;}
+=======
+<<<<<<< HEAD
+/*.center{width:900px; margin-left:auto; margin-right:auto;}
+=======
+/*
+.center{width:900px; margin-left:auto; margin-right:auto;}
+>>>>>>> a50a492f89880d95bf2eddabaa2bddbd3eff0f03
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
 */
 </style>
 <div class="center">

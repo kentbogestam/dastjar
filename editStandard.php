@@ -31,7 +31,7 @@
            $lang = $selectLanguage;
        }
    $data = $standardObj->viewStandardDetailById($productid,$lang);
-   //echo "<pre>";print_r($data);echo "</pre>";
+
    if($data[0] == '')
        {
         $inoutObj = new inOut();
@@ -81,14 +81,12 @@
       <div id="msg" align="center">
          <?
             if (($_SESSION['MESSAGE_NO_REORD'])) {
-               //echo "here";
-               echo $_SESSION['MESSAGE_NO_REORD'];
+//               echo $_SESSION['MESSAGE_NO_REORD'];
                $_SESSION['MESSAGE_NO_REORD'] = '';
               
             }
             if (($_SESSION['MESSAGE'])) {
-               //echo "here";
-               echo $_SESSION['MESSAGE'];
+  //             echo $_SESSION['MESSAGE'];
                $_SESSION['MESSAGE'] = '';
                
             }
@@ -187,13 +185,21 @@
             <td align="left" valign="top">
                <?php if ($_SESSION['preview']['small_image']) {
                   ?>
+<<<<<<< HEAD
                <!-- <img src="<?=$data[0]['small_image']?>"> -->
+=======
+               <input type="hidden" name="dish_image_original" value="<?=$data[0]['small_image']?>"> 
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
                <input class="text_field_new" type="hidden" name="smallimage" id="smallimage" value="<?=$_SESSION['preview']['small_image'] ?>">
                <br>
                <?
                   }
                   ?>
+<<<<<<< HEAD
               <!--  <INPUT class="text_field_new" type=file name="icon" id="icon" onBlur="iconPreview(this.form);"> -->
+=======
+               <INPUT class="text_field_new" type=file name="icon" id="icon" onBlur="iconPreview(this.form);"> 
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
                <div id='error_icon' class="error"></div>
                <div>
                   <input class="text_field_new" type="hidden" id="selected_image" name="selected_image" value="0">
@@ -265,6 +271,7 @@
             </tr>-->
       </table>
       <div class="redwhitebutton_small123">Advanced Options-Optional</div>
+<<<<<<< HEAD
       <table cellspacing="15"   style="display:inline_row;" id="advancedSearchStand" width="100%">
          <tr>
             <td width="515" align="left" valign="top" class="inner_grid">Keywords<span class='mandatory'>*</span>:</td>
@@ -292,6 +299,9 @@
             </tr> -->
          <tr>
       </table>
+=======
+      
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
      <!--  <div class="redwhitebutton_small123">Add your Coupon View</div> -->
       <table  width="100%" border="0" cellspacing="15">
          <!--  <tr>
@@ -317,7 +327,20 @@
             <td align="right" valign="top"><a title="<?=SPICTURE_TEXT
                ?>" class="vtip"><b><small>?</small></b></a> </td>
             </tr> -->
+
+        <tr>
+            <td width="515" align="left" valign="top" class="inner_grid">Keywords<span class='mandatory'>*</span>:</td>
+            <td width="227" align="left" valign="top">
+               <INPUT class="text_field_new" type=text name="searchKeywordStand" id="searchKeywordStand" maxlength="90" value="<?=$data[0]['keyword']
+                  ?>">
+               <div id='error_searchKeywordStand' class="error"></div>
+            </td>
+            <td align="right" valign="top"><a title="<?=SKEYWORD_TEXT
+               ?>" class="vtip"><b><small>?</small></b></a></td>
+        </tr>
+
          <tr>
+<<<<<<< HEAD
             <td class="inner_grid">Release date of product<span class='mandatory'>*</span>:</td>
             <td align="left" valign="top">
                <?  $d=$data[0]['start_of_publishing'];
@@ -325,13 +348,20 @@
                   $start_date = $timeStamp[0];
                   $start_date = date("d/m/Y H:i", strtotime($data[0]['start_of_publishing']));?>
                <input type="text" style="width:380px;" name="startDateStand" readonly="readonly" value="<?=$start_date
+=======
+            <td class="inner_grid td_pad_top">Release date of product<span class='mandatory'>*</span>:</td>
+            <td align="left" valign="top">               
+               <input type="text" style="width:380px;" name="" readonly="readonly" value="<?=$start_date
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
                   ?>" id="startDateStand" class="startDateStand dp-applied text_field_new" />
+                <input type="hidden" name="startDateStand" id="date-start-utc">
                <div id='error_startDateStand' class="error"></div>
             </td>
             <td align="right" valign="top"><a title="<?=RELEASE_DATE_OF_PRODUCT?>" class="vtip"><b><small>?</small></b></a> </td>
          </tr>
+
          <tr>
-            <td width="50%" align="left" valign="top" class="td_pad_left">Type of Dish<span class='mandatory'>*</span>:</td>
+            <td class="inner_grid">Type of Dish<span class='mandatory'>*</span>:</td>
             <td width="50%" align="left" valign="top" class="td_pad_right">
                <?php $value = 0; ?>
                <div class="adddishes">
@@ -485,6 +515,7 @@
 
 <script language="JavaScript">
         $(document).ready(function(){
+<<<<<<< HEAD
             $('#startDateStand').bootstrapMaterialDatePicker
             ({
                 weekStart: 0, format: 'DD/MM/YYYY HH:mm',  shortTime : true, clearButton: true
@@ -496,6 +527,52 @@
    //alert("sdfsfs");
    getCatImage('<?=$data[0]['category'
       ]?>');
+=======
+                <?php
+                  $d=$data[0]['start_of_publishing'];
+                  $timeStamp = explode(" ",$d);
+                  $start_date = $timeStamp[0];
+                  $start_date = date("Y-m-d H:i:s", strtotime($data[0]['start_of_publishing']));
+                ?>
+
+                dStart = <?php echo "'" . $start_date . "'"; ?>;
+
+                dStart = moment.utc(dStart).toDate();
+                dStart = moment(dStart).local().format("DD/MM/YY HH:mm");
+                $('#startDateStand').val(dStart);
+                $('#date-start-utc').val(dStart);
+
+            $('#startDateStand').bootstrapMaterialDatePicker
+            ({
+                weekStart: 0, format: 'DD/MM/YYYY HH:mm',  shortTime : true, clearButton: true
+            }).on('change', function(e, date)
+            {
+              $('#date-start-utc').val(moment.utc(date).format('DD/MM/YYYY HH:mm'));
+            });
+
+
+            $.material.init();
+        });
+
+$("#icon").change(function() {
+     readURL(this);
+   });
+
+   function readURL(input) {
+
+   if (input.files && input.files[0]) {
+       var reader = new FileReader();
+
+       reader.onload = function(e) {
+         $('#myCatIcon').attr('src', e.target.result);
+       }
+
+       reader.readAsDataURL(input.files[0]);
+     }
+   }
+
+//   getCatImage('<?=$data[0]['category']?>');
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
 </script>
 <script language="JavaScript" src="client/js/jsImagePreview.js" type="text/javascript"></script>
 <script>

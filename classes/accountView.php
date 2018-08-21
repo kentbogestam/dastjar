@@ -435,13 +435,14 @@ class accountView {
         $arrUser['passwd'] = $_POST['pwd'];
         $arrUser['fname'] = addslashes(trim($_POST['fname']));
         $arrUser['lname'] = addslashes(trim($_POST['lname']));
-        $arrUser['role'] = "Store Admin"; //addslashes(trim($_POST['role']));
+        $arrUser['role'] = "Kitchen Admin"; //addslashes(trim($_POST['role']));
         $arrUser['cprefix'] = $_POST['cprefix'];
         $arrUser['phone'] = trim($_POST['phone']);
         $arrUser['mobile_phone'] = trim($_POST['mob']);
         $arrUser['storeID'] = $_POST['select2'];
         
-        if ($error != '') {
+			
+			if ($error != '') {
              $_SESSION['MESSAGE'] = $error;
              $_SESSION['post'] = $_POST;
              $url = BASE_URL . 'addNewUser.php';
@@ -452,16 +453,13 @@ class accountView {
             $_SESSION['post'] = "";
             $userId = uuid();
             $password_sha256 = $arrUser['passwd'];
-            $password_hash = hash_hmac('sha256', $password_sha256, $userId);
-             //$password_sha1 = sha1($arrUser['passwd']);
-             //print_r($password_sha1);die();
+            $password_hash = hash_hmac('sha256', $password_sha256, $userId);             
 
             $QUE = "select company_id from employer where u_id='" . $_SESSION['userid'] . "'";
             $res = mysqli_query($conn, $QUE) or die("Get Company : " . mysqli_error($conn));
             $row = mysqli_fetch_array($res);
             $companyId = $row['company_id'];
             
-          
            $query = "INSERT INTO user(`u_id`, `email`, `passwd`, `fname`, `lname`, `role`, `phone`, `mobile_phone`,`email_varify_code`,`activ`,`company_id`,`store_id`)
                 VALUES ('" . $userId . "', '" . $arrUser['email'] . "', '" .$password_hash . "', '" . $arrUser['fname'] . "', '" . $arrUser['lname'] . "','" . $arrUser['role'] . "', '"  .$arrUser['cprefix']. $arrUser['phone'] . "', '"  .$arrUser['cprefix']. $arrUser['mobile_phone'] . "','" . $arrUser['email_varify_code'] . "','5','" . $companyId . "','" .  $arrUser['storeID'] . "');";
             $res = mysqli_query($conn ,$query) or die(mysqli_error($conn));
@@ -490,7 +488,11 @@ class accountView {
               foreach($fields as $key=>$value) {
                 $postvars .= $key . "=" . $value . "&";
               }
+<<<<<<< HEAD
               $url = "https://anar.dastjar.com/api/v1/save-password";
+=======
+              $url = USER_APP_BASE_URL . "api/v1/save-password";
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
               curl_setopt($ch,CURLOPT_URL,$url);
               curl_setopt($ch,CURLOPT_POST, 1);                //0 for a get request
               curl_setopt($ch,CURLOPT_POSTFIELDS,$postvars);
@@ -507,6 +509,8 @@ class accountView {
                 //echo $response;
               }
             
+		
+			
             $url = BASE_URL . 'viewNewUser.php';
             $_SESSION['MESSAGE'] = INSERTED_USER;
             $inoutObj->reDirect($url);

@@ -293,7 +293,7 @@ class offer extends advertiseoffer{
 
         if (!empty($_FILES["picture"]["name"])) {
 
-            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg") {
+            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
                 if ($_FILES["picture"]["error"] > 0) {
                     $error.=$_FILES["picture"]["error"] . "<br />";
                 } else {
@@ -968,7 +968,7 @@ class offer extends advertiseoffer{
 
         if (!empty($_FILES["picture"]["name"])) {
 
-            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg") {
+            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
                 if ($_FILES["picture"]["error"] > 0) {
                     $error.=$_FILES["picture"]["error"] . "<br />";
                 } else {
@@ -1278,7 +1278,7 @@ class offer extends advertiseoffer{
 
         if (!empty($_FILES["picture"]["name"])) {
 
-            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg") {
+            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
                 if ($_FILES["picture"]["error"] > 0) {
                     $error.=$_FILES["picture"]["error"] . "<br />";
                 } else {
@@ -1629,9 +1629,9 @@ class offer extends advertiseoffer{
         if (!empty($_FILES["icon"]["name"])) {
             //echo "Cat in"; die();
             if (!empty($_FILES["icon"]["name"])) {
-                //echo "Cat in"; die();
-                if (strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpg") {
-                    if ($_FILES["icon"]["error"] > 0) {
+                $file_extension = strtolower($info['extension']);
+                if ($file_extension == "png" || $file_extension == "jpg" || $file_extension == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {      
+					if ($_FILES["icon"]["error"] > 0) {
                         $error.=$_FILES["icon"]["error"] . "<br />";
                     } else {
                         $cat_filename = $CategoryIconName . "." . strtolower($info['extension']);
@@ -1651,8 +1651,6 @@ class offer extends advertiseoffer{
             } else {
                 if ($_SESSION['preview']['small_image'] != "") {
                     $arrUser['small_image'] = $_SESSION['preview']['small_image'];
-                } elseif ($_POST['smallimage'] == "") {
-                    $error.= ERROR_SMALL_IMAGE;
                 } else {
                     $arrUser['small_image'] = $_POST['smallimage'];
                 }
@@ -1676,8 +1674,6 @@ class offer extends advertiseoffer{
             } else {
                 if ($_SESSION['preview']['small_image'] != "") {
                     $arrUser['small_image'] = $_SESSION['preview']['small_image'];
-                } elseif ($_POST['smallimage'] == "") {
-                    $error.= ERROR_SMALL_IMAGE;
                 } else {
                     $arrUser['small_image'] = $_POST['smallimage'];
                 }
@@ -1725,8 +1721,6 @@ class offer extends advertiseoffer{
 
         //         if ($_SESSION['preview']['large_image'] != "") {
         //             $arrUser['large_image'] = $_SESSION['preview']['large_image'];
-        //         } elseif ($_POST['largeimage'] == "") {
-        //             $error.= ERROR_SMALL_IMAGE;
         //         } else {
         //             $arrUser['large_image'] = $_POST['largeimage'];
         //         }
@@ -2752,7 +2746,7 @@ class offer extends advertiseoffer{
         $coupenName = "cpn_" . md5(time());
         $info = pathinfo($_FILES["picture"]["name"]);
         if (!empty($_FILES["picture"]["name"])) {
-            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "jpeg") {
+            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
                 if ($_FILES["picture"]["error"] > 0) {
                     $error.=$_FILES["picture"]["error"] . "<br />";
                 } else {
@@ -3128,7 +3122,7 @@ class offer extends advertiseoffer{
         $info = pathinfo($_FILES["picture"]["name"]);
         if (!empty($_FILES["picture"]["name"])) {
 
-            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg") {
+            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
                 if ($_FILES["picture"]["error"] > 0) {
                     $error.=$_FILES["picture"]["error"] . "<br />";
                 } else {
@@ -3867,7 +3861,7 @@ class offer extends advertiseoffer{
 
         if (!empty($_FILES["picture"]["name"])) {
 //echo 'k';die();
-            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg") {
+            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
                 if ($_FILES["picture"]["error"] > 0) {
                     $error.=$_FILES["picture"]["error"] . "<br />";
                 } else {
@@ -3987,17 +3981,18 @@ class offer extends advertiseoffer{
 
         $CategoryIconName = "cat_icon_" . md5(time());
         $info = pathinfo($_FILES["icon"]["name"]);
+		$catImg = "";
 
         if (!empty($_FILES["icon"]["name"])) {
-            //echo "Cat in"; die();
             if (!empty($_FILES["icon"]["name"])) {
 
-                if (strtolower($info['extension']) == "png") {
+			$file_extension = strtolower($info['extension']);
+                if ($file_extension == "png" || $file_extension == "jpg" || $file_extension == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
                     if ($_FILES["icon"]["error"] > 0) {
                         $error.=$_FILES["icon"]["error"] . "<br />";
                     } else {
-                        $cat_filename = $CategoryIconName . "." . strtolower($info['extension']);
-                        //move_uploaded_file($_FILES["icon"]["tmp_name"],UPLOAD_DIR."Category/" .$cat_filename);
+                        if($_POST['dish_image_original'] != $_FILES['icon']['name']){
+						$cat_filename = $CategoryIconName . "." . strtolower($info['extension']);
                         $fileOriginal = $_FILES['icon']['tmp_name'];
                         $crop = '5';
                         $size = 'iphone4_cat';
@@ -4005,6 +4000,12 @@ class offer extends advertiseoffer{
                         $fileThumbnail = $path . $cat_filename;
                         createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                         $arrUser['small_image'] = $cat_filename;
+                        $file1 = _UPLOAD_IMAGE_ . 'category/' . $arrUser['small_image'];
+                        $dir1 = "category";                        
+                        $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
+                        system($command);
+						$catImg = IMAGE_AMAZON_PATH . 'category/' . $arrUser['small_image'];
+						}
                     }
                 } else {
                     $error.=NOT_VALID_EXT;
@@ -4095,6 +4096,7 @@ class offer extends advertiseoffer{
         //     }
         // }
 
+<<<<<<< HEAD
         /////////////////////////// upload largeimages into server///////////////////
         // $file2 = _UPLOAD_IMAGE_ . 'coupon/' . $arrUser['large_image'];
         // $dir2 = "coupon";
@@ -4102,6 +4104,8 @@ class offer extends advertiseoffer{
         // system($command2);
 //echo $error;
         //die();
+=======
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
         $arrUser['large_image'] = $_SESSION['preview']['large_image'];
 
         $_SESSION['preview'] = $arrUser;
@@ -4120,9 +4124,8 @@ class offer extends advertiseoffer{
         } else {
             $_SESSION['post'] = "";
         }
-        $catImg = IMAGE_AMAZON_PATH . 'category/' . $arrUser['small_image'];
-        $copImg = IMAGE_AMAZON_PATH . 'coupon/' . $arrUser['large_image'];
 
+        $copImg = IMAGE_AMAZON_PATH . 'coupon/' . $arrUser['large_image'];
 
         /////////////////start date is more than current date
         $t = date("Y-m-d");
@@ -4181,12 +4184,16 @@ class offer extends advertiseoffer{
                     $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
                 }
             }
+
             //////update product
+<<<<<<< HEAD
 // echo $arrUser['is_public'];die();
+=======
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
             $query = "UPDATE product SET dish_type = '" . $arrUser['dish_id'] . "',is_sponsored = '" . $arrUser['is_sponsored'] . "',product_name = '" . $arrUser['product_name'] . "',product_info_page = '" . $arrUser['product_info_page'] . "', brand_name = '" . $arrUser['brand_name'] . "',preparation_Time = '" . $arrUser['preparation_Time'] . "',is_public = '" . $arrUser['is_public'] . "',product_description = '" . $arrUser['product_description'] . "',link = '" . $arrUser['link'] . "',start_of_publishing='" . $arrUser['start_of_publishing'] . "'  WHERE product_id = '" . $productid . "'";
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
-            if ($icon <> '' || $category_image <> '') {
+            if ($catImg <> '') {
                 $query = "UPDATE product SET  small_image = '" . $catImg . "' WHERE product_id = '" . $productid . "'";
                 $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
             }
@@ -4195,9 +4202,6 @@ class offer extends advertiseoffer{
                 $query = "UPDATE product SET  large_image = '" . $copImg . "' WHERE product_id = '" . $productid . "'";
                 $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
             }
-
-
-
 
             //for keywords
             $query = "select lang_text.text,lang_text.id from product_keyword LEFT JOIN lang_text ON product_keyword.offer_keyword = lang_text.id  where product_keyword.product_id = '" . $productid . "' AND lang_text.lang = '" . $arrUser['language'] . "'";
@@ -4211,8 +4215,6 @@ class offer extends advertiseoffer{
 
 
             // for title slogen
-
-
             $query = "select lang_text.text,lang_text.id from product_offer_slogan_lang_list LEFT JOIN lang_text ON product_offer_slogan_lang_list.offer_slogan_lang_list = lang_text.id  where product_offer_slogan_lang_list.product_id = '" . $productid . "' AND lang_text.lang = '" . $arrUser['language'] . "'";
             $res = mysqli_query($conn , $query) or die('2' . mysqli_error($conn));
             while ($rs = mysqli_fetch_array($res)) {
@@ -4221,13 +4223,7 @@ class offer extends advertiseoffer{
             $query = "UPDATE lang_text SET `text` = '" . $arrUser['offer_slogan_lang_list'] . "' WHERE id = '" . $titleId . "' AND  lang = '" . $arrUser['language'] . "'";
             $res = mysqli_query($conn , $query) or die('3' . mysqli_error($conn));
 
-
-
-
-
-
             ///////update c_s_rel
-
             $query = "UPDATE c_s_rel SET  start_of_publishing = '" . $arrUser['start_of_publishing'] . "'  WHERE product_id = '" . $productid . "'";
             $res = mysqli_query($conn , $query) or die('7' . mysqli_error($conn));
         }
@@ -4236,11 +4232,14 @@ class offer extends advertiseoffer{
         if ($arrUser['start_of_publishing'] <= $t) {
 
             ///////////update product
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
             $query = "UPDATE product SET dish_type = '" . $arrUser['dish_id'] . "',is_sponsored = '" . $arrUser['is_sponsored'] . "',product_name = '" . $arrUser['product_name'] . "',product_info_page = '" . $arrUser['product_info_page'] . "', preparation_Time = '" . $arrUser['preparation_Time'] . "',start_of_publishing = '" . $arrUser['start_of_publishing'] . "',is_public = '" . $arrUser['is_public'] . "',link = '" . $arrUser['link'] . "',start_of_publishing='" . $arrUser['start_of_publishing'] . "',product_description = '" . $arrUser['product_description'] . "',dish_type = '" . $arrUser['dish_id'] . "'  WHERE product_id = '" . $productid . "'";
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
-            if ($icon <> '' || $category_image <> '') {
+            if ($catImg <> '') {
                 $query = "UPDATE product SET  small_image = '" . $catImg . "' WHERE product_id = '" . $productid . "'";
                 $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
             }
@@ -4261,6 +4260,7 @@ class offer extends advertiseoffer{
                 $keyId = $rs['id'];
             }
 
+<<<<<<< HEAD
             // echo "string"; die();
 
             if($keyId == '' && $arrUser['keywords'] != ''){  
@@ -4275,6 +4275,20 @@ class offer extends advertiseoffer{
                 $res = mysqli_query($conn , $query) or die('3' . mysqli_error($conn));
             }
 
+=======
+            if($keyId == '' && $arrUser['keywords'] != ''){  
+                $keywordId = uuid();
+                $_SQL = "insert into lang_text(id,lang,text) values('" . $keywordId . "','" . $arrUser['language'] . "','" . $arrUser['keywords'] . "')";
+                $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
+
+                $_SQL = "insert into product_keyword(`product_id`,`offer_keyword`) values('" . $productid . "','" . $keywordId . "')";
+                $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
+            }else{
+                $query = "UPDATE lang_text SET `text` = '" . $arrUser['keywords'] . "'  WHERE id = '" . $keyId . "' AND  lang = '" . $arrUser['language'] . "' ";
+                $res = mysqli_query($conn , $query) or die('3' . mysqli_error($conn));
+            }
+
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
             // for title slogen
             $query = "select lang_text.text,lang_text.id from product_offer_slogan_lang_list LEFT JOIN lang_text ON product_offer_slogan_lang_list.offer_slogan_lang_list = lang_text.id  where product_offer_slogan_lang_list.product_id = '" . $productid . "' AND lang_text.lang = '" . $arrUser['language'] . "'";
             $res = mysqli_query($conn , $query) or die('2' . mysqli_error($conn));
@@ -5051,7 +5065,7 @@ class offer extends advertiseoffer{
 
         if (!empty($_FILES["picture"]["name"])) {
 
-            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "jpeg") {
+            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
                 if ($_FILES["picture"]["error"] > 0) {
                     $error.=$_FILES["picture"]["error"] . "<br />";
                 } else {
@@ -5434,7 +5448,7 @@ class offer extends advertiseoffer{
 
         if (!empty($_FILES["picture"]["name"])) {
 
-            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg") {
+            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
                 if ($_FILES["picture"]["error"] > 0) {
                     $error.=$_FILES["picture"]["error"] . "<br />";
                 } else {
@@ -6645,7 +6659,7 @@ class offer extends advertiseoffer{
 
         if (!empty($_FILES["picture"]["name"])) {
 
-            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg") {
+            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
                 if ($_FILES["picture"]["error"] > 0) {
                     $error.=$_FILES["picture"]["error"] . "<br />";
                 } else {
@@ -6854,7 +6868,7 @@ class offer extends advertiseoffer{
 
         if (!empty($_FILES["picture"]["name"])) {
 
-            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg") {
+            if (strtolower($info['extension']) == "jpg" || strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
                 if ($_FILES["picture"]["error"] > 0) {
                     $error.=$_FILES["picture"]["error"] . "<br />";
                 } else {

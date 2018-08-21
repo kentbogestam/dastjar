@@ -33,10 +33,9 @@ $selected_tab_css = ' style="background-color:#ADDFFF" ';
 
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"><style type="text/css">
-<!--
+/*
 .center{width:900px; margin-left:auto; margin-right:auto;}
-
--->
+*/
 </style></head>
 <body>
 <div class="center">
@@ -50,7 +49,7 @@ $selected_tab_css = ' style="background-color:#ADDFFF" ';
 <li><a <?=$import?> href="import.php">Import</a>
 <li><a <?=$delete?> href="showPermntDeleteCampaign.php">Delete</a>
 <li><a <?=$location?> href="locationSupport.php">Location</a>
-<li><a <?=$account?> href="accountSupport.php">Account</a>
+<li><a <?=$account?> href="productSupport.php">Account</a>
 
 
 </ul>

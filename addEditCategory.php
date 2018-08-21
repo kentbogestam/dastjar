@@ -110,6 +110,14 @@ if (isset($_POST['continue']) AND $editId != '') {
                 </tr>
 
                 <tr>
+                    <td width="50%" align="left" class="inner_grid"> Category Name In German<span class='mandatory'>*</span> :</td>
+                    <td width="50%" align="left">
+                         <INPUT class="text_field_new" type="text" name="cNGer" id="cNGer" value="<?=$data[1]['text']?>">
+                       <a title="<?=CAT_NAME_GER?>" class="vtip"><b><small>?</small></b></a><br/>
+                        <div id='error_cnger' class="error"></div></td>
+                </tr>
+
+                <tr>
 
                     <td align="left" class="inner_grid">Category Name In Swedish<span class='mandatory'>*</span>:</td>
                     <td align="left">

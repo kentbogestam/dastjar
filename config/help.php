@@ -107,6 +107,10 @@ define("CHAIN_TEXT","The chain to which your location belong.");
 define("BLOCK_TEXT","If your chain belongs to a block, add the name of the block here.");
 define("ZIP_TEXT","Your location's zip code.");
 define("MAP_TEXT","Verify that your location is correctly placed on the map. If not, move the cursor on the map to the correct place.");
+define("TYPE_OF_TEXT","Define if the restaurant is of type Take Away e.g Customer can order and take food with them or Catering e.g You take orders for customers to pick up later the same day or another day or both options fits.");
+define("ONLINE_PAY_TEXT","Deselect if your location's should not accept web payment from stripe.");
+define("STORE_CLOSE_TEXT","Select the days your loaction is closed.");
+define("IMAGE_RESTAURANT","Upload an image to represent your location in users app.");
 
 
 
@@ -143,7 +147,13 @@ define("CCODE_TEXT","Enter CCODE");
 define("ACTIVE","Your CCODE are active");
 define("DEACTIVE","Your CCODE are deactive");
 
-////
 define("ASSIGNCCODE","<li class='notice_success'>CCode are Assigned.</li>");
+define("PRODUCT_NAME", "Product name");
+define("PLAN_NICKNAME", "Plan nickname");
+define("PRICE", "Price");
+define("CURRENCY", "Currency");
+
+define("DESCRIPTION", "Description");
+define("USAGE_TYPE", "Usage type");
 
 ?>

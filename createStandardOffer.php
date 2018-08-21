@@ -57,12 +57,21 @@
        width:900px;
     margin-left:auto;
     margin-right:auto;
+<<<<<<< HEAD
    }
    
    tr{
 	   margin-bottom: 10px;
    }
    
+=======
+   }
+   
+   tr{
+	   margin-bottom: 10px;
+   }
+   
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
    	.dtp > .dtp-content > .dtp-date-view > header.dtp-header{
 		background: #821015;
 	}
@@ -143,7 +152,7 @@
                               <td align="left" valign="top"  class="inner_grid">Dish Name<span class='mandatory'>*</span>:<br>
                               </td>
                               <td align="left" valign="top" >
-                                 <INPUT class="text_field_new" type=text name="titleSloganStand" id="titleSloganStand" maxlength="50" onBlur="iconPreview(this.form); getTitleForProduct(this.form);standardPreview(this.form);" value="<?=isset($_SESSION['post']['titleSloganStand']) ? $_SESSION['post']['titleSloganStand'] : ''
+                                 <INPUT class="text_field_new" type=text name="titleSloganStand" id="titleSloganStand" maxlength="24" onBlur="iconPreview(this.form); getTitleForProduct(this.form);standardPreview(this.form);" value="<?=isset($_SESSION['post']['titleSloganStand']) ? $_SESSION['post']['titleSloganStand'] : ''
                                     ?>">
                                  <div id='error_titleSloganStand' class="error" ></div>
                               </td>
@@ -154,7 +163,7 @@
                               <td align="left" valign="top"  class="inner_grid">Description. Max. 50 characters<span class='mandatory'>*</span>:<br>
                               </td>
                               <td align="left" valign="top" >
-                                 <INPUT class="text_field_new" type=text name="productDescription" id="productDescription" maxlength="150" onBlur="iconPreview(this.form);" value="<?=isset($_SESSION['post']['productDescription']) ? $_SESSION['post']['productDescription'] : ''
+                                 <INPUT class="text_field_new" type=text name="productDescription" id="productDescription" maxlength="50" onBlur="iconPreview(this.form);" value="<?=isset($_SESSION['post']['productDescription']) ? $_SESSION['post']['productDescription'] : ''
                                     ?>">
                                  <div id='error_productDescription' class="error" ></div>
                               </td>
@@ -378,15 +387,24 @@
                                     </tr>
                                     -->
                                  <tr>
+<<<<<<< HEAD
                                     <?php
                                        $d = date("d/m/Y H:m");
                                         ?>
+=======
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
                                     <td width="50%" align="left" valign="top" class="td_pad_left">Release date of product<span class='mandatory'>*</span>:</td>
                                     <td width="50%" align="left" valign="top" class="td_pad_right">
                                        <table border="0" align="left" cellpadding="0" cellspacing="0">
                                           <tr>
+<<<<<<< HEAD
                                              <td><input type="text" name="startDateStand" readonly="readonly" value="<? echo $d;
                                                 ?>" id="startDateStand" class="startDateStand dp-applied text_field_new123" required/></td>
+=======
+                                             <td><input type="text" name="" readonly="readonly" value="" id="startDateStand" class="startDateStand dp-applied text_field_new123" required/>
+                                              <input type="hidden" id="date-start-utc" name="startDateStand">
+                                              </td>
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
                                              <td style="padding-left:10px;"><a title="<?=RELEASE_DATE_OF_PRODUCT
                                                 ?>" class="vtip"><b><small>?</small></b></a></td>
                                           </tr>
@@ -407,6 +425,7 @@
                                           <div id='error_startDateStand' class="error"></div>
                                       </div>
                                     </td>
+                              <td align="right" valign="middle"><a title="<?=TYPE_OF_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
                                  </tr>
                                  <tr>
                                     <td colspan="4">
@@ -516,11 +535,33 @@
 <script type="text/javascript" src="client/js/bootstrap-material-datetimepicker.js"></script>
 
 <script type="text/javascript">
+<<<<<<< HEAD
         $(document).ready(function(){
             $('#startDateStand').bootstrapMaterialDatePicker
             ({
                 weekStart: 0, format: 'DD/MM/YYYY HH:mm',  shortTime : true, clearButton: true
             });
+=======
+      $(document).ready(function(){
+                <?php
+                  $start_date = date("Y-m-d H:i:s");
+                ?>
+
+                dStart = <?php echo "'" . $start_date . "'"; ?>;
+                var offset = moment().utcOffset();
+                dStart = moment.utc(dStart).utcOffset(offset).format("DD/MM/YYYY HH:mm");
+                $('#startDateStand').val(dStart);
+                $('#date-start-utc').val(dStart);
+
+            $('#startDateStand').bootstrapMaterialDatePicker
+            ({
+                weekStart: 0, format: 'DD/MM/YYYY HH:mm',  shortTime : true, clearButton: true
+            }).on('change', function(e, date)
+            {
+                $('#date-start-utc').val(moment.utc(date).format('DD/MM/YYYY HH:mm'));
+            });
+
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
 
             $.material.init();
         });

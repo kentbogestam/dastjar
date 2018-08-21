@@ -773,14 +773,7 @@ class store {
      *      Description: update store details of perticular user with unique storeId
      */
 
-    function editSaveStore($storeid) {
-
-        // print_r($data);
-        //echo $_REQUEST['s'];
-        // die();
-        //  echo "<pre>";print_r($_POST['opencloseTimeing']);/*print_r($_POST) ;*/
-        
-        // die();
+    function editSaveStore($storeid) {        
         $inoutObj = new inOut();
         $db = new db();
         $conn = $db->makeConnection();
@@ -864,7 +857,58 @@ class store {
         $rs = mysqli_fetch_array($res);
         $coutryIso = $rs['iso'];
 
+		//$query = "select store_image from store where u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
+        //$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+        //$rs = mysqli_fetch_array($res);
+		//print_r($rs);
+
+		$catImg = "";
+
+        $CategoryIconName = "cat_icon_" . time();
+        $info = pathinfo($_FILES["imageStore"]["name"]);
+   
+            if ($_FILES["imageStore"]["name"] <> "") {
+
+				$file_extension = strtolower($info['extension']);
+                if ($file_extension == "png" || $file_extension == "jpg" || $file_extension == "jpeg") {
+                    if ($_FILES["imageStore"]["error"] > 0) {
+                        $error.=$_FILES["imageStore"]["error"] . "<br />";
+                    } else {
+                        $cat_filename = $CategoryIconName . "." . strtolower($info['extension']);
+                        $fileOriginal = $_FILES['imageStore']['tmp_name'];
+                        $crop = '5';
+                        $size = 'iphone4_cat';
+                        $path = UPLOAD_DIR . "store_image/";
+                        $fileThumbnail = $path . $cat_filename;
+                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
+                        $arrUser['store_image'] = $cat_filename;
+                        
+                        $file1 = _UPLOAD_IMAGE_ . 'store_image/' . $arrUser['store_image'];
+                        $dir1 = "store_image";
+                        $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
+                        system($command);
+
+                        $catImg = IMAGE_AMAZON_PATH . 'store_image/' . $arrUser['store_image']; 
+
+                    }
+                }
+            }
+
+
+        if($catImg <> ""){
+            $query = "update store SET store_image='" . $catImg . "' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
+            $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+		}else if($_POST['image_removed'] == 1){
+            $query = "update store SET store_image='null' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
+            $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+        }        
+        		
         $storeUniqueId = uuid();
+
+		$arrUser['store_name'] = mysqli_real_escape_string($conn, $arrUser['store_name']);
+        $arrUser['street'] = mysqli_real_escape_string($conn, $arrUser['street']);
+        $arrUser['city'] = mysqli_real_escape_string($conn, $arrUser['city']);
+		
         if($_POST['opencloseTimeing']){
 
             $query = "update store SET store_type='" . $arrUser['store_type'] . "',latitude='" . $arrUser['latitude'] . "',longitude='" . $arrUser['longitude'] . "',`store_name`='" . $arrUser['store_name'] . "' ,`street`='" . $arrUser['street'] . "', `city`='" . $arrUser['city'] . "', `country`='" . $arrUser['country'] . "', `email`='" . $arrUser['email'] . "', `phone`='" . $arrUser['phone'] . "', `store_link`='" . $arrUser['link'] . "'

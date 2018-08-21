@@ -147,8 +147,18 @@ define("ERROR_ADVERTISE_SPONSORS","<li class='notice_error'>Do you want to spons
 define("ERROR_ADVERTISE_START_OF_PUBLISHING","<li class='notice_error'>Please enter the start date of your Advertise.</li>");
 define("ERROR_ADVERTISE_END_OF_PUBLISHING","<li class='notice_error'>Please enter the end date of your Advertise.</li>");
 define("ERROR_ADVERTISE_NAME","<li class='notice_error'>Please enter a Advertise name.</li>");
+define("PRODUCT_SUCCESS","<li class='notice_success'>You have successfully submitted your Product.</li>");
+
 //define("ERROR_ADVERTISE_START_DATE","<li class='notice_error'>Please enter a start time for your Advertise Limitation.</li>");
 //define("ERROR_ADVERTISE_END_DATE","<li class='notice_error'>Please enter a end time for your Advertise Limitation.</li>");
 //define("ERROR_ADVERTISE_LIMIT_DAYS","<li class='notice_error'>Please limit the Advertise to following days.</li>");
 
+define("ALL","<li class='notice_error'>All days</li>");
+define("MON","<li class='notice_error'>Monday</li>");
+define("TUE","<li class='notice_error'>Tuesday</li>");
+define("WED","<li class='notice_error'>Wednesday</li>");
+define("THU","<li class='notice_error'>Thursday</li>");
+define("FRI","<li class='notice_error'>Friday</li>");
+define("SAT","<li class='notice_error'>Saturday</li>");
+define("SUN","<li class='notice_error'>Saturday</li>");
 ?>

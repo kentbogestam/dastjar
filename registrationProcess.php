@@ -53,10 +53,11 @@
         //check if other form details are correct
 
         //verify captcha
-        $recaptcha_secret = "6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX";
+        $recaptcha_secret = $captcha_secret_key;
         $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$recaptcha_secret."&response=".$_POST['g-recaptcha-response']);
         $response = json_decode($response, true);
-        if($response["success"] === true)
+/* 
+ if($response["success"] === true)
         {
             if (isset($_POST['Continue'])) {
             
@@ -67,6 +68,9 @@
         {
             echo "You are a robot";
         }
+*/		
+		                $regObj->svrRegDflt();
+
     }
 
 
@@ -398,7 +402,7 @@
                   <tr>
                      <td align="left" valign="top">Check the captcha<span class='mandatory'>*</span></td>
                      <td align="left">
-                       <div class="g-recaptcha" data-sitekey="6LeDA0kUAAAAANgrH6YdoQmix-_OawzmczkQr094"></div>
+                       <div class="g-recaptcha" data-sitekey="<?=$captcha_site_key?>"></div>
                         <div id="error_recaptcha" class="error"></div>
                      </td>
                   </tr>
@@ -434,7 +438,7 @@
                      <td height="15" colspan='3' >&nbsp;</td>
                   </tr>
                   <tr>
-                     <td height="33" colspan='3' align="left" class="redgraybutton">4 Activate</td>
+                     <td height="33" colspan='3' align="left" class="redgraybutton">3 Activate</td>
                   </tr>
                   <tr>
                      <td height="33" colspan='3' >&nbsp;</td>

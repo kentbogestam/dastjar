@@ -56,12 +56,19 @@ class emails {
         $subject = "Dastjar: Email varification"; // subject of mail
 
         $message =$message;
+<<<<<<< HEAD
 /*        echo $to;
+=======
+        echo $to;
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
         echo $subject;
         echo $message;
         echo $headers;
         die();
+<<<<<<< HEAD
 		*/
+=======
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
         $ok = mail($to,$subject,$message,$headers);//Send mail
 		//echo "mail".$ok; die();
         if($ok) {

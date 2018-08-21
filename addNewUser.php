@@ -21,7 +21,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
     //check if other form details are correct
 
     //verify captcha
-    $recaptcha_secret = "6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX";
+    $recaptcha_secret = $captcha_secret_key;
     $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$recaptcha_secret."&response=".$_POST['g-recaptcha-response']);
     $response = json_decode($response, true);
     if($response["success"] === true)
@@ -574,7 +574,8 @@ include_once("header.php");
 <table width="100%" >
           <tr align="left" >
             <td colspan="3" style="padding-left:440px;">
-                <div class="g-recaptcha" data-sitekey="6LeDA0kUAAAAANgrH6YdoQmix-_OawzmczkQr094"></div>
+                <div class="g-recaptcha" data-sitekey="<?php 
+                echo $captcha_site_key; ?>"></div>
                  <div id="error_recaptcha" class="error"></div>          </td>
         </tr>
       

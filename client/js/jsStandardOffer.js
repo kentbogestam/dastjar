@@ -37,15 +37,23 @@ $(document).ready(function(){
             error = "true";
         }
 
+        $('#icon').bind('change', function() {
+          iconSize = this.files[0].size;
+        });
+
         if($.trim($("#icon").val()).length!=0){
            
             if(!isValidPngImage($("#icon").val()))
             {
-                var errorMsg = "Please upload an icon in png format only.<br />";
+                var errorMsg = "Please upload an icon in png, jpg and jpeg format only.<br />";
+                $("#error_icon").html(errorMsg);
+                error = "true";
+            }else if(iconSize>6000000)
+            {
+                var errorMsg = "Image size should be smaller than 6MB.<br />";
                 $("#error_icon").html(errorMsg);
                 error = "true";
             }
-        //alert(error);
         }
 
        

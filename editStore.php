@@ -11,10 +11,9 @@
    $countryList = $regObj->getCountryList();
    $openCloseingTime = $storeObj->listTimeing();
    if (isset($_POST['continue'])) {
-       //echo "In"; die();
        $storeObj->svrStoreDflt();
    } else {
-       $storeid = $_GET['storeId']; //die();
+       $storeid = $_GET['storeId']; 
        $data = $storeObj->getStoreDetailById($storeid);
    //echo "<pre>";print_r($data);echo "</pre>";
    }
@@ -90,6 +89,8 @@
    $zoom = "18";
    $menu = "store";
    $menu = 'class="selected"';
+
+
    if ($_GET['m'] == "showOutdatedStore")
        $deleted = 'class="selected"';
    else
@@ -106,13 +107,13 @@
 <script type="text/javascript" src="client/js/newJs/jquery-ui.multidatespicker.js"></script>
 
 <style type="text/css">
-   <!--
+   /*
       .center{width:900px; margin-left:auto; margin-right:auto;}
-      -->
+      */
 </style>
 <body>
    <div class="center">
-      <form name="registerform" action="" id="registerform" method="Post">
+      <form name="registerform" action="" id="registerform" method="Post" enctype="multipart/form-data">
         <input type="hidden" name="opencloseTimeing" value="" id="opencloseTimeing">
          <input type="hidden" name="m" value="editSaveStore">
          <input type="hidden" name="storeId" value="<?=$storeId
@@ -278,6 +279,7 @@
                     <?php } ?>
                   </select>
                </td> -->
+               <td align="right"><a title="<?=STORE_OPEN_CLOSE_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
             <!-- <tr>
                <td></td>
@@ -323,6 +325,7 @@
                    <label><?=$data[0]['store_close_dates']?></label>
                   </div>
                </td>
+		<td align="right"><a title="<?=STORE_CLOSE_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
             <tr>
                <td class="inner_grid">Link to the location home<span class='mandatory'>*</span>:</td>
@@ -353,6 +356,7 @@
                      ?>" type="hidden" style="width:150px;" />
                   <div id='error_coordinate' class="error"></div>
                </td>
+		<td align="right"><a title="<?=TYPE_OF_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
             <tr>
                <td width="592" valign="top">Map
@@ -367,20 +371,22 @@
                <td></td>
                <td>You can set your location on map by click or drag</td>
             </tr>
-           <!--  <tr>
-               <td>Uplod Image For Restaurent<span class='mandatory'>*</span>:</td>
+             <tr>
+               <td>Upload Image For Restaurent<span class='mandatory'>*</span>:</td>
                <td>
                   <div class="file-upload">
-                     <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
+                     <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' );$('.image-removed').val('0');">Add Image</button>
                      <div class="image-upload-wrap">
                         <input class="file-upload-input" type='file' id="imageStore" name="imageStore" onBlur="iconPreview(this.form);"  onchange="readURL(this);" accept="image/" />
                         <div class="drag-text">
                            <h3>Drag and drop a file or select add Image</h3>
-                           <samp>Please uplode only png Image</samp>
+                           <samp>Please upload only png Image</samp>
                         </div>
                      </div>
                      <div class="file-upload-content">
-                        <img class="file-upload-image" src="#" alt="your image" />
+                        <input type="hidden" name="image_removed" class="image-removed" value="0">
+      					        <input type="hidden" name="store_image_original" value="<?=$data[0]['store_image']?>">
+                        <img class="file-upload-image" src="<?=$data[0]['store_image']?>" alt="<?=$data[0]['store_name']?>" onerror="removeUpload()"/>
                         <div class="image-title-wrap">
                            <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
                         </div>
@@ -388,7 +394,7 @@
                   </div>
                   <div id='error_storeImage' class="error"></div>
                </td>
-            </tr> -->
+            </tr> 
          </table>
          <div align="center"><br />
             <br />
@@ -426,7 +432,7 @@
                       <div class="select_time">
                           <div class='input-group date' id='datetimepicker3'>
                              <select id = "allOpen">
-
+                                      <option>Select Opening Time</option>
                                 <?php foreach($openCloseingTime as $key =>$value) { ?>
                                         <option <? if (str_replace(':', '', str_replace(' ', '', $allDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                 <?php } ?>
@@ -441,6 +447,7 @@
                       <div class="select_time">
                           <div class='input-group date' id='datetimepicker3'>
                                <select id = "allClose">
+                                        <option>Select Closing Time</option>
                                 <?php foreach($openCloseingTime as $key =>$value) { ?>
                                         <option <? if (str_replace(':', '', $allDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                 <?php } ?>
@@ -465,6 +472,10 @@
                         <div class="select_time">
                             <div class='input-group date' id='datetimepicker3'>
                                <select id = "monOpen">
+<<<<<<< HEAD
+=======
+                                        <option>Select Opening Time</option>
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
                                   <?php foreach($openCloseingTime as $key =>$value) { ?>
                                           <option <? if (str_replace(':', '', str_replace(' ', '', $monDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                   <?php } ?>
@@ -479,6 +490,10 @@
                         <div class="select_time">
                             <div class='input-group date' id='datetimepicker3'>
                                  <select id = "monClose">
+<<<<<<< HEAD
+=======
+                                      <option>Select Closing Time</option>
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
                                   <?php foreach($openCloseingTime as $key =>$value) { ?>
                                           <option <? if (str_replace(':', '', $monDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                   <?php } ?>
@@ -500,6 +515,10 @@
                             <div class="select_time">
                                 <div class='input-group date' id='datetimepicker3'>
                                    <select id = "tueOpen">
+<<<<<<< HEAD
+=======
+                                        <option>Select Opening Time</option>
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
                                       <?php foreach($openCloseingTime as $key =>$value) { ?>
                                               <option <? if (str_replace(':', '', str_replace(' ', '', $tueDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                       <?php } ?>
@@ -514,6 +533,10 @@
                             <div class="select_time">
                                 <div class='input-group date' id='datetimepicker3'>
                                      <select id = "tueClose">
+<<<<<<< HEAD
+=======
+                                            <option>Select Closing Time</option>
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
                                       <?php foreach($openCloseingTime as $key =>$value) { ?>
                                               <option <? if (str_replace(':', '', $tueDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                       <?php } ?>
@@ -535,6 +558,10 @@
                         <div class="select_time">
                             <div class='input-group date' id='datetimepicker3'>
                                <select id = "wedOpen">
+<<<<<<< HEAD
+=======
+                                  <option>Select Opening Time</option>
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
                                   <?php foreach($openCloseingTime as $key =>$value) { ?>
                                           <option <? if (str_replace(':', '', str_replace(' ', '', $wedDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                   <?php } ?>
@@ -549,6 +576,10 @@
                         <div class="select_time">
                             <div class='input-group date' id='datetimepicker3'>
                                  <select id = "wedClose">
+<<<<<<< HEAD
+=======
+                                          <option>Select Closing Time</option>
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
                                   <?php foreach($openCloseingTime as $key =>$value) { ?>
                                           <option <? if (str_replace(':', '', $wedDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                   <?php } ?>
@@ -570,6 +601,10 @@
                         <div class="select_time">
                             <div class='input-group date' id='datetimepicker3'>
                                <select id = "thuOpen">
+<<<<<<< HEAD
+=======
+                                        <option>Select Opening Time</option>
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
                                   <?php foreach($openCloseingTime as $key =>$value) { ?>
                                           <option <? if (str_replace(':', '', str_replace(' ', '', $thuDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                   <?php } ?>
@@ -584,6 +619,10 @@
                         <div class="select_time">
                             <div class='input-group date' id='datetimepicker3'>
                                  <select id = "thuClose">
+<<<<<<< HEAD
+=======
+                                        <option>Select Closing Time</option>
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
                                   <?php foreach($openCloseingTime as $key =>$value) { ?>
                                           <option <? if (str_replace(':', '', $thuDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                   <?php } ?>
@@ -605,6 +644,10 @@
                         <div class="select_time">
                             <div class='input-group date' id='datetimepicker3'>
                                <select id = "friOpen">
+<<<<<<< HEAD
+=======
+                                <option>Select Opening Time</option>
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
                                   <?php foreach($openCloseingTime as $key =>$value) { ?>
                                           <option <? if (str_replace(':', '', str_replace(' ', '', $friDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                   <?php } ?>
@@ -619,6 +662,10 @@
                         <div class="select_time">
                             <div class='input-group date' id='datetimepicker3'>
                                  <select id = "friClose">
+<<<<<<< HEAD
+=======
+                                  <option>Select Closing Time</option>
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
                                   <?php foreach($openCloseingTime as $key =>$value) { ?>
                                           <option <? if (str_replace(':', '', $friDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                   <?php } ?>
@@ -640,6 +687,10 @@
                         <div class="select_time">
                             <div class='input-group date' id='datetimepicker3'>
                                <select id = "satOpen">
+<<<<<<< HEAD
+=======
+                                        <option>Select Opening Time</option>
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
                                   <?php foreach($openCloseingTime as $key =>$value) { ?>
                                           <option <? if (str_replace(':', '', str_replace(' ', '', $satDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                   <?php } ?>
@@ -654,6 +705,10 @@
                         <div class="select_time">
                             <div class='input-group date' id='datetimepicker3'>
                                  <select id = "satClose">
+<<<<<<< HEAD
+=======
+                                         <option>Select Closing Time</option>
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
                                   <?php foreach($openCloseingTime as $key =>$value) { ?>
                                           <option <? if (str_replace(':', '', $satDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                   <?php } ?>
@@ -675,6 +730,10 @@
                         <div class="select_time">
                             <div class='input-group date' id='datetimepicker3'>
                                <select id = "sunOpen">
+<<<<<<< HEAD
+=======
+                                            <option>Select Opening Time</option>
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
                                   <?php foreach($openCloseingTime as $key =>$value) { ?>
                                           <option <? if (str_replace(':', '', str_replace(' ', '', $sunDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                   <?php } ?>
@@ -689,6 +748,10 @@
                         <div class="select_time">
                             <div class='input-group date' id='datetimepicker3'>
                                  <select id = "sunClose">
+<<<<<<< HEAD
+=======
+                                        <option>Select Closing Time</option>
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
                                   <?php foreach($openCloseingTime as $key =>$value) { ?>
                                           <option <? if (str_replace(':', '', $sunDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
                                   <?php } ?>
@@ -721,6 +784,17 @@
              $('.all1').hide();
             }
          });
+<<<<<<< HEAD
+=======
+
+          if(typeof("<?=$data[0]['store_image']?>") != "undefined" && "<?=$data[0]['store_image']?>" !== null){
+                  $('.image-upload-wrap').hide();
+                  $('.file-upload-image').attr('src', "<?=$data[0]['store_image']?>");
+                  $('.file-upload-image').attr('alt', "<?=$data[0]['store_name']?>");
+                  $('.file-upload-content').show();
+                  $('.image-title').html("Image");
+          }
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
       });
      $('#add_tpye_of_dish').click(function(){
         $('#addDishType-popup').show();
@@ -734,34 +808,34 @@
       $('[id*=submit-btn]').click(function(){
         var dataString = new Array();
         var i = 0;
-        if($('[id*=allOpen]').val() != '00:00:00'){
+        if($('[id*=allOpen]').val() != 'Select Opening Time' && $('[id*=allClose]').val() != 'Select Closing Time'){
           dataString = 'All :: '+$('[id*=allOpen]').val()+' to '+$('[id*=allClose]').val();
         }else{
-          if($('[id*=monOpen]').val() != '00:00:00'){
+          if($('[id*=monOpen]').val() != 'Select Opening Time' && $('[id*=monClose]').val() != 'Select Closing Time'){
             dataString[i] = 'Mon :: '+$('[id*=monOpen]').val()+' to '+$('[id*=monClose]').val();
             i = i+1;
           }
-          if($('[id*=tueOpen]').val() != '00:00:00'){
+          if($('[id*=tueOpen]').val() != 'Select Opening Time' && $('[id*=tueClose]').val() != 'Select Closing Time'){
             dataString[i] = ['Tue :: '+$('[id*=tueOpen]').val()+' to '+$('[id*=tueClose]').val()];
             i = i+1;
           }
-          if($('[id*=wedOpen]').val() != '00:00:00'){
+          if($('[id*=wedOpen]').val() != 'Select Opening Time' && $('[id*=wedClose]').val() != 'Select Closing Time'){
             dataString[i] = ['Wed :: '+$('[id*=wedOpen]').val()+' to '+$('[id*=wedClose]').val()];
             i = i+1;
           }
-          if($('[id*=thuOpen]').val() != '00:00:00'){
+          if($('[id*=thuOpen]').val() != 'Select Opening Time' && $('[id*=thuClose]').val() != 'Select Closing Time'){
             dataString[i] = ['Thu :: '+$('[id*=thuOpen]').val()+' to '+$('[id*=thuClose]').val()];
             i = i+1;
           }
-          if($('[id*=friOpen]').val() != '00:00:00'){
+          if($('[id*=friOpen]').val() != 'Select Opening Time' && $('[id*=friClose]').val() != 'Select Closing Time'){
             dataString[i] = ['Fri :: '+$('[id*=friOpen]').val()+' to '+$('[id*=friClose]').val()];
             i = i+1;
           }
-          if($('[id*=satOpen]').val() != '00:00:00'){
+          if($('[id*=satOpen]').val() != 'Select Opening Time' && $('[id*=satClose]').val() != 'Select Closing Time'){
             dataString[i] = ['Sat :: '+$('[id*=satOpen]').val()+' to '+$('[id*=satClose]').val()];
             i = i+1;
           }
-          if($('[id*=sunOpen]').val() != '00:00:00'){
+          if($('[id*=sunOpen]').val() != 'Select Opening Time' && $('[id*=sunClose]').val() != 'Select Closing Time'){
             dataString[i] = ['Sun :: '+$('[id*=sunOpen]').val()+' to '+$('[id*=sunClose]').val()];
             i = i+1;
           }
@@ -988,32 +1062,34 @@
       .full_width_input input{width: 99.3%;}
    </style>
    <script type="text/javascript">
-      function readURL(input) {
-            if (input.files && input.files[0]) {
-      
-              var reader = new FileReader();
-      
-              reader.onload = function(e) {
-                $('.image-upload-wrap').hide();
-      
-                $('.file-upload-image').attr('src', e.target.result);
-                $('.file-upload-content').show();
-      
-                $('.image-title').html(input.files[0].name);
-              };
-      
-              reader.readAsDataURL(input.files[0]);
-      
-            } else {
-              removeUpload();
-            }
+
+         
+            function readURL(input) {
+              if (input.files && input.files[0]) {
+        
+                var reader = new FileReader();
+        
+                reader.onload = function(e) {
+                  $('.image-upload-wrap').hide();
+                  $('.file-upload-image').attr('src', e.target.result);
+                  $('.file-upload-content').show();
+                  $('.image-title').html(input.files[0].name);
+                };
+        
+                reader.readAsDataURL(input.files[0]);
+        
+              } else {
+                removeUpload();
+              }
           }
       
           function removeUpload() {
             $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+            $('.image-removed').val("1");
             $('.file-upload-content').hide();
             $('.image-upload-wrap').show();
           }
+
           $('.image-upload-wrap').bind('dragover', function () {
                   $('.image-upload-wrap').addClass('image-dropping');
               });
