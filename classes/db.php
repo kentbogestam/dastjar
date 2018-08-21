@@ -47,6 +47,7 @@ class db {
         $conn = $this->makeConnection();
         $res = mysqli_query($conn, $query);
         //$res = mysql_query($query,$this->link) or die(mysql_error());
+        
         if(!$res) {
             trigger_error('FAILED: '.$query, E_USER_NOTICE);
         }else {

@@ -13,13 +13,8 @@ error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 
 require('config/defines.php');
 require('config/dbConfig.php');
-
-
 require('config/config.php');
-
 require('config/help.php');
-//require('classes/db.php');
-
 
 function __autoload($class_name) {
     include "classes/".$class_name . '.php';

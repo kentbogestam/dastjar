@@ -6,6 +6,7 @@
 
 require_once("cumbari.php");
 require_once('vendor/autoload.php');
+require_once("classes/inOut.php");
 
 class Billing{
 
@@ -197,13 +198,15 @@ class Billing{
         $firstPlanName = $data[0][0];
 
         $planIds[$firstPlanId] = $firstPlanName;
+        $i = 1;
 
         foreach ($planIds as $key => $value) {
             $plans[] = ["plan" => $value];
             $user_plans .= "('".$_SESSION['userid']."','". $value."')";
-            if(count($planIds) != ($key+1)){
+            if(count($planIds) != $i){
                 $user_plans .= ",";                
             }
+            $i++;
         }
 
         $uId = $_SESSION['userid'];
