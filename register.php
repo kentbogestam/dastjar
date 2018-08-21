@@ -26,7 +26,6 @@ if(isset($_POST['Activate'])) {
 //}
 include_once("header.php");
 ?><style type="text/css">
-<<<<<<< HEAD
 /*.center{width:900px; margin-left:auto; margin-right:auto;}
 =======
 /*
@@ -520,7 +519,7 @@ Privacy Policy</a> for Dastjar service."</th>
 <tr>
 <td colspan="2">
 <?php
-$publickey = "6Ldv8r4SAAAAABEn-2Eas-LCkM8B8oWgSeVuehJq";
+$publickey = $captcha_site_key;
 echo recaptcha_get_html($publickey, $error);
 ?>      <div id="error_recaptcha" class="error"></div>
 </td>

@@ -660,7 +660,7 @@ if (!isset($_SESSION['userid']) && !isset($_SESSION['REG_STEP'])) {
 			<tr>
             		<td align="left" valign="top">Fill in and submit the text below<span class='mandatory'>*</span></td>
             		<td align="left">  <?php
-                    $publickey = "6Ldv8r4SAAAAABEn-2Eas-LCkM8B8oWgSeVuehJq";
+                    $publickey = $captcha_site_key;
                     echo recaptcha_get_html($publickey, $error);
                     ?> <div id="error_recaptcha" class="error"></div>  </td>
             		</tr>

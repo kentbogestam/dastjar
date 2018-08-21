@@ -40,10 +40,11 @@ $stripe_client_secret = 'sk_test_EypGXzv2qqngDIPIkuK6aXNi'; // test
 
 define('STRPIE_CLIENT_SECRET', $stripe_client_secret);
 // Google Captcha ID and KEY 
-$captcha_site_key = '6Ldv8r4SAAAAABEn-2Eas-LCkM8B8oWgSeVuehJq';
+$captcha_site_key = '6LeDA0kUAAAAANgrH6YdoQmix-_OawzmczkQr094';
 //$captcha_site_key = '6Le-8UgUAAAAAHADYrs839SRaC8d8XacoiH9w5ao'; // test 
 //$captcha_site_key = '6LeDA0kUAAAAANgrH6YdoQmix-_OawzmczkQr094'; // live 
-$captcha_secret_key = '6Le-8UgUAAAAAPuaEkq19jbaC1k16Kys541kOjB4'; // test 
+$captcha_secret_key = '6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX'; // test 
+//$captcha_secret_key = '6Le-8UgUAAAAAPuaEkq19jbaC1k16Kys541kOjB4'; // test 
 //$captcha_secret_key = '6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX'; //   
 
 
