@@ -1,11 +1,7 @@
  <?php
  /*  File Name : addCompany.php
  *  Description : Add Company Form
-<<<<<<< HEAD
  *  Author  :Mayank Pathak  Date: 15rd,Aug,2018  Creation
-=======
- *  Author  :Mayank Pathak  Date: 23rd,Nov,2010  Creation
->>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
 */
 
 require_once("cumbari.php");
@@ -113,10 +109,6 @@ class Billing{
         $query = "select * from billing_products where s_activ<>2";
         $res = $db->query($query);
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
         return $res;
    }
 
@@ -184,7 +176,6 @@ class Billing{
         }
     }
 
-<<<<<<< HEAD
     function subscribe(){
         $db = new db();
         $db->makeConnection();
@@ -261,8 +252,6 @@ class Billing{
         }
     }
 
-=======
->>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
     function getTotalDeletedProduct($id){
         $db = new db();
         $db->makeConnection();
