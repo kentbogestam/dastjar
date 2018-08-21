@@ -6,6 +6,9 @@ require_once('vendor/autoload.php');
 \Stripe\Stripe::setApiKey("sk_test_EypGXzv2qqngDIPIkuK6aXNi");
 // Get the token from the JS script
 $token = $_POST['stripeToken'];
+    
+            print_r($token);
+            die();
 // Create a Customer
 $customer = \Stripe\Customer::create(array(
     "email" => "mayankkv1@gmail.com",

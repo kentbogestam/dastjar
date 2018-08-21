@@ -295,7 +295,11 @@ class Billing{
  <?php
  /*  File Name : addCompany.php
  *  Description : Add Company Form
+<<<<<<< HEAD
+ *  Author  :Mayank Pathak  Date: 15rd,Aug,2018  Creation
+=======
  *  Author  :Mayank Pathak  Date: 23rd,Nov,2010  Creation
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
 */
 
 require_once("cumbari.php");
@@ -403,6 +407,10 @@ class Billing{
         $query = "select * from billing_products where s_activ<>2";
         $res = $db->query($query);
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
         return $res;
    }
 
@@ -470,6 +478,85 @@ class Billing{
         }
     }
 
+<<<<<<< HEAD
+    function subscribe(){
+        $db = new db();
+        $db->makeConnection();
+        $data = array();
+
+        $planIds = $_POST['plan_id'];
+
+        $plans = [];
+        $user_plans = "";
+
+        $q = "select plan_id,product_name from billing_products where product_name='Anar Base Package'";
+        $res = $db->query($q);
+
+        while ($rs = mysqli_fetch_array($res)) {
+            $data[] = $rs;
+        }
+
+        $firstPlanId = $data[0][0];
+        $firstPlanName = $data[0][0];
+
+        $planIds[$firstPlanId] = $firstPlanName;
+
+        foreach ($planIds as $key => $value) {
+            $plans[] = ["plan" => $value];
+            $user_plans .= "('".$_SESSION['userid']."','". $value."')";
+            if(count($planIds) != ($key+1)){
+                $user_plans .= ",";                
+            }
+        }
+
+        $uId = $_SESSION['userid'];
+
+        $customer = "select email from user where u_id='$uId'";
+        $res = $db->query($customer);
+
+        while ($rs = mysqli_fetch_array($res)) {
+            $data[] = $rs;
+        }
+
+        $emailId = $data[0][0];
+
+        \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
+
+            $token = $_POST['stripeToken'];
+     
+            // print_r($customerId);
+            // die();
+
+            // Create a Customer
+            $customer = \Stripe\Customer::create(array(
+                "email" => $emailId,
+                "source" => $token                
+            ));
+
+            $customerId = $customer->id;
+
+            $query = "UPDATE user SET stripe_customer_id='$customerId' where  u_id='" . $uid[1] . "'";
+
+            $subscription = \Stripe\Subscription::create(array(
+                "customer" => $customerId,
+                "items" => $plans
+            ));            
+
+        $query = "insert into user_plan(user_id, plan_id) values$user_plans";
+        $res = $db->query($query);
+
+        if($res){
+            $_SESSION['active_state'] = 5;            
+            $_SESSION['MESSAGE'] = "You have successfully subscribed.";
+            $url = BASE_URL . 'showStandard.php';
+            $inoutObj = new inOut();
+            $inoutObj->reDirect($url);
+            exit();
+        }
+    }
+
+=======
+>>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
     function getTotalDeletedProduct($id){
         $db = new db();
         $db->makeConnection();
