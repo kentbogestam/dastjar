@@ -1,0 +1,6 @@
+2018-08-21 - firstPlanId: plan_DQZMvRSFY6lmxs  
+2018-08-21 - userid: a86773df-2034-2302-1cc3-7bb565f72a53  
+2018-08-21 - emailId: plan_DQZMvRSFY6lmxs  
+2018-08-21 - stripeToken: tok_1D1YmdISb6cUe2dL5OjsBYXY  
+2018-08-21 - customerId: cus_DSTl0zEJxrlwRF  
+2018-08-21 - active_state: 5  

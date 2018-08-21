@@ -197,6 +197,8 @@ class Billing{
         $firstPlanId = $data[0][0];
         $firstPlanName = $data[0][0];
 
+        $this->logs("firstPlanId: " . $firstPlanId);
+
         $planIds[$firstPlanId] = $firstPlanName;
         $i = 1;
 
@@ -210,6 +212,7 @@ class Billing{
         }
 
         $uId = $_SESSION['userid'];
+        $this->logs("userid: " . $uId);
 
         $customer = "select email from user where u_id='$uId'";
         $res = $db->query($customer);
@@ -219,10 +222,12 @@ class Billing{
         }
 
         $emailId = $data[0][0];
+        $this->logs("emailId: " . $emailId);
 
         \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
 
             $token = $_POST['stripeToken'];
+            $this->logs("stripeToken: " . $token);
 
             // Create a Customer
             $customer = \Stripe\Customer::create(array(
@@ -231,6 +236,7 @@ class Billing{
             ));
 
             $customerId = $customer->id;
+            $this->logs("customerId: " . $customerId);
 
             $query = "UPDATE user SET stripe_customer_id='$customerId' where  u_id='" . $uid[1] . "'";
 
@@ -243,7 +249,9 @@ class Billing{
         $res = $db->query($query);
 
         if($res){
-            $_SESSION['active_state'] = 5;            
+            $_SESSION['active_state'] = 5;  
+            $this->logs("active_state: " . $_SESSION['active_state']);
+          
             $_SESSION['MESSAGE'] = "You have successfully subscribed.";
             $url = BASE_URL . 'showStandard.php';
             $inoutObj = new inOut();
@@ -287,6 +295,15 @@ class Billing{
         
         return $data;
    }
+
+    function logs($str = ""){
+        $t=time();
+
+        $myfile = fopen("upload/log" . date("Ymd",$t) . ".txt", "a") or die("Unable to open file!");
+        $txt = date("Y-m-d",$t) . " - " . $str . "  \n";
+        fwrite($myfile, $txt);
+        fclose($myfile);
+    }
 
 }
 ?>
