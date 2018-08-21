@@ -1,17 +1,4 @@
 <<<<<<< HEAD
-<?php
-/* File Name   : activation.php
-*  Description : activation Form
-*  Author      : Deo
-*  Date        : 4th,Dec,2010  Creation
-*/
-
-header('Content-Type: text/html; charset=utf-8');
-include_once("cumbari.php");
-echo "hello"; exit;
-?>
-=======
-<<<<<<< HEAD
 /* Function Header :saveNewStandardOffersDetails()
      *             Args: none
      *           Errors: none
@@ -322,4 +309,3 @@ echo "hello"; exit;
 phpinfo();
 ?>
 >>>>>>> a50a492f89880d95bf2eddabaa2bddbd3eff0f03
->>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7

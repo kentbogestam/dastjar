@@ -488,11 +488,7 @@ class accountView {
               foreach($fields as $key=>$value) {
                 $postvars .= $key . "=" . $value . "&";
               }
-<<<<<<< HEAD
-              $url = "https://anar.dastjar.com/api/v1/save-password";
-=======
               $url = USER_APP_BASE_URL . "api/v1/save-password";
->>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
               curl_setopt($ch,CURLOPT_URL,$url);
               curl_setopt($ch,CURLOPT_POST, 1);                //0 for a get request
               curl_setopt($ch,CURLOPT_POSTFIELDS,$postvars);

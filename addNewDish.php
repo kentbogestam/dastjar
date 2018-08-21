@@ -33,14 +33,10 @@
 
 <script language="JavaScript" src="client/js/jsStore.js" type="text/javascript"></script>
 <style type="text/css">
-<<<<<<< HEAD
-    /*
-=======
    /*
 =======
     /*
 >>>>>>> a50a492f89880d95bf2eddabaa2bddbd3eff0f03
->>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
       .center{width:900px; margin-left:auto; margin-right:auto;}
     */
 </style>

@@ -121,8 +121,8 @@ define('INVITE_RETAILER_DEFALUTMSG', 'Hi');
 //invite retailer not logged in message
 define("MESSEAGE_MAIL","<li class='notice_error'>You are not logged in. </li>");
 /////////add language
-define("ADD_LANG","<li class='notice_success'>Your Language are added. </li>");
-define("ALREADY_LANG","<li class='notice_error'>This Language are already exist. </li>");
+define("ADD_LANG","<li class='notice_success'>Your Language is added. </li>");
+define("ALREADY_LANG","<li class='notice_error'>This Language already exist. </li>");
 
 define("NO_RECORDS_LANG","<li class='notice_error'>This Language are not exist. </li>");
 /////////support.php

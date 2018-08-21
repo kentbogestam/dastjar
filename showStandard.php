@@ -34,7 +34,6 @@
 <link href="client/css/stylesheet123.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" src="lib/grid/js/grid.js" type="text/javascript"></script>
 <body>
-  1
    <div class="center">    
       <div id="msg" align="center" style="margin-top:20px;">
          <?php
@@ -67,13 +66,8 @@
   <tr>
      <td align="left">
         <h2><?php
-<<<<<<< HEAD
-                                                                           echo "Menu";
-                                                                           ?></h2>
-=======
               echo "Menu";
         ?></h2>
->>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
      </td>
      <td>&nbsp;</td>
      <td valign="bottom">&nbsp;</td>
@@ -129,20 +123,6 @@
 		
                  foreach ($data as $data1) {
                      
-<<<<<<< HEAD
-                    $content = @file_get_contents($data1['small_image']);
-                        if (!strpos($http_response_header[0], "200")) { 
-                            $data1['small_image'] = 'images/placeholder-image.png';
-                        } 
-/*
-                    try {
-                        getimagesize($data1['small_image']);
-                    } catch (Exception $e) {
-                        $data1['small_image'] = 'images/placeholder-image.png';
-                    }
-                    */
-                     ?>
-=======
                     if($data1['small_image'] == null){
                         $data1['small_image'] = 'images/placeholder-image.png';
                     }else{
@@ -152,7 +132,6 @@
                       }
                     } 
                   ?>
->>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
               <tr bgcolor="#FFFFFF" style="font-size:18px; font-weight:bold;">
                  <!--<td class="bg_lightgray" align="left" style="padding-left:5px;">
                     <input name='list[]' id='check_box<?=$i

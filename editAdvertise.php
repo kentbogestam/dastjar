@@ -50,7 +50,7 @@ if ($data[0] == '') {
 <script language="JavaScript" src="client/js/jsAdvertiseOffer.js" type="text/javascript"></script>
 <META http-equiv="Content-Type" content="text/html; charset=utf-8">
 <style type="text/css">
-    /*
+    <!--
     .style4 {
         font-size: 10px;
         font-weight: bold;
@@ -63,7 +63,7 @@ if ($data[0] == '') {
         margin-left:auto;
         margin-right:auto;
     }
-    */
+    -->
 </style>
 <body>
     <div class="center">

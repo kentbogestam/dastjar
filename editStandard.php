@@ -185,21 +185,13 @@
             <td align="left" valign="top">
                <?php if ($_SESSION['preview']['small_image']) {
                   ?>
-<<<<<<< HEAD
-               <!-- <img src="<?=$data[0]['small_image']?>"> -->
-=======
                <input type="hidden" name="dish_image_original" value="<?=$data[0]['small_image']?>"> 
->>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
                <input class="text_field_new" type="hidden" name="smallimage" id="smallimage" value="<?=$_SESSION['preview']['small_image'] ?>">
                <br>
                <?
                   }
                   ?>
-<<<<<<< HEAD
-              <!--  <INPUT class="text_field_new" type=file name="icon" id="icon" onBlur="iconPreview(this.form);"> -->
-=======
                <INPUT class="text_field_new" type=file name="icon" id="icon" onBlur="iconPreview(this.form);"> 
->>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
                <div id='error_icon' class="error"></div>
                <div>
                   <input class="text_field_new" type="hidden" id="selected_image" name="selected_image" value="0">
@@ -271,37 +263,7 @@
             </tr>-->
       </table>
       <div class="redwhitebutton_small123">Advanced Options-Optional</div>
-<<<<<<< HEAD
-      <table cellspacing="15"   style="display:inline_row;" id="advancedSearchStand" width="100%">
-         <tr>
-            <td width="515" align="left" valign="top" class="inner_grid">Keywords<span class='mandatory'>*</span>:</td>
-            <td width="227" align="left" valign="top">
-               <INPUT class="text_field_new" type=text name="searchKeywordStand" id="searchKeywordStand" maxlength="90" value="<?=$data[0]['keyword']
-                  ?>">
-               <div id='error_searchKeywordStand' class="error"></div>
-            </td>
-            <td align="right" valign="top"><a title="<?=SKEYWORD_TEXT
-               ?>" class="vtip"><b><small>?</small></b></a></td>
-         </tr>
-         <!-- <tr>
-            <td align="left" valign="top" class="inner_grid">EAN Code:<br></td>
-            <td  align="left" valign="top"><INPUT class="text_field_new" type=text name="eanCode" id="eanCode" value="<?=$data[0]['ean_code']
-               ?>">
-              <div id='error_eanCode' class="error"></div></td>
-             <td align="right" valign="middle"><a title="<?=SEAN_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
-            </tr> -->
-         <!-- <tr>
-            <td align="left" valign="top" class="inner_grid">Product Number:<br></td>
-            <td  align="left" valign="top"><INPUT class="text_field_new" type=text name="productNumber" value="<?=$data[0]['product_number']
-               ?>" id="productNumber">
-              <div id='error_productNumber' class="error"> </div></td>
-             <td align="right" valign="middle"><a title="<?=PRODUCTNUMBER_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
-            </tr> -->
-         <tr>
-      </table>
-=======
       
->>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
      <!--  <div class="redwhitebutton_small123">Add your Coupon View</div> -->
       <table  width="100%" border="0" cellspacing="15">
          <!--  <tr>
@@ -340,19 +302,9 @@
         </tr>
 
          <tr>
-<<<<<<< HEAD
-            <td class="inner_grid">Release date of product<span class='mandatory'>*</span>:</td>
-            <td align="left" valign="top">
-               <?  $d=$data[0]['start_of_publishing'];
-                  $timeStamp = explode(" ",$d);
-                  $start_date = $timeStamp[0];
-                  $start_date = date("d/m/Y H:i", strtotime($data[0]['start_of_publishing']));?>
-               <input type="text" style="width:380px;" name="startDateStand" readonly="readonly" value="<?=$start_date
-=======
             <td class="inner_grid td_pad_top">Release date of product<span class='mandatory'>*</span>:</td>
             <td align="left" valign="top">               
                <input type="text" style="width:380px;" name="" readonly="readonly" value="<?=$start_date
->>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
                   ?>" id="startDateStand" class="startDateStand dp-applied text_field_new" />
                 <input type="hidden" name="startDateStand" id="date-start-utc">
                <div id='error_startDateStand' class="error"></div>
@@ -515,19 +467,6 @@
 
 <script language="JavaScript">
         $(document).ready(function(){
-<<<<<<< HEAD
-            $('#startDateStand').bootstrapMaterialDatePicker
-            ({
-                weekStart: 0, format: 'DD/MM/YYYY HH:mm',  shortTime : true, clearButton: true
-            });
-
-            $.material.init();
-        });
-
-   //alert("sdfsfs");
-   getCatImage('<?=$data[0]['category'
-      ]?>');
-=======
                 <?php
                   $d=$data[0]['start_of_publishing'];
                   $timeStamp = explode(" ",$d);
@@ -572,7 +511,6 @@ $("#icon").change(function() {
    }
 
 //   getCatImage('<?=$data[0]['category']?>');
->>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
 </script>
 <script language="JavaScript" src="client/js/jsImagePreview.js" type="text/javascript"></script>
 <script>

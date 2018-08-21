@@ -182,7 +182,7 @@ value='<?=$line['id']
 <td align="center"><?php echo $data1['product_name']; ?></td>
 <!--<td align="center"><?php echo $data1['product_name']; ?></td>-->
 
-<td align="center"><img src="<?php echo $data1['small_image'] ?>" height="30" width="30"/></td>
+<td align="center"><img src="<?php echo $data1['small_image'] ?>" height="30" width="30" onerror="this.src='images/placeholder-image.png'"/></td>
 <!--                                                                <td align="center"><?php echo $data1['keywords']; ?></td>-->
 <!--<td align="center"><?php echo $data1['category']; ?></td>-->
 <td align="center"><?php
@@ -252,7 +252,9 @@ echo "No Records Found";
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="border">
 <tr>
+<?php if($pager->get_title('{TO}')!=''){ ?>  
 <td width="67%" align="left"><?php echo $pager->get_title('Displaying Results {FROM} to {TO} of {TOTAL}'); ?></td>
+<?php } ?>
 <td width="33%" align="right"><?php
 echo $pager->get_prev('<a href="{LINK_HREF}">Prev</a>&nbsp;');
 echo $pager->get_range('<a href="{LINK_HREF}">{LINK_LINK}</a>', ' &raquo ') . '';

@@ -2290,30 +2290,34 @@ class offer extends advertiseoffer{
             //                  (u_id='".$_SESSION['userid']."' AND ".$qstr2.")";
             //$set_keywords = trim($set_keywords, " AND ");
         } else {
-
             $set_keywords = " 1 AND";
-            //echo"here";die();
         }
 
-        if ($paging_limit)
+        if ($paging_limit!=0)
             $limit = "limit " . $paging_limit;
+        else
+            $limit = "";
 
         $query = "select * from employer where u_id = '" . $_SESSION['userid'] . "'";
         $res = mysqli_query($conn , $query);
         $rs = mysqli_fetch_array($res);
         $companyId = $rs['company_id'];
 
-        // $QUE = "SELECT product.*, lang_text.text as slogen,keyw.text as keyword,cat.text as category FROM product
-        //     LEFT JOIN          user                     ON   product.u_id = user.u_id
-        //     LEFT JOIN    product_offer_slogan_lang_list  ON   product_offer_slogan_lang_list.product_id = product.product_id
-        //     LEFT JOIN    product_keyword  ON   product_keyword.product_id = product.product_id
-        //     LEFT JOIN        lang_text                  ON   product_offer_slogan_lang_list.offer_slogan_lang_list  = lang_text.id
-        //     LEFT JOIN        lang_text as keyw    ON   product_keyword.offer_keyword  = keyw.id
-        //     LEFT JOIN  category  ON category.category_id = product.category
-        //     LEFT JOIN  category_names_lang_list  ON category.category_id = category_names_lang_list.category
-        //     LEFT JOIN  lang_text as cat  ON cat.id = category_names_lang_list.names_lang_list
-        //    WHERE product.company_id='" . $companyId . "' AND $set_keywords  s_activ='2' AND cat.lang = lang_text.lang";
-        $QUE = "SELECT product.* FROM product WHERE product.company_id='" . $companyId . "' AND $set_keywords  s_activ='2'";
+        $QUE = "SELECT product.*, lang_text.text as slogen,keyw.text as keyword,cat.text as category FROM product
+            LEFT JOIN          user                     ON   product.u_id = user.u_id
+            LEFT JOIN    product_offer_slogan_lang_list  ON   product_offer_slogan_lang_list.product_id = product.product_id
+            LEFT JOIN    product_keyword  ON   product_keyword.product_id = product.product_id
+            LEFT JOIN        lang_text                  ON   product_offer_slogan_lang_list.offer_slogan_lang_list  = lang_text.id
+            LEFT JOIN        lang_text as keyw    ON   product_keyword.offer_keyword  = keyw.id
+            LEFT JOIN  category  ON category.category_id = product.category
+            LEFT JOIN  category_names_lang_list  ON category.category_id = category_names_lang_list.category
+            LEFT JOIN  lang_text as cat  ON cat.id = category_names_lang_list.names_lang_list
+           WHERE product.company_id='" . $companyId . "' AND $set_keywords  s_activ='2' AND cat.lang = lang_text.lang " . $limit;
+
+           // echo $QUE;
+           // die();
+           
+        // $QUE = "SELECT product.* FROM product WHERE product.company_id='" . $companyId . "' AND $set_keywords  s_activ='2'";
         $res = mysqli_query($conn ,$QUE);
 
         return $res;
@@ -4096,16 +4100,6 @@ class offer extends advertiseoffer{
         //     }
         // }
 
-<<<<<<< HEAD
-        /////////////////////////// upload largeimages into server///////////////////
-        // $file2 = _UPLOAD_IMAGE_ . 'coupon/' . $arrUser['large_image'];
-        // $dir2 = "coupon";
-        // $command2 = IMAGE_DIR_PATH . $file2 . " " . $dir2;
-        // system($command2);
-//echo $error;
-        //die();
-=======
->>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
         $arrUser['large_image'] = $_SESSION['preview']['large_image'];
 
         $_SESSION['preview'] = $arrUser;
@@ -4186,10 +4180,6 @@ class offer extends advertiseoffer{
             }
 
             //////update product
-<<<<<<< HEAD
-// echo $arrUser['is_public'];die();
-=======
->>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
             $query = "UPDATE product SET dish_type = '" . $arrUser['dish_id'] . "',is_sponsored = '" . $arrUser['is_sponsored'] . "',product_name = '" . $arrUser['product_name'] . "',product_info_page = '" . $arrUser['product_info_page'] . "', brand_name = '" . $arrUser['brand_name'] . "',preparation_Time = '" . $arrUser['preparation_Time'] . "',is_public = '" . $arrUser['is_public'] . "',product_description = '" . $arrUser['product_description'] . "',link = '" . $arrUser['link'] . "',start_of_publishing='" . $arrUser['start_of_publishing'] . "'  WHERE product_id = '" . $productid . "'";
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
@@ -4232,10 +4222,6 @@ class offer extends advertiseoffer{
         if ($arrUser['start_of_publishing'] <= $t) {
 
             ///////////update product
-<<<<<<< HEAD
-
-=======
->>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
             $query = "UPDATE product SET dish_type = '" . $arrUser['dish_id'] . "',is_sponsored = '" . $arrUser['is_sponsored'] . "',product_name = '" . $arrUser['product_name'] . "',product_info_page = '" . $arrUser['product_info_page'] . "', preparation_Time = '" . $arrUser['preparation_Time'] . "',start_of_publishing = '" . $arrUser['start_of_publishing'] . "',is_public = '" . $arrUser['is_public'] . "',link = '" . $arrUser['link'] . "',start_of_publishing='" . $arrUser['start_of_publishing'] . "',product_description = '" . $arrUser['product_description'] . "',dish_type = '" . $arrUser['dish_id'] . "'  WHERE product_id = '" . $productid . "'";
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
@@ -4260,9 +4246,6 @@ class offer extends advertiseoffer{
                 $keyId = $rs['id'];
             }
 
-<<<<<<< HEAD
-            // echo "string"; die();
-
             if($keyId == '' && $arrUser['keywords'] != ''){  
                 $keywordId = uuid();
                 $_SQL = "insert into lang_text(id,lang,text) values('" . $keywordId . "','" . $arrUser['language'] . "','" . $arrUser['keywords'] . "')";
@@ -4275,20 +4258,6 @@ class offer extends advertiseoffer{
                 $res = mysqli_query($conn , $query) or die('3' . mysqli_error($conn));
             }
 
-=======
-            if($keyId == '' && $arrUser['keywords'] != ''){  
-                $keywordId = uuid();
-                $_SQL = "insert into lang_text(id,lang,text) values('" . $keywordId . "','" . $arrUser['language'] . "','" . $arrUser['keywords'] . "')";
-                $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
-
-                $_SQL = "insert into product_keyword(`product_id`,`offer_keyword`) values('" . $productid . "','" . $keywordId . "')";
-                $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
-            }else{
-                $query = "UPDATE lang_text SET `text` = '" . $arrUser['keywords'] . "'  WHERE id = '" . $keyId . "' AND  lang = '" . $arrUser['language'] . "' ";
-                $res = mysqli_query($conn , $query) or die('3' . mysqli_error($conn));
-            }
-
->>>>>>> 5cc0b9d863b050c75ae40bf9926604635487b3e7
             // for title slogen
             $query = "select lang_text.text,lang_text.id from product_offer_slogan_lang_list LEFT JOIN lang_text ON product_offer_slogan_lang_list.offer_slogan_lang_list = lang_text.id  where product_offer_slogan_lang_list.product_id = '" . $productid . "' AND lang_text.lang = '" . $arrUser['language'] . "'";
             $res = mysqli_query($conn , $query) or die('2' . mysqli_error($conn));

@@ -58,13 +58,6 @@ if (isset($_POST['continue']) AND $editId != '') {
 </table>
 
 
-<?php
-    // echo '<pre>';
-    // print_r($data); 
-    // echo '</pre>';
-//    die();
-?>
-
 <div align="center">
 		<form name="category" action="" id="category" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="names_lang_eng" value="<?=$data[0]['names_lang_list']?>"/>
@@ -99,14 +92,6 @@ if (isset($_POST['continue']) AND $editId != '') {
                          <INPUT class="text_field_new" type="text" name="cNEng" id="cNEng" value="<?=$data[0]['text']?>">
                        <a title="<?=CAT_NAME_ENG?>" class="vtip"><b><small>?</small></b></a><br/>
                         <div id='error_cneng' class="error"></div></td>
-                </tr>
-                
-                <tr>
-                    <td width="50%" align="left" class="inner_grid"> Category Name In German<span class='mandatory'>*</span> :</td>
-                    <td width="50%" align="left">
-                         <INPUT class="text_field_new" type="text" name="cNGer" id="cNGer" value="<?=$data[1]['text']?>">
-                       <a title="<?=CAT_NAME_GER?>" class="vtip"><b><small>?</small></b></a><br/>
-                        <div id='error_cnger' class="error"></div></td>
                 </tr>
 
                 <tr>

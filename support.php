@@ -8,16 +8,10 @@ include_once("cumbari.php");
 $inoutObj = new inOut();
 //$inoutObj->validSteps();
 
-
-
 if(isset($_POST['SLogin']) || $_SESSION['supportuserid']) {
 //echo "In"; die();
-
     $inOutObj = new inOut();
-
     $inOutObj->svrInOutDflt();
-
-
 }
 
 if(isset($_SESSION['supportuserid'])) {
