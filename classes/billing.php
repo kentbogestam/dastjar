@@ -299,7 +299,7 @@ class Billing{
     function logs($str = ""){
         $t=time();
 
-        $myfile = fopen("upload/log" . date("Ymd",$t) . ".txt", "a") or die("Unable to open file!");
+        $myfile = fopen(BASE_URL . "/upload/log" . date("Ymd",$t) . ".txt", "a") or die("Unable to open file!");
         $txt = date("Y-m-d",$t) . " - " . $str . "  \n";
         fwrite($myfile, $txt);
         fclose($myfile);
