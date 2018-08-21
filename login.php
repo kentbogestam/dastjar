@@ -8,9 +8,6 @@ include_once("cumbari.php");
 $inoutObj = new inOut();
 //$inoutObj->validSteps();
 
-// echo $_SESSION['active_state'];
-// die();
-
 if(isset($_SESSION['userid']) && $_SESSION['active_state']==5) {
     $url = BASE_URL . 'showStandard.php';
     $inoutObj->reDirect($url);

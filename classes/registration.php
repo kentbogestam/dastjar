@@ -394,7 +394,6 @@ class registration {
      */
 
     function emailVarification($get) {
-
         $db = new db();
         $conn = $db->makeConnection();
         // Check connection
@@ -432,15 +431,14 @@ class registration {
 		//unset($_SESSION['userrole']);
 		//unset($_SESSION['username']);
 		//unset($_SESSION['useremail']);
-		unset($_SESSION['usersessionid']);
-		//unset($_SESSION['REG_STEP']);
-		unset($_SESSION['MAIL_URL']);
-		unset($_SESSION['createStore']);
-                unset($_SESSION['ccode']);
-                unset($_SESSION['temp_campId']);
-                unset($_SESSION['temp_ccode']);
-                unset($_SESSION['temp_uId']);
-/////////////////////////
+		    unset($_SESSION['usersessionid']);
+		   //unset($_SESSION['REG_STEP']);
+    		unset($_SESSION['MAIL_URL']);
+	   	    unset($_SESSION['createStore']);
+            unset($_SESSION['ccode']);
+            unset($_SESSION['temp_campId']);
+            unset($_SESSION['temp_ccode']);
+            unset($_SESSION['temp_uId']);
 
             $url = BASE_URL . 'registrationStep.php';
 
@@ -467,7 +465,6 @@ class registration {
 		$query = "select iso,printable_name from country where iso in('SE','IN','DE')";
         $result = mysqli_query($conn, $query);
 
-		//$result = mysql_query($query);
 		$countryList=array();
 		
 		while($row=mysqli_fetch_array($result))
@@ -502,7 +499,7 @@ class registration {
 
             } else {
                 # set the error code so that we can display it
-                $error.= ERROR_CAPTCHA; //$resp->error;
+                $error.= ERROR_CAPTCHA; 
                 $_SESSION['MESSAGE'] = $error;
                 $_SESSION['post'] = $_POST;
                 $url = BASE_URL . 'registrationResellerProcess.php';
@@ -512,7 +509,6 @@ class registration {
             }
         }
 
-        //echo $link = BASE_URL."reg_action.php?vcode=".md5(time()); die();
         //Request all form details
         $arrUser['email'] = $_POST['emailid'];
         $arrUser['passwd'] = $_POST['pwd'];

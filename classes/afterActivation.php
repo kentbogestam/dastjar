@@ -93,23 +93,21 @@ class afterActivation {
         $_SESSION['active_state'] = 5;
 
         if (isset($_SESSION['MAIL_URL'])) {
-
-
                     $url = $_SESSION['MAIL_URL'];
                     $_SESSION['MAIL_URL'] = "";
                     $inoutObj->reDirect($url);
                     exit();
-                }
+        }
 
         if ($reseller == '') {
-        //$url = BASE_URL . 'showCampaign.php';
-        $url = BASE_URL . 'showStandard.php';
-        $inoutObj->reDirect($url);
-        exit();
+            //$url = BASE_URL . 'showCampaign.php';
+            $url = BASE_URL . 'showStandard.php';
+            $inoutObj->reDirect($url);
+            exit();
         } else {
-     $url = BASE_URL . 'showResellerCampaign.php';
-        $inoutObj->reDirect($url);
-        exit();
+            $url = BASE_URL . 'showResellerCampaign.php';
+            $inoutObj->reDirect($url);
+            exit();
         }
     }
 

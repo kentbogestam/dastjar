@@ -223,9 +223,6 @@ class Billing{
         \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
 
             $token = $_POST['stripeToken'];
-     
-            // print_r($customerId);
-            // die();
 
             // Create a Customer
             $customer = \Stripe\Customer::create(array(
