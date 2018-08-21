@@ -132,7 +132,7 @@ class inOut {
                 $this->reDirect($url);
             }
             else if($_SESSION['active_state']==2) {
-                $url = BASE_URL.'registrationStep.php?reg_step=2';
+                $url = BASE_URL.'addSubscription.php';
                 $this->reDirect($url);
             }
             else if($_SESSION['active_state']==3) {

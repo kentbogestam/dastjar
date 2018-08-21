@@ -7,36 +7,13 @@
    header('Content-Type: text/html; charset=utf-8');
    include_once("cumbari.php");
    require_once('lib/captcha/recaptchalib.php');
-   //echo "sdsad"; die();
    $regObj = new registration();
    $regObj->isValidRegistrationStep();
-   //echo "next stwep"; die();
-   
-   include_once("header.php");
-   ////////////////////////////////////////
-   /* $db = new db();
-    $que = "select * from category";
-    $res = mysql_query($que);
-   while($row = mysql_fetch_array($res))
-   {
-    print_r($row);
-   }
-   
-   echo "//////////////////<br>";
-   $que = "select * from lang_text";
-    $res = mysql_query($que);
-    while($row = mysql_fetch_array($res))
-    {
-        print_r($row);
-    }
-    
-    $que = "insert into category_names_lang_list(category_id,names_lang_list) values('','')";
-   //$res = mysql_query($que);   */
-   /////////////////////////////////////////
-   
+
+   include_once("header.php");   
    
    $inoutObj = new inOut();
-   //echo $_SESSION['userid']." ".$_SESSION['REG_STEP']; die();
+
    if (!isset($_SESSION['userid']) && !isset($_SESSION['REG_STEP'])) {
    
    } else {
@@ -56,8 +33,8 @@
         $recaptcha_secret = $captcha_secret_key;
         $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$recaptcha_secret."&response=".$_POST['g-recaptcha-response']);
         $response = json_decode($response, true);
-/* 
- if($response["success"] === true)
+ 
+      if($response["success"] === true)
         {
             if (isset($_POST['Continue'])) {
             
@@ -68,9 +45,6 @@
         {
             echo "You are a robot";
         }
-*/		
-		                $regObj->svrRegDflt();
-
     }
 
 
@@ -431,9 +405,7 @@
                   <tr align="center">
                      <td height="15" colspan='3' >&nbsp;</td>
                   </tr>
-                  <!--          <tr align="center">
-                     <td height="32" colspan='3' align="left" class="redgraybutton">3 Add Offer</td>
-                     </tr>-->
+                  
                   <tr>
                      <td height="15" colspan='3' >&nbsp;</td>
                   </tr>

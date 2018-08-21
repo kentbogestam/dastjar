@@ -74,8 +74,6 @@
 
       <div class="center">
 
-        <button class="str-btn">stripe-button</button>
-
          <div id="main_color">
             <div id="singbutton_portion"></div>
             <div id="mainbutton">
