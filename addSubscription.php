@@ -7,10 +7,8 @@
    //$_SESSION['REG_STEP'] = 2;
    header('Content-Type: text/html; charset=utf-8');
    include_once("cumbari.php");
-   include("mainSupport.php");
 
    $billingObj = new billing();
-   $inoutObj = new inOut();
    
    $data = $billingObj->showPlan();
 
@@ -82,7 +80,7 @@
 
                <table width="100%" cellspacing="2" border="0" >
                   <tr>
-                     <td>&nbsp; </td>
+                     <td>&nbsp;</td>
                   </tr>
                   <tr>
                      <td class="blackbutton">Add Subscription</td>
