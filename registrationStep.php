@@ -155,10 +155,6 @@
                       echo $_SESSION['MESSAGE'];
                       $_SESSION['MESSAGE'] = '';
                       ?>
-               <!--  <script>
-                  buttonLinkAction('<?=$_SESSION['REG_STEP']
-                     ?>');
-                  </script> -->
                <?php
                   }
                   ?>
@@ -173,10 +169,7 @@
             <!--<h4>Do you want to add one or more locations where deal is valid? </h4>-->
          </div>
          <table width="100%" border="0" cellpadding="0" cellspacing="0">
-            <tr>
-               <td>&nbsp;</td>
-               <td>&nbsp;</td>
-            </tr>
+
             <!--      <tr>
                <td width="43%" id="step5"  onClick="javascript:window.location.href='createStore.php'" align="center" ><img src="images/addlocation.png" width="177" height="57"></td>
                <td width="57%" colspan="2" align="left" id="step7" style="padding-bottom:10px" onClick="javascript:window.location.href='inviteRetailers.php'"  ><img src="images/invite.png"></td>
@@ -185,10 +178,7 @@
                <td  >&nbsp;</td>
                <td colspan="2" align="left"><a id="step8" onClick="javascript:window.location.href='activation.php'" ><img src="images/addlcationlater.png" width="299" height="46" /></a></td>
                </tr>-->
-            <tr>
-               <td>&nbsp;</td>
-               <td>&nbsp;</td>
-            </tr>
+
          </table>
          <?php }else { ?>
          <input type="hidden" id="step3" value=""/>
@@ -203,7 +193,7 @@
          </div>
          <table width="100%" border="0" cellpadding="0" cellspacing="0">
             <tr>
-               <td colspan="2" id="step6" onClick="javascript:window.location.href='activation.php'" class="register_inactive" > 3 Activate</td>
+               <td colspan="2" id="step6" onClick="javascript:window.location.href='activation.php'" class="register_inactive" > 3 Add Subscription</td>
             </tr>
             <tr>
                <td >&nbsp;</td>

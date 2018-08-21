@@ -211,7 +211,7 @@
                      <td >&nbsp;</td>
                   </tr>
                   <tr>
-                     <td align="left" class="redgraybutton">3 Activate</td>
+                     <td align="left" class="redgraybutton">3 Add Subscription</td>
                   </tr>
                   <tr>
                      <td>&nbsp;</td>

@@ -82,7 +82,7 @@
 
                <table width="100%" cellspacing="2" border="0" >
                   <tr>
-                     <td>&nbsp;</td>
+                     <td>&nbsp; </td>
                   </tr>
                   <tr>
                      <td class="blackbutton">Add Subscription</td>

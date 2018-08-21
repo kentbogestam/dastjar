@@ -15,13 +15,6 @@ include("header.php");
 
 unset($_SESSION["Retailers"]);
 
-//$inoutObj = new inOut();
-//if(!isset($_SESSION['userid'])) {
-//    $url = BASE_URL.'login.php';
-//    $inoutObj->reDirect($url);
-//    exit();
-//}
-
 $current_tab = basename($_SERVER['SCRIPT_FILENAME'], '.php');
 $selected_tab_css = ' style="background-color:#ADDFFF" ';
 
