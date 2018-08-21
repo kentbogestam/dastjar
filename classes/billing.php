@@ -298,8 +298,8 @@ class Billing{
 
     function logs($str = ""){
         $t=time();
-        echo BASE_URL . "upload/log" . date("Ymd",$t) . ".txt";
-         die();
+        // echo BASE_URL . "upload/log" . date("Ymd",$t) . ".txt";
+        // die();
 
         $myfile = fopen(BASE_URL . "/upload/log" . date("Ymd",$t) . ".txt", "a") or die("Unable to open file!");
         $txt = date("Y-m-d",$t) . " - " . $str . "  \n";
