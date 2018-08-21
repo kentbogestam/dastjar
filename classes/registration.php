@@ -380,7 +380,7 @@ class registration {
             $_SESSION['MESSAGE'] = ADD_COUNTRY_SUCCESS;
             $_SESSION['REG_STEP'] = 2;
             $_SESSION['active_state'] = 2;
-            $url = BASE_URL . 'AddSubscription.php';
+            $url = BASE_URL . 'addSubscription.php';
             $inoutObj->reDirect($url);
             exit();
         }
