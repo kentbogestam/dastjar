@@ -1638,7 +1638,7 @@ class offer extends advertiseoffer{
                         $fileOriginal = $_FILES['icon']['tmp_name'];
                         $crop = '5';
                         $size = 'iphone4_cat';
-                        $path = UPLOAD_DIR . "category_lib/";
+                        $path = UPLOAD_DIR . "category/";
                         $fileThumbnail = $path . $cat_filename;
                         createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
 //echo $errorMsg; die();
@@ -1683,9 +1683,9 @@ class offer extends advertiseoffer{
         }
 
         /////////////////////////// upload smallimages into server///////////////////
-        $file1 = _UPLOAD_IMAGE_ . 'category_lib/' . $arrUser['small_image'];
+        $file1 = _UPLOAD_IMAGE_ . 'category/' . $arrUser['small_image'];
 
-        $dir1 = "category_lib";
+        $dir1 = "category";
         $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
         system($command);
         //echo "End UPLOAD"; die();
