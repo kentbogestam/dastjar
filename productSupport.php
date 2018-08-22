@@ -52,7 +52,7 @@
   <div class="frm_cls">
 <table border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>   
-    <td><input type="radio" <?=$showstandard?> onClick="javascript:window.location.href='productSupport.php'" name="deals" checked>
+    <td style="width:100px"><input type="radio" <?=$showstandard?> onClick="javascript:window.location.href='productSupport.php'" name="deals" checked>
     Product </td>
     
     <td><input type="radio" <?=$showdeletestand?> onClick="javascript:window.location.href='showDeletedBillingProduct.php'" name="deals">
