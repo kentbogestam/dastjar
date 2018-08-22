@@ -24,8 +24,8 @@ define('_UPLOAD_IMAGE_', $basePath . 'upload/');
 
 /////////// upload image dirctory/////////
 define('IMAGE_AMAZON_PATH', 'https://s3-eu-west-1.amazonaws.com/dastjar-coupons/upload/');
-define('IMAGE_DIR_PATH', $basePath . 'lib/bin/cumbari_s3.sh');
-define('IMAGE_DIR_PATH_DELETE', $basePath . 'lib/bin/cumbari_s3del.sh');
+define('IMAGE_DIR_PATH', '/usr/local/bin/cumbari_s3.sh ');
+define('IMAGE_DIR_PATH_DELETE', '/usr/local/bin/cumbari_s3del.sh ');
 
 // Register for google map key with your domain and update it
 define('_GKEY_', 'ABQIAAAA4I2FJ12u6k_VsKf1ZkAGxBRpedP_AkQ-0qMxmraAuu868TnwrBSjQz5UviQktpqH1TVF0HGxFVl12A');
@@ -65,8 +65,8 @@ define('_UPLOAD_IMAGE_', $basePath . 'upload/');
 
 /////////// upload image dirctory/////////
 define('IMAGE_AMAZON_PATH', 'https://s3-eu-west-1.amazonaws.com/dastjar-coupons/upload/');
-define('IMAGE_DIR_PATH', $basePath . 'lib/bin/cumbari_s3.sh');
-define('IMAGE_DIR_PATH_DELETE', $basePath . 'lib/bin/cumbari_s3del.sh');
+define('IMAGE_DIR_PATH', '/usr/local/bin/cumbari_s3.sh ');
+define('IMAGE_DIR_PATH_DELETE', '/usr/local/bin/cumbari_s3del.sh ');
 
 // Register for google map key with your domain and update it
 define('_GKEY_', 'ABQIAAAA4I2FJ12u6k_VsKf1ZkAGxBRpedP_AkQ-0qMxmraAuu868TnwrBSjQz5UviQktpqH1TVF0HGxFVl12A');
@@ -92,7 +92,7 @@ $captcha_secret_key = '6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX'; // live
 /*
 $base_url = "http://localhost/dastjar/";
 $user_app_base_url = "http://localhost/anar/public/";
-$basePath = $_SERVER["DOCUMENT_ROOT"] . '/';
+$basePath = $_SERVER["DOCUMENT_ROOT"] . '/dastjar/';
 define('BASEPATH', $basePath);
 define('USER_APP_BASE_URL', $user_app_base_url);
 define('BASE_PATH_NO_ADMIN', 'http://localhost/dastjar/');
@@ -106,8 +106,8 @@ define('_UPLOAD_IMAGE_', $basePath . 'upload/');
 
 /////////// upload image dirctory/////////
 define('IMAGE_AMAZON_PATH', 'https://s3-eu-west-1.amazonaws.com/dastjar-coupons/upload/');
-define('IMAGE_DIR_PATH', $basePath . 'lib/bin/cumbari_s3.sh');
-define('IMAGE_DIR_PATH_DELETE', $basePath . 'lib/bin/cumbari_s3del.sh');
+define('IMAGE_DIR_PATH', $basePath . 'lib/bin/cumbari_s3.sh ');
+define('IMAGE_DIR_PATH_DELETE', $basePath . 'lib/bin/cumbari_s3del.sh ');
 
 // Register for google map key with your domain and update it
 define('_GKEY_', 'ABQIAAAA4I2FJ12u6k_VsKf1ZkAGxBRpedP_AkQ-0qMxmraAuu868TnwrBSjQz5UviQktpqH1TVF0HGxFVl12A');
@@ -130,7 +130,6 @@ $captcha_site_key = '6Le-8UgUAAAAAHADYrs839SRaC8d8XacoiH9w5ao'; // local
 $captcha_secret_key = '6Le-8UgUAAAAAPuaEkq19jbaC1k16Kys541kOjB4'; // local 
 //$captcha_secret_key = '6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX'; // live  
 */
-
 /* End Here for Local Setting */
 
 /* Get site user info */
