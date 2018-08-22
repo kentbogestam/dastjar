@@ -44,8 +44,10 @@ class Billing{
 
     $db = new db();
     $db->makeConnection();
+    $time = time();
+    $date = date("Y-m-d h:i:s",$time);
 
-    $query = "insert into billing_products(product_id, product_name, plan_id, plan_nickname, currency, price, usage_type, description) values('$productId', '$productName', '$planId', '$planNickname', '$currency', '$price', '$usageType', '$description')";
+    $query = "insert into billing_products(product_id, product_name, plan_id, plan_nickname, currency, price, usage_type, description, created_at, updated_at, s_activ) values('$productId', '$productName', '$planId', '$planNickname', '$currency', '$price', '$usageType', '$description', '$date', '$date', 1)";
 
     $res = $db->query($query);
 
