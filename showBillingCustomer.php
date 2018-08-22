@@ -33,11 +33,11 @@
 
     if ($uId != '') {
         $records_per_page = PAGING;
-        $total_records = $billingObj->getTotalDeletedProduct($uId);
+        $total_records = $billingObj->getTotalProduct($uId);
         // echo $total_records;
         $pager = new pager($total_records, $records_per_page, @$_GET['_p']);
         $paging_limit = $pager->get_limit();
-        $data = $billingObj->showDeletedPlan($paging_limit, $uId);
+        $data = $billingObj->showBillingCustomer($paging_limit, $uId);
         //echo"<pre>";  print_r($data);echo"</pre>";//die();
     }
    ?>
@@ -48,14 +48,14 @@
   <div class="frm_cls">
 <table border="0" align="center" cellpadding="0" cellspacing="0" style="width: 500px">
   <tr>   
-    <td style="width:100px"><input type="radio" <?=$showstandard?> onClick="javascript:window.location.href='productSupport.php'" name="deals" selected="selected">
+    <td style="width:100px"><input type="radio" <?=$showstandard?> onClick="javascript:window.location.href='productSupport.php'" name="deals">
     Product </td>
     
-    <td><input type="radio" <?=$showdeletestand?> onClick="javascript:window.location.href='showDeletedBillingProduct.php'" name="deals" checked>
+    <td><input type="radio" <?=$showdeletestand?> onClick="javascript:window.location.href='showDeletedBillingProduct.php'" name="deals">
     Show Deleted Product </td>
   </tr>
   <tr>   
-    <td><input type="radio" <?=$showstandard?> onClick="javascript:window.location.href='showBillingCustomer.php'" name="deals">
+    <td><input type="radio" <?=$showstandard?> onClick="javascript:window.location.href='showBillingCustomer.php'" name="deals" checked>
     Customer </td>    
     <td width="20">&nbsp;</td>
   </tr>
@@ -122,14 +122,16 @@
                  <td width="30%" align="left"><?php //echo $pager->get_title('&nbsp;Displaying results {FROM} to {TO} of {TOTAL}');         ?></td>
                  <td width="70%" align="right" valign="middle" style="color:#881d0a;">
                     <img src="lib/grid/images/view.gif">&nbsp;View&nbsp;&nbsp;&nbsp;
+                    <img src="lib/grid/images/edite.gif">&nbsp;Edit&nbsp;&nbsp;&nbsp;
+                    <img src="lib/grid/images/delete.gif">&nbsp;Delete&nbsp;&nbsp;&nbsp;
                  </td>
               </tr>
            </table>
            <table width="100%" border="0" cellpadding="2" cellspacing="2" class="border" bgcolor="#CCCCCC">
               <tr align="center">
-                 <td width="13%" height="20" align="center"  class="bg_darkgray1"><strong>Product Name</strong></td>
+                 <td width="13%" height="20" align="center"  class="bg_darkgray1"><strong>Customer Name</strong></td>
                  <td width="6%" height="20" align="center"  class="bg_darkgray1"><strong>Plan Name</strong></td>
-                 <td width="15%" height="20" align="center" class="bg_darkgray1"><strong>Currency</strong></td>
+                 <td width="15%" height="20" align="center" class="bg_darkgray1"><strong>Product Name</strong></td>
                  <td width="15%" height="20" align="center" class="bg_darkgray1"><strong>Price</strong></td>
 
                  <td width="26%" height="20" class="bg_darkgray1"><strong>Action</strong></td>
@@ -138,22 +140,13 @@
               <?php
                  $i = 1 + $pager->get_limit_offset();
     
-                 foreach ($data as $data1) {
-                     
-                    if($data1['small_image'] == null){
-                        $data1['small_image'] = 'images/placeholder-image.png';
-                    }else{
-                      $content = @file_get_contents($data1['small_image']);
-                      if (!strpos($http_response_header[0], "200")) { 
-                        $data1['small_image'] = 'images/placeholder-image.png';
-                      }
-                    } 
+                 foreach ($data as $data1) {                     
                   ?>
               <tr bgcolor="#FFFFFF" style="font-size:18px; font-weight:bold;">
                  
+                 <td align="center"><?php echo $data1['fname'] . " " . $data1['lname']; ?></td>
+                 <td align="center"><?php echo $data1['plan_name']; ?></td>
                  <td align="center"><?php echo $data1['product_name']; ?></td>
-                 <td align="center"><?php echo $data1['plan_nickname']; ?></td>
-                 <td align="center"><?php echo $data1['currency']; ?></td>
                  <td align="center"><?php echo $data1['price']; ?></td>
                  
                  <td align="center">
@@ -162,7 +155,16 @@
                           <td>
                              <div class="action-btn1"><a href="viewBillingProduct.php?uId=<?=$data1['id'];
                                 ?>" class="a2" title="View"><img src="lib/grid/images/view.gif" width="11" height="11"></a></div>
+                             <div class="action-btn1"><a href="createEditBillingProduct.php?editId=<?=$data1['id'];
+                                ?>" class="a2" title="Edit"> <img src="lib/grid/images/edite.gif" width="15" height="15"></a></div>
+                                                         
+                             <div class="action-btn1"><a href="javascript:delete_plan('uId=<?=$data1['id']; ?>')" onClick="" class="a2" title="Delete">
+                                <img src="lib/grid/images/delete.gif" width="11" height="11"></a>
+                             </div>
                           </td>
+                       </tr>
+                       <tr>
+                          <td></td>
                        </tr>
                     </table>
                  </td>
@@ -353,4 +355,12 @@
        document.getElementById("container1").style.display='inline';
    
    }
+
+   function delete_plan(id)
+  {
+      if(confirm('Are you sure you want to delete this record?')) {
+          var url ='productSupport.php?m=deletePlan&'+id;
+          window.location = url;
+      }
+  }
 </script>

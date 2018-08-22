@@ -274,11 +274,24 @@ class Billing{
         return $total_records;
     }
 
+
     function showDeletedPlan(){
         $db = new db();
         $db->makeConnection();
 
         $query = "select * from billing_products where s_activ=2";
+        $res = $db->query($query);
+
+        return $res;
+   }
+
+   function showBillingCustomer(){
+        $db = new db();
+        $db->makeConnection();
+
+        $query = "select user_plan.*,user.fname,user.lname,billing_products.* from user_plan left join billing_products 
+on user_plan.plan_id=billing_products.plan_id left join user 
+on user_plan.user_id=user.u_id group by user.u_id";
         $res = $db->query($query);
 
         return $res;

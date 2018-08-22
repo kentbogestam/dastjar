@@ -50,7 +50,7 @@
 <script language="JavaScript" src="lib/grid/js/grid.js" type="text/javascript"></script>
 <body>
   <div class="frm_cls">
-<table border="0" align="center" cellpadding="0" cellspacing="0">
+<table border="0" align="center" cellpadding="0" cellspacing="0" style="width: 500px">
   <tr>   
     <td style="width:100px"><input type="radio" <?=$showstandard?> onClick="javascript:window.location.href='productSupport.php'" name="deals" checked>
     Product </td>
@@ -59,7 +59,7 @@
     Show Deleted Product </td>
   </tr>
   <tr>   
-    <td><input type="radio" <?=$showstandard?> onClick="javascript:window.location.href='productSupport.php'" name="deals">
+    <td><input type="radio" <?=$showstandard?> onClick="javascript:window.location.href='showBillingCustomer.php'" name="deals">
     Customer </td>    
     <td width="20">&nbsp;</td>
   </tr>
