@@ -122,8 +122,6 @@
                  <td width="30%" align="left"><?php //echo $pager->get_title('&nbsp;Displaying results {FROM} to {TO} of {TOTAL}');         ?></td>
                  <td width="70%" align="right" valign="middle" style="color:#881d0a;">
                     <img src="lib/grid/images/view.gif">&nbsp;View&nbsp;&nbsp;&nbsp;
-                    <img src="lib/grid/images/edite.gif">&nbsp;Edit&nbsp;&nbsp;&nbsp;
-                    <img src="lib/grid/images/delete.gif">&nbsp;Delete&nbsp;&nbsp;&nbsp;
                  </td>
               </tr>
            </table>
@@ -155,12 +153,6 @@
                           <td>
                              <div class="action-btn1"><a href="viewBillingProduct.php?uId=<?=$data1['id'];
                                 ?>" class="a2" title="View"><img src="lib/grid/images/view.gif" width="11" height="11"></a></div>
-                             <div class="action-btn1"><a href="createEditBillingProduct.php?editId=<?=$data1['id'];
-                                ?>" class="a2" title="Edit"> <img src="lib/grid/images/edite.gif" width="15" height="15"></a></div>
-                                                         
-                             <div class="action-btn1"><a href="javascript:delete_plan('uId=<?=$data1['id']; ?>')" onClick="" class="a2" title="Delete">
-                                <img src="lib/grid/images/delete.gif" width="11" height="11"></a>
-                             </div>
                           </td>
                        </tr>
                        <tr>

@@ -14,7 +14,7 @@ class Billing{
 
     $productName = $_POST['product_name'];
     $planNickname = $_POST['plan_nickname'];
-    $price = $_POST['price'];
+    $price = trim($_POST['price']);
     $currency = $_POST['currency'];
     $description = $_POST['description'];
     $usageType = $_POST['usage_type'];
@@ -69,7 +69,7 @@ class Billing{
 
         $productName = $_POST['product_name'];
         $planNickname = $_POST['plan_nickname'];
-        $price = $_POST['price'];
+        $price = trim($_POST['price']);
         $currency = $_POST['currency'];
         $description = $_POST['description'];
         $usageType = $_POST['usage_type'];

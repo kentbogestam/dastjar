@@ -29,8 +29,8 @@ if (isset($_POST['continue']) AND $editId != '') {
 ?>
 <?php include 'config/defines.php'; ?>
  <script language="JavaScript" src="client/js/jquery.js" type="text/javascript"></script>
- <!-- <script language="JavaScript" src="client/js/jsAddPartner.js" type="text/javascript"></script>
- -->
+ <script language="JavaScript" src="client/js/jsAddPlan.js" type="text/javascript"></script>
+
  <style type="text/css">
 /*
 .center{width:900px; margin-left:auto; margin-right:auto;}
@@ -47,10 +47,10 @@ if (isset($_POST['continue']) AND $editId != '') {
     </tr>
     <tr>
                 <? if($editId == '') {?>
-                    <td class="redwhitebutton">ADD PARTNER</td>
+                    <td class="redwhitebutton">ADD PLAN</td>
                 <? }  else { ?>
 
-         <td class="redwhitebutton">EDIT PARTNER</td>
+         <td class="redwhitebutton">EDIT PLAN</td>
                 <? } ?>
 
     </tr>
@@ -82,9 +82,9 @@ if (isset($_POST['continue']) AND $editId != '') {
                     <td width="50%" align="left" class="inner_grid">Product Name<span class='mandatory'>*</span>
                         :</td>
                     <td width="50%" align="left">
-                         <INPUT class="text_field_new" type="text" name="product_name" id="company" value="<?=$data[0]['product_name']?>">
+                         <INPUT class="text_field_new" type="text" name="product_name" id="product" value="<?=$data[0]['product_name']?>">
                         <a title="<?=PRODUCT_NAME?>" class="vtip"><b><small>?</small></b></a><br/>
-                        <div id='error_company' class="error"></div></td>
+                        <div id='error_product' class="error"></div></td>
 
 
                 </tr>
@@ -93,27 +93,30 @@ if (isset($_POST['continue']) AND $editId != '') {
 
                     <td align="left" class="inner_grid">Plan Nickname<span class='mandatory'>*</span>:</td>
                     <td align="left">
-                        <INPUT class="text_field_new" type="test" name="plan_nickname" id="country" value="<?=$data[0]['plan_nickname']?>"/>
+                        <INPUT class="text_field_new" type="test" name="plan_nickname" id="plan" value="<?=$data[0]['plan_nickname']?>"/>
                         <a title="<?=PLAN_NICKNAME?>" class="vtip"><b><small>?</small></b></a><br/>
-                        <div id='error_country' class="error"></div></td>
+                        <div id='error_plan' class="error"></div></td>
                 </tr>
 
               <tr>
 
                     <td align="left" class="inner_grid">Price<span class='mandatory'>*</span>:</td>
                     <td align="left">
-                        <INPUT class="text_field_new" type="test" name="price" id="city" value="<?=$data[0]['price']?>"/>
+                        <INPUT class="text_field_new" type="test" name="price" id="price" value="<?=$data[0]['price']?>"/>
                         <a title="<?=PRICE?>" class="vtip"><b><small>?</small></b></a><br/>
-                        <div id='error_city' class="error"></div></td>
+                        <div id='error_price' class="error"></div></td>
                 </tr>
 
                 <tr>
 
                     <td align="left" class="inner_grid">currency<span class='mandatory'>*</span>:</td>
                     <td align="left">
-                        <INPUT class="text_field_new" type="test" name="currency" id="street" value="<?=$data[0]['currency']?>"/>
+                        <select class="text_field_new" value="<?=$data[0]['currency']?>" style="background-color:#e4e3dd; width:406px; height:36px;border: 1px solid #abadb3;" tabindex="27" id="currency" name="currency">
+                            <option value="SEK">svensk krona (SEK kr)</option>
+                            <option value="EUR">euro (EUR)</option>
+                        </select>
                         <a title="<?=CURRENCY?>" class="vtip"><b><small>?</small></b></a><br/>
-                        <div id='error_street' class="error"></div></td>
+                        <div id='error_currency' class="error"></div></td>
                 </tr>
 
 
@@ -121,9 +124,9 @@ if (isset($_POST['continue']) AND $editId != '') {
 
                     <td align="left" class="inner_grid">Description<span class='mandatory'>*</span>:</td>
                     <td align="left">
-                        <INPUT class="text_field_new" type="test" name="description" id="orgnr" value="<?=$data[0]['description']?>"/>
+                        <INPUT class="text_field_new" type="test" name="description" id="description" value="<?=$data[0]['description']?>"/>
                         <a title="<?=DESCRIPTION?>" class="vtip"><b><small>?</small></b></a><br/>
-                        <div id='error_orgn' class="error"></div></td>
+                        <div id='error_description' class="error"></div></td>
                 </tr>
 
                 <tr>
@@ -134,7 +137,7 @@ if (isset($_POST['continue']) AND $editId != '') {
                             <option value="metered">metered</option>
                         </select>
                         <a title="<?=USAGE_TYPE?>" class="vtip"><b><small>?</small></b></a><br/>
-                        <div id='error_version' class="error"></div></td>
+                        <div id='error_usage_type' class="error"></div></td>
                 </tr>
 
 
