@@ -170,3 +170,7 @@ if (isset($_POST['continue']) AND $editId != '') {
 </div>
 <? include("footer.php"); ?>
 
+<script type="text/javascript">
+    $("#currency").val("<?=$data[0]['currency']?>");
+</script>
+
