@@ -148,15 +148,12 @@
                  <td align="center"><?php echo $data1['price']; ?></td>
                  
                  <td align="center">
-                    <table border="0" align="center" cellpadding="0" cellspacing="0">
+                     <table border="0" align="center" cellpadding="0" cellspacing="0">
                        <tr>
                           <td>
                              <div class="action-btn1"><a href="viewBillingProduct.php?uId=<?=$data1['id'];
                                 ?>" class="a2" title="View"><img src="lib/grid/images/view.gif" width="11" height="11"></a></div>
                           </td>
-                       </tr>
-                       <tr>
-                          <td></td>
                        </tr>
                     </table>
                  </td>
