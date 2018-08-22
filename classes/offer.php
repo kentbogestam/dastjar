@@ -5,9 +5,6 @@
  *  Author  :Himanshu Singh  Date: 23rd,Nov,2010  Creation
  */
 header('Content-Type: text/html; charset=utf-8');
-//header ('Content-type: text/html; charset=utf-8');
-
-
 
 require_once('lib/resizer/resizer.php');
 
@@ -104,10 +101,10 @@ class offer extends advertiseoffer{
                 break; 
             
             
-	   case 'saveNewAdvertise':
-		$reseller = $_REQUEST['reseller'];
+       case 'saveNewAdvertise':
+        $reseller = $_REQUEST['reseller'];
                 $this->saveNewAdvertiseOffersDetails($reseller);
-                break;				
+                break;              
 
            case 'deleteAdvertise':                
                 $this->deleteAdvertise();
@@ -224,7 +221,7 @@ class offer extends advertiseoffer{
         $error.= ( $arrUser['discountValue'] == '') ? ERROR_DISCOUNT_VALUE : '';
 
         $_SESSION['post'] = "";
-		
+        
         // Upload category icon file////
         $CategoryIconName = "cat_icon_" . md5(time());
         $info = pathinfo($_FILES["icon"]["name"]);
@@ -1009,7 +1006,7 @@ class offer extends advertiseoffer{
         $file2 = _UPLOAD_IMAGE_ . 'coupon/' . $arrUser['large_image'];
         $dir2 = "coupon";
         $command2 = IMAGE_DIR_PATH . $file2 . " " . $dir2;
-		system($command2);
+        system($command2);
 
 
         if ($error != '') {
@@ -1496,7 +1493,7 @@ class offer extends advertiseoffer{
         return $data;
     }
 
-	    /* Function Header :saveNewStandardOffersDetails()
+        /* Function Header :saveNewStandardOffersDetails()
      *             Args: none
      *           Errors: none
      *     Return Value: none
@@ -1515,7 +1512,6 @@ class offer extends advertiseoffer{
         }else{}
         $arrUser = array();
         $error = '';
-
 
         $preview = $_POST['preview'];
         $arrUser['offer_slogan_lang_list'] = addslashes($_POST['titleSloganStand']);
@@ -1563,7 +1559,7 @@ class offer extends advertiseoffer{
         $arrUser['is_public'] = $_POST['publicProduct'];              //ye bhi nhi aa rha hai
         $arrUser['product_number'] = $_POST['productNumber'];    //ye bhi nhi aa rha hai
         $arrUser['start_of_publishing'] = $_POST['startDateStand'];
-		$arrUser['start_of_publishing'] = DateTime::createFromFormat('d/m/Y H:i', $arrUser['start_of_publishing']);
+        $arrUser['start_of_publishing'] = DateTime::createFromFormat('d/m/Y H:i', $arrUser['start_of_publishing']);
         $arrUser['start_of_publishing'] = $arrUser['start_of_publishing']->format('Y-m-d H:i:s');
         $arrUser['lang'] = $_POST['lang'];
         $arrUser['preparationTime'] = $_POST['preparationTime'];
@@ -1616,12 +1612,14 @@ class offer extends advertiseoffer{
             $res = mysqli_query($conn , $query) or die(mysql_error());
             $rs = mysqli_fetch_array($res);
             $rs['pre_loaded_value'];
-            //echo $_SESSION['userid'];
+
             if ($arrUser['is_sponsored'] == 1 && ($rs['pre_loaded_value'] == '0' || $rs['pre_loaded_value'] == null)) {
                 $_SESSION['MESSAGE'] = INSUFFICIENT_BALANCE;
             }
         }
-//print_r($_FILES["icon"]["tmp_name"]); die();
+
+        $this->logs($_FILES["icon"]["tmp_name"]);
+
         $CategoryIconName = "cat_icon_" . md5(time());
         $info = pathinfo($_FILES["icon"]["name"]);
         //print_r($info); die();
@@ -1631,11 +1629,12 @@ class offer extends advertiseoffer{
             if (!empty($_FILES["icon"]["name"])) {
                 $file_extension = strtolower($info['extension']);
                 if ($file_extension == "png" || $file_extension == "jpg" || $file_extension == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {      
-					if ($_FILES["icon"]["error"] > 0) {
+                    if ($_FILES["icon"]["error"] > 0) {
                         $error.=$_FILES["icon"]["error"] . "<br />";
                     } else {
                         $cat_filename = $CategoryIconName . "." . strtolower($info['extension']);
-                        //move_uploaded_file($_FILES["icon"]["tmp_name"],UPLOAD_DIR."Category/" .$cat_filename);
+                        $this->logs(UPLOAD_DIR."category/" .$cat_filename);
+                        // move_uploaded_file($_FILES["icon"]["tmp_name"],UPLOAD_DIR."category/" .$cat_filename);
                         $fileOriginal = $_FILES['icon']['tmp_name'];
                         $crop = '5';
                         $size = 'iphone4_cat';
@@ -1643,6 +1642,9 @@ class offer extends advertiseoffer{
                         $fileThumbnail = $path . $cat_filename;
                         createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
 //echo $errorMsg; die();
+                        $this->logs($errorMsg);
+                        $this->logs($path);
+
                         $arrUser['small_image'] = $cat_filename;
                     }
                 } else {
@@ -2290,34 +2292,30 @@ class offer extends advertiseoffer{
             //                  (u_id='".$_SESSION['userid']."' AND ".$qstr2.")";
             //$set_keywords = trim($set_keywords, " AND ");
         } else {
+
             $set_keywords = " 1 AND";
+            //echo"here";die();
         }
 
-        if ($paging_limit!=0)
+        if ($paging_limit)
             $limit = "limit " . $paging_limit;
-        else
-            $limit = "";
 
         $query = "select * from employer where u_id = '" . $_SESSION['userid'] . "'";
         $res = mysqli_query($conn , $query);
         $rs = mysqli_fetch_array($res);
         $companyId = $rs['company_id'];
 
-        $QUE = "SELECT product.*, lang_text.text as slogen,keyw.text as keyword,cat.text as category FROM product
-            LEFT JOIN          user                     ON   product.u_id = user.u_id
-            LEFT JOIN    product_offer_slogan_lang_list  ON   product_offer_slogan_lang_list.product_id = product.product_id
-            LEFT JOIN    product_keyword  ON   product_keyword.product_id = product.product_id
-            LEFT JOIN        lang_text                  ON   product_offer_slogan_lang_list.offer_slogan_lang_list  = lang_text.id
-            LEFT JOIN        lang_text as keyw    ON   product_keyword.offer_keyword  = keyw.id
-            LEFT JOIN  category  ON category.category_id = product.category
-            LEFT JOIN  category_names_lang_list  ON category.category_id = category_names_lang_list.category
-            LEFT JOIN  lang_text as cat  ON cat.id = category_names_lang_list.names_lang_list
-           WHERE product.company_id='" . $companyId . "' AND $set_keywords  s_activ='2' AND cat.lang = lang_text.lang " . $limit;
-
-           // echo $QUE;
-           // die();
-           
-        // $QUE = "SELECT product.* FROM product WHERE product.company_id='" . $companyId . "' AND $set_keywords  s_activ='2'";
+        // $QUE = "SELECT product.*, lang_text.text as slogen,keyw.text as keyword,cat.text as category FROM product
+        //     LEFT JOIN          user                     ON   product.u_id = user.u_id
+        //     LEFT JOIN    product_offer_slogan_lang_list  ON   product_offer_slogan_lang_list.product_id = product.product_id
+        //     LEFT JOIN    product_keyword  ON   product_keyword.product_id = product.product_id
+        //     LEFT JOIN        lang_text                  ON   product_offer_slogan_lang_list.offer_slogan_lang_list  = lang_text.id
+        //     LEFT JOIN        lang_text as keyw    ON   product_keyword.offer_keyword  = keyw.id
+        //     LEFT JOIN  category  ON category.category_id = product.category
+        //     LEFT JOIN  category_names_lang_list  ON category.category_id = category_names_lang_list.category
+        //     LEFT JOIN  lang_text as cat  ON cat.id = category_names_lang_list.names_lang_list
+        //    WHERE product.company_id='" . $companyId . "' AND $set_keywords  s_activ='2' AND cat.lang = lang_text.lang";
+        $QUE = "SELECT product.* FROM product WHERE product.company_id='" . $companyId . "' AND $set_keywords  s_activ='2'";
         $res = mysqli_query($conn ,$QUE);
 
         return $res;
@@ -3985,18 +3983,18 @@ class offer extends advertiseoffer{
 
         $CategoryIconName = "cat_icon_" . md5(time());
         $info = pathinfo($_FILES["icon"]["name"]);
-		$catImg = "";
+        $catImg = "";
 
         if (!empty($_FILES["icon"]["name"])) {
             if (!empty($_FILES["icon"]["name"])) {
 
-			$file_extension = strtolower($info['extension']);
+            $file_extension = strtolower($info['extension']);
                 if ($file_extension == "png" || $file_extension == "jpg" || $file_extension == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
                     if ($_FILES["icon"]["error"] > 0) {
                         $error.=$_FILES["icon"]["error"] . "<br />";
                     } else {
                         if($_POST['dish_image_original'] != $_FILES['icon']['name']){
-						$cat_filename = $CategoryIconName . "." . strtolower($info['extension']);
+                        $cat_filename = $CategoryIconName . "." . strtolower($info['extension']);
                         $fileOriginal = $_FILES['icon']['tmp_name'];
                         $crop = '5';
                         $size = 'iphone4_cat';
@@ -4008,8 +4006,8 @@ class offer extends advertiseoffer{
                         $dir1 = "category";                        
                         $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
                         system($command);
-						$catImg = IMAGE_AMAZON_PATH . 'category/' . $arrUser['small_image'];
-						}
+                        $catImg = IMAGE_AMAZON_PATH . 'category/' . $arrUser['small_image'];
+                        }
                     }
                 } else {
                     $error.=NOT_VALID_EXT;
@@ -5968,7 +5966,7 @@ class offer extends advertiseoffer{
          $res = mysqli_query($conn ,$_SQL) or die("keyword in relational table : " . mysqli_error($conn));        
 
 
-	
+    
          $Systemkey_companyId = uuid();
          $_SQL = "insert into lang_text(id,lang,text) values('" . $Systemkey_companyId . "','" . $arrUser['lang'] . "','" . $companyId . "')";
          $res = mysqli_query($conn , $_SQL) or die("sub slogan in lang_text : " . mysqli_error($conn));
@@ -6159,13 +6157,13 @@ class offer extends advertiseoffer{
                         $res = mysqli_query($conn , $_SQL) or die("Sub slogan id in relational table : " . mysqli_error($conn));
 
                         ///system_key
-						$sqlSysKey = "SELECT system_key FROM campaign_keyword WHERE campaign_id='".$data['campaign_id']."' AND system_key<>''";
-						$resSysKey = mysqli_query($conn , $sqlSysKey) or die("Get campaign system_key : " . mysqli_error($conn));
+                        $sqlSysKey = "SELECT system_key FROM campaign_keyword WHERE campaign_id='".$data['campaign_id']."' AND system_key<>''";
+                        $resSysKey = mysqli_query($conn , $sqlSysKey) or die("Get campaign system_key : " . mysqli_error($conn));
                         while($rowSysKey = mysql_fetch_array($resSysKey))
-						{
-							$_SQL = "insert into coupon_keywords_lang_list(`coupon`,`keywords_lang_list`) values('" . $couponId . "','" . $rowSysKey['system_key'] . "')";
-							$res = mysqli_query($conn , $_SQL) or die("system_key id in relational table 1:" . mysqli_error($conn));
-						}
+                        {
+                            $_SQL = "insert into coupon_keywords_lang_list(`coupon`,`keywords_lang_list`) values('" . $couponId . "','" . $rowSysKey['system_key'] . "')";
+                            $res = mysqli_query($conn , $_SQL) or die("system_key id in relational table 1:" . mysqli_error($conn));
+                        }
 
                         ///Start date and End Date and Valid days entry ///
                         if (!$limitFlag) {
@@ -6254,13 +6252,13 @@ class offer extends advertiseoffer{
                         $res = mysqli_query($conn , $_SQL) or die("Sub slogan id in relational table : " . mysqli_error($conn));                        
 
                         ///system_key
-						$sqlSysKey = "SELECT system_key FROM advertise_keyword WHERE advertise_id='".$data['advertise_id']."' AND system_key<>''";
-						$resSysKey = mysqli_query($conn , $sqlSysKey) or die("Get advertise system_key : " . mysqli_error($conn));
-						while($rowSysKey = mysqli_fetch_array($resSysKey))
-						{
-							$_SQL = "insert into coupon_keywords_lang_list(`coupon`,`keywords_lang_list`) values('" . $couponId . "','" . $rowSysKey['system_key'] . "')";
-							$res = mysqli_query($conn , $_SQL) or die("system_key id in relational table 2: " . mysqli_error($conn));
-						}
+                        $sqlSysKey = "SELECT system_key FROM advertise_keyword WHERE advertise_id='".$data['advertise_id']."' AND system_key<>''";
+                        $resSysKey = mysqli_query($conn , $sqlSysKey) or die("Get advertise system_key : " . mysqli_error($conn));
+                        while($rowSysKey = mysqli_fetch_array($resSysKey))
+                        {
+                            $_SQL = "insert into coupon_keywords_lang_list(`coupon`,`keywords_lang_list`) values('" . $couponId . "','" . $rowSysKey['system_key'] . "')";
+                            $res = mysqli_query($conn , $_SQL) or die("system_key id in relational table 2: " . mysqli_error($conn));
+                        }
                         
                         $_SQL = "update c_s_rel SET `coupon_id`='" . $couponId . "' WHERE advertise_id='".$advertiseId."' AND store_id='" . $storeId . "'";
                         $res = mysqli_query($conn , $_SQL) or die("limitttt id in relational table : " . mysqli_error($conn));
@@ -6340,13 +6338,13 @@ class offer extends advertiseoffer{
                         $res = mysqli_query($conn , $_SQL) or die("Sub slogan id in relational table : " . mysqli_error($conn));
 
                         ///system_key
-						$sqlSysKey = "SELECT system_key FROM product_keyword WHERE product_id='".$data['product_id']."' AND system_key<>''";
-						$resSysKey = mysqli_query($conn , $sqlSysKey) or die("Get product system_key : " . mysqli_error($conn));
+                        $sqlSysKey = "SELECT system_key FROM product_keyword WHERE product_id='".$data['product_id']."' AND system_key<>''";
+                        $resSysKey = mysqli_query($conn , $sqlSysKey) or die("Get product system_key : " . mysqli_error($conn));
                         while($rowSysKey = mysqli_fetch_array($resSysKey))
-						{
-							$_SQL = "insert into coupon_keywords_lang_list(`coupon`,`keywords_lang_list`) values('" . $couponId . "','" . $rowSysKey['system_key'] . "')";
-							$res = mysqli_query($conn , $_SQL) or die("system key id in relational table 3:".mysqli_error($conn));
-						}
+                        {
+                            $_SQL = "insert into coupon_keywords_lang_list(`coupon`,`keywords_lang_list`) values('" . $couponId . "','" . $rowSysKey['system_key'] . "')";
+                            $res = mysqli_query($conn , $_SQL) or die("system key id in relational table 3:".mysqli_error($conn));
+                        }
 
 
                         $_SQL = "update  c_s_rel SET `coupon_id`= '" . $couponId . "',`end_of_publishing`= '2020-03-09'  WHERE product_id='$productId' AND store_id='" . $storeId . "'";
@@ -7004,8 +7002,8 @@ class offer extends advertiseoffer{
             $pre_loaded_value = $rs_comp['pre_loaded_value'];
         } else {
             $query = "SELECT pre_loaded_value FROM user as usr
-			  LEFT JOIN company as camp ON       (camp.company_id=usr.company_id)
-			 WHERE usr.u_id='" . $_SESSION['userid'] . "'";
+              LEFT JOIN company as camp ON       (camp.company_id=usr.company_id)
+             WHERE usr.u_id='" . $_SESSION['userid'] . "'";
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
             $rs_comp = mysqli_fetch_array($res);
             $pre_loaded_value = $rs_comp['pre_loaded_value'];
@@ -8367,8 +8365,6 @@ VALUES ('" . $campaignId . "','" . $stoId . "','" . $validFrom . "','" . $validT
             $data = $rs1;
         }
 
-   //print_r($data);die();
-
         if ($data['language'] == ENG) {
             $arrUser['price'] = 'Price:' . $arrUser['price'] . 'Rupee';
         } else {
@@ -8411,13 +8407,31 @@ VALUES ('" . $campaignId . "','" . $stoId . "','" . $validFrom . "','" . $validT
 
             }
         
-
         //$_SESSION['MESSAGE'] = COUPON_OFFER_SUCCESS;
         $url = BASE_URL . 'showStandard.php';
         $inoutObj->reDirect($url);
         exit();
     }
 
+
+    function logs($str = ""){
+        $t=time();
+        // echo BASE_URL . "upload/log" . date("Ymd",$t) . ".txt";
+        // die();
+
+        // $myfile = fopen("upload/log" . date("Ymd",$t) . ".txt", "a") or die("Unable to open file!");
+
+        try{
+            $myfile = fopen("upload/log" . date("Ymd",$t) . ".txt", "a");
+        }catch(Exception $ex){
+            echo $ex;
+            die();
+        }
+
+        $txt = date("Y-m-d",$t) . " - " . $str . "  \n";
+        fwrite($myfile, $txt);
+        fclose($myfile);
+    }
 
 }
 ?>
