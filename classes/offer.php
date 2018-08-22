@@ -1618,7 +1618,6 @@ class offer extends advertiseoffer{
             }
         }
 
-        $this->logs($_FILES["icon"]["tmp_name"]);
 
         $CategoryIconName = "cat_icon_" . md5(time());
         $info = pathinfo($_FILES["icon"]["name"]);
@@ -1633,7 +1632,6 @@ class offer extends advertiseoffer{
                         $error.=$_FILES["icon"]["error"] . "<br />";
                     } else {
                         $cat_filename = $CategoryIconName . "." . strtolower($info['extension']);
-                        $this->logs(UPLOAD_DIR."category/" .$cat_filename);
                         // move_uploaded_file($_FILES["icon"]["tmp_name"],UPLOAD_DIR."category/" .$cat_filename);
                         $fileOriginal = $_FILES['icon']['tmp_name'];
                         $crop = '5';
@@ -1641,9 +1639,6 @@ class offer extends advertiseoffer{
                         $path = UPLOAD_DIR . "category/";
                         $fileThumbnail = $path . $cat_filename;
                         createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
-
-                        $this->logs($errorMsg);
-                        $this->logs($path);
 
                         $arrUser['small_image'] = $cat_filename;
                     }
@@ -1687,7 +1682,6 @@ class offer extends advertiseoffer{
 
         $dir1 = "category";
         $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
-        $this->logs($command);
 
         system($command);
         //echo "End UPLOAD"; die();
