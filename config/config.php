@@ -6,7 +6,7 @@
  */
 
 
-/* Server Setting */
+/* Test Server Setting */
 
 $base_url = "https://admin-dev.dastjar.com/";
 $user_app_base_url = "https://anar-dev.dastjar.com/";
@@ -18,14 +18,14 @@ define('BASE_URL', $base_url);
 define('_HOME_', "https://admin-dev.dastjar.com/");
 
 define('FUNCTION_DIR', 'function/');
-define('UPLOAD_DIR', BASEPATH . 'admin/upload/');
+define('UPLOAD_DIR', BASEPATH . 'upload/');
 define('_UPLOAD_URLDIR_', $base_url . 'upload/');
-define('_UPLOAD_IMAGE_', $basePath . 'admin/upload/');
+define('_UPLOAD_IMAGE_', $basePath . 'upload/');
 
 /////////// upload image dirctory/////////
 define('IMAGE_AMAZON_PATH', 'https://s3-eu-west-1.amazonaws.com/dastjar-coupons/upload/');
-define('IMAGE_DIR_PATH', $basePath . 'admin/lib/bin/cumbari_s3.sh');
-define('IMAGE_DIR_PATH_DELETE', $basePath . 'admin/lib/bin/cumbari_s3del.sh');
+define('IMAGE_DIR_PATH', $basePath . 'lib/bin/cumbari_s3.sh');
+define('IMAGE_DIR_PATH_DELETE', $basePath . 'lib/bin/cumbari_s3del.sh');
 
 // Register for google map key with your domain and update it
 define('_GKEY_', 'ABQIAAAA4I2FJ12u6k_VsKf1ZkAGxBRpedP_AkQ-0qMxmraAuu868TnwrBSjQz5UviQktpqH1TVF0HGxFVl12A');
@@ -40,14 +40,54 @@ $stripe_client_secret = 'sk_test_EypGXzv2qqngDIPIkuK6aXNi'; // test
 
 define('STRPIE_CLIENT_SECRET', $stripe_client_secret);
 // Google Captcha ID and KEY 
-$captcha_site_key = '6LeDA0kUAAAAANgrH6YdoQmix-_OawzmczkQr094';
-//$captcha_site_key = '6Le-8UgUAAAAAHADYrs839SRaC8d8XacoiH9w5ao'; // test 
+$captcha_site_key = '6LeDA0kUAAAAANgrH6YdoQmix-_OawzmczkQr094'; // test
+//$captcha_site_key = '6Le-8UgUAAAAAHADYrs839SRaC8d8XacoiH9w5ao'; // local 
 //$captcha_site_key = '6LeDA0kUAAAAANgrH6YdoQmix-_OawzmczkQr094'; // live 
 $captcha_secret_key = '6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX'; // test 
-//$captcha_secret_key = '6Le-8UgUAAAAAPuaEkq19jbaC1k16Kys541kOjB4'; // test 
-//$captcha_secret_key = '6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX'; //   
+//$captcha_secret_key = '6Le-8UgUAAAAAPuaEkq19jbaC1k16Kys541kOjB4'; // local 
+//$captcha_secret_key = '6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX'; // live  
 
+/* Live Server Setting */
+/*
+$base_url = "https://admin.dastjar.com/admin/";
+$user_app_base_url = "https://anar.dastjar.com/";
+$basePath = $_SERVER["DOCUMENT_ROOT"] . '/';
+define('BASEPATH', $basePath);
+define('USER_APP_BASE_URL', $user_app_base_url);
+define('BASE_PATH_NO_ADMIN', 'https://admin.dastjar.com/admin/');
+define('BASE_URL', $base_url);
+define('_HOME_', "https://admin.dastjar.com/admin/");
 
+define('FUNCTION_DIR', 'function/');
+define('UPLOAD_DIR', BASEPATH . 'upload/');
+define('_UPLOAD_URLDIR_', $base_url . 'upload/');
+define('_UPLOAD_IMAGE_', $basePath . 'upload/');
+
+/////////// upload image dirctory/////////
+define('IMAGE_AMAZON_PATH', 'https://s3-eu-west-1.amazonaws.com/dastjar-coupons/upload/');
+define('IMAGE_DIR_PATH', $basePath . 'lib/bin/cumbari_s3.sh');
+define('IMAGE_DIR_PATH_DELETE', $basePath . 'lib/bin/cumbari_s3del.sh');
+
+// Register for google map key with your domain and update it
+define('_GKEY_', 'ABQIAAAA4I2FJ12u6k_VsKf1ZkAGxBRpedP_AkQ-0qMxmraAuu868TnwrBSjQz5UviQktpqH1TVF0HGxFVl12A');
+
+// Stripe ID and KEY  
+//$stripe_client_id = 'ca_BsQwDxmv6Nde3fzblaLT8KiuPh7q02px'; // test 
+$stripe_client_id = 'ca_BsQwCBSJ8NG6N6346v26Ep5z51raygS9'; // live
+//$stripe_pub_id = 'pk_test_5P1GedJTk0HsWb3AnjYBbz6G'; // test 
+$stripe_pub_id = 'pk_live_VGfy6Y668OALZbbUVbY9FwXV'; // live  
+//$stripe_client_secret = 'sk_test_EypGXzv2qqngDIPIkuK6aXNi'; // test 
+$stripe_client_secret = 'sk_live_INm31rvosK6bnFT48xjipoBP'; // live 
+
+define('STRPIE_CLIENT_SECRET', $stripe_client_secret);
+// Google Captcha ID and KEY 
+//$captcha_site_key = '6LeDA0kUAAAAANgrH6YdoQmix-_OawzmczkQr094'; // test
+//$captcha_site_key = '6Le-8UgUAAAAAHADYrs839SRaC8d8XacoiH9w5ao'; // local 
+$captcha_site_key = '6LeDA0kUAAAAANgrH6YdoQmix-_OawzmczkQr094'; // live 
+//$captcha_secret_key = '6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX'; // test 
+//$captcha_secret_key = '6Le-8UgUAAAAAPuaEkq19jbaC1k16Kys541kOjB4'; // local 
+$captcha_secret_key = '6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX'; // live  
+*/
 /* Local Setting  Start*/
 /*
 $base_url = "http://localhost/dastjar/";
@@ -60,14 +100,14 @@ define('BASE_URL', $base_url);
 define('_HOME_', "http://localhost/dastjar/");
 
 define('FUNCTION_DIR', 'function/');
-define('UPLOAD_DIR', BASEPATH . 'admin/upload/');
+define('UPLOAD_DIR', BASEPATH . 'upload/');
 define('_UPLOAD_URLDIR_', $base_url . 'upload/');
-define('_UPLOAD_IMAGE_', $basePath . 'admin/upload/');
+define('_UPLOAD_IMAGE_', $basePath . 'upload/');
 
 /////////// upload image dirctory/////////
 define('IMAGE_AMAZON_PATH', 'https://s3-eu-west-1.amazonaws.com/dastjar-coupons/upload/');
-define('IMAGE_DIR_PATH', $basePath . 'admin/lib/bin/cumbari_s3.sh');
-define('IMAGE_DIR_PATH_DELETE', $basePath . 'admin/lib/bin/cumbari_s3del.sh');
+define('IMAGE_DIR_PATH', $basePath . 'lib/bin/cumbari_s3.sh');
+define('IMAGE_DIR_PATH_DELETE', $basePath . 'lib/bin/cumbari_s3del.sh');
 
 // Register for google map key with your domain and update it
 define('_GKEY_', 'ABQIAAAA4I2FJ12u6k_VsKf1ZkAGxBRpedP_AkQ-0qMxmraAuu868TnwrBSjQz5UviQktpqH1TVF0HGxFVl12A');
@@ -83,10 +123,12 @@ $stripe_client_secret = 'sk_test_EypGXzv2qqngDIPIkuK6aXNi'; // test
 define('STRPIE_CLIENT_SECRET', $stripe_client_secret);
 
 // Google Captcha ID and KEY 
-$captcha_site_key = '6Le-8UgUAAAAAHADYrs839SRaC8d8XacoiH9w5ao'; // test 
+//$captcha_site_key = '6LeDA0kUAAAAANgrH6YdoQmix-_OawzmczkQr094'; // test
+$captcha_site_key = '6Le-8UgUAAAAAHADYrs839SRaC8d8XacoiH9w5ao'; // local 
 //$captcha_site_key = '6LeDA0kUAAAAANgrH6YdoQmix-_OawzmczkQr094'; // live 
-$captcha_secret_key = '6Le-8UgUAAAAAPuaEkq19jbaC1k16Kys541kOjB4'; // test 
-//$captcha_secret_key = '6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX'; // live
+//$captcha_secret_key = '6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX'; // test 
+$captcha_secret_key = '6Le-8UgUAAAAAPuaEkq19jbaC1k16Kys541kOjB4'; // local 
+//$captcha_secret_key = '6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX'; // live  
 */
 
 /* End Here for Local Setting */

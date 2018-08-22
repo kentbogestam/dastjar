@@ -410,7 +410,7 @@
                      <td height="15" colspan='3' >&nbsp;</td>
                   </tr>
                   <tr>
-                     <td height="33" colspan='3' align="left" class="redgraybutton">3 Activate</td>
+                     <td height="33" colspan='3' align="left" class="redgraybutton">3 Add Subscription</td>
                   </tr>
                   <tr>
                      <td height="33" colspan='3' >&nbsp;</td>
