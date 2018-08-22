@@ -1641,7 +1641,7 @@ class offer extends advertiseoffer{
                         $path = UPLOAD_DIR . "category/";
                         $fileThumbnail = $path . $cat_filename;
                         createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
-//echo $errorMsg; die();
+
                         $this->logs($errorMsg);
                         $this->logs($path);
 
@@ -1687,6 +1687,8 @@ class offer extends advertiseoffer{
 
         $dir1 = "category";
         $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
+        $this->logs($command);
+
         system($command);
         //echo "End UPLOAD"; die();
         //// Upload Coupen image//////
@@ -1733,7 +1735,7 @@ class offer extends advertiseoffer{
         $dir2 = "coupon";
         $command2 = IMAGE_DIR_PATH . $file2 . " " . $dir2;
         system($command2);
-        //echo $error; die();
+
         if ($error != '') {
             $_SESSION['MESSAGE'] = $error;
             $_SESSION['post'] = $_POST;
