@@ -508,7 +508,13 @@ class store {
 
 
         $_SESSION['MESSAGE'] = CREATE_STORE_SUCCESS;
-        $url = BASE_URL . 'showStore.php';
+
+        if($_POST['productid'] != ""){
+            $url = BASE_URL . 'addStandStore.php?productId=' . $_POST['productid'];
+        }else{
+            $url = BASE_URL . 'showStore.php';
+        }
+
         $inoutObj->reDirect($url);
         exit();
     }

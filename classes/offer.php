@@ -1825,9 +1825,6 @@ class offer extends advertiseoffer{
 
         $_SQL = "insert into product_keyword(`product_id`,`system_key`) values('" . $standUniqueId . "','" . $Systemkey_companyId . "')";
         $res = mysqli_query($conn , $_SQL) or die(mysqli_error($conn));
-        
-        
-        
          
         $_SESSION['askforstoreStand'] = 1;
         $_SESSION['MESSAGE'] = STANDARD_OFFER_SUCCESS;
@@ -4919,10 +4916,10 @@ class offer extends advertiseoffer{
             $data = $rs;
         }
 
-
         $QUE = "select * from c_s_rel where product_id='" . $productId . "' AND store_id='" . $arrUser['store_id'] . "' AND activ='1'";
         $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysqli_error($conn));
         $row = mysqli_fetch_array($res);
+
         $productid = $row['product_id'];
 
         if ($productid) {
@@ -4938,7 +4935,6 @@ class offer extends advertiseoffer{
                 $arrUser['price'] = 'Pris:' . $arrUser['price'] . 'Kr';
             }
 
-
             $QUE = "select start_of_publishing from product where product_id='" . $productId . "'";
             $res = mysqli_query($conn , $QUE) or die("Get Company : " . mysqli_error($conn));
             $row = mysqli_fetch_array($res);
@@ -4947,6 +4943,8 @@ class offer extends advertiseoffer{
             $_SQL = "insert into c_s_rel(`product_id`,`store_id`,`start_of_publishing`,`activ`) values('" . $productId . "','" . $arrUser['store_id'] . "','" . $startdate . "','1')";
             $res = mysqli_query($conn , $_SQL) or die("limitttt id in relational table : " . mysqli_error($conn));
 
+
+            
             $publishing_start_date = DateTime::createFromFormat('d/m/Y H:i', $_POST['publishing_start_date']);
             $publishing_start_date = $publishing_start_date->format('Y-m-d H:i:s');
 

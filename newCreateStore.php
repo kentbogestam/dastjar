@@ -13,11 +13,13 @@
    //$data = $storeObj->getCompanyDetail($_SESSION['userid']);
    $openCloseingTime = $storeObj->listTimeing();
    //print_r($openCloseingTime);
+
+   $productid = $_GET['productId'];
+
    if (isset($_POST['continue'])) {
-   //echo "In"; die();
        $storeObj->svrStoreDflt();
    }
-   //echo $_SESSION['longitude'];
+
    if ($data[0]['latitude'] && $data[0]['longitude']) {
        $latitude1 = $data[0]['latitude'];
        $longitude1 = $data[0]['longitude'];
@@ -44,9 +46,9 @@
   <script type="text/javascript" src="client/js/newJs/jquery-ui.min.js"></script>
   <script type="text/javascript" src="client/js/newJs/jquery-ui.multidatespicker.js"></script>
 <style type="text/css">
-   <!--
+   /*
       .center{width:900px; margin-left:auto; margin-right:auto;}
-      -->
+      */
 </style>
 <body>
    <div class="center">
@@ -211,6 +213,7 @@
                <td class="inner_grid">City<span class='mandatory'>*</span>:</td>
                <td>
                   <input class="text_field_new" type="text" name="cityStore" id ="cityStore" value="<?=$data[0]['city'] ?>" onChange="initialize()" />
+                  <input type="hidden" name="productid" value="<?=$productid?>">
                   <div id='error_cityStore' class="error"></div>
                </td>
                <td align="right"><a title="<?=CITY_TEXT?>" class="vtip"><b><small>?</small></b></a></td>

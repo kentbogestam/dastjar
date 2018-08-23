@@ -13,7 +13,6 @@ $storeObj = new store();
 //$regObj->isValidRegistrationStep();
 $offerObj = new offer();
   
-$_GET['productId'];
 $productid = $_GET['productId']; //die();
  $data = $offerObj->viewStandardDetailById($productid);
 // Total Location
@@ -74,7 +73,9 @@ include_once("header.php");
 </div>
 <div class="redwhitebutton_small123" style="margin-top:20px; margin-bottom:5px;">Add the Offer <?=$data[0]['product_name']?> to a Location</div>
 <table width="100%" border="0" cellspacing="15">
-<div align="right"  ><a href="newCreateStore.php" >ADD LOCATION</a></div>
+<div align="right"  >
+    <a href="newCreateStore.php?productId=<?=$productid?>" >ADD LOCATION</a>
+</div>
 		<tr>
 		  <td width="50%" align="left" >Select Location<span class='mandatory'>*</span>:</td>
 <td align="left" ><div align="center" class="normalfont">
