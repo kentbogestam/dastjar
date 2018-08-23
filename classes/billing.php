@@ -214,7 +214,7 @@ class Billing{
         }
 
         $uId = $_SESSION['userid'];
-        $this->logs("userid: " . $uId);
+        // $this->logs("userid: " . $uId);
 
         $customer = "select email from user where u_id='$uId'";
         $res = $db->query($customer);
@@ -224,12 +224,12 @@ class Billing{
         }
 
         $emailId = $data[0][0];
-        $this->logs("emailId: " . $emailId);
+        // $this->logs("emailId: " . $emailId);
 
         \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
 
             $token = $_POST['stripeToken'];
-            $this->logs("stripeToken: " . $token);
+            // $this->logs("stripeToken: " . $token);
 
             // Create a Customer
             $customer = \Stripe\Customer::create(array(
@@ -238,9 +238,11 @@ class Billing{
             ));
 
             $customerId = $customer->id;
-            $this->logs("customerId: " . $customerId);
+            // $this->logs("customerId: " . $customerId);
 
-            $query = "UPDATE user SET stripe_customer_id='$customerId' where  u_id='" . $uid[1] . "'";
+            $query = "UPDATE user SET stripe_customer_id='$customerId',activ=5 where  u_id='$uId'";
+            // $this->logs("query: " . $query);
+            $res = $db->query($query);
 
             $subscription = \Stripe\Subscription::create(array(
                 "customer" => $customerId,
@@ -252,7 +254,7 @@ class Billing{
 
         if($res){
             $_SESSION['active_state'] = 5;  
-            $this->logs("active_state: " . $_SESSION['active_state']);
+            // $this->logs("active_state: " . $_SESSION['active_state']);
           
             $_SESSION['MESSAGE'] = "You have successfully subscribed.";
             $url = BASE_URL . 'showStandard.php';

@@ -4,9 +4,16 @@
     *  Author      : Himanshu Singh  Date: 12th,Nov,2010  Creation
     */
    ob_start();
-   //$_SESSION['REG_STEP'] = 2;
+
    header('Content-Type: text/html; charset=utf-8');
    include_once("cumbari.php");
+
+   if($_SESSION['active_state']!=2){
+      $url = BASE_URL . 'login.php';
+      $inoutObj = new inOut();
+      $inoutObj->reDirect($url);
+      exit();
+   }
 
    $billingObj = new billing();
    
@@ -28,15 +35,7 @@
       <script type="text/javascript" src="lib/vtip/js/vtip.js"></script>
       <link rel="stylesheet" type="text/css" href="lib/vtip/css/vtip.css" />
       <script language="JavaScript" src="client/js/jsAddCompany.js" type="text/javascript"></script>
-<!--           <script src="https://checkout.stripe.com/checkout.js" 
-            class="stripe-button"
-            data-key="pk_test_5P1GedJTk0HsWb3AnjYBbz6G"
-            data-name="Dastjar"
-            data-description="By Misha Rudrastyh"
-            data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-            data-label="Donate"
-            data-panel-label="qwe"
-          data-locale="auto"></script> -->
+
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
       <style type="text/css">
@@ -213,9 +212,7 @@
 
         <script type="text/javascript">
           $(document).ready(function(){
-            // alert($("input[name='plan_id']"));
-          });
-
+            
           var handler = StripeCheckout.configure({
               key: "pk_test_5P1GedJTk0HsWb3AnjYBbz6G",
               name: "Dastjar",
@@ -227,6 +224,7 @@
                 token: function(token) {
                   // You can access the token ID with `token.id`.
                   // Get the token ID to your server-side code for use.
+                  // alert(token.id);
 
                   $('#stripe_token').val(token.id);
                   $('#registerform').submit();
@@ -240,7 +238,9 @@
 
                 });              
             }
-          })
+          });
+
+          });          
         </script>
 
    </body>
