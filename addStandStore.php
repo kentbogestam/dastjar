@@ -165,9 +165,12 @@ include_once("header.php");
                 $('#date-end-utc').val(dEnd);
 
         $(document).ready(function(){
+
+            var dateToday = new Date();
+
             $('#publishing_start_date').bootstrapMaterialDatePicker
             ({
-                weekStart: 0, format: 'DD/MM/YYYY HH:mm', clearButton: true
+                weekStart: 0, format: 'DD/MM/YYYY HH:mm', minDate: dateToday, clearButton: true
             }).on('change', function(e, date)
             {
                 $('#publishing_end_date').bootstrapMaterialDatePicker('setMinDate', date);
@@ -176,7 +179,7 @@ include_once("header.php");
 
             $('#publishing_end_date').bootstrapMaterialDatePicker
             ({
-                weekStart: 0, format: 'DD/MM/YYYY HH:mm', clearButton: true
+                weekStart: 0, format: 'DD/MM/YYYY HH:mm', minDate: dateToday, clearButton: true
             }).on('change', function(e, date)
             {
                 $('#date-end-utc').val(moment.utc(date).format('DD/MM/YYYY HH:mm'));

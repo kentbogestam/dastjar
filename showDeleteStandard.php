@@ -71,7 +71,7 @@ $_SESSION['MESSAGE'] = "";
 <tr>
 <td align="left"><h2><?
 
-echo "Deleted Standard";
+echo "Deleted Dish";
 ?></h2></td>
 <td>&nbsp;</td>
 <td valign="bottom">&nbsp;</td>
@@ -130,7 +130,7 @@ echo "Deleted Standard";
 </tr>-->
 <tr></tr>
 </table></td>
-<td width="24%" valign="top"><div align="center"  class="main_bg"><a href="createStandardOffer.php">ADD STANDARD OFFER</a></div></td>
+<td width="24%" valign="top"><div align="center"  class="main_bg"><a href="createStandardOffer.php">ADD DISH</a></div></td>
 </tr>
 </table>
 </form></td>
