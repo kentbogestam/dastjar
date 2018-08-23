@@ -202,6 +202,7 @@ function isNumeric(val)
         return false;
     }
 }
+
 function isAlphabetic(val)
 {
     if (val.match(/^[a-zA-Z]+$/))
@@ -213,8 +214,6 @@ function isAlphabetic(val)
         return false;
     }
 }
-
-
 
 function passwordValidator(val)
 {

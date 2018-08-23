@@ -16,21 +16,15 @@
    include("main.php");
    include("Paging.php");
    
-   //echo $_GET['m']; die();
    if ($_SESSION['userid']) {
        $storeObj = new store();
        $records_per_page = PAGING;
     
-       $total_records = $storeObj->showstoreDetailsRows();
-      // $total_records;
-   
+       $total_records = $storeObj->showstoreDetailsRows();   
        $pager = new pager($total_records, $records_per_page, @$_GET['_p']);
        $paging_limit = $pager->get_limit();
        $data = $storeObj->showDishType($paging_limit);
-       //print_r($data); die();
-
        $delete_dish = $storeObj->deleteDish();
-   //print_r($data); die();
    } else {
        $_SESSION['MESSAGE'] = "Please Login";
        header("location:login.php");
@@ -64,9 +58,7 @@
                <td valign="top">
                   <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
                      <tr>
-                        <td colspan="2"><?php
-                           //echo show_session_msg();
-                           
+                        <td colspan="2"><?php                       
                            $_SESSION['msgType'] = '';
                            $_SESSION['msg'] = ''; ?></td>
                      </tr>

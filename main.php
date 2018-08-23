@@ -111,8 +111,8 @@ if (basename($_SERVER['SCRIPT_FILENAME']) == 'newCreateStore.php')
 <div class="frm_cls-2">
   <table border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
-      <!-- <td nowrap><input type="radio"  <?=$dishType?> onClick="javascript:window.location.href='showDishes.php'" name="deals">
-Locations </td> -->
+      <td nowrap><input type="radio"  <?=$show?> onClick="javascript:window.location.href='showDishes.php?m=showDishes'" name="deals">
+      Dish Type </td>
       <td width="20">&nbsp;</td>
       <td nowrap><input type="radio" <?=$deleted?> onClick="javascript:window.location.href='showDishes.php?m=showDeletedDishes'" name="deals">
       Show Deleted Dish Type</td>

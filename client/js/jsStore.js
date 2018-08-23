@@ -37,7 +37,7 @@ $(document).ready(function(){
         $("#error_address").html('');
         $("#error_coordinate").html('');
         $("#error_storeTime").html('');
-
+        $("#error_zip").html('');
         
         if(($.trim($("#storeName").val()).length == 0))
         {
@@ -80,6 +80,11 @@ $(document).ready(function(){
             var errorMsg = "Please Enter City.<br />";
             $("#error_cityStore").html(errorMsg);
             error = "true";
+        }else if(!isAlphabetic($.trim($("#cityStore").val())))
+        {
+            var errorMsg = "Please Enter Valid City Name.<br />";
+            $("#error_cityStore").html(errorMsg);
+            error = "true";
         }
 
         if (!isValidEmailAddress($.trim($("#email").val())))
@@ -95,6 +100,13 @@ $(document).ready(function(){
             var errorMsg = "Please Enter Phone Number.<br/>";
             $("#error_phoneNo").html(errorMsg);
             error = "true";
+        }
+
+        if(phoneValidator($.trim($("#phoneNo").val())))
+        {
+            var errorMsg = "Please Enter Valid Phone Number.<br/>";
+            $("#error_phoneNo").html(errorMsg);
+            error = "true";            
         }
 
         if($.trim($("#link").val()).length == 0)
@@ -119,6 +131,18 @@ $(document).ready(function(){
             error = "true";
         }
 
+        if(($.trim($("#zip").val()).length == 0))
+        {
+            var errorMsg = "Please Enter Zip.<br/>";
+            $("#error_zip").html(errorMsg);
+            error = "true";
+        }else if(!isNumeric($.trim($("#zip").val())))
+        {
+            var errorMsg = "Please Enter Valid Zip.<br/>";
+            $("#error_zip").html(errorMsg);
+            error = "true";
+        }
+
         if(($.trim($("#longitude").val()).length == 0) && ($.trim($("#latitude").val()).length == 0))
         {
             var errorMsg = "Please Show your Location on the map.<br/>";
@@ -126,7 +150,6 @@ $(document).ready(function(){
             $("#error_coordinate").html(errorMsg);
             error = "true";
         }
-        //alert(error);
 
         if(error=="true")
         {
@@ -143,7 +166,33 @@ function isValidEmailAddress(emailAddress) {
 
 function phoneValidator(val)
 {
-    if(val.match(/^[1-9]/))
+    if(val.match(/[^0-9]/g))
+    {
+        return true;
+    }else if(val.length < 10){
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+function isNumeric(val)
+{
+    if (val.match(/^[0-9]+$/))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+function isAlphabetic(val)
+{
+    if (val.match(/^[a-zA-Z]+$/))
     {
         return true;
     }
