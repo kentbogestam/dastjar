@@ -82,6 +82,10 @@ $(document).ready(function(){
             var errorMsg = "Please Enter Zip Code<br />";
             $("#error_zipcode").html(errorMsg);
             error = "true";
+        }else if(!isNumeric($.trim($("#zipcode").val()))){
+            var errorMsg = "Please Enter Valid Zip Code<br />";
+            $("#error_zipcode").html(errorMsg);
+            error = "true";            
         }
 
         if(($.trim($("#country").val()).length == 0))

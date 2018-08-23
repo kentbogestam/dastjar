@@ -137,15 +137,12 @@ $(document).ready(function(){
             var errorMsg = "Please Enter First Name.<br/>";
             $("#error_fname").html(errorMsg);
             error = "true";
+        }else if (!isAlphabetic($.trim($("#fname").val())))
+        {
+           var errorMsg = "Your First Name is not significant.<br/>";
+           $("#error_fname").html(errorMsg);
+           error = "true";
         }
-
-//        else
-//        if (!isAlphabetic($.trim($("#fname").val())))
-//        {
-//            var errorMsg = "Your Name is not significant.<br />";
-//            $("#error_fname").html(errorMsg);
-//            error = "true";
-//        }
        
 
         if(($.trim($("#lname").val()).length == 0))
@@ -153,14 +150,12 @@ $(document).ready(function(){
             var errorMsg = "Please Enter Last Name.<br/>";
             $("#error_lname").html(errorMsg);
             error = "true";
+        }else if (!isAlphabetic($.trim($("#lname").val())))
+        {
+           var errorMsg = "Your Last Name is not significant.<br />";
+           $("#error_lname").html(errorMsg);
+           error = "true";
         }
-//        else
-//        if (!isAlphabetic($.trim($("#lname").val())))
-//        {
-//            var errorMsg = "Your Name is not significant.<br />";
-//            $("#error_lname").html(errorMsg);
-//            error = "true";
-//        }
 
         
         if(($.trim($("#phone").val()).length == 0) && ($.trim($("#mob").val()).length == 0))
@@ -169,9 +164,17 @@ $(document).ready(function(){
             $("#error_phone").html(errorMsg);
             $("#error_mobile").html(errorMsg);
             error = "true";
+        }else if(phoneValidator($.trim($("#phone").val())))
+        {
+            var errorMsg = "Please Enter Valid Phone Number.<br/>";
+            $("#error_phone").html(errorMsg);
+            error = "true";
+        }else if(phoneValidator($.trim($("#mob").val())))
+        {
+            var errorMsg = "Please Enter Valid Mobile Number.<br/>";
+            $("#error_mobile").html(errorMsg);
+            error = "true";
         }
-
-
 
         if(document.getElementById('terms').checked==false)
         {
@@ -202,6 +205,7 @@ function isValidEmailAddress(emailAddress) {
     var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
     return pattern.test(emailAddress);
 }
+
 function isNumeric(val)
 {
     if (val.match(/^[0-9]+$/))
@@ -247,8 +251,10 @@ function passwordValidator(val)
 
 function phoneValidator(val)
 {
-    if(val.match(/^[1-9]/))
+    if(val.match(/[^0-9]/g))
     {
+        return true;
+    }else if(val.length < 10 && val.length != 0){
         return true;
     }
     else
