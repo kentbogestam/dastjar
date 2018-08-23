@@ -171,7 +171,7 @@
                              <div class="action-btn1"><a href="createEditBillingProduct.php?editId=<?=$data1['id'];
                                 ?>" class="a2" title="Edit"> <img src="lib/grid/images/edite.gif" width="15" height="15"></a></div>
                                                          
-                             <div class="action-btn1"><a href="javascript:delete_plan('uId=<?=$data1['id']; ?>')" onClick="" class="a2" title="Delete">
+                             <div class="action-btn2"><a href="javascript:delete_plan('uId=<?=$data1['id']; ?>')" onClick="" class="a2" title="Delete">
                                 <img src="lib/grid/images/delete.gif" width="11" height="11"></a>
                              </div>
                           </td>
