@@ -291,7 +291,7 @@ class Billing{
         $db = new db();
         $db->makeConnection();
 
-        $query = "select user_plan.*,user.fname,user.lname,billing_products.* from user_plan left join billing_products 
+        $query = "select user_plan.id as user_plan_id, user_plan.user_id,user_plan.plan_id,user.fname,user.lname,billing_products.* from user_plan left join billing_products 
 on user_plan.plan_id=billing_products.plan_id left join user 
 on user_plan.user_id=user.u_id group by user.u_id";
         $res = $db->query($query);
