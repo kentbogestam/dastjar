@@ -13,6 +13,12 @@ include("mainSupport.php");
 $billing = new billing();
 $editId = $_GET['editId'];
 
+if(isset($_GET['b'])){
+   $backLink = $_GET['b'] . ".php";
+}else{
+   $backLink = "productSupport.php";
+}
+
 if($editId)
 {
    $data = $billing->getBillingProduct($editId);
@@ -147,7 +153,7 @@ if (isset($_POST['continue']) AND $editId != '') {
         <tr>
                     <td colspan='3' align="center">
                         <INPUT style="margin-left:160px;" type="submit" value="Continue" class="button" name="continue" id="continue">
-                <INPUT type="button" value="Back" name="continue" id="continue" class="button" onClick="javascript:location.href='productSupport.php';" >
+                <INPUT type="button" value="Back" name="continue" id="continue" class="button" onClick="javascript:location.href='<?=$backLink?>';" >
         </tr>
              <? }  else { ?>
                  <tr>
@@ -159,7 +165,7 @@ if (isset($_POST['continue']) AND $editId != '') {
                         <INPUT type="hidden" 
                         value="<?=$data[0]['plan_id']?>" class="button" name="plan_id">                        
                         <INPUT style="margin-left:160px;" type="submit" value="Update" class="button" name="continue" id="update">
-                <INPUT type="button" value="Back" name="continue" id="continue" class="button" onClick="javascript:location.href='showPartner.php';" >
+                <INPUT type="button" value="Back" name="continue" id="continue" class="button" onClick="javascript:location.href='<?=$backLink?>';" >
                  </tr>
            <? } ?>
             </table>

@@ -106,7 +106,7 @@
     
      </td>
      <td width="24%" valign="top">
-        <div align="center"  class="main_bg"><a href="createEditBillingProduct.php">ADD PRODUCT</a></div>
+        <div align="center"  class="main_bg"><a href="createEditBillingProduct.php?b=showBillingCustomer">ADD PRODUCT</a></div>
      </td>
   </tr>
 </table>

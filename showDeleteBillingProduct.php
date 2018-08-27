@@ -93,7 +93,7 @@
   <tr>
      <td align="left">
         <h2><?php
-            echo "Product";
+            echo "Deleted Product";
         ?></h2>
      </td>
      <td>&nbsp;</td>
@@ -105,7 +105,7 @@
     
      </td>
      <td width="24%" valign="top">
-        <div align="center"  class="main_bg"><a href="createEditBillingProduct.php">ADD PRODUCT</a></div>
+        <div align="center"  class="main_bg"><a href="createEditBillingProduct.php?b=showDeleteBillingProduct">ADD PRODUCT</a></div>
      </td>
   </tr>
 </table>
