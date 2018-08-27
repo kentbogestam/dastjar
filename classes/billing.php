@@ -108,11 +108,22 @@ class Billing{
    function showPlan(){
         $db = new db();
         $db->makeConnection();
+        $data = array();
 
         $query = "select * from billing_products where s_activ<>2";
         $res = $db->query($query);
+        // $res = $res->toArray();
+        // $res=mysqli_fetch_array($res,MYSQLI_ASSOC);
 
-        return $res;
+        while ($rs = mysqli_fetch_array($res)) {
+            $data[] = $rs;
+        }
+
+        $new_value = $data[1];
+        unset($data[1]);
+        array_unshift($data, $new_value);
+
+        return $data;
    }
 
    function getTotalProduct($uId) {

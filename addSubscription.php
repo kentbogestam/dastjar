@@ -57,6 +57,14 @@
          .prod_table th {
             padding-bottom: 15px;
          }
+
+         .prods .panel-group{
+            margin-bottom: 0px;
+         }
+
+         .prods .glyphicon-ok{
+            margin-top: 10px;
+         }
       </style>
    </head>
    <body>
@@ -106,16 +114,16 @@
                               <tbody>
                                                            
                                  <?php
-                                    krsort($data);
                                     foreach ($data as $key => $value) {
                                   ?>
 
-                              <tr>
+                              <tr class="prods">
                                  <td align="left">
                                   <?php if($value['product_name'] == "Anar Base Package"){ ?>
-                                    <input type="checkbox" 
+      <!--                               <input type="checkbox" 
                                     name="" 
-                                    value="<?=$value['plan_id']?>"  checked="checked" required>
+                                    value="<?=$value['plan_id']?>"  checked="checked" required> -->
+                                    <span class="glyphicon glyphicon-ok"></span>
                                   <?php }else{ ?>
                                     <input type="checkbox" 
                                     name="plan_id[]" 
@@ -178,17 +186,20 @@
                  
                </table>
 
-               <div>
-                 <span class='mandatory'>* These Fields Are Mandatory</span>
-               </div><br/>
+                <br/>
 
                <div>
                  <input type="checkbox" name="" value="terms" required>
                                     Terms & Condition 
-               </div>
+                                    <span class="mandatory">*</span>
+               </div><br/>
+
+<!--                <div>
+                 <span class='mandatory'>- Terms & Conditions have to be marked and accepted to be able to continue</span>
+               </div><br/> -->
 
                <div>
-                 <span class='mandatory'>- Terms & Conditions have to be marked and accepted to be able to continue</span>
+                 <span class='mandatory'>* These Fields Are Mandatory</span>
                </div><br/>
 
                     <div style="text-align: center;">
