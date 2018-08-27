@@ -94,7 +94,7 @@
   <tr>
      <td align="left">
         <h2><?php
-            echo "Product";
+            echo "Customer";
         ?></h2>
      </td>
      <td>&nbsp;</td>
@@ -128,7 +128,7 @@
            <table width="100%" border="0" cellpadding="2" cellspacing="2" class="border" bgcolor="#CCCCCC">
               <tr align="center">
                  <td width="13%" height="20" align="center"  class="bg_darkgray1"><strong>Customer Name</strong></td>
-                 <td width="6%" height="20" align="center"  class="bg_darkgray1"><strong>Plan Name</strong></td>
+                 <td width="6%" height="20" align="center"  class="bg_darkgray1"><strong>Plan Nickname</strong></td>
                  <td width="15%" height="20" align="center" class="bg_darkgray1"><strong>Product Name</strong></td>
                  <td width="15%" height="20" align="center" class="bg_darkgray1"><strong>Price</strong></td>
 
@@ -143,7 +143,7 @@
               <tr bgcolor="#FFFFFF" style="font-size:18px; font-weight:bold;">
                  
                  <td align="center"><?php echo $data1['fname'] . " " . $data1['lname']; ?></td>
-                 <td align="center"><?php echo $data1['plan_name']; ?></td>
+                 <td align="center"><?php echo $data1['plan_nickname']; ?></td>
                  <td align="center"><?php echo $data1['product_name']; ?></td>
                  <td align="center"><?php echo $data1['price']; ?></td>
                  
