@@ -147,7 +147,7 @@ if (isset($_POST['continue']) AND $editId != '') {
         <tr>
                     <td colspan='3' align="center">
                         <INPUT style="margin-left:160px;" type="submit" value="Continue" class="button" name="continue" id="continue">
-                <INPUT type="button" value="Back" name="continue" id="continue" class="button" onClick="javascript:location.href='showPartner.php';" >
+                <INPUT type="button" value="Back" name="continue" id="continue" class="button" onClick="javascript:location.href='productSupport.php';" >
         </tr>
              <? }  else { ?>
                  <tr>
