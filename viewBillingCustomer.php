@@ -58,11 +58,11 @@
       </div>
       <div id="container">
          <div align="center">
-          <div class="top_h3">View Billing Product</div>
+          <div class="top_h3">View Billing Customer</div>
           <div style="clear:both"></div>
 
           <h4 class="bg_darkgray123">
-          Product Info Page</h4>
+          Customer Info Page</h4>
           <table BORDER=0 width="100%" id="infopage" style="display:row-inline;">
               <tr align="left">
                   <td width="29%"></td>
@@ -173,7 +173,7 @@
       
     
       <div align="center"><br/>
-       <INPUT type="button" value="Back" name="continue" id="continue" class="button" onClick="javascript:location.href='productSupport.php';" >
+       <INPUT type="button" value="Back" name="continue" id="continue" class="button" onClick="javascript:location.href='showBillingCustomer.php';" >
       <br />
       <br />
     </div>

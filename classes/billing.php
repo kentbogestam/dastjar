@@ -323,14 +323,15 @@ on user_plan.user_id=user.u_id group by user.u_id";
         while ($rs = mysqli_fetch_array($res)) {
             $data[] = $rs;
         }
+
+        // print_r($data);
+        // die();
         
         return $data;
    }
 
     function logs($str = ""){
         $t=time();
-        // echo BASE_URL . "upload/log" . date("Ymd",$t) . ".txt";
-        // die();
 
         // $myfile = fopen("upload/log" . date("Ymd",$t) . ".txt", "a") or die("Unable to open file!");
 
