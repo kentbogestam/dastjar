@@ -45,7 +45,7 @@
       </div>
       <div style=" font-size:22px;"  >
          <b>   <?
-            if ($_GET['m'] == "showOutdatedStore") {
+            if ($_GET['m'] == "showDeletedDishes") {
                 echo "Deleted Dishes";
             } else {
                 echo "Dishes";
@@ -104,7 +104,7 @@
                                                       <td width="100%" align="left" style="padding-left:15px;">
                                                          <?php if ($_REQUEST['m'] == "") {
                                                             ?>
-                                                         <a href="showDishes.php?m=showOutdatedStore"><strong>View All</strong></a>
+                                                         <a href="showDishes.php?m=showDeletedDishes"><strong>View All</strong></a>
                                                          <?php } else {
                                                             ?>
                                                          <a href="showDishes.php"><strong>View All</strong></a>
@@ -126,7 +126,7 @@
                                  <tr>
                                     <td width="49%" align="left"><?php //echo $pager->get_title('&nbsp;Displaying results {FROM} to {TO} of {TOTAL}');        ?></td>
                                     <td width="51%" align="right" style="color:#881d0a;">
-                                       <?php if ($_REQUEST['m'] == "showOutdatedStore") {
+                                       <?php if ($_REQUEST['m'] == "showDeletedDishes") {
                                           ?> <? } else { ?>
                                        <img src="lib/grid/images/lang.png">&nbsp;Add Language&nbsp;&nbsp;&nbsp;
                                        <img src="lib/grid/images/edite.gif">&nbsp;Edit&nbsp;&nbsp;&nbsp;
@@ -153,20 +153,19 @@
                                     <td align="center"><?php echo $data1['dish_name']; ?></td>
                                     <td align="center"><?php echo $data1['dish_lang']; ?></td>
                                     <td align="center">
-                                       <a href="viewDish.php?dishId=<?=$data1['dish_id']; ?>" class="a2" title="View"><img src="lib/grid/images/view.gif"></a>&nbsp;|&nbsp;
-                                       <a href="editTypeofDish.php?dishId=<?=$data1['dish_id']; ?>" class="a2" title="Edit"><img src="lib/grid/images/edite.gif"></a>&nbsp;&nbsp;
-                                       <?php if ($_REQUEST['m'] == "showOutdatedStore") {
+                                       <a href="viewDish.php?dishId=<?=$data1['dish_id']; ?>" class="a2" title="View"><img src="lib/grid/images/view.gif"></a>
+                                          <?php if ($_REQUEST['m'] == "showDeletedDishes") {
                                           ?>
-                                       <!--<a href="javascript:delete_re('storeId=<?=$data1['store_id']; ?>')" onClick="" class="a2" title="Delete">
-                                          <img src="lib/grid/images/delete.gif">
-                                          </a>-->
                                        <?php } else {
-                                          ?> |
+                                          ?> 
+                                    &nbsp;|&nbsp;
+                                       <a href="editTypeofDish.php?dishId=<?=$data1['dish_id']; ?>" class="a2" title="Edit"><img src="lib/grid/images/edite.gif"></a>&nbsp;|&nbsp;
+                                       
                                        <a href="javascript:delete_record_dish('dishId=<?=$data1['dish_id']; ?>')" onClick="" class="a3" title="Delete">
                                        <img src="lib/grid/images/delete.gif">
                                        </a>
                                        <?php } ?>
-                                       <?php if ($_REQUEST['m'] == "showOutdatedStore") {
+                                       <?php if ($_REQUEST['m'] == "showDeletedDishes") {
                                           ?>
                                        <?php } else {
                                           ?> &nbsp;|&nbsp;
