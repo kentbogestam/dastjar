@@ -55,7 +55,7 @@
     <td style="width:100px"><input type="radio" <?=$showstandard?> onClick="javascript:window.location.href='productSupport.php'" name="deals" checked>
     Product </td>
     
-    <td><input type="radio" <?=$showdeletestand?> onClick="javascript:window.location.href='showDeletedBillingProduct.php'" name="deals">
+    <td><input type="radio" <?=$showdeletestand?> onClick="javascript:window.location.href='showDeleteBillingProduct.php'" name="deals">
     Show Deleted Product </td>
   </tr>
   <tr>   

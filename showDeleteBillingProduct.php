@@ -50,7 +50,7 @@
     <td style="width:100px"><input type="radio" <?=$showstandard?> onClick="javascript:window.location.href='productSupport.php'" name="deals" selected="selected">
     Product </td>
     
-    <td><input type="radio" <?=$showdeletestand?> onClick="javascript:window.location.href='showDeletedBillingProduct.php'" name="deals" checked>
+    <td><input type="radio" <?=$showdeletestand?> onClick="javascript:window.location.href='showDeleteBillingProduct.php'" name="deals" checked>
     Show Deleted Product </td>
   </tr>
   <tr>   
@@ -159,7 +159,7 @@
                     <table border="0" align="center" cellpadding="0" cellspacing="0">
                        <tr>
                           <td>
-                             <div class="action-btn2"><a href="viewBillingProduct.php?uId=<?=$data1['id'];
+                             <div class="action-btn2"><a href="viewDeleteBillingProduct.php?uId=<?=$data1['id'];
                                 ?>" class="a2" title="View"><img src="lib/grid/images/view.gif" width="11" height="11"></a></div>
                           </td>
                        </tr>
