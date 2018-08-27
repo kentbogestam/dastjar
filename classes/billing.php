@@ -317,35 +317,12 @@ on user_plan.user_id=user.u_id group by user.u_id";
         $db = new db();
         $db->makeConnection();
 
-        $query = "select user.*,billing_products.* from user_plan left join billing_products on billing_products.plan_id=user_plan.plan_id, user on user.u_id=user_plan.user_id where user_plan.id=$id";
+        $query = "select user.*,billing_products.* from user_plan left join billing_products on billing_products.plan_id=user_plan.plan_id left join user on user.u_id=user_plan.user_id where user_plan.id=$id";
         $res = $db->query($query);
-
-        // while ($rs = mysqli_fetch_array($res)) {
-        //     $data[] = $rs;
-        // }
-
-        // $user_id = $data[0]['user_id'];
-        // $plan_id = $data[0]['plan_id'];
-
-        // $query = "select * from user where u_id=$user_id";
-        // $res = $db->query($query);
-
-        // while ($rs = mysqli_fetch_array($res)) {
-        //     $data[] = $rs;
-        // }
-
-        // $customer_name = $data[0]['user_id'];
-        // $customer_email = $data[0]['plan_id'];
-
-        // $query = "select * from billing_products where plan_id=$plan_id";
-        // $res = $db->query($query);
 
         while ($rs = mysqli_fetch_array($res)) {
             $data[] = $rs;
         }
-
-        print_r($data);
-        die();
         
         return $data;
    }
