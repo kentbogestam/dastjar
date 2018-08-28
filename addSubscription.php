@@ -19,7 +19,7 @@
    
    $data = $billingObj->showPlan();
 
-   if(isset($_POST['plan_id'])){
+   if(isset($_POST['plan_id']) && isset($_POST['stripeToken'])){
     $billingObj->subscribe();    
    }
 
