@@ -42,6 +42,10 @@ switch ($mode) {
         $ajxObj = new ajxCommon();
         $ajxObj->checkOrganisationExist($_REQUEST['orgnisation']);
         break;
+    case 'existdishtype':
+        $ajxObj = new ajxCommon();
+        $ajxObj->checkDishTypeExist($_REQUEST['dish_type']);
+        break;
 }
 
 class ajxCommon {
@@ -170,6 +174,27 @@ class ajxCommon {
         } else {
             //$rec = $db->fetchRow($res);
 
+            echo $count;
+        }
+    }
+
+    function checkDishTypeExist($dish_name) {
+      $userid = $_SESSION['userid'];
+
+      $_SQL = "SELECT dish_name FROM dish_type WHERE dish_name ='$dish_name' AND u_id='$userid' AND dish_activate=1";
+
+        $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+
+        $res = $db->query($_SQL);
+        $count = $db->numRows($res);
+        if ($count > 0) {
+            echo $count;
+        } else {
             echo $count;
         }
     }

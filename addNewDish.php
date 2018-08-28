@@ -17,7 +17,7 @@
    }
    //$standardObj->checkBudgetDetails();
    
-   if (isset($_POST['continue1'])) {
+   if (isset($_POST['dishName'])) {
        $standardObj->addDishes();
    }
    $menu = "dishType";
@@ -32,11 +32,10 @@
    ?>
 
 <script language="JavaScript" src="client/js/jsStore.js" type="text/javascript"></script>
+<script language="JavaScript" src="client/js/jsAddDishType.js" type="text/javascript"></script>
+
 <style type="text/css">
-   /*
-=======
     /*
->>>>>>> a50a492f89880d95bf2eddabaa2bddbd3eff0f03
       .center{width:900px; margin-left:auto; margin-right:auto;}
     */
 </style>
@@ -73,7 +72,7 @@
             </tr>
          </table>
          <div align="center">
-            <INPUT style="margin-left:700px;" type="submit" value="Submit" name="continue1" id="continue1" class="button" >
+            <INPUT style="margin-left:700px;" type="button" value="Submit" name="continue1" id="continue1" class="button" >
           <br />
           <br />
         </div>
