@@ -44,7 +44,7 @@ switch ($mode) {
         break;
     case 'existdishtype':
         $ajxObj = new ajxCommon();
-        $ajxObj->checkDishTypeExist($_REQUEST['dish_type']);
+        $ajxObj->checkDishTypeExist($_REQUEST['dish_type'],$_REQUEST['lang']);
         break;
 }
 
@@ -178,10 +178,10 @@ class ajxCommon {
         }
     }
 
-    function checkDishTypeExist($dish_name) {
+    function checkDishTypeExist($dish_name,$lang) {
       $userid = $_SESSION['userid'];
 
-      $_SQL = "SELECT dish_name FROM dish_type WHERE dish_name ='$dish_name' AND u_id='$userid' AND dish_activate=1";
+      $_SQL = "SELECT dish_name FROM dish_type WHERE dish_name ='$dish_name' AND dish_lang ='$lang' AND u_id='$userid' AND dish_activate=1";
 
         $db = new db();
         $conn = $db->makeConnection();

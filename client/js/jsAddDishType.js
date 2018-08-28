@@ -28,6 +28,7 @@ function checkDishTypeExist()
     }else{
         $.post('classes/ajx/ajxCommon.php',{
             dish_type:$("#dishName").val(),
+            lang:$("#lang").val(),
             m:"existdishtype"
         },
         function(data){
