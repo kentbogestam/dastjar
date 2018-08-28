@@ -213,7 +213,9 @@
            </table>
            <table width="100%" border="0" cellpadding="6" cellspacing="0" class="border">
               <tr>
+               <?php if($pager->get_title('{TO}')!=''){ ?>  
                  <td width="67%" align="left"><?php echo $pager->get_title('&nbsp;Displaying Results {FROM} to {TO} of {TOTAL}'); ?></td>
+               <?php } ?>
                  <td width="33%" align="right"><?php
                     echo $pager->get_prev('<a href="{LINK_HREF}">Prev</a>&nbsp;');
                     echo $pager->get_range('<a href="{LINK_HREF}">{LINK_LINK}</a>', ' &raquo ') . '';

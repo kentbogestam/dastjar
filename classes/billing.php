@@ -258,7 +258,7 @@ class Billing{
             $subscription = \Stripe\Subscription::create(array(
                 "customer" => $customerId,
                 "items" => $plans
-            ));            
+            ));
 
         $query = "insert into user_plan(user_id, plan_id) values$user_plans";
         $res = $db->query($query);
