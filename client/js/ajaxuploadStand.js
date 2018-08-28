@@ -128,13 +128,6 @@ function short_validation()
         error = "true";
     }
 
-    if($.trim($("#dishType").val()) == '')
-    {
-        var errorMsg = "Please Enter Dish Type.<br />";
-        $("#error_dishType").html(errorMsg);
-        error = "true";
-    }
-
     if($.trim($("#dishName").val()) == '')
     {
         var errorMsg = "Please Enter Dish Name.<br />";

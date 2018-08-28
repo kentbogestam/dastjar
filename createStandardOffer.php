@@ -71,6 +71,10 @@
 		background: #a72626;
 	}
 
+  #error_newDishType{
+    text-align: center;
+  }
+
   body{
     background-color: #fff; 
   }
@@ -96,6 +100,7 @@
       <form name="register" action="" id="registerform" method="Post" enctype="multipart/form-data">
          <input type="hidden" name="preview" value="1">
          <input type="hidden" name="m" value="saveNewStandard">
+
          <div>
             <div id="preview_frame"></div>
          </div>
@@ -397,12 +402,12 @@
                                     <td width="50%" align="left" valign="top" class="td_pad_right">
                                       <?php $value = 0; ?>
                                       <div class="adddishes">
-                                          <select id= "xx" name="select2" style="width:406px; background-color:#e4e3dd; border:#abadb3 solid 1px;" class="text_field_new" >
+                                          <select id= "xx" name="select2" style="width:406px; background-color:#e4e3dd; border:#abadb3 solid 1px;" class="text_field_new" onBlur="checkDishTypeExist();">
                                               <?php foreach($listDishes as $key =>$value) { ?>
                                                       <option value = <?php echo $value['dish_id']?> ><?php echo $value['dish_name']?></option>
                                               <?php } ?>
                                           </select>
-                                          <div id='error_startDateStand' class="error"></div>
+                                          <div id='error_dishType' class="error"></div>
                                       </div>
                                     </td>
                               <td align="right" valign="middle"><a title="<?=TYPE_OF_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
@@ -497,6 +502,7 @@
                <div class="form-group">
                  <label>Type Of Dish :</label>
                  <input id="txtDishType" type="text" />
+                 <div id='error_newDishType' class="error"></div>
               </div>
               <div class="form-group">
                  <input type="submit" value="Continue" name="continue" id="submit-btn" class="form-submit-btn">
@@ -563,8 +569,7 @@
        $('#addDishType-popup').hide();
      });
 
-   $(function(){
-      $('[id*=submit-btn]').click(function(){
+      function addNewDishTpye(){
          var dataString = 'Languang='+$('[id*=txtDishLanguage]').val()+'&DishType='+$('[id*=txtDishType]').val()+'&userId='+$('[id*=Userdetail]').val();
          console.log(dataString);
          $.ajax({
@@ -582,7 +587,7 @@
                str += "<option value="+$data[i]["dish_id"]+">"+$data[i]["dish_name"]+"</option>";
                }
 
-               str += "<option value='addNewDishTpye'> Add Type Of Dish </option>";
+               // str += "<option value='addNewDishTpye'> Add Type Of Dish </option>";
 
                $("#xx").html(str);
 
@@ -596,8 +601,7 @@
                alert(response.responseText);
             }
          });
-      });
-   });
+      }
       
 </script>
 <script language="JavaScript" src="client/js/jsImagePreview.js" type="text/javascript"></script>

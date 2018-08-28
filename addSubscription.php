@@ -162,7 +162,7 @@
 
                                  </td>
                                  <td align="left">
-                                    <?=$value['price']?>                 
+                                    <?=$value['price'] . "(" .$value['currency'].")"?>                 
                                  </td>
                                  <td align="left">
                                     1

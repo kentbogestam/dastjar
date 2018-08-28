@@ -41,6 +41,13 @@ $(document).ready(function(){
           iconSize = this.files[0].size;
         });
 
+        if($.trim($("#xx").val()) == '')
+        {
+            var errorMsg = "Please Select Dish Type.<br />";
+            $("#error_dishType").html(errorMsg);
+            return false;
+        }
+
         if($.trim($("#icon").val()).length!=0){
            
             if(!isValidPngImage($("#icon").val()))
@@ -80,14 +87,13 @@ $(document).ready(function(){
             $("#error_searchKeywordStand").html(errorMsg);
             error = "true";
         }
-	 if(($.trim($("#searchKeywordStand").val()).length == 0))
+
+	    if(($.trim($("#searchKeywordStand").val()).length == 0))
         {
             var errorMsg = "Please enter one or more Search Keyword<br />";
             $("#error_searchKeywordStand").html(errorMsg);
             error = "true";
         }
-
-
 
         // if($.trim($("#largeimage").val()).length==0){
 
@@ -475,7 +481,6 @@ function delete_standStore(id)
     }
 }
 
-
 function standardPreview(form)
 {
 
@@ -486,4 +491,47 @@ function standardPreview(form)
 
 
 //ajaxUpload(form,'classes/ajx/ajxUpload.php?filename=icon&amp;maxW=200','upload_area'); return false;
+}
+
+$(document).ready(function(){
+    $("[id*=submit-btn]").click(function(){
+        $("#error_dishName").html('');
+        checkDishTypeExist();
+    });
+});
+
+/* Function Header :checkDishTypeExist()
+*             Args: none
+*           Errors: none
+*     Return Value: none
+*      Description:To check whether the email_id exist or not
+*/
+
+
+function checkDishTypeExist()
+{
+    if($("#txtDishType").val().length<1)
+    {
+        var errorMsg = "Please Enter Dish Type.<br />";
+        $("#error_newDishType").html(errorMsg);
+    }else{
+        $.post('classes/ajx/ajxCommon.php',{
+            dish_type:$("#txtDishType").val(),
+            lang:$("#lang").val(),
+            m:"existdishtype"
+        },
+        function(data){
+            if(data>0)
+            {
+                var errorMsg = "This dish type already exists.<br />";
+                $("#error_newDishType").html(errorMsg);
+            }
+            else
+            {
+                var errorMsg = "Available.<br />";
+                addNewDishTpye();
+            }
+        }
+        );
+    }
 }
