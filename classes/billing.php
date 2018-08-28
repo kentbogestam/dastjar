@@ -231,10 +231,10 @@ class Billing{
         $res = $db->query($customer);
 
         while ($rs = mysqli_fetch_array($res)) {
-            $data[] = $rs;
+            $data2[] = $rs;
         }
 
-        $emailId = $data[0][0];
+        $emailId = $data2[0][0];
         $this->logs("emailId: " . $emailId);
 
         \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
