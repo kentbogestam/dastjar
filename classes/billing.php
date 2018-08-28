@@ -314,7 +314,7 @@ on user_plan.user_id=user.u_id group by user.u_id";
         $db = new db();
         $db->makeConnection();
 
-        $query = "select * from user_plan where id=$id";
+        $query = "select * from billing_products where id=$id";
         $res = $db->query($query);
 
         while ($rs = mysqli_fetch_array($res)) {
