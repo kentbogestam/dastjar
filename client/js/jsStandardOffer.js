@@ -517,7 +517,7 @@ function checkDishTypeExist()
     }else{
         $.post('classes/ajx/ajxCommon.php',{
             dish_type:$("#txtDishType").val().trim(),
-            lang:$("#lang").val().trim(),
+            lang:$("#lang").val(),
             m:"existdishtype"
         },
         function(data){
