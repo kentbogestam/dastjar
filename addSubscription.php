@@ -8,7 +8,7 @@
    header('Content-Type: text/html; charset=utf-8');
    include_once("cumbari.php");
 
-   if($_SESSION['active_state']!=2){
+   if(isset($_SESSION['userid']) && $_SESSION['active_state']!=2){
       $url = BASE_URL . 'login.php';
       $inoutObj = new inOut();
       $inoutObj->reDirect($url);
