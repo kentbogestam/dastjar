@@ -180,6 +180,7 @@ class ajxCommon {
 
     function checkDishTypeExist($dish_name,$lang) {
       $userid = $_SESSION['userid'];
+      $dish_name = trim($dish_name);
 
       $_SQL = "SELECT dish_name FROM dish_type WHERE dish_name ='$dish_name' AND dish_lang ='$lang' AND u_id='$userid' AND dish_activate=1";
 
