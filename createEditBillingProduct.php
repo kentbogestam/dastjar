@@ -56,7 +56,7 @@ if (isset($_POST['continue']) AND $editId != '') {
                     <td class="redwhitebutton">ADD PRODUCT</td>
                 <? }  else { ?>
 
-         <td class="redwhitebutton">EDIT PLAN</td>
+         <td class="redwhitebutton">EDIT PRODUCT</td>
                 <? } ?>
 
     </tr>
