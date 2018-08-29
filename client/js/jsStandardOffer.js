@@ -510,14 +510,14 @@ $(document).ready(function(){
 
 function checkDishTypeExist()
 {
-    if($("#txtDishType").val().length<1)
+    if($("#txtDishType").val().trim().length<1)
     {
         var errorMsg = "Please Enter Dish Type.<br />";
         $("#error_newDishType").html(errorMsg);
     }else{
         $.post('classes/ajx/ajxCommon.php',{
-            dish_type:$("#txtDishType").val(),
-            lang:$("#lang").val(),
+            dish_type:$("#txtDishType").val().trim(),
+            lang:$("#lang").val().trim(),
             m:"existdishtype"
         },
         function(data){

@@ -297,7 +297,7 @@
                               </td>
                            </tr>
                         </table>
-                        <div class="redwhitebutton_small123"><span style="cursor:pointer;" onClick="showAdvancedSearchStand();">Advanced Options-Optional</span></div>
+                        <div class="redwhitebutton_small"><span style="cursor:pointer;" onClick="showAdvancedSearchStand();">Advanced Options-Optional</span></div>
                         <table border="0" width="100%">
                         </table>
                         <table width="100%" BORDER=0 cellpadding="0" cellspacing="0"  >
@@ -338,7 +338,7 @@
                </tr>
                <tr>
                   <td >
-                     <div class="redwhitebutton_small123">Add your Coupon View</div>
+                     <div class="redwhitebutton_small">Add your Coupon View</div>
                      <table width="100%" border="0">
                         <tr>
                            <td width="100%">
@@ -534,7 +534,7 @@
 
             $('#startDateStand').bootstrapMaterialDatePicker
             ({
-                weekStart: 0, format: 'DD/MM/YYYY HH:mm',  shortTime : true, clearButton: true
+                weekStart: 0, format: 'DD/MM/YYYY HH:mm', clearButton: true
             }).on('change', function(e, date)
             {
                 $('#date-start-utc').val(moment.utc(date).format('DD/MM/YYYY HH:mm'));

@@ -77,7 +77,9 @@
    <form name="register" action="" id="registerform" method="Post" enctype="multipart/form-data">
       <input type="hidden" name="preview" value="1">
       <input type="hidden" name="productId" value="$_GET['productId']">
-      <div class="blackbutton123">Show Standard Offer</div>
+                  <br/>
+      <div class="blackbutton" style="line-height: 93px">Show Standard Offer</div>
+      <br/>
       <div id="msg" align="center">
          <?
             if (($_SESSION['MESSAGE_NO_REORD'])) {
@@ -99,11 +101,11 @@
             }
             ?>
       </div>
-      <div class="redwhitebutton_small123">Edit Data List View  For Standard Offer</div>
+      <div class="redwhitebutton_small">Edit Data List View  For Standard Offer</div>
       <input type="hidden" name="m" value="saveNewStandard">
       <input type="hidden" name="productId" value="<?=$_GET['productId']
          ?>">
-      <table border="0"   width="100%" cellspacing="15">
+      <table border="0" width="100%" cellspacing="15">
          <tr>
             <td width="515" align="left" valign="top" class="inner_grid">Edit According To Your Language: </td>
             <td width="469" align="left" valign="top">
@@ -262,7 +264,7 @@
               <div id='error_link' class="error"></div></td>
             </tr>-->
       </table>
-      <div class="redwhitebutton_small123">Advanced Options-Optional</div>
+      <div class="redwhitebutton_small">Advanced Options-Optional</div>
       
      <!--  <div class="redwhitebutton_small123">Add your Coupon View</div> -->
       <table  width="100%" border="0" cellspacing="15">

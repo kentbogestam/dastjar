@@ -21,14 +21,14 @@ $(document).ready(function(){
 
 function checkDishTypeExist()
 {
-    if($("#dishName").val().length<1)
+    if($("#dishName").val().trim().length<1)
     {
         var errorMsg = "Please Enter Dish Type.<br />";
         $("#error_dishName").html(errorMsg);
     }else{
         $.post('classes/ajx/ajxCommon.php',{
-            dish_type:$("#dishName").val(),
-            lang:$("#lang").val(),
+            dish_type:$("#dishName").val().trim(),
+            lang:$("#lang").val().trim(),
             m:"existdishtype"
         },
         function(data){
