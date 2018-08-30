@@ -33,7 +33,7 @@
                   <tr>
                      <td height="72" colspan="4" align="right" style="font-size:14px; font-weight:bold;"><?php
                         //echo "userid".$_SESSION['userid'];
-                        if (isset($_SESSION['username']))
+                        if (isset($_SESSION['username']) && isset($_SESSION['userid']))
                         {
                         echo "<b>Welcome ".$_SESSION['username']."</b>  ";
                         if($_SESSION['active_state']==5){

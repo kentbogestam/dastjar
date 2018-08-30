@@ -71,7 +71,7 @@ include_once("header.php");
     }
     ?>
 </div>
-<div class="redwhitebutton_small123" style="margin-top:20px; margin-bottom:5px;">Add the Offer <?=$data[0]['product_name']?> to a Location</div>
+<div class="redwhitebutton_small" style="margin-top:20px; margin-bottom:5px;">Add the Offer <?=$data[0]['product_name']?> to a Location</div>
 <table width="100%" border="0" cellspacing="15">
 <div align="right"  >
     <a href="newCreateStore.php?productId=<?=$productid?>" >ADD LOCATION</a>
@@ -168,6 +168,16 @@ include_once("header.php");
 
         $(document).ready(function(){
 
+            $('#registerform').submit(function(e){     
+                dkS = moment($("#publishing_start_date").val(),'DD/MM/YYYY HH:mm').toDate();
+                dkE = moment($("#publishing_end_date").val(),'DD/MM/YYYY HH:mm').toDate();
+
+                if(dkS>dkE){
+                    alert("Publishing start date must be smaller than publishing end date");
+                    return false;
+                }
+            });
+
             var dateToday = new Date();
 
             $('#publishing_start_date').bootstrapMaterialDatePicker
@@ -175,11 +185,6 @@ include_once("header.php");
                 weekStart: 0, format: 'DD/MM/YYYY HH:mm', minDate: dateToday, clearButton: true
             }).on('change', function(e, date)
             {
-                if(new Date(date)>new Date(dKEnd)){
-                    alert("Publishing start date must be smaller than publishing end date");
-                    $('#publishing_start_date').val("<?php echo date('d/m/Y 00:00'); ?>");
-                    return false;
-                }
                 $('#publishing_end_date').bootstrapMaterialDatePicker('setMinDate', date);
                 $('#date-start-utc').val(moment.utc(date).format('DD/MM/YYYY HH:mm'));
             });
@@ -190,7 +195,6 @@ include_once("header.php");
             }).on('change', function(e, date)
             {
                 dKEnd = date;
-                $('#publishing_start_date').bootstrapMaterialDatePicker('setMaxDate', date);
                 $('#date-end-utc').val(moment.utc(date).format('DD/MM/YYYY HH:mm'));
             });
 
