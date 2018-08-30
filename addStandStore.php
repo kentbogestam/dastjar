@@ -162,6 +162,7 @@ include_once("header.php");
 
                 dEnd = "<?php echo date('Y-m-d 23:59:00'); ?>";
                 dEnd = moment(dEnd).toDate();
+                dKEnd = moment(dEnd).local().format("YYYY-MM-DD HH:mm");                                    
                 dEnd = moment.utc(dEnd).format("DD/MM/YYYY HH:mm");
                 $('#date-end-utc').val(dEnd);
 
@@ -174,6 +175,9 @@ include_once("header.php");
                 weekStart: 0, format: 'DD/MM/YYYY HH:mm', minDate: dateToday, clearButton: true
             }).on('change', function(e, date)
             {
+                if(new Date(date)>new Date(dKEnd)){
+                    alert("Publishing start date must be smaller than publishing end date");
+                }
                 $('#publishing_end_date').bootstrapMaterialDatePicker('setMinDate', date);
                 $('#date-start-utc').val(moment.utc(date).format('DD/MM/YYYY HH:mm'));
             });
@@ -183,6 +187,8 @@ include_once("header.php");
                 weekStart: 0, format: 'DD/MM/YYYY HH:mm', minDate: dateToday, clearButton: true
             }).on('change', function(e, date)
             {
+                dKEnd = date;
+                $('#publishing_start_date').bootstrapMaterialDatePicker('setMaxDate', date);
                 $('#date-end-utc').val(moment.utc(date).format('DD/MM/YYYY HH:mm'));
             });
 
