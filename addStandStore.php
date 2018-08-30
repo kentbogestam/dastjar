@@ -177,6 +177,8 @@ include_once("header.php");
             {
                 if(new Date(date)>new Date(dKEnd)){
                     alert("Publishing start date must be smaller than publishing end date");
+                    $('#publishing_start_date').val("<?php echo date('d/m/Y 00:00'); ?>");
+                    return false;
                 }
                 $('#publishing_end_date').bootstrapMaterialDatePicker('setMinDate', date);
                 $('#date-start-utc').val(moment.utc(date).format('DD/MM/YYYY HH:mm'));
