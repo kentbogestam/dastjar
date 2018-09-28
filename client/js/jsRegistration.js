@@ -254,7 +254,7 @@ function phoneValidator(val)
     if(val.match(/[^0-9]/g))
     {
         return true;
-    }else if(val.length < 10 && val.length != 0){
+    }else if(val.length < 7 && val.length != 0){
         return true;
     }
     else
