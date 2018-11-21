@@ -102,6 +102,16 @@
                </td>
                <td align="right"><a title="<?=TYPE_OF_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
+             <!-- code added by saurabh to add new field for restaurant keyword"-->
+             <tr>
+               <td class="inner_grid">Tag line For Location:</td>
+               <td>
+                  <input type="text" class="text_field_new"  name="tagline" id ="tagline" maxlength="50" />
+                  <div id='error_link' class="error"></div>
+               </td>
+               <td align="right"><a title="<?=RESTAURANT_TAGLINE?>" class="vtip"><b><small>?</small></b></a></td>
+            </tr>
+            <!-- End code added by saurabh to add new field for restaurant keyword"-->
             <tr>
                <td height="42" align="left">Online Payment<span class='mandatory'>*</span>:</td>
                <td><input type="checkbox" name="onlinePayment" value="1"  checked />Online Payment</td>
