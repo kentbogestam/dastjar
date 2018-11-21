@@ -346,6 +346,20 @@
                   </select>
                </td>
             </tr>
+
+                <!-- added code by saurabh to edit the new tagline-->
+             <tr>
+               <td width="592" class="inner_grid">Tag line For Location:
+                  <span class='mandatory'>*</span>:
+               </td>
+               <td width="415" >
+                  <input class="text_field_new"  type="text" name="tagline" id ="tagline" value="<?=$data[0]['tagline']
+                     ?>" maxlength="50" />
+                  <div id='error_storeName' class="error"></div>
+               </td>
+               <td align="right"><a title="<?=RESTAURANT_TAGLINE?>" class="vtip"><b><small>?</small></b></a></td>
+            </tr>
+             <!-- End code by saurabh to edit the new tagline-->
             <tr>
                <td class="inner_grid"></td>
                <td>
