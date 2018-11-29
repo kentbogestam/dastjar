@@ -12,7 +12,7 @@ define("DATABASE", "Secondphase_dastjar");
 define("USER", "root");
 define("PASSWORD", "alirezakent");*/
 
-define("SERVER", "34.241.164.53");
+define("SERVER", "admin-dev.dastjar.com");
 define("PORT", "3306");
 define("DATABASE", "dastjar");
 define("USER", "root");
