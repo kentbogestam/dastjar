@@ -49,14 +49,14 @@ $captcha_secret_key = '6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX'; // test
 
 /* Live Server Setting */
 /*
-$base_url = "https://admin.dastjar.com/admin/";
+$base_url = "https://admin.dastjar.com/";
 $user_app_base_url = "https://anar.dastjar.com/";
 $basePath = $_SERVER["DOCUMENT_ROOT"] . '/';
 define('BASEPATH', $basePath);
 define('USER_APP_BASE_URL', $user_app_base_url);
-define('BASE_PATH_NO_ADMIN', 'https://admin.dastjar.com/admin/');
+define('BASE_PATH_NO_ADMIN', 'https://admin.dastjar.com/');
 define('BASE_URL', $base_url);
-define('_HOME_', "https://admin.dastjar.com/admin/");
+define('_HOME_', "https://admin.dastjar.com/");
 
 define('FUNCTION_DIR', 'function/');
 define('UPLOAD_DIR', BASEPATH . 'upload/');
