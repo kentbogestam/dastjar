@@ -236,6 +236,9 @@
                                  </div>
                                  <INPUT class="text_field_new" type=file name="icon" id="icon" onBlur="iconPreview(this.form);" >
                                  <div id='error_icon' class="error"></div>
+                                 <div class="box-icon-default" style="display: none;">
+                                 	<input type="checkbox" name="icondefault" id="icondefault" value="1"> <label for="icondefault">Use default</label>
+                                 </div>
                                  <div>
                                     <input class="text_field_new" type="hidden" id="selected_image" name="selected_image" value="0">
                                  </div>

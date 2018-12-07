@@ -1654,26 +1654,35 @@ class offer extends advertiseoffer{
                 }
             }
         } else {
-            //echo "Cat Resp icon"; die();
-            $category_image = $_POST["category_image"];
-            if (!empty($category_image)) {
+            $isDefaultDishImage = 0;
+            
+            if( strpos($_SERVER['PHP_SELF'], 'createStandardOffer') && ( isset($_POST['icondefault']) && $_POST['icondefault'] == '1' ) )
+            {
+                $isDefaultDishImage = 1;
+            }
+            else
+            {
+                //echo "Cat Resp icon"; die();
+                $category_image = $_POST["category_image"];
+                if (!empty($category_image)) {
 
-                $categoryImageName = explode(".", $category_image);
-                $cat_filename = $CategoryIconName . "." . $categoryImageName[1];
-                //move_uploaded_file($_FILES["icon"]["tmp_name"],UPLOAD_DIR."Category/" .$cat_filename);
-                $fileOriginal = UPLOAD_DIR . "category_lib/" . $category_image;
-                //$crop = '5';
-                //$size = 'iphone4_cat';
-                $path = UPLOAD_DIR . "category/";
-                $fileThumbnail = $path . $cat_filename;
-                copy($fileOriginal, $fileThumbnail);
-                //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
-                $arrUser['small_image'] = $cat_filename;
-            } else {
-                if ($_SESSION['preview']['small_image'] != "") {
-                    $arrUser['small_image'] = $_SESSION['preview']['small_image'];
+                    $categoryImageName = explode(".", $category_image);
+                    $cat_filename = $CategoryIconName . "." . $categoryImageName[1];
+                    //move_uploaded_file($_FILES["icon"]["tmp_name"],UPLOAD_DIR."Category/" .$cat_filename);
+                    $fileOriginal = UPLOAD_DIR . "category_lib/" . $category_image;
+                    //$crop = '5';
+                    //$size = 'iphone4_cat';
+                    $path = UPLOAD_DIR . "category/";
+                    $fileThumbnail = $path . $cat_filename;
+                    copy($fileOriginal, $fileThumbnail);
+                    //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
+                    $arrUser['small_image'] = $cat_filename;
                 } else {
-                    $arrUser['small_image'] = $_POST['smallimage'];
+                    if ($_SESSION['preview']['small_image'] != "") {
+                        $arrUser['small_image'] = $_SESSION['preview']['small_image'];
+                    } else {
+                        $arrUser['small_image'] = $_POST['smallimage'];
+                    }
                 }
             }
         }
@@ -1747,7 +1756,16 @@ class offer extends advertiseoffer{
             $_SESSION['post'] = "";
         }
 
-        $catImg = IMAGE_AMAZON_PATH . 'category/' . $arrUser['small_image'];
+        // Check if dish has added default image
+        if( isset($isDefaultDishImage) && $isDefaultDishImage )
+        {
+            $catImg = 'https://s3-eu-west-1.amazonaws.com/dastjar-coupons/upload/category/cat_icon_b738a523d72867d1fc84e1f9d3c18b29.png';
+        }
+        else
+        {
+            $catImg = IMAGE_AMAZON_PATH . 'category/' . $arrUser['small_image'];
+        }
+        
         $copImg = IMAGE_AMAZON_PATH . 'coupon/' . $arrUser['large_image'];
         //echo $copImg;die();
         $standUniqueId = uuid();
