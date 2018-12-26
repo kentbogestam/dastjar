@@ -3,27 +3,29 @@
     *  Description : Add Company Form
     *  Author      : Himanshu Singh  Date: 12th,Nov,2010  Creation
     */
-   ob_start();
+    ob_start();
 
-   header('Content-Type: text/html; charset=utf-8');
-   include_once("cumbari.php");
+    header('Content-Type: text/html; charset=utf-8');
+    include_once("cumbari.php");
 
-   if(isset($_SESSION['userid']) && $_SESSION['active_state']!=2){
-      $url = BASE_URL . 'login.php';
-      $inoutObj = new inOut();
-      $inoutObj->reDirect($url);
-      exit();
-   }
+    if(isset($_SESSION['userid']) && $_SESSION['active_state']!=2){
+        $url = BASE_URL . 'login.php';
+        $inoutObj = new inOut();
+        $inoutObj->reDirect($url);
+        exit();
+    }
 
-   $billingObj = new billing();
-   
-   $data = $billingObj->showPlan();
+    $billingObj = new billing();
 
-   if(isset($_POST['plan_id']) && isset($_POST['stripeToken'])){
-    $billingObj->subscribe();    
-   }
+    $data = $billingObj->showPlan();
 
-   include_once("header.php");
+    if(isset($_POST['plan_id']) && isset($_POST['stripeToken']))
+    // if(isset($_POST['stripeToken']))
+    {
+        $billingObj->subscribe();
+    }
+
+    include_once("header.php");
    ?>
 <?php include 'config/defines.php'; ?>
 
@@ -65,6 +67,10 @@
          .prods .glyphicon-ok{
             margin-top: 10px;
          }
+
+        input[type="checkbox"][readonly] {
+            pointer-events: none;
+        }
       </style>
    </head>
    <body>
@@ -77,144 +83,100 @@
        ?>
     </center>
 
-      <div class="center">
-
-         <div id="main_color">
+    <div class="center">
+        <div id="main_color">
             <div id="singbutton_portion"></div>
             <div id="mainbutton">
-              
-              <form action="#" name="register" id="registerform" method="POST" >
-
-               <table width="100%" cellspacing="2" border="0" >
-                  <tr>
-                     <td>&nbsp;</td>
-                  </tr>
-                  <tr>
-                     <td class="blackbutton">Add Subscription</td>
-                  </tr>
-                  <tr>
-                     <td>&nbsp;</td>
-                  </tr>
-                  
-                  <tr>
-                     <td valign="top" >
-                           <input type="hidden" name="m" value="savecomp">
-                           <input type="hidden" name="checkResult" id="checkResult" value="yes"/>
-                           <table BORDER=0 width="100%" class="prod_table table table-striped" cellspacing="10" cellpadding="10">
-                              <thead>
-                                 <tr>
-                                    <th></th>
-                                    <th colspan="2" style="padding-bottom: 10px; padding-right: 10px">Product Description</th>
-                                    <th>Unit Price(kr)</th>
-                                    <th>Quantity</th>
-                                    <th>Amount</th>
-                                 </tr>
-                              </thead>
-
-                              <tbody>
-                                                           
-                                 <?php
-                                    foreach ($data as $key => $value) {
-                                  ?>
-
-                              <tr class="prods">
-                                 <td align="left">
-                                  <?php if($value['product_name'] == "Anar Base Package"){ ?>
-      <!--                               <input type="checkbox" 
-                                    name="" 
-                                    value="<?=$value['plan_id']?>"  checked="checked" required> -->
-                                    <span class="glyphicon glyphicon-ok"></span>
-                                  <?php }else{ ?>
-                                    <input type="checkbox" 
-                                    name="plan_id[]" 
-                                    value="<?=$value['plan_id']?>">
-                                   <?php } ?>
-                                 </td>
-                                 <td align="left" colspan="2" style="padding-right: 10px; padding-left: 10px">
-
-                                    <?php if($value['product_name'] == "Anar Base Package"){ ?>
-                                <div class="panel-group">
-                                  <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                       <h4 class="panel-title">
-                                        <a data-toggle="collapse" href="#collapse1">Anar Base Package<span class="caret pull-right"></span></a>
-                                       </h4>
-                                    </div>
-                                    <div id="collapse1" class="panel-collapse collapse">
-                                      <ul class="list-group">
-                                        <li class="list-group-item">Order status (incoming and delivered orders)
-                                        </li>
-                                        <li class="list-group-item">Order On-site (possibility to order for the customer)</li>
-                                        <li class="list-group-item">Delivery and Payment confirmation</li>
-                                        <li class="list-group-item">Kitchen Service including new orders and comments</li>
-                                        <li class="list-group-item">Catering Service including delivery date/ time</li>
-                                        <li class="list-group-item">Menu (Edit and add new dishes to Menu)</li>
-                                        <li class="list-group-item">Administration support (Change company setting and information)</li>
-                                        <li class="list-group-item">Additional features under “More” ooo</li>
-                                      </ul>
-                                    </div>
-                                  </div>
-                                </div>
-                                    <?php }else{ ?>   
-                                    <?=$value['product_name']?>
-
-                                     <?php } ?>  
-
-                                 </td>
-                                 <td align="left">
-                                    <?=$value['price'] . "(" .$value['currency'].")"?>                 
-                                 </td>
-                                 <td align="left">
-                                    1
-                                 </td>
-                                 <td align="left">
-                                    <?=$value['price']*1?>                 
-                                 </td>
-                              </tr>
-
-                                 <?php
-                                    }
-                                  ?>
-
-                                                      
-                           </tbody>
-
-                           </table>
-                     </td>
-                  </tr>
-                  
-                 
-               </table>
-
-                <br/>
-
-               <div>
-                 <input type="checkbox" name="" value="terms" required>
-                                    Terms & Condition 
-                                    <span class="mandatory">*</span>
-               </div><br/>
-
-<!--                <div>
-                 <span class='mandatory'>- Terms & Conditions have to be marked and accepted to be able to continue</span>
-               </div><br/> -->
-
-               <div>
-                 <span class='mandatory'>* These Fields Are Mandatory</span>
-               </div><br/>
-
+                <form action="" name="registerform" id="registerform" method="POST">
+                    <table width="100%" cellspacing="2" border="0" >
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="blackbutton">Add Subscription</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td valign="top" >
+                                <input type="hidden" name="m" value="savecomp">
+                                <input type="hidden" name="checkResult" id="checkResult" value="yes"/>
+                                <table BORDER=0 width="100%" class="prod_table table table-striped" cellspacing="10" cellpadding="10">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th colspan="2" style="padding-bottom: 10px; padding-right: 10px">Product Description</th>
+                                            <th>Unit Price(kr)</th>
+                                            <th>Quantity</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        foreach ($data as $key => $value) {
+                                        ?>
+                                            <tr class="prods">
+                                                <td align="left">
+                                                    <input type="checkbox" name="plan_id[]" value="<?=$value['plan_id']?>" <?php echo ($value['product_name'] == "Anar Base Package") ? "checked='checked' readonly" : '' ?> data-amount="<?php echo $value['price']; ?>">
+                                                </td>
+                                                <td align="left" colspan="2" style="padding-right: 10px; padding-left: 10px">
+                                                    <?php if($value['product_name'] == "Anar Base Package"){ ?>
+                                                        <div class="panel-group">
+                                                            <div class="panel panel-default">
+                                                                <div class="panel-heading">
+                                                                    <h4 class="panel-title">
+                                                                    <a data-toggle="collapse" href="#collapse1">Anar Base Package<span class="caret pull-right"></span></a>
+                                                                    </h4>
+                                                                </div>
+                                                                <div id="collapse1" class="panel-collapse collapse">
+                                                                    <ul class="list-group">
+                                                                        <li class="list-group-item">Order status (incoming and delivered orders)
+                                                                        </li>
+                                                                        <li class="list-group-item">Delivery and Payment confirmation</li>
+                                                                        <li class="list-group-item">Menu (Edit and add new dishes to Menu)</li>
+                                                                        <li class="list-group-item">Administration support (Change company setting and information)</li>
+                                                                        <li class="list-group-item">Additional features under “More” ooo</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    <?php }else{ ?>   
+                                                        <?=$value['product_name']?>
+                                                    <?php } ?>
+                                                </td>
+                                                <td align="left">
+                                                    <?=$value['price'] . "(" .$value['currency'].")"?>                 
+                                                </td>
+                                                <td align="left">1</td>
+                                                <td align="left">
+                                                    <?=$value['price']*1?>                 
+                                                </td>
+                                            </tr>
+                                        <?php
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <div>
+                        <label><input type="checkbox" name="" value="terms" required>Terms & Condition</label> 
+                        <span class="mandatory">*</span>
+                    </div><br/>
+                    <div>
+                        <span class='mandatory'>* These Fields Are Mandatory</span>
+                    </div><br/>
                     <div style="text-align: center;">
-                      <input type="hidden" id="stripe_token" 
-                        name="stripeToken" value="">
-
-                      <input type="submit" value="Accept & Continue"  name="addCompanys" class="button_another" id="addCompanys" />
-                   </div><br/>
-
+                        <input type="hidden" id="stripe_token" name="stripeToken" value="">
+                        <input type="submit" value="Accept & Continue"  name="addCompanys" class="button_another" id="addCompanys" />
+                    </div><br/>
                 </form>
-
-
             </div>
-         </div>
-      </div>
+        </div>
+    </div>
       <? include("footer.php"); ?>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -225,12 +187,12 @@
           $(document).ready(function(){
             
           var handler = StripeCheckout.configure({
-              key: "pk_test_5P1GedJTk0HsWb3AnjYBbz6G",
+              key: "<?php echo STRPIE_PUB_KEY; ?>",
+              image: "https://stripe.com/img/documentation/checkout/marketplace.png",
               name: "Dastjar",
               description: "<?=$_SESSION['username'];?>",
-              image: "https://stripe.com/img/documentation/checkout/marketplace.png",
-              label: "Donate",
-              'panel-label': "Subscribe",
+              //label: "Donate",
+              //'panel-label': "Subscribe",
               locale: "auto",
               allowRememberMe: false,
                 token: function(token) {
@@ -246,9 +208,18 @@
           $('#registerform').submit(function(e){
             if($('#stripe_token').val()==""){
                 e.preventDefault();
-                handler.open({
 
-                });              
+                // Sum amount of selected packages 
+                var totalAmount = 0;
+                $('input[name="plan_id[]"]:checked').each(function() {
+                    totalAmount += parseFloat($(this).data('amount'));
+                });
+
+                //
+                handler.open({
+                    currency: 'sek',
+                    amount: (totalAmount*100)
+                });
             }
           });
 

@@ -200,7 +200,7 @@ class Billing{
         $plans = [];
         $user_plans = "";
 
-        $q = "select plan_id,product_name from billing_products where product_name='Anar Base Package'";
+        /*$q = "select plan_id,product_name from billing_products where product_name='Anar Base Package'";
         $res = $db->query($q);
 
         while ($rs = mysqli_fetch_array($res)) {
@@ -212,7 +212,7 @@ class Billing{
 
         $this->logs("firstPlanId: " . $firstPlanId);
 
-        $planIds[$firstPlanId] = $firstPlanName;
+        $planIds[$firstPlanId] = $firstPlanName;*/
         $i = 1;
 
         foreach ($planIds as $key => $value) {
@@ -239,26 +239,26 @@ class Billing{
 
         \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
 
-            $token = $_POST['stripeToken'];
-            $this->logs("stripeToken: " . $token);
+        $token = $_POST['stripeToken'];
+        $this->logs("stripeToken: " . $token);
 
-            // Create a Customer
-            $customer = \Stripe\Customer::create(array(
-                "email" => $emailId,
-                "source" => $token                
-            ));
+        // Create a Customer
+        $customer = \Stripe\Customer::create(array(
+            "email" => $emailId,
+            "source" => $token                
+        ));
 
-            $customerId = $customer->id;
-            $this->logs("customerId: " . $customerId);
+        $customerId = $customer->id;
+        $this->logs("customerId: " . $customerId);
 
-            $query = "UPDATE user SET stripe_customer_id='$customerId',activ=5 where  u_id='$uId'";
-            $this->logs("query: " . $query);
-            $res = $db->query($query);
+        $query = "UPDATE user SET stripe_customer_id='$customerId',activ=5 where  u_id='$uId'";
+        $this->logs("query: " . $query);
+        $res = $db->query($query);
 
-            $subscription = \Stripe\Subscription::create(array(
-                "customer" => $customerId,
-                "items" => $plans
-            ));
+        $subscription = \Stripe\Subscription::create(array(
+            "customer" => $customerId,
+            "items" => $plans
+        ));
 
         $query = "insert into user_plan(user_id, plan_id) values$user_plans";
         $res = $db->query($query);
