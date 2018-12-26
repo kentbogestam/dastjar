@@ -114,6 +114,14 @@ if (isset($_POST['continue']) AND $editId != '') {
                 </tr>
 
                 <tr>
+                    <td align="left" class="inner_grid">Trial Period:</td>
+                    <td align="left">
+                        <INPUT class="text_field_new" type="number" name="trial_period" id="trial_period" value="<?=($data[0]['trial_period']) ? $data[0]['trial_period'] : ''?>" placeholder="Trial period in days" />
+                        <a title="<?=TRIAL_PERIOD?>" class="vtip"><b><small>?</small></b></a><br/>
+                        <div id='error_price' class="error"></div></td>
+                </tr>
+
+                <tr>
 
                     <td align="left" class="inner_grid">currency<span class='mandatory'>*</span>:</td>
                     <td align="left">

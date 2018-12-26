@@ -151,6 +151,7 @@ define("ASSIGNCCODE","<li class='notice_success'>CCode are Assigned.</li>");
 define("PRODUCT_NAME", "Product name");
 define("PLAN_NICKNAME", "Plan nickname");
 define("PRICE", "Price");
+define("TRIAL_PERIOD", "Trial period in days (optional)");
 define("CURRENCY", "Currency");
 
 define("DESCRIPTION", "Description");

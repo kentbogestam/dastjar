@@ -15,6 +15,7 @@ class Billing{
     $productName = $_POST['product_name'];
     $planNickname = $_POST['plan_nickname'];
     $price = trim($_POST['price']);
+    $trialPeriod = is_numeric($_POST['trial_period']) ? $_POST['trial_period'] : 0;
     $currency = $_POST['currency'];
     $description = $_POST['description'];
     $usageType = $_POST['usage_type'];
@@ -33,7 +34,8 @@ class Billing{
 
     $plan = \Stripe\Plan::create(array(
         "nickname" => $planNickname,
-        "amount" => $price,
+        "amount" => ($price*100),
+        "trial_period_days" => $trialPeriod,
         "interval" => "month",
         "currency" => $currency,
         'product' => $productId,
@@ -47,7 +49,7 @@ class Billing{
     $time = time();
     $date = date("Y-m-d h:i:s",$time);
 
-    $query = "insert into billing_products(product_id, product_name, plan_id, plan_nickname, currency, price, usage_type, description, created_at, updated_at, s_activ) values('$productId', '$productName', '$planId', '$planNickname', '$currency', '$price', '$usageType', '$description', '$date', '$date', 1)";
+    $query = "insert into billing_products(product_id, product_name, plan_id, plan_nickname, currency, price, trial_period, usage_type, description, created_at, updated_at, s_activ) values('$productId', '$productName', '$planId', '$planNickname', '$currency', '$price', '$trialPeriod', '$usageType', '$description', '$date', '$date', 1)";
 
     $res = $db->query($query);
 
@@ -70,6 +72,7 @@ class Billing{
         $productName = $_POST['product_name'];
         $planNickname = $_POST['plan_nickname'];
         $price = trim($_POST['price']);
+        $trialPeriod = is_numeric($_POST['trial_period']) ? $_POST['trial_period'] : 0;
         $currency = $_POST['currency'];
         $description = $_POST['description'];
         $usageType = $_POST['usage_type'];
@@ -85,12 +88,13 @@ class Billing{
 
         $plan = \Stripe\Plan::retrieve($planId);
         $plan->nickname = $planNickname;
+        $plan->trial_period_days = $trialPeriod;
         $plan->save();
 
         $db = new db();
         $db->makeConnection();
 
-        $query = "update billing_products set product_name='$productName', plan_nickname='$planNickname', currency='$currency', price='$price', usage_type='$usageType', description='$description' where id='$editId'";
+        $query = "update billing_products set product_name='$productName', plan_nickname='$planNickname', currency='$currency', price='$price', trial_period='$trialPeriod', usage_type='$usageType', description='$description' where id='$editId'";
 
         $res = $db->query($query);
 
@@ -119,9 +123,9 @@ class Billing{
             $data[] = $rs;
         }
 
-        $new_value = $data[1];
+        /*$new_value = $data[1];
         unset($data[1]);
-        array_unshift($data, $new_value);
+        array_unshift($data, $new_value);*/
 
         return $data;
    }
