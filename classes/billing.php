@@ -279,6 +279,114 @@ class Billing{
         }
     }
 
+    /**
+     * [subscribeForLocation description]
+     * @return [type] [description]
+     */
+    function subscribeForLocation($storeId = null)
+    {
+        if(!is_null($storeId))
+        {
+            $db = new db();
+            $db->makeConnection();
+
+            $data = array();
+            $planIds = $_POST['plan_id'];
+
+            $uId = $_SESSION['userid'];
+            $this->logs("userid: " . $uId);
+
+            $customer = "select email, stripe_customer_id from user where u_id='$uId'";
+            $res = $db->query($customer);
+
+            while ($rs = mysqli_fetch_array($res)) {
+                $data2[] = $rs;
+            }
+
+            $emailId = $data2[0][0];
+            $customerId = $data2[0]['stripe_customer_id'];
+            $this->logs("emailId: " . $emailId);
+
+            \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
+
+            $token = $_POST['stripeToken'];
+            $this->logs("stripeToken: " . $token);
+
+            // Create a Customer if not exist
+            if(is_null($customerId) || $customerId == '')
+            {
+                $customer = \Stripe\Customer::create(array(
+                    "email" => $emailId,
+                    "source" => $token
+                ));
+
+                $customerId = $customer->id;
+                $this->logs("customerId: " . $customerId);
+
+                $query = "UPDATE user SET stripe_customer_id='$customerId',activ=5 where  u_id='$uId'";
+                $this->logs("query: " . $query);
+                $res = $db->query($query);
+            }
+
+            // Create subscription
+            if(!empty($planIds))
+            {
+                $planIds = join("','", $planIds);
+                $query = "SELECT plan_id, trial_period FROM billing_products WHERE plan_id IN ('{$planIds}')";
+                $res = $db->query($query);
+
+                while ($rs = mysqli_fetch_array($res))
+                {
+                    $subscription = \Stripe\Subscription::create(array(
+                        "customer" => $customerId,
+                        "items" => [['plan' => $rs['plan_id']]],
+                        "trial_period_days" => $rs['trial_period'],
+                        "metadata" => array('StoreID' => $storeId)
+                    ));
+
+                    if($subscription)
+                    {
+                        $trial_start = !is_null($subscription->trial_start) ? date('Y-m-d H:i:s', $subscription->trial_start) : $subscription->trial_start;
+                        $trial_end = !is_null($subscription->trial_end) ? date('Y-m-d H:i:s', $subscription->trial_end) : $subscription->trial_end;
+                        $current_period_start = date('Y-m-d H:i:s', $subscription->current_period_start);
+                        $current_period_end = date('Y-m-d H:i:s', $subscription->current_period_end);
+
+                        if(is_null($trial_start) && is_null($trial_end))
+                        {
+                            $query = "INSERT INTO user_plan(user_id, store_id, subscription_id, plan_id, subscription_start_at, subscription_end_at) VALUES('{$_SESSION['userid']}', '{$storeId}', '{$subscription->id}', '{$rs['plan_id']}', '{$current_period_start}', '{$current_period_end}')";
+                        }
+                        else
+                        {
+                            $query = "INSERT INTO user_plan(user_id, store_id, subscription_id, plan_id, trial_start_at, trial_end_at, subscription_start_at, subscription_end_at) VALUES('{$_SESSION['userid']}', '{$storeId}', '{$subscription->id}', '{$rs['plan_id']}', '{$trial_start}', '{$trial_end}', '{$current_period_start}', '{$current_period_end}')";
+                        }
+
+                        $resInsert = $db->query($query);
+                    }
+                }
+            }
+
+            return true;
+        }
+    }
+
+    /**
+     * Return the plans get subscribed by location
+     * @param  [type] $storeId [description]
+     * @return [type]          [description]
+     */
+    function getSubscribedPlanByLocation($storeId = null)
+    {
+        if(!is_null($storeId))
+        {
+            $db = new db();
+            $db->makeConnection();
+
+            // Query to get plans by store ID
+            $query = "SELECT BP.product_name, BP.plan_id FROM billing_products BP INNER JOIN user_plan UP ON BP.plan_id = UP.plan_id WHERE BP.s_activ = 1 AND UP.store_id = '{$storeId}'";
+            return $db->query($query);
+        }
+    }
+
     function getTotalDeletedProduct($id){
         $db = new db();
         $db->makeConnection();

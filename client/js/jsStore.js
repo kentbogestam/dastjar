@@ -151,6 +151,11 @@ $(document).ready(function(){
             error = "true";
         }
 
+        if(!$('#terms').is(':checked'))
+        {
+            error = "true";
+        }
+
         if(error=="true")
         {
             return false;

@@ -335,6 +335,18 @@ class store {
            $arrUser['online_payment'] = 0; 
         }
 
+        if($_POST['module_kitchen'] == 1){
+            $arrUser['module_kitchen'] = $_POST['module_kitchen'];
+        }else{
+           $arrUser['module_kitchen'] = 0; 
+        }
+
+        if($_POST['module_order_onsite'] == 1){
+            $arrUser['module_order_onsite'] = $_POST['module_order_onsite'];
+        }else{
+           $arrUser['module_order_onsite'] = 0; 
+        }
+
         $arrUser['store_type'] = addslashes(trim($_POST['typeofrestrurant']));
         $arrUser['store_name'] = addslashes(trim($_POST['storeName']));
         $arrUser['email'] = addslashes(trim($_POST['email']));
@@ -470,8 +482,8 @@ class store {
 
         $_SESSION['post'] = "";
         $storeUniqueId = uuid();
-        $query = "INSERT into store(`store_id`,`u_id`,`store_type`,`tagline`,`store_name`,`email`,`street`,`phone`,`store_link`,`city`,`country`,`latitude`,`longitude`,`s_activ`,`country_code`,`access_type`,`chain`,`block`,`zip`,`store_image`,`store_open_close_day_time`,`store_close_dates`,`online_payment`)
-                 VALUES('" . $storeUniqueId . "','" . $_SESSION['userid'] . "','" . $arrUser['store_type'] . "','" . $arrUser['tagline'] . "','" . $arrUser['store_name'] . "','" . $arrUser['email'] . "','" . $arrUser['street'] . "','" . $arrUser['phone'] . "','" . $arrUser['link'] . "','" . $arrUser['city'] . "','" . $arrUser['country'] . "','" . $arrUser['latitude'] . "','" . $arrUser['longitude'] . "','1','" . $coutryIso . "','1','" . $arrUser['chain'] . "','" . $arrUser['block'] . "','" . $arrUser['zip'] . "','" . $catImg . "','" . $arrUser['store_open_close_day_time'] . "','" . $arrUser['close_dates'] . "','" . $arrUser['online_payment'] . "')";
+        $query = "INSERT into store(`store_id`,`u_id`,`store_type`,`tagline`,`store_name`,`email`,`street`,`phone`,`store_link`,`city`,`country`,`latitude`,`longitude`,`s_activ`,`country_code`,`access_type`,`chain`,`block`,`zip`,`store_image`,`store_open_close_day_time`,`store_close_dates`,`online_payment`,`module_kitchen`,`module_order_onsite`)
+                 VALUES('" . $storeUniqueId . "','" . $_SESSION['userid'] . "','" . $arrUser['store_type'] . "','" . $arrUser['tagline'] . "','" . $arrUser['store_name'] . "','" . $arrUser['email'] . "','" . $arrUser['street'] . "','" . $arrUser['phone'] . "','" . $arrUser['link'] . "','" . $arrUser['city'] . "','" . $arrUser['country'] . "','" . $arrUser['latitude'] . "','" . $arrUser['longitude'] . "','1','" . $coutryIso . "','1','" . $arrUser['chain'] . "','" . $arrUser['block'] . "','" . $arrUser['zip'] . "','" . $catImg . "','" . $arrUser['store_open_close_day_time'] . "','" . $arrUser['close_dates'] . "','" . $arrUser['online_payment'] . "','" . $arrUser['module_kitchen'] . "','" . $arrUser['module_order_onsite'] . "')";
         $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
         $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
@@ -498,6 +510,14 @@ class store {
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
         }
 
+        // Create subscription for newly created location
+        if( !empty($_POST['plan_id']) )
+        {
+            $billingObj = new billing();
+            $billingObj->subscribeForLocation($storeUniqueId);
+        }
+
+        //
         if ($_SESSION['createStore']) {
             $_SESSION['createStore'] = "";
              $url = $_SESSION['MAIL_URL'];
@@ -811,7 +831,24 @@ class store {
 
 
         $arrUser['close_dates'] = $_POST['altField1'];
-         
+
+        if($_POST['onlinePayment'] == 1){
+            $arrUser['online_payment'] = $_POST['onlinePayment'];
+        }else{
+           $arrUser['online_payment'] = 0; 
+        }
+
+        if($_POST['module_kitchen'] == 1){
+            $arrUser['module_kitchen'] = $_POST['module_kitchen'];
+        }else{
+           $arrUser['module_kitchen'] = 0; 
+        }
+
+        if($_POST['module_order_onsite'] == 1){
+            $arrUser['module_order_onsite'] = $_POST['module_order_onsite'];
+        }else{
+           $arrUser['module_order_onsite'] = 0; 
+        }
 
         $arrUser['store_type'] = $_POST['typeofrestrurant'];
         $arrUser['store_name'] = $_POST['storeName'];
@@ -921,11 +958,11 @@ class store {
         if($_POST['opencloseTimeing']){
 
             $query = "update store SET store_type='" . $arrUser['store_type'] . "',tagline='" . $arrUser['tagline'] . "',latitude='" . $arrUser['latitude'] . "',longitude='" . $arrUser['longitude'] . "',`store_name`='" . $arrUser['store_name'] . "' ,`street`='" . $arrUser['street'] . "', `city`='" . $arrUser['city'] . "', `country`='" . $arrUser['country'] . "', `email`='" . $arrUser['email'] . "', `phone`='" . $arrUser['phone'] . "', `store_link`='" . $arrUser['link'] . "'
-            , `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "' , `store_open_close_day_time`='" .$arrUser['store_open_close_day_time'] . "' , `store_close_dates`='" . $arrUser['close_dates'] . "'   WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
+            , `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "' , `store_open_close_day_time`='" .$arrUser['store_open_close_day_time'] . "' , `store_close_dates`='" . $arrUser['close_dates'] . "', `online_payment` = '".$arrUser['online_payment']."', `module_kitchen` = '".$arrUser['module_kitchen']."', `module_order_onsite` = '".$arrUser['module_order_onsite']."' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
         }else{
 
             $query = "update store SET store_type='" . $arrUser['store_type'] . "',tagline='" . $arrUser['tagline'] . "',latitude='" . $arrUser['latitude'] . "',longitude='" . $arrUser['longitude'] . "',`store_name`='" . $arrUser['store_name'] . "' ,`street`='" . $arrUser['street'] . "', `city`='" . $arrUser['city'] . "', `country`='" . $arrUser['country'] . "', `email`='" . $arrUser['email'] . "', `phone`='" . $arrUser['phone'] . "', `store_link`='" . $arrUser['link'] . "'
-            , `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "' , `store_close_dates`='" . $arrUser['close_dates'] . "'   WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
+            , `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "' , `store_close_dates`='" . $arrUser['close_dates'] . "', `online_payment` = '".$arrUser['online_payment']."', `module_kitchen` = '".$arrUser['module_kitchen']."', `module_order_onsite` = '".$arrUser['module_order_onsite']."' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
         }
         $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
@@ -943,6 +980,13 @@ class store {
             $query = "insert into coupon_delivery_method(`store`,`delivery_method`)
                 values('" . $_GET['storeId'] . "','AUTO')";
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+        }
+
+        // Create subscription for updating location
+        if( !empty($_GET['storeId']) && !empty($_POST['plan_id']) )
+        {
+            $billingObj = new billing();
+            $billingObj->subscribeForLocation($_GET['storeId']);
         }
         
         $_SESSION['MESSAGE'] = CREATE_STORE_SUCCESS;

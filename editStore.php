@@ -10,7 +10,24 @@
    $regObj = new registration();
    $countryList = $regObj->getCountryList();
    $openCloseingTime = $storeObj->listTimeing();
-   if (isset($_POST['continue'])) {
+
+   // Get packages to subscribe for location
+   $billingObj = new billing();
+   $products = $billingObj->showPlan();
+
+   // Get subscribed plans list
+   $arrProductsSubscribed = array();
+   $productsSubscribedObj = $billingObj->getSubscribedPlanByLocation($_GET['storeId']);
+
+   if($productsSubscribedObj)
+   {
+        while ($row = mysqli_fetch_array($productsSubscribedObj))
+        {
+            $arrProductsSubscribed[] = $row['plan_id'];
+        }
+   }
+
+   if ( (isset($_POST['continue'])) || (isset($_POST['plan_id']) && isset($_POST['stripeToken'])) ) {
        $storeObj->svrStoreDflt();
    } else {
        $storeid = $_GET['storeId']; 
@@ -106,10 +123,15 @@
 <script type="text/javascript" src="client/js/newJs/jquery-ui.min.js"></script>
 <script type="text/javascript" src="client/js/newJs/jquery-ui.multidatespicker.js"></script>
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
 <style type="text/css">
    /*
       .center{width:900px; margin-left:auto; margin-right:auto;}
       */
+    input[type="checkbox"][readonly] {
+        pointer-events: none;
+    }
 </style>
 <body>
    <div class="center">
@@ -140,6 +162,21 @@
                   <div id='error_email' class="error"></div>
                </td>
                <td align="right"><a title="<?=STORE_EMAIL_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
+            </tr>
+            <tr>
+               <td height="42" align="left">Online Payment<span class='mandatory'>*</span>:</td>
+               <td><input type="checkbox" name="onlinePayment" value="1" checked="checked" <?php echo ($data[0]['online_payment']) ? 'readonly' : '' ?> />Online Payment</td>
+               <td align="right"><a title="<?=ONLINE_PAY_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
+            </tr>
+            <tr>
+               <td height="42" align="left">Product kitchen:</td>
+               <td><input type="checkbox" name="module_kitchen" value="1" checked="checked" <?php echo ($data[0]['module_kitchen']) ? 'readonly' : '' ?> />Kitchen Package</td>
+               <td align="right"><a title="<?=KITCHEN_PACKAGE_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
+            </tr>
+            <tr>
+               <td height="42" align="left">Order on Site:</td>
+               <td><input type="checkbox" name="module_order_onsite" value="1" checked="checked" <?php echo ($data[0]['module_order_onsite']) ? 'readonly' : '' ?> />Order on Site</td>
+               <td align="right"><a title="<?=ORDER_ONSITE_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
             <tr>
                <td class="inner_grid">Phone Number<span class='mandatory'>*</span>:</td>
@@ -409,12 +446,95 @@
                   <div id='error_storeImage' class="error"></div>
                </td>
             </tr> 
+            <tr>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Update Subscription</div>
+                        <div class="panel-body">
+                            <table width="100%" cellspacing="2" border="0" >
+                                <tr>
+                                    <td valign="top" >
+                                        <table BORDER=0 width="100%" class="prod_table table table-striped" cellspacing="10" cellpadding="10">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th colspan="2" style="padding-bottom: 10px; padding-right: 10px">Product Description</th>
+                                                    <th>Unit Price(kr)</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $total = 0;
+                                                foreach ($products as $key => $product) {
+                                                ?>
+                                                    <tr class="prods">
+                                                        <td align="left">
+                                                            <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo ($product['product_name'] == "Anar Base Package") ? "checked='checked' readonly" : '' ?> <?php echo (in_array($product['plan_id'], $arrProductsSubscribed)) ? "checked='checked' disabled" : ''; ?> data-amount="<?php echo $product['price']; ?>">
+                                                        </td>
+                                                        <td align="left" colspan="2" style="padding-right: 10px; padding-left: 10px">
+                                                            <?php
+                                                            if($product['product_name'] == "Anar Base Package"){ 
+                                                            ?>
+                                                                <div class="panel-group">
+                                                                    <div class="panel panel-default">
+                                                                        <div class="panel-heading">
+                                                                            <h4 class="panel-title">
+                                                                            <a data-toggle="collapse" href="#collapse1">Anar Base Package<span class="caret pull-right"></span></a>
+                                                                            </h4>
+                                                                        </div>
+                                                                        <div id="collapse1" class="panel-collapse collapse">
+                                                                            <ul class="list-group">
+                                                                                <li class="list-group-item">Order status (incoming and delivered orders)
+                                                                                </li>
+                                                                                <li class="list-group-item">Delivery and Payment confirmation</li>
+                                                                                <li class="list-group-item">Menu (Edit and add new dishes to Menu)</li>
+                                                                                <li class="list-group-item">Administration support (Change company setting and information)</li>
+                                                                                <li class="list-group-item">Additional features under “More” ooo</li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            <?php }else{ ?>   
+                                                                <?=$product['product_name']?>
+                                                            <?php } ?>
+                                                        </td>
+                                                        <td align="left">
+                                                            <?=$product['price'] . "(" .$product['currency'].")"?>                 
+                                                        </td>
+                                                        <!-- <td align="left">1</td> -->
+                                                        <td align="left">
+                                                            <?=$product['price']*1?>                 
+                                                        </td>
+                                                    </tr>
+                                                <?php
+                                                }
+                                                ?>
+                                                <tr>
+                                                    <td align="left">&nbsp;</td>
+                                                    <td align="left" colspan="2" style="padding-right: 10px; padding-left: 10px">&nbsp;</td>
+                                                    <td align="left"><strong>Total: </strong></td>
+                                                    <td align="left" class="plan-total"><?=number_format($total, 2, '.', '');?></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </td>
+            </tr>
          </table>
          <div align="center"><br />
             <br />
             <INPUT type="submit" value="Update" name="continue" class="button" id="continue" >
             <INPUT type="button" value="Back" name="" class="button"  id="continue" onClick="javascript:location.href='<?=$_SERVER[HTTP_REFERER]
                ?>';" >
+            <input type="hidden" id="stripe_token" name="stripeToken" value="">
             <br />
             <br />
          </div>
@@ -741,6 +861,9 @@
      </div>
    </div>
    <? include("footer.php"); ?>
+
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   <script src="https://checkout.stripe.com/checkout.js"></script>
 </body>
 </html>
 <script type="text/javascript">
@@ -756,6 +879,65 @@
              $('.all1').hide();
             }
          });
+
+        // Update total
+        $('input[name="plan_id[]"]').change(function() {
+            // Update location fields in form
+            var inputFields = '';
+            var checkedValue = $(this).is(':checked') ? true : false;
+
+            if($(this).val() == 'plan_EE3Gi7A6f6Jvvb')
+            {
+                inputFields = 'module_kitchen';
+            }
+            
+            if($(this).val() == 'plan_EE3HCFoL3Q4w2g')
+            {
+                inputFields = 'module_order_onsite';
+            }
+
+            if($(this).val() == 'plan_EE3J8meXbkIq0M')
+            {
+                inputFields = 'onlinePayment';
+            }
+
+            if(inputFields != '')
+            {
+                $('input[name="'+inputFields+'"]').prop('checked', checkedValue);
+            }
+
+            // Update total
+            updateTotal();
+        });
+
+        // Initialize Stripe
+        var handler = StripeCheckout.configure({
+            key: "<?php echo STRPIE_PUB_KEY; ?>",
+            image: "https://stripe.com/img/documentation/checkout/marketplace.png",
+            name: "Dastjar",
+            description: "<?=$_SESSION['username'];?>",
+            locale: "auto",
+            allowRememberMe: false,
+            token: function(token) {
+                $('#stripe_token').val(token.id);
+                $('#registerform').submit();
+            }
+        });
+
+        // Ask for detail before submit the location
+        $('#registerform').submit(function(e){
+            if( !$('#stripe_token').val().length && $('input[name="plan_id[]"]:checked').not('[disabled]').length ){
+                e.preventDefault();
+                
+                var totalAmount = parseFloat($('.plan-total').html());
+
+                //
+                handler.open({
+                    currency: 'sek',
+                    amount: (totalAmount*100)
+                });
+            }
+        });
 
           if(typeof("<?=$data[0]['store_image']?>") != "undefined" && "<?=$data[0]['store_image']?>" !== null){
                   $('.image-upload-wrap').hide();
@@ -832,7 +1014,73 @@
             }
          });
       });
+
+      // Update plan on change
+      $(document).on('change', '#typeofrestrurant, input[name="onlinePayment"], input[name="module_kitchen"], input[name="module_order_onsite"]', function() {
+        updatePlan();
+      });
    });
+
+     // Update plan on load
+     $(window).load(function() {
+        updatePlan();
+     });
+
+     // Update plan
+     function updatePlan()
+     {
+        var typeOfRestrurant = $('#typeofrestrurant option:selected').val();
+        var onlinePayment = ($('input[name="onlinePayment"]').is(':checked')) ? 1 : 0;
+        var module_kitchen = ($('input[name="module_kitchen"]').is(':checked')) ? 1 : 0;
+        var module_order_onsite = ($('input[name="module_order_onsite"]').is(':checked')) ? 1 : 0;
+        addPlan = [];
+
+        if(onlinePayment == '1')
+        {
+            addPlan.push('plan_EE3J8meXbkIq0M');
+        }
+
+        if(module_kitchen == '1')
+        {
+            addPlan.push('plan_EE3Gi7A6f6Jvvb');
+        }
+
+        if(module_order_onsite == '1')
+        {
+            addPlan.push('plan_EE3HCFoL3Q4w2g');
+        }
+
+        if(typeOfRestrurant != '1')
+        {
+            addPlan.push('plan_EE3IyKkF4fRTRt');
+        }
+
+        if(addPlan.length)
+        {
+            $('input[name="plan_id[]"]:not([readonly])').prop('checked', false);
+
+            for(index = 0; index < addPlan.length; index++)
+            {
+                //$('input[name="plan_id[]"][data-plan*='+addPlan[index]+']').prop('checked', true);
+                $('input[name="plan_id[]"][value='+addPlan[index]+']').prop('checked', true);
+            }
+        }
+
+        // Update total
+        updateTotal();
+     }
+
+     // Sum amount of selected packages and update total
+     function updateTotal()
+     {
+        var totalAmount = 0;
+
+        $('input[name="plan_id[]"]:checked').not('[disabled]').each(function() {
+            totalAmount += parseFloat($(this).data('amount'));
+        });
+
+        $('.plan-total').html(totalAmount.toFixed(2));
+     }
    </script>
 <script type="text/javascript">
    var loadCount = 1;

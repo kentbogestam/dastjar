@@ -11,7 +11,7 @@
       <meta name="msapplication-starturl" content="/" />
       <meta name="theme-color" content="#f48c5b" />
 
-      <link rel="manifest" href="/manifest.json" />
+      <link rel="manifest" href="manifest.json" />
 
       <title>Dastjar</title>
       <link href="client/css/stylesheet123.css" rel="stylesheet" type="text/css" />
