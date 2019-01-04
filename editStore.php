@@ -132,6 +132,18 @@
     input[type="checkbox"][readonly] {
         pointer-events: none;
     }
+    
+    input[type='checkbox'][disabled][checked] {
+        width:0px; height:0px;
+    }
+    input[type='checkbox'][disabled][checked]:after {
+        content:'\e013'; position:absolute; 
+        opacity: 1 !important;
+        font-family: 'Glyphicons Halflings';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+    }
 </style>
 <body>
    <div class="center">
@@ -162,21 +174,6 @@
                   <div id='error_email' class="error"></div>
                </td>
                <td align="right"><a title="<?=STORE_EMAIL_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
-            </tr>
-            <tr>
-               <td height="42" align="left">Online Payment<span class='mandatory'>*</span>:</td>
-               <td><input type="checkbox" name="onlinePayment" value="1" checked="checked" <?php echo ($data[0]['online_payment']) ? 'readonly' : '' ?> />Online Payment</td>
-               <td align="right"><a title="<?=ONLINE_PAY_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
-            </tr>
-            <tr>
-               <td height="42" align="left">Product kitchen:</td>
-               <td><input type="checkbox" name="module_kitchen" value="1" checked="checked" <?php echo ($data[0]['module_kitchen']) ? 'readonly' : '' ?> />Kitchen Package</td>
-               <td align="right"><a title="<?=KITCHEN_PACKAGE_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
-            </tr>
-            <tr>
-               <td height="42" align="left">Order on Site:</td>
-               <td><input type="checkbox" name="module_order_onsite" value="1" checked="checked" <?php echo ($data[0]['module_order_onsite']) ? 'readonly' : '' ?> />Order on Site</td>
-               <td align="right"><a title="<?=ORDER_ONSITE_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
             <tr>
                <td class="inner_grid">Phone Number<span class='mandatory'>*</span>:</td>
@@ -882,30 +879,6 @@
 
         // Update total
         $('input[name="plan_id[]"]').change(function() {
-            // Update location fields in form
-            var inputFields = '';
-            var checkedValue = $(this).is(':checked') ? true : false;
-
-            if($(this).val() == 'plan_EE3Gi7A6f6Jvvb')
-            {
-                inputFields = 'module_kitchen';
-            }
-            
-            if($(this).val() == 'plan_EE3HCFoL3Q4w2g')
-            {
-                inputFields = 'module_order_onsite';
-            }
-
-            if($(this).val() == 'plan_EE3J8meXbkIq0M')
-            {
-                inputFields = 'onlinePayment';
-            }
-
-            if(inputFields != '')
-            {
-                $('input[name="'+inputFields+'"]').prop('checked', checkedValue);
-            }
-
             // Update total
             updateTotal();
         });
@@ -1016,48 +989,30 @@
       });
 
       // Update plan on change
-      $(document).on('change', '#typeofrestrurant, input[name="onlinePayment"], input[name="module_kitchen"], input[name="module_order_onsite"]', function() {
+      $(document).on('change', '#typeofrestrurant', function() {
         updatePlan();
       });
    });
 
      // Update plan on load
      $(window).load(function() {
-        updatePlan();
+        updateTotal();
      });
 
      // Update plan
      function updatePlan()
      {
         var typeOfRestrurant = $('#typeofrestrurant option:selected').val();
-        var onlinePayment = ($('input[name="onlinePayment"]').is(':checked')) ? 1 : 0;
-        var module_kitchen = ($('input[name="module_kitchen"]').is(':checked')) ? 1 : 0;
-        var module_order_onsite = ($('input[name="module_order_onsite"]').is(':checked')) ? 1 : 0;
         addPlan = [];
-
-        if(onlinePayment == '1')
-        {
-            addPlan.push('plan_EE3J8meXbkIq0M');
-        }
-
-        if(module_kitchen == '1')
-        {
-            addPlan.push('plan_EE3Gi7A6f6Jvvb');
-        }
-
-        if(module_order_onsite == '1')
-        {
-            addPlan.push('plan_EE3HCFoL3Q4w2g');
-        }
 
         if(typeOfRestrurant != '1')
         {
-            addPlan.push('plan_EE3IyKkF4fRTRt');
+            //addPlan.push('plan_EE3IyKkF4fRTRt');
         }
 
         if(addPlan.length)
         {
-            $('input[name="plan_id[]"]:not([readonly])').prop('checked', false);
+            //$('input[name="plan_id[]"]:not([readonly])').prop('checked', false);
 
             for(index = 0; index < addPlan.length; index++)
             {

@@ -402,18 +402,19 @@ class accountView {
             die("Connection failed: " . mysqli_connect_error());
         }else{}
 
-        $q = $db->query("SELECT online_payment FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND  s_activ='1'");
+        //$q = $db->query("SELECT online_payment FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND  s_activ='1'");
         $q2 = $db->query("SELECT stripe_user_id FROM user WHERE u_id = '" . $_SESSION['userid'] . "'");
 
-        while ($rs = mysqli_fetch_array($q)) {
+        /*while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
-        }
+        }*/
 
         while ($rs2 = mysqli_fetch_array($q2)) {
             $data2[] = $rs2;
         }
 
-        if($data[0]['online_payment'] == 1 && $data2[0]['stripe_user_id'] != null){
+        // if($data[0]['online_payment'] == 1 && $data2[0]['stripe_user_id'] != null){
+        if($data2[0]['stripe_user_id'] != null){
             return "Yes";
         }else{
             return "No";

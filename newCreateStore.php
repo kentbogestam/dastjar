@@ -123,21 +123,6 @@
             </tr>
             <!-- End code added by saurabh to add new field for restaurant keyword"-->
             <tr>
-               <td height="42" align="left">Online Payment<span class='mandatory'>*</span>:</td>
-               <td><input type="checkbox" name="onlinePayment" value="1"  checked />Online Payment</td>
-               <td align="right"><a title="<?=ONLINE_PAY_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
-            </tr>
-            <tr>
-               <td height="42" align="left">Product kitchen:</td>
-               <td><input type="checkbox" name="module_kitchen" value="1" checked />Kitchen Package</td>
-               <td align="right"><a title="<?=KITCHEN_PACKAGE_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
-            </tr>
-            <tr>
-               <td height="42" align="left">Order on Site:</td>
-               <td><input type="checkbox" name="module_order_onsite" value="1" checked />Order on Site</td>
-               <td align="right"><a title="<?=ORDER_ONSITE_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
-            </tr>
-            <tr>
                <td class="inner_grid">Phone Number<span class='mandatory'>*</span>:</td>
                <td>
                   <INPUT class="text_field_new" type=text name="phoneNo" id ="phoneNo">
@@ -785,30 +770,6 @@
 
         // Update total
         $('input[name="plan_id[]"]').change(function() {
-            // Update location fields in form
-            var inputFields = '';
-            var checkedValue = $(this).is(':checked') ? true : false;
-
-            if($(this).val() == 'plan_EE3Gi7A6f6Jvvb')
-            {
-                inputFields = 'module_kitchen';
-            }
-            
-            if($(this).val() == 'plan_EE3HCFoL3Q4w2g')
-            {
-                inputFields = 'module_order_onsite';
-            }
-
-            if($(this).val() == 'plan_EE3J8meXbkIq0M')
-            {
-                inputFields = 'onlinePayment';
-            }
-
-            if(inputFields != '')
-            {
-                $('input[name="'+inputFields+'"]').prop('checked', checkedValue);
-            }
-            
             // Update total
             updateTotal();
         });
@@ -912,7 +873,7 @@
       });
 
       // Update plan on change
-      $(document).on('change', '#typeofrestrurant, input[name="onlinePayment"], input[name="module_kitchen"], input[name="module_order_onsite"]', function() {
+      $(document).on('change', '#typeofrestrurant', function() {
         updatePlan();
       });
    });
@@ -926,29 +887,11 @@
      function updatePlan()
      {
         var typeOfRestrurant = $('#typeofrestrurant option:selected').val();
-        var onlinePayment = ($('input[name="onlinePayment"]').is(':checked')) ? 1 : 0;
-        var module_kitchen = ($('input[name="module_kitchen"]').is(':checked')) ? 1 : 0;
-        var module_order_onsite = ($('input[name="module_order_onsite"]').is(':checked')) ? 1 : 0;
-        addPlan = [];
-
-        if(onlinePayment == '1')
-        {
-            addPlan.push('plan_EE3J8meXbkIq0M');
-        }
-
-        if(module_kitchen == '1')
-        {
-            addPlan.push('plan_EE3Gi7A6f6Jvvb');
-        }
-
-        if(module_order_onsite == '1')
-        {
-            addPlan.push('plan_EE3HCFoL3Q4w2g');
-        }
+        addPlan = ['plan_EE3J8meXbkIq0M']; // Default 'Payment package'
 
         if(typeOfRestrurant != '1')
         {
-            addPlan.push('plan_EE3IyKkF4fRTRt');
+            addPlan.push('plan_EE3IyKkF4fRTRt'); // Add 'Catering package'
         }
 
         if(addPlan.length)
