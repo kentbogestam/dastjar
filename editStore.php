@@ -528,6 +528,7 @@
          </table>
          <div align="center"><br />
             <br />
+            <input type="checkbox" name="onlinePayment" value="1" <?php echo ($data[0]['online_payment']) ? 'checked="checked" readonly' : '' ?> style="display: none;" />
             <INPUT type="submit" value="Update" name="continue" class="button" id="continue" >
             <INPUT type="button" value="Back" name="" class="button"  id="continue" onClick="javascript:location.href='<?=$_SERVER[HTTP_REFERER]
                ?>';" >
@@ -879,6 +880,20 @@
 
         // Update total
         $('input[name="plan_id[]"]').change(function() {
+            // Update location fields in form
+            var inputFields = '';
+            var checkedValue = $(this).is(':checked') ? true : false;
+
+            if($(this).val() == 'plan_EE3J8meXbkIq0M')
+            {
+                inputFields = 'onlinePayment';
+            }
+
+            if(inputFields != '')
+            {
+                $('input[name="'+inputFields+'"]').prop('checked', checkedValue);
+            }
+
             // Update total
             updateTotal();
         });

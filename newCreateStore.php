@@ -420,6 +420,7 @@
             </tr>
          </table>
          <div align="center">
+            <input type="checkbox" name="onlinePayment" value="1"  checked style="display: none;" />
             <INPUT style="margin-left:700px;" type="submit" value="Submit" name="continue" id="continue" class="button" >
             <br />
             <br />
@@ -770,6 +771,20 @@
 
         // Update total
         $('input[name="plan_id[]"]').change(function() {
+            // Update location fields in form
+            var inputFields = '';
+            var checkedValue = $(this).is(':checked') ? true : false;
+
+            if($(this).val() == 'plan_EE3J8meXbkIq0M')
+            {
+                inputFields = 'onlinePayment';
+            }
+
+            if(inputFields != '')
+            {
+                $('input[name="'+inputFields+'"]').prop('checked', checkedValue);
+            }
+
             // Update total
             updateTotal();
         });
