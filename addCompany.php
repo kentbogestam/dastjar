@@ -185,6 +185,13 @@
                                  </td>
                               </tr>
                               <tr>
+                                  <td align="left"></td>
+                                  <th height="50" align="left" class="newstyletext">
+                                     <input type="checkbox" name="terms" id="terms"> <label for="terms">I agree to the <a href="javascript:void(0)" onClick="WindowC()">Terms of Services and Privacy Policy</a> for Dastjar service.</label>
+                                     <div id="error_terms" class="error"></div>
+                                  </th>
+                              </tr>
+                              <tr>
                                  <td align="left">&nbsp;</td>
                                  <td align="left">&nbsp;</td>
                               </tr>
@@ -207,7 +214,7 @@
                   <!--<tr>
                      <td align="left" class="redgraybutton">3 Add Offer</td>
                      </tr>-->
-                  <tr>
+                  <!-- <tr>
                      <td >&nbsp;</td>
                   </tr>
                   <tr>
@@ -215,11 +222,18 @@
                   </tr>
                   <tr>
                      <td>&nbsp;</td>
-                  </tr>
+                  </tr> -->
                </table>
             </div>
          </div>
       </div>
+      <script type="text/javascript">
+          function WindowC()
+           {
+               document.getElementById("terms").checked=true;
+               window.open("terms.php", "WinC","width=550,height=400,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,copyhistory=no")
+           }
+      </script>
       <? include("footer.php"); ?>
    </body>
 </html>

@@ -17,6 +17,7 @@ $(document).ready(function(){
         $("#error_city").html('');
         $("#error_country").html('');
         $("#error_lowlevel").html('');
+        $("#error_terms").html('');
         
 
 
@@ -92,6 +93,13 @@ $(document).ready(function(){
         {
             var errorMsg = "Please Enter Your Country<br />";
             $("#error_country").html(errorMsg);
+            error = "true";
+        }
+
+        if(document.getElementById('terms').checked==false)
+        {
+            var errorMsg = "You have not checked Terms and Conditions.<br />";
+            $("#error_terms").html(errorMsg);
             error = "true";
         }
 

@@ -48,11 +48,11 @@
 
    ?>
 <script>
-   function WindowC()
+   /*function WindowC()
    {
        document.getElementById("terms").checked=true;
        window.open("terms.php", "WinC","width=550,height=400,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,copyhistory=no")
-   }
+   }*/
 </script>
 <style type="text/css">
    body {  }
@@ -384,12 +384,13 @@
                   <tr align="center">
                      <td colspan="3" style="padding-left: 120px;">                            </td>
                   </tr>
-                  <th height="50" colspan ="3" align="center" class="newstyletext">
-                     <input type="checkbox" name="terms" id="terms"> I agree to the <a href="#" onClick="WindowC()">Terms of Services and
-                     Privacy Policy</a> for Dastjar service.
-                     <div id="error_terms" class="error"></div>
-                  </th>
-                  </tr>
+                  <!-- <tr>
+                      <th height="50" colspan ="3" align="center" class="newstyletext">
+                         <input type="checkbox" name="terms" id="terms"> I agree to the <a href="#" onClick="WindowC()">Terms of Services and
+                         Privacy Policy</a> for Dastjar service.
+                         <div id="error_terms" class="error"></div>
+                      </th>
+                  </tr> -->
                   <tr>
                      <td height="37" align="center">                    </td>
                      <td height="37" align="left"><INPUT style="margin-left:160px;"  type="submit" name="Continue" value="Submit" class="button" id="Continue"></td>
@@ -400,7 +401,7 @@
                   <tr>
                      <td height="34" colspan='3' align="left" class="redgraybutton">2 Add Company</td>
                   </tr>
-                  <tr align="center">
+                  <!-- <tr align="center">
                      <td height="15" colspan='3' >&nbsp;</td>
                   </tr>
                   
@@ -409,7 +410,7 @@
                   </tr>
                   <tr>
                      <td height="33" colspan='3' align="left" class="redgraybutton">3 Add Subscription</td>
-                  </tr>
+                  </tr> -->
                   <tr>
                      <td height="33" colspan='3' >&nbsp;</td>
                   </tr>

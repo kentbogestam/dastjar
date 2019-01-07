@@ -156,7 +156,7 @@ class inOut {
                     exit();
                 }
                 else {
-                    $url = BASE_URL.'showStandard.php';
+                    $url = BASE_URL.'showStore.php';
                     $this->reDirect($url);
                 }
             }

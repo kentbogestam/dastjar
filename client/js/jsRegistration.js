@@ -23,7 +23,7 @@ $(document).ready(function(){
         $("#error_role").html('');
         $("#error_phone").html('');
         $("#error_mobile").html('');
-        $("#error_terms").html('');
+        // $("#error_terms").html('');
         // $("#error_recaptcha").html('');
         
         if(($.trim($("#emailid").val()).length == 0))
@@ -176,12 +176,12 @@ $(document).ready(function(){
             error = "true";
         }
 
-        if(document.getElementById('terms').checked==false)
+        /*if(document.getElementById('terms').checked==false)
         {
             var errorMsg = "You have not checked Terms and Conditions.<br />";
             $("#error_terms").html(errorMsg);
             error = "true";
-        }
+        }*/
 
 
         //alert($("#recaptcha_response_field").val());

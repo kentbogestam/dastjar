@@ -364,7 +364,8 @@ class registration {
             $res = mysqli_query($conn,$query)or die(mysqli_error($conn));
             $storeUniqueId = uuid();
 
-            $query = "UPDATE user SET activ='2' WHERE u_id = '" . $_SESSION['userid'] . "'";
+            //$query = "UPDATE user SET activ='2' WHERE u_id = '" . $_SESSION['userid'] . "'";
+            $query = "UPDATE user SET activ='5' WHERE u_id = '" . $_SESSION['userid'] . "'";
             $res = mysqli_query($conn,$query) or die(mysqli_error($conn));
 
             $query = "INSERT INTO employer(`u_id`,`company_id`)
@@ -378,9 +379,10 @@ class registration {
 
 
             $_SESSION['MESSAGE'] = ADD_COUNTRY_SUCCESS;
-            $_SESSION['REG_STEP'] = 2;
-            $_SESSION['active_state'] = 2;
-            $url = BASE_URL . 'addSubscription.php';
+            //$_SESSION['REG_STEP'] = 2;
+            // $_SESSION['active_state'] = 2;
+            $_SESSION['active_state'] = 5;
+            $url = BASE_URL . 'showStore.php';
             $inoutObj->reDirect($url);
             exit();
         }

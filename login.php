@@ -9,7 +9,7 @@ $inoutObj = new inOut();
 //$inoutObj->validSteps();
 
 if(isset($_SESSION['userid']) && $_SESSION['active_state']==5) {
-    $url = BASE_URL . 'showStandard.php';
+    $url = BASE_URL . 'showStore.php';
     $inoutObj->reDirect($url);
     exit;
 }else if(isset($_SESSION['userid']) && $_SESSION['active_state']==2) {

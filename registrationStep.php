@@ -191,7 +191,7 @@
                }
                ?>
          </div>
-         <table width="100%" border="0" cellpadding="0" cellspacing="0">
+         <!-- <table width="100%" border="0" cellpadding="0" cellspacing="0">
             <tr>
                <td colspan="2" id="step6" onClick="javascript:window.location.href='activation.php'" class="register_inactive" > 3 Add Subscription</td>
             </tr>
@@ -199,7 +199,7 @@
                <td >&nbsp;</td>
                <td  align="left" >&nbsp;</td>
             </tr>
-         </table>
+         </table> -->
          <div id="activation"> </div>
       </div>
    </div>
