@@ -8,12 +8,18 @@ function buttonLinkAction(regStep)
 	if(regStep==1)
     {
         document.getElementById("step1").disabled=true;
-        document.getElementById("step2").disabled=false;
-        document.getElementById("step6").disabled=false;
         document.getElementById("step1").className='register_inactive';
-        document.getElementById("step6").className='register_inactive';
+        document.getElementById("step2").disabled=false;
         document.getElementById("step2").className='register';
-        document.getElementById("step7").style.display='none';
+        if( document.getElementById("step6").length )
+        {
+            document.getElementById("step6").disabled=false;
+            document.getElementById("step6").className='register_inactive';
+        }
+        if( document.getElementById("step7").length )
+        {
+            document.getElementById("step7").style.display='none';
+        }
         document.getElementById("step5").style.display='none';
          document.getElementById("step8").style.display='none';
     // document.getElementById("offer").style.display='inline';
