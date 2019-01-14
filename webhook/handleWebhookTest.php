@@ -6,7 +6,7 @@ require_once("../vendor/autoload.php");
 \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
 
 // Verifying the event
-$endpoint_secret = 'whsec_D1bSEfnuaEvHv3AJez3KKU26mE2FXMoM';
+$endpoint_secret = 'whsec_94cnyHVQm6XN5nXVeOjfaDELKd2OOSWq';
 
 // Retrieve the request's body and parse it as JSON
 $payload = @file_get_contents('php://input');
