@@ -1,9 +1,9 @@
 <?php
 //
-include_once("../cumbari.php");
+// include_once("../cumbari.php");
 require_once("../vendor/autoload.php");
 
-\Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
+\Stripe\Stripe::setApiKey('sk_test_EypGXzv2qqngDIPIkuK6aXNi');
 
 // Verifying the event
 $endpoint_secret = 'whsec_94cnyHVQm6XN5nXVeOjfaDELKd2OOSWq';
