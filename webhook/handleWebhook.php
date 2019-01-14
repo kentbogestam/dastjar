@@ -1,20 +1,18 @@
 <?php
 //
-//include_once("../cumbari.php");
-require_once('../vendor/autoload.php');
+include_once("../cumbari.php");
+require_once("../vendor/autoload.php");
 
 class handleWebhook {
 	function __construct() {
-		/*\Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
-		// echo 'h'; exit;
-
-		// Retrieve the request's body and parse it as JSON
-		$payload = @file_get_contents("php://input");
+		\Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
 
 		// Verifying the event
-		$endpoint_secret = "whsec_D1bSEfnuaEvHv3AJez3KKU26mE2FXMoM";
+		$endpoint_secret = 'whsec_D1bSEfnuaEvHv3AJez3KKU26mE2FXMoM';
 
-		$sig_header = isset($_SERVER["HTTP_STRIPE_SIGNATURE"]) ? $_SERVER["HTTP_STRIPE_SIGNATURE"] : null;
+		// Retrieve the request's body and parse it as JSON
+		$payload = @file_get_contents('php://input');
+		$sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
 		$event = null;
 
 		if( !is_null($sig_header) )
@@ -46,7 +44,7 @@ class handleWebhook {
 				http_response_code(400); // PHP 5.4 or greater
 				exit();
 			}
-		}*/
+		}
 	}
 
 	/**
@@ -60,6 +58,9 @@ class handleWebhook {
 		if( !is_null($event) )
 		{
 			$invoice = $event->data->object;
+
+
+
 			$str .= print_r($invoice, true);
 		}
 
@@ -97,5 +98,5 @@ class handleWebhook {
 }
 
 $webhook = new handleWebhook();
-$webhook->handleInvoicePaymentSuccess();
+//$webhook->handleInvoicePaymentSuccess();
 ?>
