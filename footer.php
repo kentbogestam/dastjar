@@ -24,5 +24,30 @@ font-weight: bold;" ><a style="color:#666666; text-decoration:none; text-shadow:
 </tr>
 </table>
 </div>
+
+<script type="text/javascript">
+	<?php
+	if(isset($_SESSION['userid']) && $_SESSION['active_state']==5) {
+		?>
+		// To check if user loggedin, redirect to login page
+		var checkAuth = function() {
+			$.get('check-auth.php', function(data) {
+				data = JSON.parse(data);
+				
+				if(!data.status)
+				{
+					clearInterval(checkAuth);
+					alert('Your session has expired. Please login again to continue.');
+					window.location.reload();
+				}
+			});
+		}
+
+		setInterval(checkAuth, 10000);
+		<?php
+	}
+	?>
+</script>
+
 </body>
 </html>
