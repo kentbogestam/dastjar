@@ -29,11 +29,8 @@
 
         //verify captcha
         $recaptcha_secret = $captcha_secret_key;
-        echo $recaptcha_secret;
         $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$recaptcha_secret."&response=".$_POST['g-recaptcha-response']);
         $response = json_decode($response, true);
-
-        echo '<pre>'; print_r($response); exit;
  
       if($response["success"] === true)
         {
