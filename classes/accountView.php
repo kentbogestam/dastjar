@@ -273,7 +273,9 @@ class accountView {
         $arrUser['timezones'] = $_POST['timezone'];
         $arrUser['currencies'] = $_POST['currency'];
         //$arrUser['company_name'] = $_POST['compname'];
-        $arrUser['orgnr'] = $_POST['orgcode'];
+        // $arrUser['orgnr'] = $_POST['orgcode'];
+        $orgcode = str_replace(' ', '', $_POST['orgcode']);
+        $arrUser['orgnr'] = preg_replace("/[^a-zA-Z0-9]+/", "", $orgcode);
         $arrUser['street'] = $_POST['streetadd'];
         $arrUser['city'] = $_POST['city'];
         $arrUser['zip'] = $_POST['zipcode'];

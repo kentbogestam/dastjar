@@ -309,7 +309,9 @@ class registration {
         $arrUser['timezones'] = $_POST['timezone'];
         $arrUser['currencies'] = addslashes(trim($_POST['currency']));
         $arrUser['company_name'] = addslashes(trim($_POST['compname']));
-        $arrUser['orgnr'] = $_POST['orgcode'];
+        // $arrUser['orgnr'] = $_POST['orgcode'];
+        $orgcode = str_replace(' ', '', $_POST['orgcode']);
+        $arrUser['orgnr'] = preg_replace("/[^a-zA-Z0-9]+/", "", $orgcode);
         $arrUser['street'] = trim($_POST['streetadd']);
         $arrUser['zip'] = trim($_POST['zipcode']);
         $arrUser['city'] = trim($_POST['city']);

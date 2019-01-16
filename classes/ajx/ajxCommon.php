@@ -155,8 +155,10 @@ class ajxCommon {
     }
 
      function checkOrganisationExist($orgcode) {
-         
-      $_SQL = "SELECT orgnr FROM company WHERE orgnr ='$orgcode'";
+        $orgcode = str_replace(' ', '', $orgcode);
+        $orgcode = preg_replace("/[^a-zA-Z0-9]+/", "", $orgcode);
+
+        $_SQL = "SELECT orgnr FROM company WHERE orgnr ='$orgcode'";
 
         $db = new db();
         $conn = $db->makeConnection();
