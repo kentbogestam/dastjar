@@ -78,6 +78,15 @@
   body{
     background-color: #fff; 
   }
+
+  .mob_title_2 {
+    font-size: 11px;
+  }
+
+  .mob_desc_2{
+    font-size: 7px;
+    color: #959595;
+  }
 </style>
 <body>
    <div class="center">
@@ -256,24 +265,21 @@
                         <table  border="0" align="center" cellpadding="0" cellspacing="0">
                            <tr id="short_preview" style="display:inline;">
                               <td width="422" align="center" valign="top" style="background-image:url(client/images/iphone_large-3.png); width:270px; height:559px; background-repeat:no-repeat;">
-                                 <div style="margin-top:100px; width:225px; margin-left:-50px; margin-right:auto;" >
-                                    <table border="0" cellpadding="0" cellspacing="0">
+                                 <div style="margin-top:100px; width:225px;" >
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                        <tr>
                                           <td width="41"  align="left" style="padding-left:5px; padding-right:5px;">
                                              <div id="upload_area" style="vertical-align:top;"><img src="images/placeholder-image.png"  height = 30 width = 50 id="myCatIcon" name="myCatIcon"></div>
                                           </td>
-                                          <td rowspan="2" valign="top">
-                                             <table width="98%" border="0" cellpadding="0" cellspacing="0">
+                                          <td valign="top">
+                                            <table width="70%" border="0" cellpadding="0" cellspacing="0">
                                                 <tr>
-                                                   <td class="mob_title_2" id="tslogan"></td>
-                                                   <td width="21" align="right" nowrap style="padding-right:3px;">
-                                                      <div><font size="-3"></font></div>
-                                                   </td>
+                                                    <td class="mob_title_2" id="tslogan"></td>
                                                 </tr>
-                                                <!--<tr>
-                                                   <td valign="top" colspan="2" class="mob_txt" id="sslogan"></td>
-                                                   </tr>-->
-                                             </table>
+                                                <tr>
+                                                    <td class="mob_desc_2"></td>
+                                                </tr>
+                                            </table>
                                           </td>
                                        </tr>
                                     </table>
@@ -545,6 +551,12 @@
 
 
             $.material.init();
+
+            // Change preview on keyup
+            $(document).on('keyup', '#titleSloganStand, #productDescription', function() {
+                $('.mob_title_2').html($('#titleSloganStand').val());
+                $('.mob_desc_2').html($('#productDescription').val());
+            });
         });
 		
    $("#icon").change(function() {
