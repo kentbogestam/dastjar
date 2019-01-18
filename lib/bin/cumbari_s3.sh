@@ -13,9 +13,11 @@ if [ -f $INFILE ] ; then
 
 aws s3 cp $INFILE s3://$BASE$DIR --acl public-read 
 	if [ $? -gt 0 ]; then
- 		mailx -s "Erron in aws transferring file $BASE$DIR  $INFILE  to s3" admin@dastjar.com </dev/null
+ 		mailx -s "Erron in aws transferring file $BASE$DIR  $INFILE  to s3" ajit.singh@ampliedtech.com </dev/null
+ 	else
+ 		mailx -s "Erron in aws transferring file $BASE$DIR  $INFILE  to s3" ajit.singh@ampliedtech.com </dev/null
 	fi
 else
-	mailx -s "S3 File $BASE$DIR $INFILE  do not exist on advertise.dastjar.com" deepakdwivedi.axovel@gmail.com </dev/null
+	mailx -s "S3 File $BASE$DIR $INFILE  do not exist on advertise.dastjar.com" ajit.singh@ampliedtech.com </dev/null
 fi
 
