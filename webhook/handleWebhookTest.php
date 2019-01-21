@@ -1,5 +1,5 @@
 <?php
-//
+/*
 // include_once("../cumbari.php");
 require_once("../vendor/autoload.php");
 
@@ -30,4 +30,32 @@ try {
 // Do something with $event
 
 http_response_code(200); // PHP 5.4 or greater
+*/
+
+require_once('../lib/captcha/recaptchalib.php');
+
+if($_SERVER["REQUEST_METHOD"] === "POST")
+{
+	//verify captcha
+	$recaptcha_secret = '6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX';
+	$response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$recaptcha_secret."&response=".$_POST['g-recaptcha-response']);
+	$response = json_decode($response, true);
+
+	echo '<pre>'; print_r($response);
+}
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src='https://www.google.com/recaptcha/api.js'></script>
+</head>
+<body>
+	<form method="post" action="">
+		<div class="g-recaptcha" data-sitekey="6LeDA0kUAAAAANgrH6YdoQmix-_OawzmczkQr094"></div>
+		<input type="submit">
+	</form>
+</body>
+</html>

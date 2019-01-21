@@ -62,6 +62,12 @@ class handleWebhook {
 			$subscriptionEndAt = date('Y-m-d H:i:s', $invoice->period_end);
 			$updatedAt = date('Y-m-d H:i:s');
 
+			// Start test
+			$next_payment_attempt = is_null($invoice->next_payment_attempt) ? $invoice->next_payment_attempt : date('Y-m-d H:i:s', $invoice->next_payment_attempt);
+			$str .= "next_payment_attempt: {$next_payment_attempt}\n";
+			// End test
+
+
 			$str .= "subscription: {$subscriptionId}\nperiod_end: {$subscriptionEndAt}\n";
 			
 			// Get the invoice line items
@@ -71,6 +77,11 @@ class handleWebhook {
 			{
 				foreach($invoiceLineItems as $lineItem)
 				{
+					// Start test
+					$str .= "ILI Period Start: ".date('Y-m-d H:i:s', $lineItem->period->start)."\n";
+					$str .= "ILI Period End: ".date('Y-m-d H:i:s', $lineItem->period->end)."\n";
+					// End test
+					
 					$planId = $lineItem->plan->id;
 
 					$str .= "plan: {$planId}\n";
