@@ -7,7 +7,7 @@
 
 //print_r($_SESSION);
 //$_SESSION['COMP_ID']="";
-require_once('lib/resizer/resizer.php');
+require_once(dirname(__DIR__).'/lib/resizer/resizer.php');
 class store {
     /* Function Header :svrStoreDflt()
      *             Args: none

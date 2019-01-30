@@ -27,7 +27,7 @@ font-weight: bold;" ><a style="color:#666666; text-decoration:none; text-shadow:
 
 <script type="text/javascript">
 	<?php
-	if(isset($_SESSION['userid']) && $_SESSION['active_state']==5) {
+	/*if(isset($_SESSION['userid']) && $_SESSION['active_state']==5) {
 		?>
 		// To check if user loggedin, redirect to login page
 		var checkAuth = function() {
@@ -45,7 +45,7 @@ font-weight: bold;" ><a style="color:#666666; text-decoration:none; text-shadow:
 
 		setInterval(checkAuth, 10000);
 		<?php
-	}
+	}*/
 	?>
 </script>
 
