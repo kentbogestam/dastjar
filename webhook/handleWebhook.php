@@ -1,11 +1,11 @@
 <?php
 //
-include_once("../cumbari.php");
-require_once("../vendor/autoload.php");
+include_once(dirname(__DIR__).'/cumbari.php');
+require_once(dirname(__DIR__).'/vendor/autoload.php');
 
 class handleWebhook {
 	function __construct() {
-		\Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
+		/*\Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
 
 		// Retrieve the request's body and parse it as JSON
 		$payload = @file_get_contents('php://input');
@@ -42,7 +42,7 @@ class handleWebhook {
 			// Invalid signature
 			http_response_code(400); // PHP 5.4 or greater
 			exit();
-		}
+		}*/
 	}
 
 	/**
@@ -158,7 +158,7 @@ class handleWebhook {
 	function log($str)
 	{
 		$fileName = 'handleWebhook.log';
-		$filePath = '../logs/';
+		$filePath = dirname(__DIR__).'/logs/';
 
 		$fp = fopen($filePath.$fileName, 'a');
 		fwrite($fp, $str);
@@ -167,5 +167,5 @@ class handleWebhook {
 }
 
 $webhook = new handleWebhook();
-// $webhook->handleInvoicePaymentSuccess();
+$webhook->handleInvoicePaymentSuccess();
 ?>
