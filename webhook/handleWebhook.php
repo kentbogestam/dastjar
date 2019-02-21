@@ -1,11 +1,19 @@
 <?php
+/*$str = 'Test';
+$fileName = 'handleWebhook.log';
+$filePath = dirname(__DIR__).'/logs/';
+
+$fp = fopen($filePath.$fileName, 'a');
+fwrite($fp, $str);
+fclose($fp);
+exit;*/
 //
 include_once(dirname(__DIR__).'/cumbari.php');
 require_once(dirname(__DIR__).'/vendor/autoload.php');
 
 class handleWebhook {
 	function __construct() {
-		/*\Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
+		\Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
 
 		// Retrieve the request's body and parse it as JSON
 		$payload = @file_get_contents('php://input');
@@ -42,7 +50,7 @@ class handleWebhook {
 			// Invalid signature
 			http_response_code(400); // PHP 5.4 or greater
 			exit();
-		}*/
+		}
 	}
 
 	/**
@@ -66,7 +74,6 @@ class handleWebhook {
 			$next_payment_attempt = is_null($invoice->next_payment_attempt) ? $invoice->next_payment_attempt : date('Y-m-d H:i:s', $invoice->next_payment_attempt);
 			$str .= "next_payment_attempt: {$next_payment_attempt}\n";
 			// End test
-
 
 			$str .= "subscription: {$subscriptionId}\nperiod_end: {$subscriptionEndAt}\n";
 			
@@ -167,5 +174,5 @@ class handleWebhook {
 }
 
 $webhook = new handleWebhook();
-$webhook->handleInvoicePaymentSuccess();
+// $webhook->handleInvoicePaymentSuccess();
 ?>
