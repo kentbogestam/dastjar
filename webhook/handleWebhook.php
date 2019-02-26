@@ -66,54 +66,62 @@ class handleWebhook {
 
 		if( !empty($invoice) )
 		{
-			$subscriptionId = $invoice->subscription;
-			$subscriptionEndAt = date('Y-m-d H:i:s', $invoice->period_end);
-			$updatedAt = date('Y-m-d H:i:s');
+			$db = new db();
+			$conn = $db->makeConnection();
 
-			// Start test
-			$next_payment_attempt = is_null($invoice->next_payment_attempt) ? $invoice->next_payment_attempt : date('Y-m-d H:i:s', $invoice->next_payment_attempt);
-			$str .= "next_payment_attempt: {$next_payment_attempt}\n";
-			// End test
-
-			$str .= "subscription: {$subscriptionId}\nperiod_end: {$subscriptionEndAt}\n";
-			
-			// Get the invoice line items
-			$invoiceLineItems = $invoice->lines->data;
-
-			if( !empty($invoiceLineItems) )
+			// Check connection
+			if($conn)
 			{
-				foreach($invoiceLineItems as $lineItem)
+				$subscriptionId = $invoice->subscription;
+				$str .= "Subscription ID: {$subscriptionId}\n";
+				
+				// Check if Subscription exist in DB
+				$query = "SELECT id FROM user_plan WHERE subscription_id = '{$subscriptionId}'";
+				$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+
+				if( mysqli_num_rows($res) )
 				{
-					// Start test
-					$str .= "ILI Period Start: ".date('Y-m-d H:i:s', $lineItem->period->start)."\n";
-					$str .= "ILI Period End: ".date('Y-m-d H:i:s', $lineItem->period->end)."\n";
-					// End test
+					// $subscriptionEndAt = date('Y-m-d H:i:s', $invoice->period_end);
 					
-					$planId = $lineItem->plan->id;
+					// Get the invoice line items
+					$invoiceLineItems = $invoice->lines->data;
 
-					$str .= "plan: {$planId}\n";
-
-					// Update subscription in DB
-					$db = new db();
-					$conn = $db->makeConnection();
-
-					// Check connection
-					if ($conn)
+					if( !empty($invoiceLineItems) )
 					{
-						$query = "UPDATE user_plan SET subscription_end_at = '{$subscriptionEndAt}', updated_at = '{$updatedAt}' WHERE subscription_id = '{$subscriptionId}' AND plan_id = '{$planId}'";
-						$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+						$updatedAt = date('Y-m-d H:i:s');
 
-						$str .= "query: {$query}\n";
+						foreach($invoiceLineItems as $lineItem)
+						{
+							// Start test
+							$str .= "ILI Period Start: ".date('Y-m-d H:i:s', $lineItem->period->start)."\n";
+							$str .= "ILI Period End: ".date('Y-m-d H:i:s', $lineItem->period->end)."\n";
+							// End test
+							
+							$planId = $lineItem->plan->id;
+							$endAt = date('Y-m-d H:i:s', $lineItem->period->end);
+
+							$str .= "Plan ID: {$planId}\n";
+
+							// Update subscription in DB
+							$query = "UPDATE user_plan SET subscription_end_at = '{$endAt}', updated_at = '{$updatedAt}' WHERE subscription_id = '{$subscriptionId}' AND plan_id = '{$planId}'";
+							$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+
+							$str .= "Query: {$query}\n";
+						}
 					}
 					else
 					{
-						$str .= "Connection failed\n";
+						$str .= "Line item empty\n";
 					}
+				}
+				else
+				{
+					$str .= "Subscription not found in DB\n";
 				}
 			}
 			else
 			{
-				$str .= "Line item empty\n";
+				$str .= "Connection failed\n";
 			}
 		}
 		else
