@@ -537,10 +537,18 @@ class store {
      */
 
     function getStoreDetail($uid) {
-        $options = "";
-        $query = "SELECT * FROM store WHERE u_id = '" . $uid . "'";
-        $res = mysql_query($query) or die(mysql_error());
-        while ($rs = mysql_fetch_array($res)) {
+        // print_r($data); die("dssdada");
+        $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+        $data = array();
+        $q = $db->query("SELECT * FROM store WHERE u_id = '{$uid}' AND s_activ='1'");
+      
+        // $res = mysql_query($query) or die(mysql_error());
+        while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
         return $data;
