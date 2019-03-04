@@ -95,7 +95,6 @@ if ($_SESSION['userid']) {
 										<td><?php echo $row['store_name']; ?></td>
 										<td><?php echo $row['code']; ?></td>
 										<td><?php echo $row['discount_value']; ?></td>
-										<!-- <td><?php echo $row['start_date']; ?></td> -->
 										<td><?php echo "<script type='text/javascript'>document.write(moment.utc('{$row['start_date']}').local().format('YYYY/MM/DD HH:mm'))</script>" ?></td>
 										<td><?php echo "<script type='text/javascript'>document.write(moment.utc('{$row['end_date']}').local().format('YYYY/MM/DD HH:mm'))</script>" ?></td>
 										<td align="center">
@@ -110,7 +109,7 @@ if ($_SESSION['userid']) {
 							{
 								?>
 								<tr>
-									<td colspan='5' align="center">No record found.</td>
+									<td colspan='6' align="center">No record found.</td>
 								</tr>
 								<?php
 							}
