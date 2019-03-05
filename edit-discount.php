@@ -7,21 +7,9 @@ if( isset($_GET['id']) && is_numeric($_GET['id']) )
 {
     $id = $_GET['id'];
 }
-elseif( !isset($_POST['isRemoteCheck']) )
-{
-    header('Location: list-discount.php');
-    exit();
-}
 
 // Get discount by ID
 $discountObj = new discount();
-
-// Remote check if discount code is not already exist
-if( isset($_POST['isRemoteCheck']) )
-{
-    $discountObj->remoteCheckDiscount();
-    exit;
-}
 
 // Get discount
 $discount = $discountObj->getDiscountById($id);
@@ -81,6 +69,10 @@ body{
 label.error {
     color: red !important;
 }
+
+button.btn {
+    background-color: #EBEBEB !important;
+}
 </style>
 <body>
     <div class="center">
@@ -122,7 +114,7 @@ label.error {
                     </div>
                     <div class="form-group">
                         <label for="code">Discount Code <span class='mandatory'>*</span>:</label>
-                        <input type="text" name="code" value="<?php echo $discount['code']; ?>" placeholder="Enter discount code" class="form-control" id="code">
+                        <input type="text" name="code" value="<?php echo $discount['code']; ?>" placeholder="Enter discount code" readonly class="form-control" id="code">
                     </div>
                     <div class="form-group">
                         <label for="discount_value">Discount Value <span class='mandatory'>*</span>:</label>
@@ -156,36 +148,7 @@ label.error {
 <script>
     $(document).ready(function() {
         // Form validation
-        $("#frm-discount").validate({
-            rules: {
-                code: {
-                    required: true,
-                    minlength: 5,
-                    maxlength: 5,
-                    remote: {
-                        url: 'edit-discount.php',
-                        type: 'post',
-                        data: {
-                            isRemoteCheck: 1,
-                            id: function() {
-                                return $("#id").val()
-                            },
-                            store_id: function() {
-                                return $("#store_id").val()
-                            },
-                            code: function() {
-                                return $("#code").val();
-                            }
-                        }
-                    }
-                }
-            },
-            messages: {
-                code: {
-                    remote: 'This discount code is already added.'
-                }
-            }
-        });
+        $("#frm-discount").validate();
 
         // 
         var startDate = "<?php echo $discount['start_date'] ?>";

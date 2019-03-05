@@ -3,12 +3,18 @@ header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 
 $discountObj = new discount();
+$randomNum = $discountObj->random_num(5);
 
 // Remote check if discount code is not already exist
 if( isset($_POST['isRemoteCheck']) )
 {
-    $discountObj->remoteCheckDiscount();
-    exit;
+    $discountObj->remoteCheckDiscount(); exit;
+}
+
+// Return new discount code
+if( isset($_GET['getNewDiscountCode']) )
+{
+    echo $randomNum; exit;
 }
 
 // Create discount form submit
@@ -54,6 +60,10 @@ body{
 label.error {
     color: red !important;
 }
+
+button.btn {
+    background-color: #EBEBEB !important;
+}
 </style>
 <body>
     <div class="center">
@@ -93,7 +103,12 @@ label.error {
                     </div>
                     <div class="form-group">
                         <label for="code">Discount Code <span class='mandatory'>*</span>:</label>
-                        <input type="text" name="code" placeholder="Enter discount code" class="form-control" id="code">
+                        <div class="input-group">
+                            <input type="text" name="code" value="<?php echo $randomNum; ?>" placeholder="Enter discount code" readonly class="form-control" id="code">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default code-refresh">Refresh</button>
+                            </span>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="discount_value">Discount Value <span class='mandatory'>*</span>:</label>
@@ -137,9 +152,6 @@ label.error {
                         type: 'post',
                         data: {
                             isRemoteCheck: 1,
-                            store_id: function() {
-                                return $("#store_id").val()
-                            },
                             code: function() {
                                 return $("#code").val();
                             }
@@ -152,6 +164,13 @@ label.error {
                     remote: 'This discount code is already added.'
                 }
             }
+        });
+
+        // Generate new code
+        $('.code-refresh').on('click', function() {
+            $.get('add-discount.php?getNewDiscountCode=1', function(code) {
+                $('#code').val(code);
+            });
         });
 
         // Initialize start/end datetimepicker

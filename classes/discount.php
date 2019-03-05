@@ -82,11 +82,11 @@ class discount {
 		// Check if discount is not already exist
 		if( !isset($data['id']) )
 		{
-			$query = "SELECT id FROM promotion_discount WHERE store_id = '{$data['store_id']}' AND code = '{$data['code']}' AND status = '1'";
+			$query = "SELECT id FROM promotion_discount WHERE code = '{$data['code']}' AND status = '1'";
 		}
 		else
 		{
-			$query = "SELECT id FROM promotion_discount WHERE id NOT IN ('{$data['id']}') AND store_id = '{$data['store_id']}' AND code = '{$data['code']}' AND status = '1'";
+			$query = "SELECT id FROM promotion_discount WHERE id NOT IN ('{$data['id']}') AND code = '{$data['code']}' AND status = '1'";
 		}
 		
 		$res = mysqli_query($conn, $query) or die(mysql_error());
@@ -128,12 +128,12 @@ class discount {
 		}
 
 		// Check if discount is not already exist
-		$query = "SELECT id FROM promotion_discount WHERE store_id = '{$data['store_id']}' AND code = '{$data['code']}' AND status = '1'";
+		$query = "SELECT id FROM promotion_discount WHERE code = '{$data['code']}' AND status = '1'";
 		$res = mysqli_query($conn, $query) or die(mysql_error());
 		
 		if( $db->numRows($res) )
 		{
-			$error .= "<li class='notice_error'>This code already exist for the selected store.</li>";
+			$error .= "<li class='notice_error'>This code is already exist for any store.</li>";
 		}
 
 		// Redirect if error
@@ -187,12 +187,12 @@ class discount {
 		}
 
 		// Check if discount is not already exist
-		$query = "SELECT id FROM promotion_discount WHERE id NOT IN ('{$id}') AND store_id = '{$data['store_id']}' AND code = '{$data['code']}' AND status = '1'";
+		$query = "SELECT id FROM promotion_discount WHERE id NOT IN ('{$id}') AND code = '{$data['code']}' AND status = '1'";
 		$res = mysqli_query($conn, $query) or die(mysql_error());
 		
 		if( $db->numRows($res) )
 		{
-			$error .= "<li class='notice_error'>This code already exist for the selected store.</li>";
+			$error .= "<li class='notice_error'>This code is already exist for any store.</li>";
 		}
 
 		// Redirect if error
@@ -206,7 +206,7 @@ class discount {
 		}
 
 		// Create discount
-		$query = "UPDATE promotion_discount SET store_id = '{$data['store_id']}', code = '{$data['code']}', discount_value = '{$data['discount_value']}', start_date = '{$data['start_date_utc']}', end_date = '{$data['end_date_utc']}' WHERE id = '{$id}'";
+		$query = "UPDATE promotion_discount SET store_id = '{$data['store_id']}', discount_value = '{$data['discount_value']}', start_date = '{$data['start_date_utc']}', end_date = '{$data['end_date_utc']}' WHERE id = '{$id}'";
 		$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
 		// Redirect
@@ -244,5 +244,30 @@ class discount {
         $inoutObj->reDirect($url);
         exit();
 	}
+
+	/**
+	 * Function to generate alphanumeric random number
+	 * @param  [type] $size [description]
+	 * @return [type]       [description]
+	 */
+	public function random_num($size) {
+        $alpha_key = '';
+        $keys = range('A', 'Z');
+
+        for ($i = 0; $i < 3; $i++) {
+            $alpha_key .= $keys[array_rand($keys)];
+        }
+
+        $length = $size - 3;
+
+        $key = '';
+        $keys = range(0, 9);
+
+        for ($i = 0; $i < $length; $i++) {
+            $key .= $keys[array_rand($keys)];
+        }
+
+        return $alpha_key . $key;
+    }
 }
 ?>
