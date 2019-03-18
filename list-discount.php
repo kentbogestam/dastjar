@@ -98,7 +98,7 @@ if ($_SESSION['userid']) {
 										<td><?php echo "<script type='text/javascript'>document.write(moment.utc('{$row['start_date']}').local().format('YYYY/MM/DD HH:mm'))</script>" ?></td>
 										<td><?php echo "<script type='text/javascript'>document.write(moment.utc('{$row['end_date']}').local().format('YYYY/MM/DD HH:mm'))</script>" ?></td>
 										<td align="center">
-											<a href="edit-discount.php?id=<?php echo $row['id']; ?>" title="Edit Discount"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> 
+											<!-- <a href="edit-discount.php?id=<?php echo $row['id']; ?>" title="Edit Discount"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>  -->
 											<a href="javascript:deleteDiscount(<?php echo $row['id']; ?>)" title="Delete Discount"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
 										</td>
 									</tr>

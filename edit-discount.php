@@ -2,6 +2,8 @@
 header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
 
+exit;
+
 // Redirect if ID not exist
 if( isset($_GET['id']) && is_numeric($_GET['id']) )
 {
