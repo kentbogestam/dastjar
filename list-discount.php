@@ -22,7 +22,7 @@ if ($_SESSION['userid']) {
 
 	if(isset($_REQUEST['action']) && isset($_REQUEST['id']) && $_REQUEST['action'] == 'deleteDiscount' && is_numeric($_REQUEST['id']))
 	{
-		$discount->deleteDiscount($_REQUEST['id']);
+		// $discount->deleteDiscount($_REQUEST['id']);
 	}
 	else
 	{
@@ -83,7 +83,7 @@ if ($_SESSION['userid']) {
 								<th width="15%">Discount Value</th>
 								<th width="15%">Start Date</th>
 								<th width="15%">End Date</th>
-								<th width="10%" class="text-center">Action</th>
+								<!-- <th width="10%" class="text-center">Action</th> -->
 							</tr>
 							<?php
 							if( !empty($data) )
@@ -97,10 +97,10 @@ if ($_SESSION['userid']) {
 										<td><?php echo $row['discount_value']; ?></td>
 										<td><?php echo "<script type='text/javascript'>document.write(moment.utc('{$row['start_date']}').local().format('YYYY/MM/DD HH:mm'))</script>" ?></td>
 										<td><?php echo "<script type='text/javascript'>document.write(moment.utc('{$row['end_date']}').local().format('YYYY/MM/DD HH:mm'))</script>" ?></td>
-										<td align="center">
-											<!-- <a href="edit-discount.php?id=<?php echo $row['id']; ?>" title="Edit Discount"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>  -->
+										<!-- <td align="center">
+											<a href="edit-discount.php?id=<?php echo $row['id']; ?>" title="Edit Discount"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
 											<a href="javascript:deleteDiscount(<?php echo $row['id']; ?>)" title="Delete Discount"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-										</td>
+										</td> -->
 									</tr>
 									<?php
 								}
@@ -109,7 +109,7 @@ if ($_SESSION['userid']) {
 							{
 								?>
 								<tr>
-									<td colspan='6' align="center">No record found.</td>
+									<td colspan='5' align="center">No record found.</td>
 								</tr>
 								<?php
 							}
@@ -130,7 +130,7 @@ if ($_SESSION['userid']) {
 		if( confirm('Are you sure you want to delete this discount?') )
 		{
 			var url = 'list-discount.php?action=deleteDiscount&id='+id;
-			window.location = url;
+			// window.location = url;
 		}
 	}
 </script>
