@@ -190,6 +190,8 @@ Users </td>
   </tr>
   <tr>
     <td><input type="radio" <?php echo isset($is_discount_show) ? $is_discount_show : ''; ?> onClick="javascript:window.location.href='list-discount.php'" name="deals">User Discount</td>
+    <td width="20">&nbsp;</td>
+    <td><input type="radio" <?php echo isset($is_loyalty_show) ? $is_loyalty_show : ''; ?> onClick="javascript:window.location.href='list-loyalty.php'" name="deals">Loyalty</td>
   </tr>
 </table>
 </div>
