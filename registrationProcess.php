@@ -29,7 +29,25 @@
 
         //verify captcha
         $recaptcha_secret = $captcha_secret_key;
-        $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$recaptcha_secret."&response=".$_POST['g-recaptcha-response']);
+        
+        // $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$recaptcha_secret."&response=".$_POST['g-recaptcha-response']);
+        
+        $ch = curl_init();
+
+        curl_setopt_array($ch, [
+            CURLOPT_URL => 'https://www.google.com/recaptcha/api/siteverify',
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => [
+                'secret' => $recaptcha_secret,
+                'response' => $_POST['g-recaptcha-response'],
+                'remoteip' => $_SERVER['REMOTE_ADDR']
+            ],
+            CURLOPT_RETURNTRANSFER => true
+        ]);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+        
         $response = json_decode($response, true);
  
       if($response["success"] === true)
