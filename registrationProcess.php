@@ -35,7 +35,7 @@
 
         $options=array(
             'ssl'=>array(
-                // 'cafile'            => '',
+                'cafile'            => '/etc/pki/tls/certs/dastjar.crt',
                 'verify_peer'       => false,
                 'verify_peer_name'  => false,
             ),

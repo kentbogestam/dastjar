@@ -53,7 +53,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
 
 	$options=array(
 		'ssl'=>array(
-			// 'cafile'            => '/etc/pki/tls/certs/dastjar.crt',
+			'cafile'            => '/etc/pki/tls/certs/dastjar.crt',
 			'verify_peer'       => false,
 			'verify_peer_name'  => false,
 		),
