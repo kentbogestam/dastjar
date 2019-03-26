@@ -109,11 +109,12 @@ class registration {
             //$password_sha1 = sha1($arrUser['passwd']);
             $password_sha256 = $arrUser['passwd'];
            $password_hash = hash_hmac('sha256', $password_sha256, $rowUniqueId);
+           $passwordHash = password_hash($password_sha256, PASSWORD_BCRYPT);
        
             $arrUser['email_varify_code'] = md5(time());
 			
-            $query = "INSERT INTO user (u_id, email, passwd, fname, lname, role, phone, mobile_phone,email_varify_code,activ)
-                VALUES ('" . $rowUniqueId . "', '" . $arrUser['email'] . "', '" . $password_hash . "', '" . $arrUser['fname'] . "', '" . $arrUser['lname'] . "','" . $arrUser['role'] . "', '" . $arrUser['cprefix'] . $arrUser['phone'] . "', '" . $arrUser['cprefix'] . $arrUser['mobile_phone'] . "','" . $arrUser['email_varify_code'] . "','8');";
+            $query = "INSERT INTO user (u_id, email, passwd, password, fname, lname, role, phone, mobile_phone,email_varify_code,activ)
+                VALUES ('" . $rowUniqueId . "', '" . $arrUser['email'] . "', '" . $password_hash . "', '".$passwordHash."', '" . $arrUser['fname'] . "', '" . $arrUser['lname'] . "','" . $arrUser['role'] . "', '" . $arrUser['cprefix'] . $arrUser['phone'] . "', '" . $arrUser['cprefix'] . $arrUser['mobile_phone'] . "','" . $arrUser['email_varify_code'] . "','8');";
             //$res = mysql_query($query) or die(mysql_error());
 
                 // Create connection
@@ -573,11 +574,12 @@ class registration {
 
             $password_sha256 = $arrUser['passwd'];
            $password_hash = hash_hmac('sha256', $password_sha256, $rowUniqueId);
+           $passwordHash = password_hash($password_sha256, PASSWORD_BCRYPT);
             
             $arrUser['email_varify_code'] = md5(time());
 			
-            $query = "INSERT INTO user(`u_id`, `email`, `passwd`, `fname`, `lname`, `role`, `phone`, `mobile_phone`,`email_varify_code`,`activ`,`street_addr`,`city_addr`,`home_zip`,`country`,`social_number`,`resellers_bank`)
-                VALUES ('" . $rowUniqueId . "', '" . $arrUser['email'] . "', '" . $password_hash . "', '" . $arrUser['fname'] . "', '" . $arrUser['lname'] . "','" . $arrUser['role'] . "', '" . $arrUser['cprefix'] . $arrUser['phone'] . "', '" . $arrUser['cprefix'] . $arrUser['mobile_phone'] . "','" . $arrUser['email_varify_code'] . "','8','" . $arrUser['street_addr'] . "','" . $arrUser['city_addr'] . "','" . $arrUser['home_zip'] . "','" . $arrUser['country'] . "','" . $arrUser['social_number'] . "','" . $arrUser['resellers_bank'] . "');";
+            $query = "INSERT INTO user(`u_id`, `email`, `passwd`, `password`, `fname`, `lname`, `role`, `phone`, `mobile_phone`,`email_varify_code`,`activ`,`street_addr`,`city_addr`,`home_zip`,`country`,`social_number`,`resellers_bank`)
+                VALUES ('" . $rowUniqueId . "', '" . $arrUser['email'] . "', '" . $password_hash . "', '".$passwordHash."', '" . $arrUser['fname'] . "', '" . $arrUser['lname'] . "','" . $arrUser['role'] . "', '" . $arrUser['cprefix'] . $arrUser['phone'] . "', '" . $arrUser['cprefix'] . $arrUser['mobile_phone'] . "','" . $arrUser['email_varify_code'] . "','8','" . $arrUser['street_addr'] . "','" . $arrUser['city_addr'] . "','" . $arrUser['home_zip'] . "','" . $arrUser['country'] . "','" . $arrUser['social_number'] . "','" . $arrUser['resellers_bank'] . "');";
             $res = mysql_query($query) or die(mysql_error());
 
             if ($res) {
