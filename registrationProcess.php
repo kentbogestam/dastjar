@@ -29,7 +29,21 @@
 
         //verify captcha
         $recaptcha_secret = $captcha_secret_key;
-        $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$recaptcha_secret."&response=".$_POST['g-recaptcha-response']);
+        $captcha = trim($_POST['g-recaptcha-response']);
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $url = "https://www.google.com/recaptcha/api/siteverify?secret={$recaptcha_secret}&response={$captcha}&remoteip={$ip}";
+
+        $options=array(
+            'ssl'=>array(
+                'cafile'            => '/etc/pki/tls/certs/dastjar.crt',
+                'verify_peer'       => false,
+                'verify_peer_name'  => false,
+            ),
+        );
+
+        $context = stream_context_create( $options );
+        $response = file_get_contents( $url, false, $context );
+        // $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$recaptcha_secret."&response=".$_POST['g-recaptcha-response']);
         $response = json_decode($response, true);
  
       if($response["success"] === true)

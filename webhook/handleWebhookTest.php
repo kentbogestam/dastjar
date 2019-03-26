@@ -34,11 +34,33 @@ http_response_code(200); // PHP 5.4 or greater
 
 require_once('../lib/captcha/recaptchalib.php');
 
-if($_SERVER["REQUEST_METHOD"] === "POST")
+/*if($_SERVER["REQUEST_METHOD"] === "POST")
 {
 	//verify captcha
 	$recaptcha_secret = '6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX';
 	$response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$recaptcha_secret."&response=".$_POST['g-recaptcha-response']);
+	$response = json_decode($response, true);
+
+	echo '<pre>'; print_r($response);
+}*/
+if($_SERVER["REQUEST_METHOD"] === "POST")
+{
+	//verify captcha
+	$secret = '6LeDA0kUAAAAALDRS2EZYnsprwDqOayFuSELyFbX';
+	$captcha = trim($_POST['g-recaptcha-response']);
+	$ip = $_SERVER['REMOTE_ADDR'];
+	$url = "https://www.google.com/recaptcha/api/siteverify?secret={$secret}&response={$captcha}&remoteip={$ip}";
+
+	$options=array(
+		'ssl'=>array(
+			'cafile'            => '/etc/pki/tls/certs/dastjar.crt',
+			'verify_peer'       => false,
+			'verify_peer_name'  => false,
+		),
+	);
+	$context = stream_context_create( $options );
+	// $response = file_get_contents();
+	$response = file_get_contents( $url, false, $context );
 	$response = json_decode($response, true);
 
 	echo '<pre>'; print_r($response);
