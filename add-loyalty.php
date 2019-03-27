@@ -122,6 +122,13 @@ button.btn {
                         <label for="quantity_get">Quantity Get <span class='mandatory'>*</span>:</label>
                         <input type="number" name="quantity_get" placeholder="Enter quantity to get" class="form-control" id="quantity_get" data-rule-required="true">
                     </div>
+                    <div class="form-group">
+                        <label for="validity">Validity <span class='mandatory'>*</span>:</label>
+                        <select name="validity" class="form-control" id="validity" data-rule-required="true">
+                            <option value="1">Once</option>
+                            <option value="0">repeatedly</option>
+                        </select>
+                    </div>
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
