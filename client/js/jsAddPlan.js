@@ -11,14 +11,14 @@ $("#error_description").html('');
 
     if(($.trim($("#product").val()).length == 0))
         {
-            var errorMsg = "Please Enter Your Company Name. <br />";
+            var errorMsg = "Please Enter Product Name. <br />";
             $("#error_product").html(errorMsg);
             error = "true";
         }
 
     if(($.trim($("#plan").val()).length == 0))
         {
-            var errorMsg = "Please Enter Your Country.<br />";
+            var errorMsg = "Please Enter Plan description.<br />";
             $("#error_plan").html(errorMsg);
             error = "true";
         }
@@ -37,10 +37,6 @@ $("#error_description").html('');
         if(($.trim($("#description").val()).length == 0))
         {
             var errorMsg = "Please Enter Description.<br />";
-            $("#error_street").html(errorMsg);
-            error = "true";
-        }else if(($.trim($("#description").val()).length > 22)){
-            var errorMsg = "Description must be maximum 22 characters long.<br />";
             $("#error_description").html(errorMsg);
             error = "true";
         }        
@@ -65,14 +61,14 @@ $("#error_description").html('');
 
     if(($.trim($("#product").val()).length == 0))
         {
-            var errorMsg = "Please Enter Your Company Name. <br />";
+            var errorMsg = "Please Enter Product Name. <br />";
             $("#error_product").html(errorMsg);
             error = "true";
         }
 
     if(($.trim($("#plan").val()).length == 0))
         {
-            var errorMsg = "Please Enter Your Country.<br />";
+            var errorMsg = "Please Enter Plan description.<br />";
             $("#error_plan").html(errorMsg);
             error = "true";
         }
@@ -91,10 +87,6 @@ $("#error_description").html('');
         if(($.trim($("#description").val()).length == 0))
         {
             var errorMsg = "Please Enter Description.<br />";
-            $("#error_street").html(errorMsg);
-            error = "true";
-        }else if(($.trim($("#description").val()).length > 22)){
-            var errorMsg = "Description must be maximum 22 characters long.<br />";
             $("#error_description").html(errorMsg);
             error = "true";
         }        

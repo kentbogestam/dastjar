@@ -13,7 +13,7 @@
 
    // Get packages to subscribe for location
    $billingObj = new billing();
-   $products = $billingObj->showPlan();
+   $products = $billingObj->showPlanToSubscribe();
 
    // Get subscribed plans list
    $arrProductsSubscribed = array();
@@ -458,6 +458,7 @@
                                             <thead>
                                                 <tr>
                                                     <th></th>
+                                                    <th>S. No.</th>
                                                     <th colspan="2" style="padding-bottom: 10px; padding-right: 10px">Product Description</th>
                                                     <th>Unit Price(kr)</th>
                                                     <th>Amount</th>
@@ -466,15 +467,17 @@
                                             <tbody>
                                                 <?php
                                                 $total = 0;
+                                                $i = 1;
                                                 foreach ($products as $key => $product) {
                                                 ?>
                                                     <tr class="prods">
                                                         <td align="left">
-                                                            <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo ($product['product_name'] == "Anar Base Package") ? "checked='checked' readonly" : '' ?> <?php echo (in_array($product['plan_id'], $arrProductsSubscribed)) ? "checked='checked' disabled" : ''; ?> data-amount="<?php echo $product['price']; ?>">
+                                                            <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo ($product['package_id'] == 1) ? "checked='checked' readonly" : '' ?> <?php echo (in_array($product['plan_id'], $arrProductsSubscribed)) ? "checked='checked' disabled" : ''; ?> data-amount="<?php echo $product['price']; ?>">
                                                         </td>
+                                                        <td><?php echo $i; ?></td>
                                                         <td align="left" colspan="2" style="padding-right: 10px; padding-left: 10px">
                                                             <?php
-                                                            if($product['product_name'] == "Anar Base Package"){ 
+                                                            if($product['package_id'] == 1){ 
                                                             ?>
                                                                 <div class="panel-group">
                                                                     <div class="panel panel-default">
@@ -508,9 +511,11 @@
                                                         </td>
                                                     </tr>
                                                 <?php
+                                                    $i++;
                                                 }
                                                 ?>
                                                 <tr>
+                                                    <td align="left">&nbsp;</td>
                                                     <td align="left">&nbsp;</td>
                                                     <td align="left" colspan="2" style="padding-right: 10px; padding-left: 10px">&nbsp;</td>
                                                     <td align="left"><strong>Total: </strong></td>

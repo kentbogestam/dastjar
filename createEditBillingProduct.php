@@ -19,6 +19,9 @@ if(isset($_GET['b'])){
    $backLink = "productSupport.php";
 }
 
+//
+$staticPackages = $billing->getStaticPackages();
+
 if($editId)
 {
    $data = $billing->getBillingProduct($editId);
@@ -94,10 +97,25 @@ if (isset($_POST['continue']) AND $editId != '') {
 
 
                 </tr>
-
+                <tr>
+                    <td width="50%" align="left" class="inner_grid">Map with:</td>
+                    <td width="50%" align="left">
+                        <select class="text_field_new" name="package_id" id="package_id">
+                            <option value="">Select</option>
+                            <?php
+                            foreach($staticPackages as $row)
+                            {
+                                ?>
+                                <option value='<?php echo $row['id']; ?>' <?php echo ($row['id'] == $data[0]['package_id']) ? 'selected' : '' ?>><?php echo $row['title']; ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
+                    </td>
+                </tr>
                 <tr>
 
-                    <td align="left" class="inner_grid">Plan Nickname<span class='mandatory'>*</span>:</td>
+                    <td align="left" class="inner_grid">Plan Description<span class='mandatory'>*</span>:</td>
                     <td align="left">
                         <INPUT class="text_field_new" type="test" name="plan_nickname" id="plan" value="<?=$data[0]['plan_nickname']?>"/>
                         <a title="<?=PLAN_NICKNAME?>" class="vtip"><b><small>?</small></b></a><br/>
@@ -138,8 +156,9 @@ if (isset($_POST['continue']) AND $editId != '') {
 
                     <td align="left" class="inner_grid">Description<span class='mandatory'>*</span>:</td>
                     <td align="left">
-                        <INPUT class="text_field_new" type="test" name="description" id="description" value="<?=$data[0]['description']?>"/>
-                        <a title="<?=DESCRIPTION?>" class="vtip"><b><small>?</small></b></a><br/>
+                        <textarea name="description" id="description" rows="5" style="width: 400px;"><?=$data[0]['description']?></textarea>
+                        <!-- <INPUT class="text_field_new" type="test" name="description" id="description" value="<?=$data[0]['description']?>"/> -->
+                        <a title="<?=STRIPE_PRODUCT_DESCRIPTION?>" class="vtip"><b><small>?</small></b></a><br/>
                         <div id='error_description' class="error"></div></td>
                 </tr>
 

@@ -133,16 +133,17 @@
            </table>
            <table width="100%" border="0" cellpadding="2" cellspacing="2" class="border" bgcolor="#CCCCCC">
               <tr align="center">
-                 <td width="20%" height="20" align="center"  class="bg_darkgray1"><strong>Product Name</strong></td>
-                 <td width="20%" height="20" align="center"  class="bg_darkgray1"><strong>Plan Name</strong></td>
-                 <td width="15%" height="20" align="center" class="bg_darkgray1"><strong>Currency</strong></td>
-                 <td width="15%" height="20" align="center" class="bg_darkgray1"><strong>Price</strong></td>
-
+                 <td width="10%" height="20" align="center"  class="bg_darkgray1"><strong>S. No.</strong></td>
+                 <td width="30%" height="20" align="center"  class="bg_darkgray1"><strong>Product Name</strong></td>
+                 <td width="25%" height="20" align="center"  class="bg_darkgray1"><strong>Plan Name</strong></td>
+                 <td width="10%" height="20" align="center" class="bg_darkgray1"><strong>Currency</strong></td>
+                 <td width="10%" height="20" align="center" class="bg_darkgray1"><strong>Price</strong></td>
                  <td width="15%" height="20" class="bg_darkgray1"><strong>Action</strong></td>
               </tr>
 
               <?php
                  $i = 1 + $pager->get_limit_offset();
+                 $cnt = 1;
     
                  foreach ($data as $data1) {
                      
@@ -156,7 +157,7 @@
                     } 
                   ?>
               <tr bgcolor="#FFFFFF" style="font-size:18px; font-weight:bold;">
-                 
+                 <td align="center"><?php echo $cnt; ?></td>
                  <td align="center"><?php echo $data1['product_name']; ?></td>
                  <td align="center"><?php echo $data1['plan_nickname']; ?></td>
                  <td align="center"><?php echo $data1['currency']; ?></td>
@@ -183,7 +184,7 @@
                  </td>
               </tr>
               <?
-                 $i++;
+                 $i++; $cnt++;
                  }
                  ?>
            </table>
