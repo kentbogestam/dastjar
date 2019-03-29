@@ -462,6 +462,7 @@
                                                     <th colspan="2" style="padding-bottom: 10px; padding-right: 10px">Product Description</th>
                                                     <th>Unit Price(kr)</th>
                                                     <th>Amount</th>
+                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -508,6 +509,11 @@
                                                         <!-- <td align="left">1</td> -->
                                                         <td align="left">
                                                             <?=$product['price']*1?>                 
+                                                        </td>
+                                                        <td>
+                                                            <a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="<?php echo $product['description']; ?>">
+                                                                <span class="glyphicon glyphicon-info-sign"></span>
+                                                            </a>
                                                         </td>
                                                     </tr>
                                                 <?php
@@ -939,6 +945,9 @@
                   $('.file-upload-content').show();
                   $('.image-title').html("Image");
           }
+
+          // Tooltip
+          $('[data-toggle="tooltip"]').tooltip();
       });
      $('#add_tpye_of_dish').click(function(){
         $('#addDishType-popup').show();
