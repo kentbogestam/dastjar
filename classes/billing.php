@@ -66,7 +66,7 @@ class Billing{
 
    function updatePlan(){
         $editId = $_POST['edit_id'];
-        $package_id = $_POST['package_id'];
+        $package_id = !empty($_POST['package_id']) ? $_POST['package_id'] : 'NULL';
         $productId = $_POST['product_id'];
         $planId = $_POST['plan_id'];
 
@@ -95,7 +95,7 @@ class Billing{
         $db = new db();
         $db->makeConnection();
 
-        $query = "update billing_products set package_id='$package_id', product_name='$productName', plan_nickname='$planNickname', currency='$currency', price='$price', trial_period='$trialPeriod', usage_type='$usageType', description='$description' where id='$editId'";
+        $query = "update billing_products set package_id=$package_id, product_name='$productName', plan_nickname='$planNickname', currency='$currency', price='$price', trial_period='$trialPeriod', usage_type='$usageType', description='$description' where id='$editId'";
 
         $res = $db->query($query);
 
