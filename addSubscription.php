@@ -22,7 +22,7 @@
     if(isset($_POST['plan_id']) && isset($_POST['stripeToken']))
     // if(isset($_POST['stripeToken']))
     {
-        $billingObj->subscribe();
+        // $billingObj->subscribe();
     }
 
     include_once("header.php");

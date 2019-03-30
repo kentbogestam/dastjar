@@ -473,7 +473,7 @@
                                                 ?>
                                                     <tr class="prods">
                                                         <td align="left">
-                                                            <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo ($product['package_id'] == 1) ? "checked='checked' readonly" : '' ?> <?php echo (in_array($product['plan_id'], $arrProductsSubscribed)) ? "checked='checked' disabled" : ''; ?> data-amount="<?php echo $product['price']; ?>">
+                                                            <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo ($product['package_id'] == 1) ? "checked='checked' readonly" : '' ?> <?php echo (in_array($product['plan_id'], $arrProductsSubscribed)) ? "checked='checked' disabled" : ''; ?> data-amount="<?php echo $product['price']; ?>" data-package="<?php echo $product['package_id']; ?>" data-tax="25">
                                                         </td>
                                                         <td><?php echo $i; ?></td>
                                                         <td align="left" colspan="2" style="padding-right: 10px; padding-left: 10px">
@@ -504,11 +504,11 @@
                                                             <?php } ?>
                                                         </td>
                                                         <td align="left">
-                                                            <?=$product['price'] . "(" .$product['currency'].")"?>                 
+                                                            <?= number_format(($product['price']), 2, '.', '')." (" .$product['currency'].")"?>
                                                         </td>
                                                         <!-- <td align="left">1</td> -->
                                                         <td align="left">
-                                                            <?=$product['price']*1?>                 
+                                                            <?php  echo number_format(($product['price']*1), 2, '.', ''); ?>
                                                         </td>
                                                         <td>
                                                             <a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="<?php echo $product['description']; ?>">
@@ -520,18 +520,24 @@
                                                     $i++;
                                                 }
                                                 ?>
-                                                <tr>
-                                                    <td align="left">&nbsp;</td>
-                                                    <td align="left">&nbsp;</td>
-                                                    <td align="left" colspan="2" style="padding-right: 10px; padding-left: 10px">&nbsp;</td>
+                                                <!-- <tr>
+                                                    <td align="left" colspan="4" style="padding-right: 10px; padding-left: 10px">&nbsp;</td>
                                                     <td align="left"><strong>Total: </strong></td>
-                                                    <td align="left" class="plan-total"><?=number_format($total, 2, '.', '');?></td>
-                                                </tr>
+                                                    <td align="left" colspan="2" class="subscription-total"><?=number_format($total, 2, '.', '');?></td>
+                                                </tr> -->
                                             </tbody>
                                         </table>
                                     </td>
                                 </tr>
                             </table>
+                            <div class="block-total row">
+                                <div class="col-md-9 text-right"><strong>Sub Total: </strong></div>
+                                <div class="col-md-3 subscription-sub-total" style="padding-left: 75px;"><?=number_format($total, 2, '.', '');?></div>
+<div class="col-md-9 text-right"><strong>Tax: </strong></div>
+                                <div class="col-md-3 subscription-tax" style="padding-left: 75px;"><?=number_format($total, 2, '.', '');?></div>
+<div class="col-md-9 text-right"><strong>Total: </strong></div>
+                                <div class="col-md-3 subscription-total" style="padding-left: 75px;"><?=number_format($total, 2, '.', '');?></div>
+                            </div>
                         </div>
                     </div>
                 </td>
@@ -891,11 +897,11 @@
 
         // Update total
         $('input[name="plan_id[]"]').change(function() {
-            // Update location fields in form
+            // Update 'onlinePayment' fields
             var inputFields = '';
             var checkedValue = $(this).is(':checked') ? true : false;
 
-            if($(this).val() == 'plan_EE3J8meXbkIq0M')
+            if($(this).data('package') == '5')
             {
                 inputFields = 'onlinePayment';
             }
@@ -1036,7 +1042,7 @@
 
         if(typeOfRestrurant != '1')
         {
-            //addPlan.push('plan_EE3IyKkF4fRTRt');
+            //addPlan.push('4');
         }
 
         if(addPlan.length)
@@ -1045,8 +1051,8 @@
 
             for(index = 0; index < addPlan.length; index++)
             {
-                //$('input[name="plan_id[]"][data-plan*='+addPlan[index]+']').prop('checked', true);
-                $('input[name="plan_id[]"][value='+addPlan[index]+']').prop('checked', true);
+                $('input[name="plan_id[]"][data-package='+addPlan[index]+']').prop('checked', true);
+                // $('input[name="plan_id[]"][value='+addPlan[index]+']').prop('checked', true);
             }
         }
 
@@ -1057,13 +1063,18 @@
      // Sum amount of selected packages and update total
      function updateTotal()
      {
-        var totalAmount = 0;
+        var subTotal = taxTotal = 0;
 
         $('input[name="plan_id[]"]:checked').not('[disabled]').each(function() {
-            totalAmount += parseFloat($(this).data('amount'));
+            taxTotal += ( $(this).data('amount') * $(this).data('tax') ) / 100;
+            subTotal += parseFloat($(this).data('amount'));
         });
 
-        $('.plan-total').html(totalAmount.toFixed(2));
+        var totalAmount = subTotal + taxTotal;
+
+        $('.subscription-sub-total').html(subTotal.toFixed(2));
+        $('.subscription-tax').html(taxTotal.toFixed(2));
+        $('.subscription-total').html(totalAmount.toFixed(2));
      }
    </script>
 <script type="text/javascript">

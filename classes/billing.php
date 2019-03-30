@@ -372,10 +372,11 @@ class Billing{
                 while ($rs = mysqli_fetch_array($res))
                 {
                     $subscription = \Stripe\Subscription::create(array(
-                        "customer" => $customerId,
-                        "items" => [['plan' => $rs['plan_id']]],
+                        "customer"          => $customerId,
+                        "items"             => [['plan' => $rs['plan_id']]],
                         "trial_period_days" => $rs['trial_period'],
-                        "metadata" => array('StoreID' => $storeId)
+                        "metadata"          => array('StoreID' => $storeId),
+                        "tax_percent"       => 25, // Need to set dynamically value later
                     ));
 
                     if($subscription)
