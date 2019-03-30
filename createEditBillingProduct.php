@@ -44,6 +44,9 @@ if (isset($_POST['continue']) AND $editId != '') {
 /*
 .center{width:900px; margin-left:auto; margin-right:auto;}
 */
+input:read-only { 
+    background-color: #eeeeee;
+}
 </style>
 
 <div class="center">
@@ -126,7 +129,7 @@ if (isset($_POST['continue']) AND $editId != '') {
 
                     <td align="left" class="inner_grid">Price<span class='mandatory'>*</span>:</td>
                     <td align="left">
-                        <INPUT class="text_field_new" type="test" name="price" id="price" value="<?=$data[0]['price']?>"/>
+                        <INPUT class="text_field_new" type="test" name="price" id="price" value="<?=$data[0]['price']?>"/ <?php echo ($data[0]['price']) ? 'readonly' : '' ?>>
                         <a title="<?=PRICE?>" class="vtip"><b><small>?</small></b></a><br/>
                         <div id='error_price' class="error"></div></td>
                 </tr>

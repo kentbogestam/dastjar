@@ -84,7 +84,7 @@ class Billing{
 
         $product = \Stripe\Product::retrieve($productId);
         $product->name = $productName;
-        $product->statement_descriptor = $description;
+        $product->statement_descriptor = $planNickname;
         $product->save();  
 
         $plan = \Stripe\Plan::retrieve($planId);
@@ -95,7 +95,7 @@ class Billing{
         $db = new db();
         $db->makeConnection();
 
-        $query = "update billing_products set package_id=$package_id, product_name='$productName', plan_nickname='$planNickname', currency='$currency', price='$price', trial_period='$trialPeriod', usage_type='$usageType', description='$description' where id='$editId'";
+        $query = "update billing_products set package_id=$package_id, product_name='$productName', plan_nickname='$planNickname', trial_period='$trialPeriod', usage_type='$usageType', description='$description' where id='$editId'";
 
         $res = $db->query($query);
 
