@@ -126,23 +126,22 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 <style type="text/css">
-   /*
-      .center{width:900px; margin-left:auto; margin-right:auto;}
-      */
     input[type="checkbox"][readonly] {
         pointer-events: none;
     }
     
     input[type='checkbox'][disabled][checked] {
-        width:0px; height:0px;
+        display: none;
     }
-    input[type='checkbox'][disabled][checked]:after {
-        content:'\e013'; position:absolute; 
-        opacity: 1 !important;
-        font-family: 'Glyphicons Halflings';
-        font-style: normal;
-        font-weight: normal;
-        font-size: 12px;
+
+    input[type="checkbox"]:disabled + label:before {
+        content: '';
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    input[type="checkbox"][disabled][checked] + label:before {
+        content: '✓';
     }
 </style>
 <body>
@@ -474,6 +473,7 @@
                                                     <tr class="prods">
                                                         <td align="left">
                                                             <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo ($product['package_id'] == 1) ? "checked='checked' readonly" : '' ?> <?php echo (in_array($product['plan_id'], $arrProductsSubscribed)) ? "checked='checked' disabled" : ''; ?> data-amount="<?php echo $product['price']; ?>" data-package="<?php echo $product['package_id']; ?>" data-tax="25">
+                                                            <label for="plan_id<?php echo $product['plan_id']; ?>"></label>
                                                         </td>
                                                         <td><?php echo $i; ?></td>
                                                         <td align="left" colspan="2" style="padding-right: 10px; padding-left: 10px">
