@@ -16,7 +16,7 @@
    
    // Get packages to subscribe for location
    $billingObj = new billing();
-   $products = $billingObj->showPlan();
+   $products = $billingObj->showPlanToSubscribe();
 
    $productid = $_GET['productId'];
 
@@ -344,24 +344,28 @@
                                             <thead>
                                                 <tr>
                                                     <th></th>
+                                                    <th>S. No.</th>
                                                     <th colspan="2" style="padding-bottom: 10px; padding-right: 10px">Product Description</th>
                                                     <th>Unit Price(kr)</th>
                                                     <!-- <th>Quantity</th> -->
                                                     <th>Amount</th>
+                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php
                                                 $total = 0;
+                                                $i = 1;
                                                 foreach ($products as $key => $product) {
                                                 ?>
                                                     <tr class="prods">
                                                         <td align="left">
-                                                            <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo ($product['product_name'] == "Anar Base Package") ? "checked='checked' readonly" : '' ?> data-amount="<?php echo $product['price']; ?>">
+                                                            <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo ($product['package_id'] == 1) ? "checked='checked' readonly" : '' ?> data-amount="<?php echo $product['price']; ?>" data-package="<?php echo $product['package_id']; ?>" data-tax="25">
                                                         </td>
+                                                        <td><?php echo $i; ?></td>
                                                         <td align="left" colspan="2" style="padding-right: 10px; padding-left: 10px">
                                                             <?php
-                                                            if($product['product_name'] == "Anar Base Package"){ 
+                                                            if($product['package_id'] == 1){ 
                                                                 $total += floatval($product['price']);
                                                             ?>
                                                                 <div class="panel-group">
@@ -388,27 +392,40 @@
                                                             <?php } ?>
                                                         </td>
                                                         <td align="left">
-                                                            <?=$product['price'] . "(" .$product['currency'].")"?>                 
+                                                            <?= number_format(($product['price']), 2, '.', '')." (" .$product['currency'].")"?>
                                                         </td>
                                                         <!-- <td align="left">1</td> -->
                                                         <td align="left">
-                                                            <?=$product['price']*1?>                 
+                                                            <?php  echo number_format(($product['price']*1), 2, '.', ''); ?>
+                                                        </td>
+                                                        <td>
+                                                            <a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="<?php echo $product['description']; ?>">
+                                                                <span class="glyphicon glyphicon-info-sign"></span>
+                                                            </a>
                                                         </td>
                                                     </tr>
                                                 <?php
+                                                    $i++;
                                                 }
                                                 ?>
-                                                <tr>
-                                                    <td align="left">&nbsp;</td>
-                                                    <td align="left" colspan="2" style="padding-right: 10px; padding-left: 10px">&nbsp;</td>
+                                                <!-- <tr>
+                                                    <td align="left" colspan="4" style="padding-right: 10px; padding-left: 10px">&nbsp;</td>
                                                     <td align="left"><strong>Total: </strong></td>
-                                                    <td align="left" class="plan-total"><?=number_format($total, 2, '.', '');?></td>
-                                                </tr>
+                                                    <td align="left" colspan="2" class="subscription-total"><?=number_format($total, 2, '.', '');?></td>
+                                                </tr> -->
                                             </tbody>
                                         </table>
                                     </td>
                                 </tr>
                             </table>
+                            <div class="block-total row">
+                                <div class="col-md-9 text-right"><strong>Sub Total: </strong></div>
+                                <div class="col-md-3 subscription-sub-total" style="padding-left: 75px;"><?=number_format($total, 2, '.', '');?></div>
+<div class="col-md-9 text-right"><strong>Tax: </strong></div>
+                                <div class="col-md-3 subscription-tax" style="padding-left: 75px;"><?=number_format($total, 2, '.', '');?></div>
+<div class="col-md-9 text-right"><strong>Total: </strong></div>
+                                <div class="col-md-3 subscription-total" style="padding-left: 75px;"><?=number_format($total, 2, '.', '');?></div>
+                            </div>
                             <div>
                                 <label><input type="checkbox" name="terms" id="terms" value="terms" required>Terms & Condition</label> 
                                 <span class="mandatory">*</span>
@@ -771,11 +788,11 @@
 
         // Update total
         $('input[name="plan_id[]"]').change(function() {
-            // Update location fields in form
+            // Update 'onlinePayment' fields
             var inputFields = '';
             var checkedValue = $(this).is(':checked') ? true : false;
 
-            if($(this).val() == 'plan_EE3J8meXbkIq0M')
+            if($(this).data('package') == '5')
             {
                 inputFields = 'onlinePayment';
             }
@@ -808,7 +825,7 @@
             if( !$('#stripe_token').val().length ){
                 e.preventDefault();
                 
-                var totalAmount = parseFloat($('.plan-total').html());
+                var totalAmount = parseFloat($('.subscription-total').html());
 
                 //
                 handler.open({
@@ -817,6 +834,9 @@
                 });
             }
         });
+
+        // Tooltip
+        $('[data-toggle="tooltip"]').tooltip();
       });
 
      $('#add_tpye_of_dish').click(function(){
@@ -902,11 +922,11 @@
      function updatePlan()
      {
         var typeOfRestrurant = $('#typeofrestrurant option:selected').val();
-        addPlan = ['plan_EE3J8meXbkIq0M']; // Default 'Payment package'
+        addPlan = ['5']; // Default 'Payment package' (static id from packages)
 
         if(typeOfRestrurant != '1')
         {
-            addPlan.push('plan_EE3IyKkF4fRTRt'); // Add 'Catering package'
+            addPlan.push('4'); // Add 'Catering package'
         }
 
         if(addPlan.length)
@@ -915,8 +935,8 @@
 
             for(index = 0; index < addPlan.length; index++)
             {
-                //$('input[name="plan_id[]"][data-plan*='+addPlan[index]+']').prop('checked', true);
-                $('input[name="plan_id[]"][value='+addPlan[index]+']').prop('checked', true);
+                $('input[name="plan_id[]"][data-package='+addPlan[index]+']').prop('checked', true);
+                // $('input[name="plan_id[]"][value='+addPlan[index]+']').prop('checked', true);
             }
         }
 
@@ -927,13 +947,18 @@
      // Sum amount of selected packages and update total
      function updateTotal()
      {
-        var totalAmount = 0;
+        var subTotal = taxTotal = 0;
 
         $('input[name="plan_id[]"]:checked').each(function() {
-            totalAmount += parseFloat($(this).data('amount'));
+            taxTotal += ( $(this).data('amount') * $(this).data('tax') ) / 100;
+            subTotal += parseFloat($(this).data('amount'));
         });
 
-        $('.plan-total').html(totalAmount.toFixed(2));
+        var totalAmount = subTotal + taxTotal;
+
+        $('.subscription-sub-total').html(subTotal.toFixed(2));
+        $('.subscription-tax').html(taxTotal.toFixed(2));
+        $('.subscription-total').html(totalAmount.toFixed(2));
      }
    </script>
    <script type="text/javascript">

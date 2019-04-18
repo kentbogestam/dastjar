@@ -1,29 +1,32 @@
 $(document).ready(function(){
 
- $("#continue").click(function(){
+    $("#continue").click(function(){
+        var error = 'false';
+        $("#error_product").html('');
+        $("#error_plan").html('');
+        $("#error_price").html('');
+        $("#error_currency").html('');
+        $("#error_description").html('');
 
-var error = 'false';
-$("#error_product").html('');
-$("#error_plan").html('');
-$("#error_price").html('');
-$("#error_currency").html('');
-$("#error_description").html('');
-
-    if(($.trim($("#product").val()).length == 0))
+        if(($.trim($("#product").val()).length == 0))
         {
-            var errorMsg = "Please Enter Your Company Name. <br />";
+            var errorMsg = "Please Enter Product Name. <br />";
             $("#error_product").html(errorMsg);
             error = "true";
         }
 
-    if(($.trim($("#plan").val()).length == 0))
+        if(($.trim($("#plan").val()).length == 0))
         {
-            var errorMsg = "Please Enter Your Country.<br />";
+            var errorMsg = "Please Enter Plan description.<br />";
+            $("#error_plan").html(errorMsg);
+            error = "true";
+        } else if($.trim($("#plan").val()).length > 22) {
+            var errorMsg = "The plan descriptor must be at most 22 characters.<br />";
             $("#error_plan").html(errorMsg);
             error = "true";
         }
 
-    if(($.trim($("#price").val()).length == 0))
+        if(($.trim($("#price").val()).length == 0))
         {
             var errorMsg = "Please Enter Price .<br />";
             $("#error_price").html(errorMsg);
@@ -37,10 +40,6 @@ $("#error_description").html('');
         if(($.trim($("#description").val()).length == 0))
         {
             var errorMsg = "Please Enter Description.<br />";
-            $("#error_street").html(errorMsg);
-            error = "true";
-        }else if(($.trim($("#description").val()).length > 22)){
-            var errorMsg = "Description must be maximum 22 characters long.<br />";
             $("#error_description").html(errorMsg);
             error = "true";
         }        
@@ -51,33 +50,35 @@ $("#error_description").html('');
         }
 
         return true;
- });
+    });
 
-  $("#update").click(function(){
+    $("#update").click(function(){
+        var error = 'false';
+        $("#error_product").html('');
+        $("#error_plan").html('');
+        $("#error_price").html('');
+        $("#error_currency").html('');
+        $("#error_description").html('');
 
-
-var error = 'false';
-$("#error_product").html('');
-$("#error_plan").html('');
-$("#error_price").html('');
-$("#error_currency").html('');
-$("#error_description").html('');
-
-    if(($.trim($("#product").val()).length == 0))
+        if(($.trim($("#product").val()).length == 0))
         {
-            var errorMsg = "Please Enter Your Company Name. <br />";
+            var errorMsg = "Please Enter Product Name. <br />";
             $("#error_product").html(errorMsg);
             error = "true";
         }
 
-    if(($.trim($("#plan").val()).length == 0))
+        if(($.trim($("#plan").val()).length == 0))
         {
-            var errorMsg = "Please Enter Your Country.<br />";
+            var errorMsg = "Please Enter Plan description.<br />";
+            $("#error_plan").html(errorMsg);
+            error = "true";
+        } else if($.trim($("#plan").val()).length > 22) {
+            var errorMsg = "The plan descriptor must be at most 22 characters.<br />";
             $("#error_plan").html(errorMsg);
             error = "true";
         }
 
-    if(($.trim($("#price").val()).length == 0))
+        if(($.trim($("#price").val()).length == 0))
         {
             var errorMsg = "Please Enter Price .<br />";
             $("#error_price").html(errorMsg);
@@ -91,10 +92,6 @@ $("#error_description").html('');
         if(($.trim($("#description").val()).length == 0))
         {
             var errorMsg = "Please Enter Description.<br />";
-            $("#error_street").html(errorMsg);
-            error = "true";
-        }else if(($.trim($("#description").val()).length > 22)){
-            var errorMsg = "Description must be maximum 22 characters long.<br />";
             $("#error_description").html(errorMsg);
             error = "true";
         }        
@@ -103,9 +100,9 @@ $("#error_description").html('');
         {
             return false;
         }
-        
+
         return true;
- });
+    });
 });
 
 function isNumeric(val)

@@ -10,9 +10,9 @@ class loyalty {
 		$db->makeConnection();
 		$data = array();
 
-		// $q = $db->query("SELECT pl.id, pl.quantity_to_buy, pl.quantity_get, pl.start_date, pl.end_date, s.store_name, dt.dish_name FROM promotion_loyalty AS pl INNER JOIN store AS s ON pl.store_id = s.store_id INNER JOIN dish_type AS dt ON pl.dish_id = dt.dish_id WHERE pl.status = '1' AND s.u_id = '{$_SESSION['userid']}' AND s.s_activ = '1' LIMIT {$paging_limit}");
+		// $q = $db->query("SELECT pl.id, pl.quantity_to_buy, pl.quantity_get, validity, pl.start_date, pl.end_date, s.store_name, dt.dish_name FROM promotion_loyalty AS pl INNER JOIN store AS s ON pl.store_id = s.store_id INNER JOIN dish_type AS dt ON pl.dish_id = dt.dish_id WHERE pl.status = '1' AND s.u_id = '{$_SESSION['userid']}' AND s.s_activ = '1' LIMIT {$paging_limit}");
 		
-		$q = $db->query("SELECT PL.id, PL.quantity_to_buy, PL.quantity_get, PL.start_date, PL.end_date, S.store_name, GROUP_CONCAT(DT.dish_name) AS dish_name FROM promotion_loyalty AS PL INNER JOIN store AS S ON PL.store_id = S.store_id INNER JOIN promotion_loyalty_dish_type AS PLDT ON PLDT.loyalty_id = PL.id INNER JOIN dish_type AS DT ON PLDT.dish_type_id = DT.dish_id WHERE PL.status = '1' AND S.u_id = '{$_SESSION['userid']}' AND S.s_activ = '1' GROUP BY PL.id LIMIT {$paging_limit}");
+		$q = $db->query("SELECT PL.id, PL.quantity_to_buy, PL.quantity_get, PL.validity, PL.start_date, PL.end_date, S.store_name, GROUP_CONCAT(DT.dish_name) AS dish_name FROM promotion_loyalty AS PL INNER JOIN store AS S ON PL.store_id = S.store_id INNER JOIN promotion_loyalty_dish_type AS PLDT ON PLDT.loyalty_id = PL.id INNER JOIN dish_type AS DT ON PLDT.dish_type_id = DT.dish_id WHERE PL.status = '1' AND S.u_id = '{$_SESSION['userid']}' AND S.s_activ = '1' GROUP BY PL.id LIMIT {$paging_limit}");
 
 		while ($rs = mysqli_fetch_array($q)) {
 			$data[] = $rs;
@@ -65,7 +65,7 @@ class loyalty {
 		// echo '<pre>'; print_r($data); exit;
 
 		// Check validation
-		if( $data['store_id'] == '' || empty($data['dish_type_id']) || $data['quantity_to_buy'] == '' || $data['quantity_get'] == '' || $data['start_date_utc'] == '' || $data['end_date_utc'] == '' )
+		if( $data['store_id'] == '' || empty($data['dish_type_id']) || $data['quantity_to_buy'] == '' || $data['quantity_get'] == '' || $data['validity'] == '' || $data['start_date_utc'] == '' || $data['end_date_utc'] == '' )
 		{
 			$error .= "<li class='notice_error'>Required field cann't be empty.</li>";
 		}
@@ -96,7 +96,7 @@ class loyalty {
 		// exit;
 
 		// Create loyalty
-		$query = "INSERT INTO promotion_loyalty (store_id, quantity_to_buy, quantity_get, start_date, end_date) VALUES ('{$data['store_id']}', '{$data['quantity_to_buy']}', '{$data['quantity_get']}', '{$data['start_date_utc']}', '{$data['end_date_utc']}')";
+		$query = "INSERT INTO promotion_loyalty (store_id, quantity_to_buy, quantity_get, validity, start_date, end_date) VALUES ('{$data['store_id']}', '{$data['quantity_to_buy']}', '{$data['quantity_get']}', '{$data['validity']}', '{$data['start_date_utc']}', '{$data['end_date_utc']}')";
 		// $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 		if(mysqli_query($conn , $query))
 		{

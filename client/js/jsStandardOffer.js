@@ -49,8 +49,10 @@ $(document).ready(function(){
         }
 
         if($.trim($("#icon").val()).length!=0){
-
-            $('.box-icon-default').hide();
+            if($('.box-icon-default').length)
+            {
+                $('.box-icon-default').hide();
+            }
            
             if(!isValidPngImage($("#icon").val()))
             {
@@ -64,7 +66,7 @@ $(document).ready(function(){
                 error = "true";
             }
         }
-        else {
+        else if($('#icondefault').length) {
             if( !$('#icondefault').is(':checked') )
             {
                 var errorMsg = "Please choose an image or use default image below.<br />";

@@ -17,12 +17,12 @@
 
     $billingObj = new billing();
 
-    $data = $billingObj->showPlan();
+    $data = $billingObj->showPlanToSubscribe();
 
     if(isset($_POST['plan_id']) && isset($_POST['stripeToken']))
     // if(isset($_POST['stripeToken']))
     {
-        $billingObj->subscribe();
+        // $billingObj->subscribe();
     }
 
     include_once("header.php");
@@ -118,10 +118,10 @@
                                         ?>
                                             <tr class="prods">
                                                 <td align="left">
-                                                    <input type="checkbox" name="plan_id[]" value="<?=$value['plan_id']?>" <?php echo ($value['product_name'] == "Anar Base Package") ? "checked='checked' readonly" : '' ?> data-amount="<?php echo $value['price']; ?>">
+                                                    <input type="checkbox" name="plan_id[]" value="<?=$value['plan_id']?>" <?php echo ($value['package_id'] == 1) ? "checked='checked' readonly" : '' ?> data-amount="<?php echo $value['price']; ?>">
                                                 </td>
                                                 <td align="left" colspan="2" style="padding-right: 10px; padding-left: 10px">
-                                                    <?php if($value['product_name'] == "Anar Base Package"){ ?>
+                                                    <?php if($value['package_id'] == 1){ ?>
                                                         <div class="panel-group">
                                                             <div class="panel panel-default">
                                                                 <div class="panel-heading">

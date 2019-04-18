@@ -11,7 +11,7 @@ require_once("classes/inOut.php");
 class Billing{
 
  function createPlan(){
-
+    $package_id = $_POST['package_id'];
     $productName = $_POST['product_name'];
     $planNickname = $_POST['plan_nickname'];
     $price = trim($_POST['price']);
@@ -27,7 +27,7 @@ class Billing{
     $product = \Stripe\Product::create([
         'name' => $productName,
         'type' => 'service',
-        'statement_descriptor' => $description
+        'statement_descriptor' => $planNickname
     ]);
 
     $productId = $product->id;
@@ -49,7 +49,7 @@ class Billing{
     $time = time();
     $date = date("Y-m-d h:i:s",$time);
 
-    $query = "insert into billing_products(product_id, product_name, plan_id, plan_nickname, currency, price, trial_period, usage_type, description, created_at, updated_at, s_activ) values('$productId', '$productName', '$planId', '$planNickname', '$currency', '$price', '$trialPeriod', '$usageType', '$description', '$date', '$date', 1)";
+    $query = "insert into billing_products(package_id, product_id, product_name, plan_id, plan_nickname, currency, price, trial_period, usage_type, description, created_at, updated_at, s_activ) values('$package_id', '$productId', '$productName', '$planId', '$planNickname', '$currency', '$price', '$trialPeriod', '$usageType', '$description', '$date', '$date', 1)";
 
     $res = $db->query($query);
 
@@ -66,6 +66,7 @@ class Billing{
 
    function updatePlan(){
         $editId = $_POST['edit_id'];
+        $package_id = !empty($_POST['package_id']) ? $_POST['package_id'] : 'NULL';
         $productId = $_POST['product_id'];
         $planId = $_POST['plan_id'];
 
@@ -83,7 +84,7 @@ class Billing{
 
         $product = \Stripe\Product::retrieve($productId);
         $product->name = $productName;
-        $product->statement_descriptor = $description;
+        $product->statement_descriptor = $planNickname;
         $product->save();  
 
         $plan = \Stripe\Plan::retrieve($planId);
@@ -94,7 +95,7 @@ class Billing{
         $db = new db();
         $db->makeConnection();
 
-        $query = "update billing_products set product_name='$productName', plan_nickname='$planNickname', currency='$currency', price='$price', trial_period='$trialPeriod', usage_type='$usageType', description='$description' where id='$editId'";
+        $query = "update billing_products set package_id=$package_id, product_name='$productName', plan_nickname='$planNickname', trial_period='$trialPeriod', usage_type='$usageType', description='$description' where id='$editId'";
 
         $res = $db->query($query);
 
@@ -108,6 +109,39 @@ class Billing{
 
         exit();
    }
+
+    // Get static plan
+    function getStaticPackages()
+    {
+        $db = new db();
+        $db->makeConnection();
+        $data = array();
+
+        $query = "SELECT id, title FROM anar_packages AP WHERE status = '1'";
+        $res = $db->query($query);
+
+        while ($rs = mysqli_fetch_array($res)) {
+            $data[] = $rs;
+        }
+
+        return $data;
+    }
+
+    function showPlanToSubscribe()
+    {
+        $db = new db();
+        $db->makeConnection();
+        $data = array();
+
+        $query = "SELECT BP.id, BP.package_id, BP.product_id, BP.product_name, BP.plan_id, BP.plan_nickname, BP.currency, BP.price, BP.description FROM billing_products AS BP INNER JOIN anar_packages AS AP ON AP.id = BP.package_id WHERE BP.s_activ != 2 AND AP.status = '1' ORDER BY AP.id";
+        $res = $db->query($query);
+
+        while ($rs = mysqli_fetch_array($res)) {
+            $data[] = $rs;
+        }
+
+        return $data;
+    }
 
    function showPlan(){
         $db = new db();
@@ -338,10 +372,11 @@ class Billing{
                 while ($rs = mysqli_fetch_array($res))
                 {
                     $subscription = \Stripe\Subscription::create(array(
-                        "customer" => $customerId,
-                        "items" => [['plan' => $rs['plan_id']]],
+                        "customer"          => $customerId,
+                        "items"             => [['plan' => $rs['plan_id']]],
                         "trial_period_days" => $rs['trial_period'],
-                        "metadata" => array('StoreID' => $storeId)
+                        "metadata"          => array('StoreID' => $storeId),
+                        "tax_percent"       => 25, // Need to set dynamically value later
                     ));
 
                     if($subscription)

@@ -1620,7 +1620,7 @@ class offer extends advertiseoffer{
         }
 
 
-        $CategoryIconName = "cat_icon_" . md5(time());
+        $CategoryIconName = "cat_icon_" . time();
         $info = pathinfo($_FILES["icon"]["name"]);
         //print_r($info); die();
         // Opload images related to
@@ -1638,6 +1638,13 @@ class offer extends advertiseoffer{
                         $crop = '5';
                         $size = 'iphone4_cat';
                         $path = UPLOAD_DIR . "category/";
+
+                        // If doesn't exist directory, create one
+                        if( !file_exists($path) )
+                        {
+                            mkdir($path, 0755, true);
+                        }
+
                         $fileThumbnail = $path . $cat_filename;
                         createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
 
@@ -3993,24 +4000,29 @@ class offer extends advertiseoffer{
 
         $error.= ( $arrUser['start_of_publishing'] == '') ? ERROR_START_OF_PUBLISHING : '';
 
-        $CategoryIconName = "cat_icon_" . md5(time());
+        $CategoryIconName = "cat_icon_" . time();
         $info = pathinfo($_FILES["icon"]["name"]);
         $catImg = "";
 
         if (!empty($_FILES["icon"]["name"])) {
-            if (!empty($_FILES["icon"]["name"])) {
-
             $file_extension = strtolower($info['extension']);
-                if ($file_extension == "png" || $file_extension == "jpg" || $file_extension == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
-                    if ($_FILES["icon"]["error"] > 0) {
-                        $error.=$_FILES["icon"]["error"] . "<br />";
-                    } else {
-                        if($_POST['dish_image_original'] != $_FILES['icon']['name']){
+            if ($file_extension == "png" || $file_extension == "jpg" || $file_extension == "jpeg" || $file_extension == "gif" || $file_extension == "bmp") {
+                if ($_FILES["icon"]["error"] > 0) {
+                    $error.=$_FILES["icon"]["error"] . "<br />";
+                } else {
+                    if($_POST['dish_image_original'] != $_FILES['icon']['name']){
                         $cat_filename = $CategoryIconName . "." . strtolower($info['extension']);
                         $fileOriginal = $_FILES['icon']['tmp_name'];
                         $crop = '5';
                         $size = 'iphone4_cat';
                         $path = UPLOAD_DIR . "category/";
+
+                        // If doesn't exist directory, create one
+                        if( !file_exists($path) )
+                        {
+                            mkdir($path, 0755, true);
+                        }
+
                         $fileThumbnail = $path . $cat_filename;
                         createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
                         $arrUser['small_image'] = $cat_filename;
@@ -4019,46 +4031,19 @@ class offer extends advertiseoffer{
                         $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
                         system($command);
                         $catImg = IMAGE_AMAZON_PATH . 'category/' . $arrUser['small_image'];
-                        }
                     }
-                } else {
-                    $error.=NOT_VALID_EXT;
                 }
             } else {
-                if ($_SESSION['preview']['small_image'] != "") {
-                    $arrUser['small_image'] = $_SESSION['preview']['small_image'];
-                } elseif ($_POST['smallimage'] == "") {
-                    $error.= ERROR_SMALL_IMAGE;
-                } else {
-                    $arrUser['small_image'] = $_POST['smallimage'];
-                }
+                $error.=NOT_VALID_EXT;
             }
         } else {
-            //echo "Cat Resp icon"; die();
-            //print_r($_SESSION['preview']);
-            //echo $_POST['smallimage']."iiiiiii".$category_image = $_POST["category_image"]; die();
-            // if (!empty($category_image)) {
-
-            //     $categoryImageName = explode(".", $category_image);
-            //     $cat_filename = $CategoryIconName . "." . $categoryImageName[1];
-            //     //move_uploaded_file($_FILES["icon"]["tmp_name"],UPLOAD_DIR."Category/" .$cat_filename);
-            //     $fileOriginal = UPLOAD_DIR . "category_lib/" . $category_image;
-            //     //$crop = '5';
-            //     //$size = 'iphone4_cat';
-            //     $path = UPLOAD_DIR . "category/";
-            //     $fileThumbnail = $path . $cat_filename;
-            //     copy($fileOriginal, $fileThumbnail);
-            //     //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
-            //     $arrUser['small_image'] = $cat_filename;
-            // } else {
-            //     if ($_SESSION['preview']['small_image'] != "") {
-            //         $arrUser['small_image'] = $_SESSION['preview']['small_image'];
-            //     } elseif ($_POST['smallimage'] == "") {
-            //         $error.= ERROR_SMALL_IMAGE;
-            //     } else {
-            //         $arrUser['small_image'] = $_POST['smallimage'];
-            //     }
-            // }
+            if ($_SESSION['preview']['small_image'] != "") {
+                $arrUser['small_image'] = $_SESSION['preview']['small_image'];
+            } elseif ($_POST['smallimage'] == "") {
+                $error.= ERROR_SMALL_IMAGE;
+            } else {
+                $arrUser['small_image'] = $_POST['smallimage'];
+            }
         }
 
         /////////////////////////// upload smallimages into server///////////////////

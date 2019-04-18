@@ -151,12 +151,13 @@ define("DEACTIVE","Your CCODE are deactive");
 
 define("ASSIGNCCODE","<li class='notice_success'>CCode are Assigned.</li>");
 define("PRODUCT_NAME", "Product name");
-define("PLAN_NICKNAME", "Plan nickname");
+define("PLAN_NICKNAME", "A brief description of the plan, hidden from customers.");
 define("PRICE", "Price");
 define("TRIAL_PERIOD", "Trial period in days (optional)");
 define("CURRENCY", "Currency");
 
 define("DESCRIPTION", "Description");
+define("STRIPE_PRODUCT_DESCRIPTION", "Product description in detail");
 define("USAGE_TYPE", "Usage type");
 
 ?>
