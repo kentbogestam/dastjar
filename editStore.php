@@ -379,6 +379,16 @@
                   </select>
                </td>
             </tr>
+            <tr>
+                <td height="42" align="left">Delivery Type</td>
+                <td>
+                    <select class="text_field_new" style="background-color:#e4e3dd; width:406px; height:36px;border: 1px solid #abadb3;" id="delivery_type" name="delivery_type">
+                        <option value="1" <?php echo ($data[0]['delivery_type'] == '1') ? "selected='selected'" : ''; ?>>Dine-in</option>
+                        <option value="2" <?php echo ($data[0]['delivery_type'] == '2') ? "selected='selected'" : ''; ?>>Take away</option>
+                        <option value="0" <?php echo ($data[0]['delivery_type'] == '0') ? "selected='selected'" : ''; ?>>Both</option>
+                    </select>
+                </td>
+            </tr>
 
                 <!-- added code by saurabh to edit the new tagline-->
              <tr>
