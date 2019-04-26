@@ -108,6 +108,7 @@ define("BLOCK_TEXT","If your chain belongs to a block, add the name of the block
 define("ZIP_TEXT","Your location's zip code.");
 define("MAP_TEXT","Verify that your location is correctly placed on the map. If not, move the cursor on the map to the correct place.");
 define("TYPE_OF_TEXT","Define if the restaurant is of type Take Away e.g Customer can order and take food with them or Catering e.g You take orders for customers to pick up later the same day or another day or both options fits.");
+define("DELIVERY_TYPE","This is a message to restaurant on how to package your delivery and that the same price will be given for both “Dine-in” and “Take away”");
 define("ONLINE_PAY_TEXT","Deselect if your location's should not accept web payment from stripe.");
 define("KITCHEN_PACKAGE_TEXT","Deselect if your location's should don't want to access kitchen module.");
 define("ORDER_ONSITE_TEXT","Deselect if your location's don't want to use order on site module.");

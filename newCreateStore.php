@@ -121,6 +121,7 @@
                         <option value="0">Both</option>
                     </select>
                 </td>
+                <td align="right"><a title="<?=DELIVERY_TYPE?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
 
              <!-- code added by saurabh to add new field for restaurant keyword"-->

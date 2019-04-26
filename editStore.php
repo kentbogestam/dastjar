@@ -388,6 +388,7 @@
                         <option value="0" <?php echo ($data[0]['delivery_type'] == '0') ? "selected='selected'" : ''; ?>>Both</option>
                     </select>
                 </td>
+                <td align="right"><a title="<?=DELIVERY_TYPE?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
 
                 <!-- added code by saurabh to edit the new tagline-->
