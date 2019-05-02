@@ -10,6 +10,13 @@ include_once("cumbari.php");
   $account = 'class="selected"';
 
 include("mainSupport.php");
+
+if (!isset($_SESSION['supportuserid'])) {
+    $url = BASE_URL . 'support.php';
+    $inoutObj->reDirect($url);
+    exit;
+}
+
 $billing = new billing();
 $editId = $_GET['editId'];
 
