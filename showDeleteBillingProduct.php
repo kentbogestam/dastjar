@@ -15,6 +15,12 @@
    include("Paging.php");
    include("mainSupport.php");
 
+    if (!isset($_SESSION['supportuserid'])) {
+        $url = BASE_URL . 'support.php';
+        $inoutObj->reDirect($url);
+        exit;
+    }
+
     $billingObj = new billing();
     $inoutObj = new inOut();
    

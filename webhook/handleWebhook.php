@@ -19,7 +19,7 @@ class handleWebhook {
 		$payload = @file_get_contents('php://input');
 
 		// Verifying the event
-		$endpoint_secret = 'whsec_D1bSEfnuaEvHv3AJez3KKU26mE2FXMoM';
+		$endpoint_secret = HANDLE_WEBHOOK_ENDPOINT_SECRET;
 		
 		$sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
 		$event = null;

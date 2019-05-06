@@ -8,7 +8,7 @@
 ob_start();
 header('Content-Type: text/html; charset=utf-8');
 include_once("cumbari.php");
-require_once('lib/captcha/recaptchalib.php');
+//require_once('lib/captcha/recaptchalib.php');
 //echo "sdsad"; die();
 $regObj = new registration();
 $countryList = $regObj->getCountryList();
@@ -659,11 +659,14 @@ if (!isset($_SESSION['userid']) && !isset($_SESSION['REG_STEP'])) {
 			
 			<tr>
             		<td align="left" valign="top">Fill in and submit the text below<span class='mandatory'>*</span></td>
-            		<td align="left">  <?php
-                    $publickey = $captcha_site_key;
-                    echo recaptcha_get_html($publickey, $error);
-                    ?> <div id="error_recaptcha" class="error"></div>  </td>
-            		</tr>
+            		<td align="left">  
+<?php
+                    //$publickey = $captcha_site_key;
+                    //echo recaptcha_get_html($publickey, $error);
+                    ?> 
+<!-- <div id="error_recaptcha" class="error">-->
+</div>  </td>
+            		</tr> 
             <tr>
                 <td colspan="3">            </td>
             </tr>
