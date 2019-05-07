@@ -235,7 +235,7 @@ $(document).ready(function(){
 
 
         //alert($("#recaptcha_response_field").val());
-        if (($.trim($("#recaptcha_response_field").val()).length == 0) )
+     /*   if (($.trim($("#recaptcha_response_field").val()).length == 0) )
         {
             var errorMsg = "Please enter valid image code.<br />";
             $("#error_recaptcha").html(errorMsg);
@@ -247,7 +247,7 @@ $(document).ready(function(){
         {
             return false;
         }
-        return true;
+        return true;*/
     });
 });
 
