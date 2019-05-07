@@ -391,77 +391,46 @@ class store {
             exit();
         }
 
-//Store image uplode to server.
+        //Store image uplode to server.
+        $catImg = $large_image = "";
 
-        $CategoryIconName = "cat_icon_" . time();
-        $info = pathinfo($_FILES["imageStore"]["name"]);
         if (!empty($_FILES["imageStore"]["name"])) {
-            if (!empty($_FILES["imageStore"]["name"])) {
-                //echo "Cat in"; die();
-                if (strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpg") {
-                    if ($_FILES["imageStore"]["error"] > 0) {
-                        $error.=$_FILES["imageStore"]["error"] . "<br />";
-                    } else {
-                        $cat_filename = $CategoryIconName . "." . strtolower($info['extension']);
-                        //move_uploaded_file($_FILES["icon"]["tmp_name"],UPLOAD_DIR."Category/" .$cat_filename);
-                        $fileOriginal = $_FILES['imageStore']['tmp_name'];
-                        $crop = '5';
-                        $size = 'iphone4_cat';
-                        $path = UPLOAD_DIR . "category/";
-                        $fileThumbnail = $path . $cat_filename;
-                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
-//echo 'errorMsg'; die();
-                        $arrUser['store_image'] = $cat_filename;
-                    }
+            // $CategoryIconName = "cat_icon_" . time();
+            $info = pathinfo($_FILES["imageStore"]["name"]);
+            
+            if (strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpg") {
+                if ($_FILES["imageStore"]["error"] > 0) {
+                    $error.=$_FILES["imageStore"]["error"] . "<br />";
                 } else {
-                    $error.=NOT_VALID_EXT;
-                }
-            } else {
-                if ($_SESSION['preview']['small_image'] != "") {
-                    $arrUser['small_image'] = $_SESSION['preview']['small_image'];
-                } elseif ($_POST['smallimage'] == "") {
-                    $error.= ERROR_SMALL_IMAGE;
-                } else {
-                    $arrUser['small_image'] = $_POST['smallimage'];
-                }
-            }
-        } else {
-            //echo "Cat Resp icon"; die();
-            $category_image = $_POST["category_image"];
-            if (!empty($category_image)) {
+                    $fileOriginal = $_FILES['imageStore']['tmp_name'];
+                    $path = UPLOAD_DIR . "store_image/";
 
-                $categoryImageName = explode(".", $category_image);
-                $cat_filename = $CategoryIconName . "." . $categoryImageName[1];
-                //move_uploaded_file($_FILES["icon"]["tmp_name"],UPLOAD_DIR."Category/" .$cat_filename);
-                $fileOriginal = UPLOAD_DIR . "category_lib/" . $category_image;
-                //$crop = '5';
-                //$size = 'iphone4_cat';
-                $path = UPLOAD_DIR . "category/";
-                $fileThumbnail = $path . $cat_filename;
-                copy($fileOriginal, $fileThumbnail);
-                //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
-                $arrUser['small_image'] = $cat_filename;
-            } else {
-                if ($_SESSION['preview']['small_image'] != "") {
-                    $arrUser['small_image'] = $_SESSION['preview']['small_image'];
-                } elseif ($_POST['smallimage'] == "") {
-                    $error.= ERROR_SMALL_IMAGE;
-                } else {
-                    $arrUser['small_image'] = $_POST['smallimage'];
+                    // Resize image (small and large)
+                    $fileName = 'store_small_'.time().'.jpg';
+                    $smallImg = gumletImageResize($fileOriginal, $fileName, $path, 256);
+
+                    $fileName = 'store_large_'.time().'.jpg';
+                    $largeImg = gumletImageResize($fileOriginal, $fileName, $path, 1024);
+
+                    // Upload image to AWS
+                    $dir1 = "store_image";
+                    $file1 = UPLOAD_DIR . 'store_image/' . $smallImg;
+                    $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
+                    system($command);
+
+                    $file1 = UPLOAD_DIR . 'store_image/' . $largeImg;
+                    $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
+                    system($command);
+
+                    // 
+                    $catImg = IMAGE_AMAZON_PATH . 'store_image/' . $smallImg;
+                    $large_image = IMAGE_AMAZON_PATH . 'store_image/' . $largeImg;
                 }
+            } else {
+                $error.=NOT_VALID_EXT;
             }
         }
-
-        /////////////////////////// upload smallimages into server///////////////////
-        $file1 = _UPLOAD_IMAGE_ . 'category/' . $arrUser['store_image'];
-
-        $dir1 = "category";
-        $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
-        system($command);
-
-        $catImg = IMAGE_AMAZON_PATH . 'category/' . $arrUser['store_image'];
-
-//End Store image uplode to server.
+        //End Store image uplode to server.
 
         $contry = $arrUser['country'];
         $query = "select * from country where name = '" . $contry . "'";
@@ -888,46 +857,14 @@ class store {
         $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
         $rs = mysqli_fetch_array($res);
         $coutryIso = $rs['iso'];
-    
-        /*$catImg = "";
 
-        $CategoryIconName = "cat_icon_" . time();
-        $info = pathinfo($_FILES["imageStore"]["name"]);
-
-        if ($_FILES["imageStore"]["name"] <> "") {
-
-            $file_extension = strtolower($info['extension']);
-            if ($file_extension == "png" || $file_extension == "jpg" || $file_extension == "jpeg") {
-                if ($_FILES["imageStore"]["error"] > 0) {
-                    $error.=$_FILES["imageStore"]["error"] . "<br />";
-                } else {
-                    $cat_filename = $CategoryIconName . "." . strtolower($info['extension']);
-                    $fileOriginal = $_FILES['imageStore']['tmp_name'];
-                    $crop = '5';
-                    $size = 'iphone4_cat';
-                    $path = UPLOAD_DIR . "store_image/";
-                    $fileThumbnail = $path . $cat_filename;
-                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
-                    $arrUser['store_image'] = $cat_filename;
-                    
-                    $file1 = _UPLOAD_IMAGE_ . 'store_image/' . $arrUser['store_image'];
-                    $dir1 = "store_image";
-                    $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
-                    system($command);
-
-                    $catImg = IMAGE_AMAZON_PATH . 'store_image/' . $arrUser['store_image']; 
-
-                }
-            }
-        }*/    
-
+        // 
         $catImg = $large_image = "";
-
-        // $CategoryIconName = "store_" . time();
-        $info = pathinfo($_FILES["imageStore"]["name"]);
 
         if ($_FILES["imageStore"]["name"] <> "")
         {
+            // $CategoryIconName = "store_" . time();
+            $info = pathinfo($_FILES["imageStore"]["name"]);
             $file_extension = strtolower($info['extension']);
 
             if ($file_extension == "png" || $file_extension == "jpg" || $file_extension == "jpeg")
