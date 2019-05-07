@@ -392,7 +392,7 @@ class store {
         }
 
         //Store image uplode to server.
-        $catImg = $large_image = "";
+        $catImg = $large_image = "NULL";
 
         if (!empty($_FILES["imageStore"]["name"])) {
             // $CategoryIconName = "cat_icon_" . time();
@@ -423,8 +423,8 @@ class store {
                     system($command);
 
                     // 
-                    $catImg = IMAGE_AMAZON_PATH . 'store_image/' . $smallImg;
-                    $large_image = IMAGE_AMAZON_PATH . 'store_image/' . $largeImg;
+                    $catImg = "'".IMAGE_AMAZON_PATH . 'store_image/' . $smallImg."'";
+                    $large_image = "'".IMAGE_AMAZON_PATH . 'store_image/' . $largeImg."'";
                 }
             } else {
                 $error.=NOT_VALID_EXT;
@@ -440,8 +440,8 @@ class store {
 
         $_SESSION['post'] = "";
         $storeUniqueId = uuid();
-        $query = "INSERT into store(`store_id`,`u_id`,`store_type`,`tagline`,`store_name`,`email`,`street`,`phone`,`store_link`,`delivery_type`,`city`,`country`,`latitude`,`longitude`,`s_activ`,`country_code`,`access_type`,`chain`,`block`,`zip`,`store_image`,`store_open_close_day_time`,`store_close_dates`,`online_payment`)
-                 VALUES('" . $storeUniqueId . "','" . $_SESSION['userid'] . "','" . $arrUser['store_type'] . "','" . $arrUser['tagline'] . "','" . $arrUser['store_name'] . "','" . $arrUser['email'] . "','" . $arrUser['street'] . "','" . $arrUser['phone'] . "','" . $arrUser['link'] . "','" . $arrUser['delivery_type'] . "','" . $arrUser['city'] . "','" . $arrUser['country'] . "','" . $arrUser['latitude'] . "','" . $arrUser['longitude'] . "','1','" . $coutryIso . "','1','" . $arrUser['chain'] . "','" . $arrUser['block'] . "','" . $arrUser['zip'] . "','" . $catImg . "','" . $arrUser['store_open_close_day_time'] . "','" . $arrUser['close_dates'] . "','" . $arrUser['online_payment'] . "')";
+        $query = "INSERT into store(`store_id`,`u_id`,`store_type`,`tagline`,`store_name`,`email`,`street`,`phone`,`store_link`,`delivery_type`,`city`,`country`,`latitude`,`longitude`,`s_activ`,`country_code`,`access_type`,`chain`,`block`,`zip`,`store_image`,`large_image`,`store_open_close_day_time`,`store_close_dates`,`online_payment`)
+                 VALUES('" . $storeUniqueId . "','" . $_SESSION['userid'] . "','" . $arrUser['store_type'] . "','" . $arrUser['tagline'] . "','" . $arrUser['store_name'] . "','" . $arrUser['email'] . "','" . $arrUser['street'] . "','" . $arrUser['phone'] . "','" . $arrUser['link'] . "','" . $arrUser['delivery_type'] . "','" . $arrUser['city'] . "','" . $arrUser['country'] . "','" . $arrUser['latitude'] . "','" . $arrUser['longitude'] . "','1','" . $coutryIso . "','1','" . $arrUser['chain'] . "','" . $arrUser['block'] . "','" . $arrUser['zip'] . "'," . $catImg . "," . $large_image . ",'" . $arrUser['store_open_close_day_time'] . "','" . $arrUser['close_dates'] . "','" . $arrUser['online_payment'] . "')";
         $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
         $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
@@ -859,7 +859,7 @@ class store {
         $coutryIso = $rs['iso'];
 
         // 
-        $catImg = $large_image = "";
+        $catImg = $large_image = "NULL";
 
         if ($_FILES["imageStore"]["name"] <> "")
         {
@@ -896,20 +896,20 @@ class store {
                     $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
                     system($command);
 
-                    $catImg = IMAGE_AMAZON_PATH . 'store_image/' . $smallImg;
-                    $large_image = IMAGE_AMAZON_PATH . 'store_image/' . $largeImg;
+                    $catImg = "'".IMAGE_AMAZON_PATH . 'store_image/' . $smallImg."'";
+                    $large_image = "'".IMAGE_AMAZON_PATH . 'store_image/' . $largeImg."'";
                 }
             }
         }
 
         // 
         if($catImg <> ""){
-            $query = "update store SET store_image='" . $catImg . "', large_image = '".$large_image."' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
+            $query = "update store SET store_image=$catImg, large_image=$large_image WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 		}else if($_POST['image_removed'] == 1){
-            $query = "update store SET store_image='null', large_image='null' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
+            $query = "update store SET store_image=$catImg, large_image=$large_image WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
-        }        
+        }
         		
         $storeUniqueId = uuid();
 
