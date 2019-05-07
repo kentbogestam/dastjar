@@ -15,6 +15,7 @@ require('config/defines.php');
 require('config/dbConfig.php');
 require('config/config.php');
 require('config/help.php');
+require_once(BASEPATH.'lib/php-image-resize/lib/ImageResize.php');
 
 function __autoload($class_name) {
     include "classes/".$class_name . '.php';
@@ -31,6 +32,19 @@ function uuid()
 	$uuid .= substr($chars,16,4) . '-';
 	$uuid .= substr($chars,20,12);
 	return $uuid;
+}
+
+/**
+ * Image resize using 'gumlet/php-image-resize' lib
+ * @return [type] [description]
+ */
+function gumletImageResize($tmpName, $fileName, $path, $w, $h = '', $imgType = IMAGETYPE_JPEG)
+{
+	$image = new \Gumlet\ImageResize($tmpName);
+    $image->resizeToWidth($w)->save($path.$fileName, $imgType);
+	// ->save(BASEPATH.'upload/store_image/image1.jpg', $imgType);
+	
+	return $fileName;
 }
 
 ?>

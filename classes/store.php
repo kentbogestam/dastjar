@@ -888,50 +888,91 @@ class store {
         $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
         $rs = mysqli_fetch_array($res);
         $coutryIso = $rs['iso'];
-
-		//$query = "select store_image from store where u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
-        //$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
-        //$rs = mysqli_fetch_array($res);
-		//print_r($rs);
-
-		$catImg = "";
+    
+        /*$catImg = "";
 
         $CategoryIconName = "cat_icon_" . time();
         $info = pathinfo($_FILES["imageStore"]["name"]);
-   
-            if ($_FILES["imageStore"]["name"] <> "") {
 
-				$file_extension = strtolower($info['extension']);
-                if ($file_extension == "png" || $file_extension == "jpg" || $file_extension == "jpeg") {
-                    if ($_FILES["imageStore"]["error"] > 0) {
-                        $error.=$_FILES["imageStore"]["error"] . "<br />";
-                    } else {
-                        $cat_filename = $CategoryIconName . "." . strtolower($info['extension']);
-                        $fileOriginal = $_FILES['imageStore']['tmp_name'];
-                        $crop = '5';
-                        $size = 'iphone4_cat';
-                        $path = UPLOAD_DIR . "store_image/";
-                        $fileThumbnail = $path . $cat_filename;
-                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
-                        $arrUser['store_image'] = $cat_filename;
-                        
-                        $file1 = _UPLOAD_IMAGE_ . 'store_image/' . $arrUser['store_image'];
-                        $dir1 = "store_image";
-                        $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
-                        system($command);
+        if ($_FILES["imageStore"]["name"] <> "") {
 
-                        $catImg = IMAGE_AMAZON_PATH . 'store_image/' . $arrUser['store_image']; 
+            $file_extension = strtolower($info['extension']);
+            if ($file_extension == "png" || $file_extension == "jpg" || $file_extension == "jpeg") {
+                if ($_FILES["imageStore"]["error"] > 0) {
+                    $error.=$_FILES["imageStore"]["error"] . "<br />";
+                } else {
+                    $cat_filename = $CategoryIconName . "." . strtolower($info['extension']);
+                    $fileOriginal = $_FILES['imageStore']['tmp_name'];
+                    $crop = '5';
+                    $size = 'iphone4_cat';
+                    $path = UPLOAD_DIR . "store_image/";
+                    $fileThumbnail = $path . $cat_filename;
+                    createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
+                    $arrUser['store_image'] = $cat_filename;
+                    
+                    $file1 = _UPLOAD_IMAGE_ . 'store_image/' . $arrUser['store_image'];
+                    $dir1 = "store_image";
+                    $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
+                    system($command);
 
-                    }
+                    $catImg = IMAGE_AMAZON_PATH . 'store_image/' . $arrUser['store_image']; 
+
                 }
             }
+        }*/    
 
+        $catImg = $large_image = "";
 
+        // $CategoryIconName = "store_" . time();
+        $info = pathinfo($_FILES["imageStore"]["name"]);
+
+        if ($_FILES["imageStore"]["name"] <> "")
+        {
+            $file_extension = strtolower($info['extension']);
+
+            if ($file_extension == "png" || $file_extension == "jpg" || $file_extension == "jpeg")
+            {
+                if ($_FILES["imageStore"]["error"] > 0)
+                {
+                    $error.=$_FILES["imageStore"]["error"] . "<br />";
+                }
+                else
+                {
+                    $fileOriginal = $_FILES['imageStore']['tmp_name'];
+                    $path = UPLOAD_DIR . "store_image/";
+
+                    // Resize image (small) and upload to AWS
+                    // $fileName = 'store_small_'.time().'.'.strtolower($info['extension']);
+                    $fileName = 'store_small_'.time().'.jpg';
+                    $smallImg = gumletImageResize($fileOriginal, $fileName, $path, 256);
+
+                    $file1 = UPLOAD_DIR . 'store_image/' . $smallImg;
+                    $dir1 = "store_image";
+                    $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
+                    system($command);
+
+                    $catImg = IMAGE_AMAZON_PATH . 'store_image/' . $smallImg;
+
+                    // Resize image (large) and upload to AWS
+                    $fileName = 'store_large_'.time().'.jpg';
+                    $largeImg = gumletImageResize($fileOriginal, $fileName, $path, 1024);
+
+                    $file1 = UPLOAD_DIR . 'store_image/' . $largeImg;
+                    $dir1 = "store_image";
+                    $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
+                    system($command);
+
+                    $large_image = IMAGE_AMAZON_PATH . 'store_image/' . $largeImg;
+                }
+            }
+        }
+
+        // 
         if($catImg <> ""){
-            $query = "update store SET store_image='" . $catImg . "' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
+            $query = "update store SET store_image='" . $catImg . "', large_image = '".$large_image."' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 		}else if($_POST['image_removed'] == 1){
-            $query = "update store SET store_image='null' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
+            $query = "update store SET store_image='null', large_image='null' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
         }        
         		
