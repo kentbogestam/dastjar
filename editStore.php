@@ -429,29 +429,33 @@
                <td></td>
                <td>You can set your location on map by click or drag</td>
             </tr>
-             <tr>
-               <td>Upload Image For Restaurent<span class='mandatory'>*</span>:</td>
-               <td>
-                  <div class="file-upload">
-                     <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' );$('.image-removed').val('0');">Add Image</button>
-                     <div class="image-upload-wrap">
-                        <input class="file-upload-input" type='file' id="imageStore" name="imageStore" onBlur="iconPreview(this.form);"  onchange="readURL(this);" accept="image/" />
-                        <div class="drag-text">
-                           <h3>Drag and drop a file or select add Image</h3>
-                           <samp>Please upload only png Image</samp>
+            <tr>
+                <td>
+                    Upload Image For Restaurant<span class='mandatory'>*</span>:<br>
+                    <strong>Recommended: 1024x1024</strong>
+                </td>
+                <td>
+                    <div class="file-upload">
+                        <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' );$('.image-removed').val('0');">Add Image</button>
+                        <div class="image-upload-wrap">
+                            <input class="file-upload-input" type='file' id="imageStore" name="imageStore" onBlur="iconPreview(this.form);"  onchange="readURL(this);" accept="image/" />
+                            <div class="drag-text">
+                                <h3>Drag and drop a file or select add Image</h3>
+                                <samp>Please upload only png Image</samp>
+                            </div>
                         </div>
-                     </div>
-                     <div class="file-upload-content">
-                        <input type="hidden" name="image_removed" class="image-removed" value="0">
-      					        <input type="hidden" name="store_image_original" value="<?=$data[0]['store_image']?>">
-                        <img class="file-upload-image" src="<?=$data[0]['store_image']?>" alt="<?=$data[0]['store_name']?>" onerror="removeUpload()"/>
-                        <div class="image-title-wrap">
-                           <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+                        <div class="file-upload-content">
+                            <input type="hidden" name="image_removed" class="image-removed" value="0">
+                            <input type="hidden" name="store_image_original" value="<?=$data[0]['store_image']?>">
+                            <img class="file-upload-image" src="<?=$data[0]['store_image']?>" alt="<?=$data[0]['store_name']?>" onerror="removeUpload()"/>
+                            <div class="image-title-wrap">
+                                <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+                            </div>
                         </div>
-                     </div>
-                  </div>
-                  <div id='error_storeImage' class="error"></div>
-               </td>
+                    </div>
+                    <div id='error_storeImage' class="error"></div>
+                    <div id='warning-store-image' class="warning"></div>
+                </td>
             </tr> 
             <tr>
                 <td>&nbsp;</td>
@@ -1284,43 +1288,57 @@
       td label{font-size: 14px;  color: #000;   padding-bottom: 5px;   display: inline-block;}
       .full_width_input input{width: 99.3%;}
    </style>
-   <script type="text/javascript">
+    <script type="text/javascript">
+        function iconPreview() {}
 
-         
-            function readURL(input) {
-              if (input.files && input.files[0]) {
-        
+        var _URL = window.URL || window.webkitURL;
+        function readURL(input) {
+            var file, img;
+
+            if (input.files && input.files[0]) {
+                file = input.files[0];
                 var reader = new FileReader();
-        
+
                 reader.onload = function(e) {
-                  $('.image-upload-wrap').hide();
-                  $('.file-upload-image').attr('src', e.target.result);
-                  $('.file-upload-content').show();
-                  $('.image-title').html(input.files[0].name);
+                    $('#warning-store-image').html('');
+                    $('.image-upload-wrap').hide();
+                    $('.file-upload-image').attr('src', e.target.result);
+                    $('.file-upload-content').show();
+                    $('.image-title').html(input.files[0].name);
+
+                    // Get image size
+                    img = new Image();
+                    img.onload = function () {
+                        if(this.width < 1024)
+                        {
+                            $('#warning-store-image').html('Image size should be (1024x1024) width and height.');
+                        }
+                    };
+                    img.src = _URL.createObjectURL(file);
                 };
-        
+
                 reader.readAsDataURL(input.files[0]);
-        
-              } else {
+            } else {
                 removeUpload();
-              }
-          }
+            }
+        }
       
-          function removeUpload() {
+        function removeUpload() {
+            $('#warning-store-image').html('');
             $('.file-upload-input').replaceWith($('.file-upload-input').clone());
             $('.image-removed').val("1");
             $('.file-upload-content').hide();
             $('.image-upload-wrap').show();
-          }
+        }
 
-          $('.image-upload-wrap').bind('dragover', function () {
-                  $('.image-upload-wrap').addClass('image-dropping');
-              });
-              $('.image-upload-wrap').bind('dragleave', function () {
-                  $('.image-upload-wrap').removeClass('image-dropping');
-          });
-      
-   </script>
+        $('.image-upload-wrap').bind('dragover', function () {
+            $('.image-upload-wrap').addClass('image-dropping');
+        });
+
+        $('.image-upload-wrap').bind('dragleave', function () {
+            $('.image-upload-wrap').removeClass('image-dropping');
+        });
+    </script>
 
    <script type="text/javascript">
   

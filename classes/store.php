@@ -406,10 +406,10 @@ class store {
                     $path = UPLOAD_DIR . "store_image/";
 
                     // Resize image (small and large)
-                    $fileName = 'store_small_'.time().'.jpg';
+                    $fileName = 'store-small-'.time().'.jpg';
                     $smallImg = gumletImageResize($fileOriginal, $fileName, $path, 256);
 
-                    $fileName = 'store_large_'.time().'.jpg';
+                    $fileName = 'store-large-'.time().'.jpg';
                     $largeImg = gumletImageResize($fileOriginal, $fileName, $path, 1024);
 
                     // Upload image to AWS
@@ -878,27 +878,25 @@ class store {
                     $fileOriginal = $_FILES['imageStore']['tmp_name'];
                     $path = UPLOAD_DIR . "store_image/";
 
-                    // Resize image (small) and upload to AWS
-                    // $fileName = 'store_small_'.time().'.'.strtolower($info['extension']);
-                    $fileName = 'store_small_'.time().'.jpg';
+                    // Resize image (small and large)
+                    // $fileName = 'store-small-'.time().'.'.strtolower($info['extension']);
+                    $fileName = 'store-small-'.time().'.jpg';
                     $smallImg = gumletImageResize($fileOriginal, $fileName, $path, 256);
 
-                    $file1 = UPLOAD_DIR . 'store_image/' . $smallImg;
+                    $fileName = 'store-large-'.time().'.jpg';
+                    $largeImg = gumletImageResize($fileOriginal, $fileName, $path, 1024);
+
+                    // Upload image to AWS
                     $dir1 = "store_image";
+                    $file1 = UPLOAD_DIR . 'store_image/' . $smallImg;
+                    $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
+                    system($command);
+
+                    $file1 = UPLOAD_DIR . 'store_image/' . $largeImg;
                     $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
                     system($command);
 
                     $catImg = IMAGE_AMAZON_PATH . 'store_image/' . $smallImg;
-
-                    // Resize image (large) and upload to AWS
-                    $fileName = 'store_large_'.time().'.jpg';
-                    $largeImg = gumletImageResize($fileOriginal, $fileName, $path, 1024);
-
-                    $file1 = UPLOAD_DIR . 'store_image/' . $largeImg;
-                    $dir1 = "store_image";
-                    $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
-                    system($command);
-
                     $large_image = IMAGE_AMAZON_PATH . 'store_image/' . $largeImg;
                 }
             }
