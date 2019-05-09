@@ -41,8 +41,8 @@ $selected_tab_css = ' style="background-color:#ADDFFF" ';
 <!--<li><a <?=$campaign?>  href="showCampaign.php" >Campaigns</a></li>-->
 <!--<li><a <?=$offer?>  href="showCampaign.php" >Offers</a></li>-->
 <li><a <?=$store?> href="showStore.php" >Locations</a></li>
-<li><a <?=$dishType?> href="showDishes.php" >Add Type of Dishes</a></li>
-<li><a <?=$offer?>  href="showStandard.php" >Menu</a></li>
+<!-- <li><a <?=$dishType?> href="showDishes.php" >Add Type of Dishes</a></li>
+<li><a <?=$offer?>  href="showStandard.php" >Menu</a></li> -->
 <!--<li><a <?=$standard?> href="showStandard.php" >Standard Offer</a></li>-->
 <!--<li><a <?=$report?> href="getReportView.php" >Report</a></li>-->
 <li><a <?=$account?> href="getFinancial.php" >Account</a></li>
@@ -88,15 +88,15 @@ Show Deleted Advertise </td>
       </tr>
   <tr> -->
      
-    <td><input type="radio" <?=$showstandard?> onClick="javascript:window.location.href='showStandard.php'" name="deals">
+    <!-- <td><input type="radio" <?=$showstandard?> onClick="javascript:window.location.href='showStandard.php'" name="deals">
       Dish </td>
     
     <td><input type="radio" <?=$showdeletestand?> onClick="javascript:window.location.href='showDeleteStandard.php'" name="deals">
-Show Deleted Dish </td>
+    Show Deleted Dish </td>
     
-  
+      
     <td width="20">&nbsp;</td>    
-  </tr>
+      </tr> -->
 </table>
 
 </div>
@@ -108,7 +108,7 @@ if (basename($_SERVER['SCRIPT_FILENAME']) == 'newCreateStore.php')
 }
 ?>
 
-<div class="frm_cls-2">
+<!-- <div class="frm_cls-2">
   <table border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
       <td nowrap><input type="radio"  <?=$show?> onClick="javascript:window.location.href='showDishes.php?m=showDishes'" name="deals">
@@ -118,7 +118,7 @@ if (basename($_SERVER['SCRIPT_FILENAME']) == 'newCreateStore.php')
       Show Deleted Dish Type</td>
     </tr>
   </table>
-</div>
+</div> -->
 <? } ?>
 <? if($menu=="store"){
 if (basename($_SERVER['SCRIPT_FILENAME']) == 'newCreateStore.php')
