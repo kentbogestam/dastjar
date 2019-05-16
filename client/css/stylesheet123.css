@@ -2,6 +2,7 @@ textarea { resize: none; }
 a.dp-choose-date { float: left; width: 16px; height: 16px; padding: 0px; margin: 10px 3px 0 0; display: block; text-indent: -2000px; overflow: hidden; background: url(../images/calendar.gif) no-repeat; }
 a.dp-choose-date.dp-disabled { background-position: 0 -20px; cursor: default; }
 .error { color:red; padding-left:4px; width:400px; }
+.warning { color:#8a6d3b; padding-left:4px; width:400px; }
 .error123 { color:red; padding-left:4px; width:400px; text-align:left; }
 body { margin-top:0px; color:#666666; font-family:Arial, Verdana, Helvetica, sans-serif; font-size:18px; }
 img { border:none; }

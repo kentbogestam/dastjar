@@ -391,77 +391,46 @@ class store {
             exit();
         }
 
-//Store image uplode to server.
+        //Store image uplode to server.
+        $catImg = $large_image = "NULL";
 
-        $CategoryIconName = "cat_icon_" . time();
-        $info = pathinfo($_FILES["imageStore"]["name"]);
         if (!empty($_FILES["imageStore"]["name"])) {
-            if (!empty($_FILES["imageStore"]["name"])) {
-                //echo "Cat in"; die();
-                if (strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpg") {
-                    if ($_FILES["imageStore"]["error"] > 0) {
-                        $error.=$_FILES["imageStore"]["error"] . "<br />";
-                    } else {
-                        $cat_filename = $CategoryIconName . "." . strtolower($info['extension']);
-                        //move_uploaded_file($_FILES["icon"]["tmp_name"],UPLOAD_DIR."Category/" .$cat_filename);
-                        $fileOriginal = $_FILES['imageStore']['tmp_name'];
-                        $crop = '5';
-                        $size = 'iphone4_cat';
-                        $path = UPLOAD_DIR . "category/";
-                        $fileThumbnail = $path . $cat_filename;
-                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
-//echo 'errorMsg'; die();
-                        $arrUser['store_image'] = $cat_filename;
-                    }
+            // $CategoryIconName = "cat_icon_" . time();
+            $info = pathinfo($_FILES["imageStore"]["name"]);
+            
+            if (strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpg") {
+                if ($_FILES["imageStore"]["error"] > 0) {
+                    $error.=$_FILES["imageStore"]["error"] . "<br />";
                 } else {
-                    $error.=NOT_VALID_EXT;
-                }
-            } else {
-                if ($_SESSION['preview']['small_image'] != "") {
-                    $arrUser['small_image'] = $_SESSION['preview']['small_image'];
-                } elseif ($_POST['smallimage'] == "") {
-                    $error.= ERROR_SMALL_IMAGE;
-                } else {
-                    $arrUser['small_image'] = $_POST['smallimage'];
-                }
-            }
-        } else {
-            //echo "Cat Resp icon"; die();
-            $category_image = $_POST["category_image"];
-            if (!empty($category_image)) {
+                    $fileOriginal = $_FILES['imageStore']['tmp_name'];
+                    $path = UPLOAD_DIR . "store_image/";
 
-                $categoryImageName = explode(".", $category_image);
-                $cat_filename = $CategoryIconName . "." . $categoryImageName[1];
-                //move_uploaded_file($_FILES["icon"]["tmp_name"],UPLOAD_DIR."Category/" .$cat_filename);
-                $fileOriginal = UPLOAD_DIR . "category_lib/" . $category_image;
-                //$crop = '5';
-                //$size = 'iphone4_cat';
-                $path = UPLOAD_DIR . "category/";
-                $fileThumbnail = $path . $cat_filename;
-                copy($fileOriginal, $fileThumbnail);
-                //createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
-                $arrUser['small_image'] = $cat_filename;
-            } else {
-                if ($_SESSION['preview']['small_image'] != "") {
-                    $arrUser['small_image'] = $_SESSION['preview']['small_image'];
-                } elseif ($_POST['smallimage'] == "") {
-                    $error.= ERROR_SMALL_IMAGE;
-                } else {
-                    $arrUser['small_image'] = $_POST['smallimage'];
+                    // Resize image (small and large)
+                    $fileName = 'store-small-'.time().'.jpg';
+                    $smallImg = gumletImageResize($fileOriginal, $fileName, $path, 256);
+
+                    $fileName = 'store-large-'.time().'.jpg';
+                    $largeImg = gumletImageResize($fileOriginal, $fileName, $path, 1024);
+
+                    // Upload image to AWS
+                    $dir1 = "store_image";
+                    $file1 = UPLOAD_DIR . 'store_image/' . $smallImg;
+                    $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
+                    system($command);
+
+                    $file1 = UPLOAD_DIR . 'store_image/' . $largeImg;
+                    $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
+                    system($command);
+
+                    // 
+                    $catImg = "'".IMAGE_AMAZON_PATH . 'store_image/' . $smallImg."'";
+                    $large_image = "'".IMAGE_AMAZON_PATH . 'store_image/' . $largeImg."'";
                 }
+            } else {
+                $error.=NOT_VALID_EXT;
             }
         }
-
-        /////////////////////////// upload smallimages into server///////////////////
-        $file1 = _UPLOAD_IMAGE_ . 'category/' . $arrUser['store_image'];
-
-        $dir1 = "category";
-        $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
-        system($command);
-
-        $catImg = IMAGE_AMAZON_PATH . 'category/' . $arrUser['store_image'];
-
-//End Store image uplode to server.
+        //End Store image uplode to server.
 
         $contry = $arrUser['country'];
         $query = "select * from country where name = '" . $contry . "'";
@@ -471,8 +440,8 @@ class store {
 
         $_SESSION['post'] = "";
         $storeUniqueId = uuid();
-        $query = "INSERT into store(`store_id`,`u_id`,`store_type`,`tagline`,`store_name`,`email`,`street`,`phone`,`store_link`,`delivery_type`,`city`,`country`,`latitude`,`longitude`,`s_activ`,`country_code`,`access_type`,`chain`,`block`,`zip`,`store_image`,`store_open_close_day_time`,`store_close_dates`,`online_payment`)
-                 VALUES('" . $storeUniqueId . "','" . $_SESSION['userid'] . "','" . $arrUser['store_type'] . "','" . $arrUser['tagline'] . "','" . $arrUser['store_name'] . "','" . $arrUser['email'] . "','" . $arrUser['street'] . "','" . $arrUser['phone'] . "','" . $arrUser['link'] . "','" . $arrUser['delivery_type'] . "','" . $arrUser['city'] . "','" . $arrUser['country'] . "','" . $arrUser['latitude'] . "','" . $arrUser['longitude'] . "','1','" . $coutryIso . "','1','" . $arrUser['chain'] . "','" . $arrUser['block'] . "','" . $arrUser['zip'] . "','" . $catImg . "','" . $arrUser['store_open_close_day_time'] . "','" . $arrUser['close_dates'] . "','" . $arrUser['online_payment'] . "')";
+        $query = "INSERT into store(`store_id`,`u_id`,`store_type`,`tagline`,`store_name`,`email`,`street`,`phone`,`store_link`,`delivery_type`,`city`,`country`,`latitude`,`longitude`,`s_activ`,`country_code`,`access_type`,`chain`,`block`,`zip`,`store_image`,`large_image`,`store_open_close_day_time`,`store_close_dates`,`online_payment`)
+                 VALUES('" . $storeUniqueId . "','" . $_SESSION['userid'] . "','" . $arrUser['store_type'] . "','" . $arrUser['tagline'] . "','" . $arrUser['store_name'] . "','" . $arrUser['email'] . "','" . $arrUser['street'] . "','" . $arrUser['phone'] . "','" . $arrUser['link'] . "','" . $arrUser['delivery_type'] . "','" . $arrUser['city'] . "','" . $arrUser['country'] . "','" . $arrUser['latitude'] . "','" . $arrUser['longitude'] . "','1','" . $coutryIso . "','1','" . $arrUser['chain'] . "','" . $arrUser['block'] . "','" . $arrUser['zip'] . "'," . $catImg . "," . $large_image . ",'" . $arrUser['store_open_close_day_time'] . "','" . $arrUser['close_dates'] . "','" . $arrUser['online_payment'] . "')";
         $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
         $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
@@ -889,51 +858,58 @@ class store {
         $rs = mysqli_fetch_array($res);
         $coutryIso = $rs['iso'];
 
-		//$query = "select store_image from store where u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
-        //$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
-        //$rs = mysqli_fetch_array($res);
-		//print_r($rs);
+        // 
+        $catImg = $large_image = "NULL";
 
-		$catImg = "";
+        if ($_FILES["imageStore"]["name"] <> "")
+        {
+            // $CategoryIconName = "store_" . time();
+            $info = pathinfo($_FILES["imageStore"]["name"]);
+            $file_extension = strtolower($info['extension']);
 
-        $CategoryIconName = "cat_icon_" . time();
-        $info = pathinfo($_FILES["imageStore"]["name"]);
-   
-            if ($_FILES["imageStore"]["name"] <> "") {
+            if ($file_extension == "png" || $file_extension == "jpg" || $file_extension == "jpeg")
+            {
+                if ($_FILES["imageStore"]["error"] > 0)
+                {
+                    $error.=$_FILES["imageStore"]["error"] . "<br />";
+                }
+                else
+                {
+                    $fileOriginal = $_FILES['imageStore']['tmp_name'];
+                    $path = UPLOAD_DIR . "store_image/";
 
-				$file_extension = strtolower($info['extension']);
-                if ($file_extension == "png" || $file_extension == "jpg" || $file_extension == "jpeg") {
-                    if ($_FILES["imageStore"]["error"] > 0) {
-                        $error.=$_FILES["imageStore"]["error"] . "<br />";
-                    } else {
-                        $cat_filename = $CategoryIconName . "." . strtolower($info['extension']);
-                        $fileOriginal = $_FILES['imageStore']['tmp_name'];
-                        $crop = '5';
-                        $size = 'iphone4_cat';
-                        $path = UPLOAD_DIR . "store_image/";
-                        $fileThumbnail = $path . $cat_filename;
-                        createFileThumbnail($fileOriginal, $fileThumbnail, $size, $frontUpload = 0, $crop, $errorMsg);
-                        $arrUser['store_image'] = $cat_filename;
-                        
-                        $file1 = _UPLOAD_IMAGE_ . 'store_image/' . $arrUser['store_image'];
-                        $dir1 = "store_image";
-                        $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
-                        system($command);
+                    // Resize image (small and large)
+                    // $fileName = 'store-small-'.time().'.'.strtolower($info['extension']);
+                    $fileName = 'store-small-'.time().'.jpg';
+                    $smallImg = gumletImageResize($fileOriginal, $fileName, $path, 256);
 
-                        $catImg = IMAGE_AMAZON_PATH . 'store_image/' . $arrUser['store_image']; 
+                    $fileName = 'store-large-'.time().'.jpg';
+                    $largeImg = gumletImageResize($fileOriginal, $fileName, $path, 1024);
 
-                    }
+                    // Upload image to AWS
+                    $dir1 = "store_image";
+                    $file1 = UPLOAD_DIR . 'store_image/' . $smallImg;
+                    $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
+                    system($command);
+
+                    $file1 = UPLOAD_DIR . 'store_image/' . $largeImg;
+                    $command = IMAGE_DIR_PATH . $file1 . " " . $dir1;
+                    system($command);
+
+                    $catImg = "'".IMAGE_AMAZON_PATH . 'store_image/' . $smallImg."'";
+                    $large_image = "'".IMAGE_AMAZON_PATH . 'store_image/' . $largeImg."'";
                 }
             }
+        }
 
-
+        // 
         if($catImg <> ""){
-            $query = "update store SET store_image='" . $catImg . "' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
+            $query = "update store SET store_image=$catImg, large_image=$large_image WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 		}else if($_POST['image_removed'] == 1){
-            $query = "update store SET store_image='null' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
+            $query = "update store SET store_image=$catImg, large_image=$large_image WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
-        }        
+        }
         		
         $storeUniqueId = uuid();
 
