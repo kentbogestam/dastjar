@@ -330,6 +330,79 @@ class Billing{
             $uId = $_SESSION['userid'];
             $this->logs("userid: " . $uId);
 
+            // Get company and associated stripe customer detail
+            $qry = "SELECT U.email, C.company_id, C.company_name, C.orgnr, C.city, CSD.stripe_customer_id FROM user AS U INNER JOIN company AS C ON U.u_id = C.u_id LEFT JOIN company_subscription_detail AS CSD ON C.company_id = CSD.company_id WHERE U.u_id = '{$uId}'";
+            $res = $db->query($qry);
+
+            $user = mysqli_fetch_array($res);
+            $customer_id = $user['stripe_customer_id'];
+
+            // 
+            \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
+            $token = $_POST['stripeToken'];
+
+            // Create a Customer if not exist
+            if(!$customer_id || is_null($customer_id) || $customer_id == '')
+            {
+                $description = "Org No.: {$user['orgnr']}, City: {$user['city']}";
+
+                $customer = \Stripe\Customer::create(array(
+                    'email'         => $user['email'],
+                    'name'          => $user['company_name'],
+                    'description'   => $description,
+                    'source'        => $token
+                ));
+
+                $customer_id = $customer->id;
+
+                $query = "INSERT INTO company_subscription_detail(company_id, stripe_customer_id) VALUES('{$user['company_id']}', '{$customer_id}')";
+                $res = $db->query($query);
+            }
+
+            $this->logs("customerId: " . $customer_id);
+
+            // Create subscription
+            if($customer_id && !empty($planIds))
+            {
+                $planIds = join("','", $planIds);
+                $query = "SELECT plan_id, trial_period FROM billing_products WHERE plan_id IN ('{$planIds}')";
+                $res = $db->query($query);
+
+                while ($rs = mysqli_fetch_array($res))
+                {
+                    $subscription = \Stripe\Subscription::create(array(
+                        "customer"          => $customer_id,
+                        "items"             => [['plan' => $rs['plan_id']]],
+                        "trial_period_days" => $rs['trial_period'],
+                        "metadata"          => array('StoreID' => $storeId),
+                        "tax_percent"       => 25, // Need to set dynamically value later
+                    ));
+
+                    if($subscription)
+                    {
+                        $trial_start = !is_null($subscription->trial_start) ? date('Y-m-d H:i:s', $subscription->trial_start) : $subscription->trial_start;
+                        $trial_end = !is_null($subscription->trial_end) ? date('Y-m-d H:i:s', $subscription->trial_end) : $subscription->trial_end;
+                        $current_period_start = date('Y-m-d H:i:s', $subscription->current_period_start);
+                        $current_period_end = date('Y-m-d H:i:s', $subscription->current_period_end);
+
+                        if(is_null($trial_start) && is_null($trial_end))
+                        {
+                            $query = "INSERT INTO user_plan(user_id, store_id, subscription_id, plan_id, subscription_start_at, subscription_end_at) VALUES('{$_SESSION['userid']}', '{$storeId}', '{$subscription->id}', '{$rs['plan_id']}', '{$current_period_start}', '{$current_period_end}')";
+                        }
+                        else
+                        {
+                            $query = "INSERT INTO user_plan(user_id, store_id, subscription_id, plan_id, trial_start_at, trial_end_at, subscription_start_at, subscription_end_at) VALUES('{$_SESSION['userid']}', '{$storeId}', '{$subscription->id}', '{$rs['plan_id']}', '{$trial_start}', '{$trial_end}', '{$current_period_start}', '{$current_period_end}')";
+                        }
+
+                        $resInsert = $db->query($query);
+                    }
+                }
+            }
+
+            /*
+            $uId = $_SESSION['userid'];
+            $this->logs("userid: " . $uId);
+
             $customer = "select email, stripe_customer_id from user where u_id='$uId'";
             $res = $db->query($customer);
 
@@ -401,6 +474,7 @@ class Billing{
             }
 
             return true;
+            */
         }
     }
 
