@@ -328,10 +328,9 @@ class Billing{
             $planIds = $_POST['plan_id'];
 
             $uId = $_SESSION['userid'];
-            $this->logs("userid: " . $uId);
 
             // Get company and associated stripe customer detail
-            $qry = "SELECT U.email, C.company_id, C.company_name, C.orgnr, C.city, CSD.stripe_customer_id FROM user AS U INNER JOIN company AS C ON U.u_id = C.u_id LEFT JOIN company_subscription_detail AS CSD ON C.company_id = CSD.company_id WHERE U.u_id = '{$uId}'";
+            $qry = "SELECT U.email, C.company_id, C.company_name, C.orgnr, C.city, CSD.company_id AS csd_company_id, CSD.stripe_customer_id FROM user AS U INNER JOIN company AS C ON U.u_id = C.u_id LEFT JOIN company_subscription_detail AS CSD ON C.company_id = CSD.company_id WHERE U.u_id = '{$uId}'";
             $res = $db->query($qry);
 
             $user = mysqli_fetch_array($res);
@@ -355,10 +354,20 @@ class Billing{
 
                 $customer_id = $customer->id;
 
-                $query = "INSERT INTO company_subscription_detail(company_id, stripe_customer_id) VALUES('{$user['company_id']}', '{$customer_id}')";
+                // Insert/update stripe's detail in 'company_subscription_detail' table
+                if(!$user['csd_company_id'])
+                {
+                    $query = "INSERT INTO company_subscription_detail(company_id, stripe_customer_id) VALUES('{$user['company_id']}', '{$customer_id}')";
+                }
+                else
+                {
+                    $query = "UPDATE company_subscription_detail SET stripe_customer_id = '$customer_id' WHERE company_id = '{$user['company_id']}'";
+                }
+                
                 $res = $db->query($query);
             }
 
+            $this->logs("userid: " . $uId);
             $this->logs("customerId: " . $customer_id);
 
             // Create subscription
