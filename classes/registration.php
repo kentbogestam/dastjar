@@ -834,35 +834,72 @@ function putCcode($d)
         if (!$conn) {
             die("Connection failed: " . mysqli_connect_error());
         }else{}
-	
-        $query = "update user SET access_token='" . $access_token . "',stripe_publishable_key='" . $stripe_publishable_key . "',stripe_user_id='" . $stripe_user_id . "',`refresh_token`='" . $refresh_token . "'   WHERE u_id='" . $_SESSION['userid'] . "'";
-        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
-            $inoutObj = new inOut();
-            $_SESSION['MESSAGE'] = CREATE_STRIPACCOUNT_SUCCESS;
 
-            $url = BASE_URL . 'addCompany.php';
-            $inoutObj->reDirect($url);
+        $uId = $_SESSION['userid'];
 
-        }
+        // Get company and associated stripe customer detail
+        $qry = "SELECT C.company_id, CSD.company_id AS csd_company_id FROM company AS C LEFT JOIN company_subscription_detail AS CSD ON C.company_id = CSD.company_id WHERE C.u_id = '{$uId}'";
+        $res = mysqli_query($conn , $qry) or die(mysqli_error($conn));
+        $company = mysqli_fetch_array($res);
 
-        function saveStripDetailEditCompany($access_token,$stripe_publishable_key,$stripe_user_id,$refresh_token){
-            $db = new db();
-            $conn = $db->makeConnection();
-            // Check connection
-            if (!$conn) {
-                die("Connection failed: " . mysqli_connect_error());
-            }else{}
-        
-            $query = "update user SET access_token='" . $access_token . "',stripe_publishable_key='" . $stripe_publishable_key . "',stripe_user_id='" . $stripe_user_id . "',`refresh_token`='" . $refresh_token . "'   WHERE u_id='" . $_SESSION['userid'] . "'";
-            $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
-                $inoutObj = new inOut();
-                $_SESSION['MESSAGE'] = CREATE_STRIPACCOUNT_SUCCESS;
-    
-                $url = BASE_URL . 'editCompany.php';
-                $inoutObj->reDirect($url);
-    
+        // If company exist then only insert/update stripe detail in table
+        if($company)
+        {
+            if(!$company['csd_company_id'])
+            {
+                $query = "INSERT INTO company_subscription_detail(company_id, access_token, stripe_user_id, refresh_token, stripe_publishable_key) VALUES('{$company['company_id']}', '{$access_token}', '{$stripe_user_id}', '{$refresh_token}', '{$stripe_publishable_key}')";
             }
-    
+            else
+            {
+                $query = "UPDATE company_subscription_detail SET access_token = '{$access_token}', stripe_user_id = '{$stripe_user_id}', refresh_token = '{$refresh_token}', stripe_publishable_key = '{$stripe_publishable_key}' WHERE company_id = '{$company['company_id']}'";
+            }
 
+            $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+        }
+        
+        $inoutObj = new inOut();
+        $_SESSION['MESSAGE'] = CREATE_STRIPACCOUNT_SUCCESS;
+
+        $url = BASE_URL . 'addCompany.php';
+        $inoutObj->reDirect($url);
+
+    }
+
+    function saveStripDetailEditCompany($access_token,$stripe_publishable_key,$stripe_user_id,$refresh_token){
+        $db = new db();
+        $conn = $db->makeConnection();
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+
+        $uId = $_SESSION['userid'];
+
+        // Get company and associated stripe customer detail
+        $qry = "SELECT C.company_id, CSD.company_id AS csd_company_id FROM company AS C LEFT JOIN company_subscription_detail AS CSD ON C.company_id = CSD.company_id WHERE C.u_id = '{$uId}'";
+        $res = mysqli_query($conn , $qry) or die(mysqli_error($conn));
+        $company = mysqli_fetch_array($res);
+
+        // If company exist then only insert/update stripe detail in table
+        if($company)
+        {
+            if(!$company['csd_company_id'])
+            {
+                $query = "INSERT INTO company_subscription_detail(company_id, access_token, stripe_user_id, refresh_token, stripe_publishable_key) VALUES('{$company['company_id']}', '{$access_token}', '{$stripe_user_id}', '{$refresh_token}', '{$stripe_publishable_key}')";
+            }
+            else
+            {
+                $query = "UPDATE company_subscription_detail SET access_token = '{$access_token}', stripe_user_id = '{$stripe_user_id}', refresh_token = '{$refresh_token}', stripe_publishable_key = '{$stripe_publishable_key}' WHERE company_id = '{$company['company_id']}'";
+            }
+
+            $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+        }
+        
+        $inoutObj = new inOut();
+        $_SESSION['MESSAGE'] = CREATE_STRIPACCOUNT_SUCCESS;
+
+        $url = BASE_URL . 'editCompany.php';
+        $inoutObj->reDirect($url);
+    }
 }
 ?>

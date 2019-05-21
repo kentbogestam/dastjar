@@ -197,7 +197,12 @@
                               </tr>
                               <tr>
                                  <td align="left">&nbsp;</td>
-                                 <td align="left"><div align="center" class="main_bg"  ><a href="reDirectStrip.php"><strong>Add Payment</strong></a></div><input style="margin-left:45px;"  type="submit" value="Submit your company information"  name="addCompany" class="button_another" id="addCompany"></td>
+                                 <td align="left">
+                                    <!-- <div align="center" class="main_bg">
+                                        <a href="reDirectStrip.php"><strong>Add Payment</strong></a>
+                                    </div> -->
+                                    <input type="submit" value="Submit your company information"  name="addCompany" class="button_another" id="addCompany">
+                                 </td>
                               </tr>
 
                               <tr>

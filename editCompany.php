@@ -169,7 +169,6 @@
                      </tr>
                      <tr>
                         <td align="left">&nbsp;</td>
-<!--                        <td align="left"><div align="center" class="main_bg" <?php if($stripePayment == "Yes"){ echo 'style="background-color: grey; background-image: none;"'; }?>><a <?php if($stripePayment == "Yes"){ echo 'type="button" disabled'; }else{ echo 'href="reDirectStrip.php"'; }?>><strong>Add Payment</strong></a></div><input style="margin-left:45px;"  type="submit" value="Submit your company information"  name="addCompany" class="button_another" id="addCompany"></td>  -->
                         <td align="left"><div align="center" class="main_bg"><a href="reDirectStripEditCompany.php"><strong>Add Payment</strong></a></div><input style="margin-left:45px;"  type="submit" value="Submit your company information"  name="addCompany" class="button_another" id="addCompany"></td>
 						
                      </tr>
