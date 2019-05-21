@@ -404,8 +404,10 @@ class accountView {
             die("Connection failed: " . mysqli_connect_error());
         }else{}
 
-        $q = $db->query("SELECT online_payment FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND  s_activ='1'");
-        $q2 = $db->query("SELECT stripe_user_id FROM user WHERE u_id = '" . $_SESSION['userid'] . "'");
+        $uId = $_SESSION['userid'];
+
+        $q = $db->query("SELECT online_payment FROM store WHERE u_id = '" . $uId . "' AND  s_activ='1'");
+        $q2 = $db->query("SELECT C.company_id, CSD.stripe_user_id FROM company AS C LEFT JOIN company_subscription_detail AS CSD ON C.company_id = CSD.company_id WHERE C.u_id = '{$uId}'");
 
         while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
@@ -415,7 +417,8 @@ class accountView {
             $data2[] = $rs2;
         }
 
-        if($data[0]['online_payment'] == 1 && $data2[0]['stripe_user_id'] != null){
+        // if($data[0]['online_payment'] == 1 && $data2[0]['stripe_user_id'] != null){
+        if($data2[0]['stripe_user_id']){
             return "Yes";
         }else{
             return "No";
