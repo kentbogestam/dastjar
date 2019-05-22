@@ -1,0 +1,4 @@
+config/config.php
+config/dbConfig.php
+logs/
+script-php/
