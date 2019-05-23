@@ -11,12 +11,37 @@
    $countryList = $regObj->getCountryList();
    $openCloseingTime = $storeObj->listTimeing();
 
-   // Get packages to subscribe for location
+   // Get packages to subscribe for location and logic to show either subscribed or updated package
    $billingObj = new billing();
-   $products = $billingObj->showPlanToSubscribe();
+   $productsUpd = $billingObj->getSubscriptionPlanOnEdit($_GET['storeId']);
+   $products = $packages = array();
+
+   if($productsUpd)
+   {
+        $i = 0;
+        foreach($productsUpd as $row)
+        {   
+            if( !in_array($row['package_id'], $packages) )
+            {
+                $products[] = $row;
+                array_push($packages, $row['package_id']);
+
+                $i++;
+            }
+            else
+            {
+                if( !is_numeric($products[($i-1)]['up_id']) )
+                {
+                    $products[($i-1)] = $row;
+                }
+            }
+        }
+   }
+
+   // echo '<pre>'; print_r($products); exit;
 
    // Get subscribed plans list
-   $arrProductsSubscribed = array();
+   /*$arrProductsSubscribed = array();
    $productsSubscribedObj = $billingObj->getSubscribedPlanByLocation($_GET['storeId']);
 
    if($productsSubscribedObj)
@@ -25,7 +50,7 @@
         {
             $arrProductsSubscribed[] = $row['plan_id'];
         }
-   }
+   }*/
 
    if ( (isset($_POST['continue'])) || (isset($_POST['plan_id']) && isset($_POST['stripeToken'])) ) {
        $storeObj->svrStoreDflt();
@@ -487,7 +512,8 @@
                                                 ?>
                                                     <tr class="prods">
                                                         <td align="left">
-                                                            <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo ($product['package_id'] == 1) ? "checked='checked' readonly" : '' ?> <?php echo (in_array($product['plan_id'], $arrProductsSubscribed)) ? "checked='checked' disabled" : ''; ?> data-amount="<?php echo $product['price']; ?>" data-package="<?php echo $product['package_id']; ?>" data-tax="25">
+                                                            <!-- <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo ($product['package_id'] == 1) ? "checked='checked' readonly" : '' ?> <?php echo (in_array($product['plan_id'], $arrProductsSubscribed)) ? "checked='checked' disabled" : ''; ?> data-amount="<?php echo $product['price']; ?>" data-package="<?php echo $product['package_id']; ?>" data-tax="25"> -->
+                                                            <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo ($product['package_id'] == 1) ? "checked='checked' readonly" : '' ?> <?php echo (is_numeric($product['up_id'])) ? "checked='checked' disabled" : ''; ?> data-amount="<?php echo $product['price']; ?>" data-package="<?php echo $product['package_id']; ?>" data-tax="25">
                                                             <label for="plan_id<?php echo $product['plan_id']; ?>"></label>
                                                         </td>
                                                         <td><?php echo $i; ?></td>

@@ -133,7 +133,27 @@ class Billing{
         $db->makeConnection();
         $data = array();
 
-        $query = "SELECT BP.id, BP.package_id, BP.product_id, BP.product_name, BP.plan_id, BP.plan_nickname, BP.currency, BP.price, BP.description FROM billing_products AS BP INNER JOIN anar_packages AS AP ON AP.id = BP.package_id WHERE BP.s_activ != 2 AND AP.status = '1' ORDER BY AP.id";
+        // $query = "SELECT BP.id, BP.package_id, BP.product_id, BP.product_name, BP.plan_id, BP.plan_nickname, BP.currency, BP.price, BP.description FROM billing_products AS BP INNER JOIN anar_packages AS AP ON AP.id = BP.package_id WHERE BP.s_activ != 2 AND AP.status = '1' ORDER BY AP.id";
+        $query = "SELECT bp1.id, bp1.package_id, bp1.product_id, bp1.product_name, bp1.plan_id, bp1.plan_nickname, bp1.currency, bp1.price, bp1.description FROM billing_products bp1 LEFT JOIN billing_products bp2 ON (bp1.package_id = bp2.package_id AND bp1.id < bp2.id) INNER JOIN anar_packages AP ON AP.id = bp1.package_id WHERE bp2.id IS NULL AND bp1.s_activ != 2 AND AP.status = '1' ORDER BY AP.id";
+        $res = $db->query($query);
+
+        while ($rs = mysqli_fetch_array($res)) {
+            $data[] = $rs;
+        }
+
+        return $data;
+    }
+
+    // 
+    function getSubscriptionPlanOnEdit($storeId)
+    {
+        $db = new db();
+        $db->makeConnection();
+        $data = array();
+
+        $date = date('Y-m-d H:i:s');
+        
+        $query = "SELECT bp.id, bp.package_id, bp.product_id, bp.product_name, bp.plan_id, UP.id up_id, bp.plan_nickname, bp.currency, bp.price, bp.description FROM billing_products bp INNER JOIN anar_packages AP ON AP.id = bp.package_id LEFT JOIN user_plan UP ON (bp.plan_id = UP.plan_id AND UP.store_id='{$storeId}' AND UP.subscription_start_at <= '{$date}' AND UP.subscription_end_at >= '{$date}') WHERE bp.s_activ != 2 AND AP.status = '1' GROUP BY bp.id ORDER BY AP.id";
         $res = $db->query($query);
 
         while ($rs = mysqli_fetch_array($res)) {
