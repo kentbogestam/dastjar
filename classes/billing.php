@@ -347,10 +347,14 @@ class Billing{
             $data = array();
             $planIds = $_POST['plan_id'];
 
+            // Get store detail
+            $res = $db->query("SELECT store_name FROM store WHERE store_id = '{$storeId}'");
+            $store = mysqli_fetch_array($res);
+
             $uId = $_SESSION['userid'];
 
             // Get company and associated stripe customer detail
-            $qry = "SELECT U.email, C.company_id, C.company_name, C.orgnr, C.city, CSD.company_id AS csd_company_id, CSD.stripe_customer_id FROM user AS U INNER JOIN company AS C ON U.u_id = C.u_id LEFT JOIN company_subscription_detail AS CSD ON C.company_id = CSD.company_id WHERE U.u_id = '{$uId}'";
+            $qry = "SELECT U.email, CONCAT(U.fname, ' ', U.lname) AS userName, C.company_id, C.company_name, C.orgnr, CONCAT_WS(', ', C.street, C.city, C.zip, C.country) AS companyAddress, C.city, CSD.company_id AS csd_company_id, CSD.stripe_customer_id FROM user AS U INNER JOIN company AS C ON U.u_id = C.u_id LEFT JOIN company_subscription_detail AS CSD ON C.company_id = CSD.company_id WHERE U.u_id = '{$uId}'";
             $res = $db->query($qry);
 
             $user = mysqli_fetch_array($res);
@@ -393,8 +397,10 @@ class Billing{
             // Create subscription
             if($customer_id && !empty($planIds))
             {
+                $emailContent = ''; $total = 0;
+
                 $planIds = join("','", $planIds);
-                $query = "SELECT plan_id, trial_period FROM billing_products WHERE plan_id IN ('{$planIds}')";
+                $query = "SELECT product_name, plan_id, price, trial_period FROM billing_products WHERE plan_id IN ('{$planIds}')";
                 $res = $db->query($query);
 
                 while ($rs = mysqli_fetch_array($res))
@@ -409,6 +415,7 @@ class Billing{
 
                     if($subscription)
                     {
+                        $total += $rs['price'];
                         $trial_start = !is_null($subscription->trial_start) ? date('Y-m-d H:i:s', $subscription->trial_start) : $subscription->trial_start;
                         $trial_end = !is_null($subscription->trial_end) ? date('Y-m-d H:i:s', $subscription->trial_end) : $subscription->trial_end;
                         $current_period_start = date('Y-m-d H:i:s', $subscription->current_period_start);
@@ -424,86 +431,35 @@ class Billing{
                         }
 
                         $resInsert = $db->query($query);
+
+                        // 
+                        $emailContent .= "<tr>
+                            <td align='left' vertical-align='top' style='padding:5px 15px;'>
+                                <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>{$rs['product_name']}</div>
+                            </td>
+                            <td align='right' style='padding: 5px 15px;'>&#36;{$rs['product_name']}</td>
+                        </tr>";
                     }
+
+                    $emailContent .= "<tr>
+                        <td align='left' vertical-align='top' style='padding:5px 10px; background-color:#CCCD99;'>
+                            <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>{$rs['product_name']}</div>
+                        </td>
+                        <td align='right' style='padding:5px 10px;background-color: #CCCD99;'>&#36;{$total}</td>
+                    </tr>";
                 }
+
+                // Send thank-you email
+                $template = file_get_contents(BASEPATH.'email-templates/subscription-confirmation-email.html');
+
+                $find = array('{{orgNo}}', '{{userName}}', '{{companyAddress}}', '{{storeName}}', '{{theContent}}');
+                $replace = array($user['orgnr'], $user['userName'], $user['companyAddress'], $store['store_name'], $emailContent);
+                $template = str_replace($find, $replace, $template);
+
+                include_once("classes/emails.php");
+                $mailObj = new emails();
+                $mailObj->sendSubscriptionThankYouEmail($user['email'], $template);
             }
-
-            /*
-            $uId = $_SESSION['userid'];
-            $this->logs("userid: " . $uId);
-
-            $customer = "select email, stripe_customer_id from user where u_id='$uId'";
-            $res = $db->query($customer);
-
-            while ($rs = mysqli_fetch_array($res)) {
-                $data2[] = $rs;
-            }
-
-            $emailId = $data2[0][0];
-            $customerId = $data2[0]['stripe_customer_id'];
-            $this->logs("emailId: " . $emailId);
-
-            \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
-
-            $token = $_POST['stripeToken'];
-            $this->logs("stripeToken: " . $token);
-
-            // Create a Customer if not exist
-            if(is_null($customerId) || $customerId == '')
-            {
-                $customer = \Stripe\Customer::create(array(
-                    "email" => $emailId,
-                    "source" => $token
-                ));
-
-                $customerId = $customer->id;
-                $this->logs("customerId: " . $customerId);
-
-                $query = "UPDATE user SET stripe_customer_id='$customerId',activ=5 where  u_id='$uId'";
-                $this->logs("query: " . $query);
-                $res = $db->query($query);
-            }
-
-            // Create subscription
-            if(!empty($planIds))
-            {
-                $planIds = join("','", $planIds);
-                $query = "SELECT plan_id, trial_period FROM billing_products WHERE plan_id IN ('{$planIds}')";
-                $res = $db->query($query);
-
-                while ($rs = mysqli_fetch_array($res))
-                {
-                    $subscription = \Stripe\Subscription::create(array(
-                        "customer"          => $customerId,
-                        "items"             => [['plan' => $rs['plan_id']]],
-                        "trial_period_days" => $rs['trial_period'],
-                        "metadata"          => array('StoreID' => $storeId),
-                        "tax_percent"       => 25, // Need to set dynamically value later
-                    ));
-
-                    if($subscription)
-                    {
-                        $trial_start = !is_null($subscription->trial_start) ? date('Y-m-d H:i:s', $subscription->trial_start) : $subscription->trial_start;
-                        $trial_end = !is_null($subscription->trial_end) ? date('Y-m-d H:i:s', $subscription->trial_end) : $subscription->trial_end;
-                        $current_period_start = date('Y-m-d H:i:s', $subscription->current_period_start);
-                        $current_period_end = date('Y-m-d H:i:s', $subscription->current_period_end);
-
-                        if(is_null($trial_start) && is_null($trial_end))
-                        {
-                            $query = "INSERT INTO user_plan(user_id, store_id, subscription_id, plan_id, subscription_start_at, subscription_end_at) VALUES('{$_SESSION['userid']}', '{$storeId}', '{$subscription->id}', '{$rs['plan_id']}', '{$current_period_start}', '{$current_period_end}')";
-                        }
-                        else
-                        {
-                            $query = "INSERT INTO user_plan(user_id, store_id, subscription_id, plan_id, trial_start_at, trial_end_at, subscription_start_at, subscription_end_at) VALUES('{$_SESSION['userid']}', '{$storeId}', '{$subscription->id}', '{$rs['plan_id']}', '{$trial_start}', '{$trial_end}', '{$current_period_start}', '{$current_period_end}')";
-                        }
-
-                        $resInsert = $db->query($query);
-                    }
-                }
-            }
-
-            return true;
-            */
         }
     }
 

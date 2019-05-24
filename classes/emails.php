@@ -291,7 +291,22 @@ function sendDeactivateCampaignPreloadedMail($uId)
         }
 }
 
+    /**
+     * Send subscription thank-you email
+     * @param  [type] $to       [description]
+     * @param  [type] $template [description]
+     */
+    function sendSubscriptionThankYouEmail($to, $template)
+    {
+        // Send email
+        $subject = 'Thank you for subscription!';
 
+        $headers = "From: Dastjar Admin<admin@dastjar.com> \r\n";
+        $headers .= "MIME-Version: 1.0\r\n";
+        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+
+        mail($to, $subject, $template, $headers);
+    }
 }
 
 ?>
