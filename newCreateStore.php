@@ -16,7 +16,30 @@
    
    // Get packages to subscribe for location
    $billingObj = new billing();
-   $products = $billingObj->showPlanToSubscribe();
+   $productsAll = $billingObj->showPlanToSubscribe();
+   $products = $packages = array();
+
+   if($productsAll)
+   {
+        // Login to get latest product if belongs to same package
+        $i = 0;
+        foreach($productsAll as $row)
+        {
+            if(!in_array($row['package_id'], $packages))
+            {
+                $products[] = $row;
+            }
+            else
+            {
+                $products[$i-1] = $row;
+            }
+
+            array_push($packages, $row['package_id']);
+            $i++;
+        }
+   }
+
+   // echo '<pre>'; print_r($products); exit;
 
    $productid = $_GET['productId'];
 
