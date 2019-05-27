@@ -11,7 +11,7 @@ require_once("classes/inOut.php");
 class Billing{
 
  function createPlan(){
-    $package_id = $_POST['package_id'];
+    $package_ids = $_POST['package_id'];
     $productName = $_POST['product_name'];
     $planNickname = $_POST['plan_nickname'];
     $price = trim($_POST['price']);
@@ -49,9 +49,21 @@ class Billing{
     $time = time();
     $date = date("Y-m-d h:i:s",$time);
 
-    $query = "insert into billing_products(package_id, product_id, product_name, plan_id, plan_nickname, currency, price, trial_period, usage_type, description, created_at, updated_at, s_activ) values('$package_id', '$productId', '$productName', '$planId', '$planNickname', '$currency', '$price', '$trialPeriod', '$usageType', '$description', '$date', '$date', 1)";
+    // Insert into billing product
+    $query = "insert into billing_products(product_id, product_name, plan_id, plan_nickname, currency, price, trial_period, usage_type, description, created_at, updated_at, s_activ) values('$productId', '$productName', '$planId', '$planNickname', '$currency', '$price', '$trialPeriod', '$usageType', '$description', '$date', '$date', 1)";
 
     $res = $db->query($query);
+
+    // Insert into billing product packages
+    if($res && !empty($package_ids))
+    {
+        $insertId = $db->insertId();
+
+        foreach($package_ids as $package_id)
+        {
+            $res = $db->query("INSERT INTO billing_product_packages(billing_product_id, package_id) VALUES('{$insertId}', '{$package_id}')");
+        }
+    }
 
     if($res){
         $_SESSION['MESSAGE'] = PRODUCT_SUCCESS;
@@ -66,7 +78,8 @@ class Billing{
 
    function updatePlan(){
         $editId = $_POST['edit_id'];
-        $package_id = !empty($_POST['package_id']) ? $_POST['package_id'] : 'NULL';
+        // $package_id = !empty($_POST['package_id']) ? $_POST['package_id'] : 'NULL';
+        $package_ids = $_POST['package_id'];
         $productId = $_POST['product_id'];
         $planId = $_POST['plan_id'];
 
@@ -77,6 +90,8 @@ class Billing{
         $currency = $_POST['currency'];
         $description = $_POST['description'];
         $usageType = $_POST['usage_type'];
+
+        // echo '<pre>'; print_r($editId); exit;
 
         \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
         // Creates a subscription plan. This can also be done through the Stripe dashboard.
@@ -95,9 +110,22 @@ class Billing{
         $db = new db();
         $db->makeConnection();
 
-        $query = "update billing_products set package_id=$package_id, product_name='$productName', plan_nickname='$planNickname', trial_period='$trialPeriod', usage_type='$usageType', description='$description' where id='$editId'";
+        // Update billing product packages
+        $query = "update billing_products set product_name='$productName', plan_nickname='$planNickname', trial_period='$trialPeriod', usage_type='$usageType', description='$description' where id='$editId'";
+        // echo $query; exit;
 
         $res = $db->query($query);
+
+        // Update billing product packages
+        if($res && !empty($package_ids))
+        {
+            $res = $db->query("DELETE FROM billing_product_packages WHERE billing_product_id = '{$editId}'");
+
+            foreach($package_ids as $package_id)
+            {
+                $res = $db->query("INSERT INTO billing_product_packages(billing_product_id, package_id) VALUES('{$editId}', '{$package_id}')");
+            }
+        }
 
         if($res){
             $_SESSION['MESSAGE'] = PRODUCT_SUCCESS;
@@ -201,11 +229,11 @@ class Billing{
         $db->makeConnection();
         $data = array();
 
-        $query = "SELECT * FROM billing_products where id=$editId limit 1";
+        $query = "SELECT BP.*, GROUP_CONCAT(BPP.package_id) AS package_id FROM billing_products BP LEFT JOIN billing_product_packages BPP ON BP.id = BPP.billing_product_id where BP.id=$editId";
 
         $res = $db->query($query);
 
-        while ($rs = mysqli_fetch_array($res)) {
+        while ($rs = mysqli_fetch_assoc($res)) {
             $data[] = $rs;
         }
 

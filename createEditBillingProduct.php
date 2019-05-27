@@ -32,6 +32,11 @@ $staticPackages = $billing->getStaticPackages();
 if($editId)
 {
    $data = $billing->getBillingProduct($editId);
+
+   if($data[0]['package_id'])
+   {
+        $data[0]['package_id'] = explode(',', $data[0]['package_id']);
+   }
 }
 
 if (isset($_POST['continue']) AND $editId == '') {
@@ -110,13 +115,14 @@ input:read-only {
                 <tr>
                     <td width="50%" align="left" class="inner_grid">Map with:</td>
                     <td width="50%" align="left">
-                        <select class="text_field_new" name="package_id" id="package_id">
+                        <select class="text_field_new" name="package_id[]" multiple="" id="package_id" style="height: 100px;">
                             <option value="">Select</option>
                             <?php
                             foreach($staticPackages as $row)
                             {
+                                $str = (in_array($row['id'], $data[0]['package_id'])) ? ' selected' : '';
                                 ?>
-                                <option value='<?php echo $row['id']; ?>' <?php echo ($row['id'] == $data[0]['package_id']) ? 'selected' : '' ?>><?php echo $row['title']; ?></option>
+                                <option value='<?php echo $row['id']; ?>' <?php echo $str; ?>><?php echo $row['title']; ?></option>
                                 <?php
                             }
                             ?>

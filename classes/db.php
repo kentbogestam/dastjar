@@ -98,7 +98,7 @@ class db {
 *      Description: To get the id generated in the last query.
     */
     function insertId() {
-        return mysql_insert_id($this->link);
+        return mysqli_insert_id($this->link);
     }
 
     /* Function Header :process_submission( $table, $submission, $id=array())
