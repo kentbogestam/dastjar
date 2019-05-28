@@ -18,21 +18,20 @@
 
    if($productsUpd)
    {
-        $i = 0;
         foreach($productsUpd as $row)
         {   
             if( !in_array($row['package_ids'], $packages) )
             {
                 $products[] = $row;
                 array_push($packages, $row['package_ids']);
-
-                $i++;
             }
             else
             {
-                if( !is_numeric($products[($i-1)]['up_id']) )
+                $key = array_search($row['package_ids'], $packages);
+
+                if( !is_numeric($products[($key)]['up_id']) )
                 {
-                    $products[($i-1)] = $row;
+                    $products[($key)] = $row;
                 }
             }
         }

@@ -28,7 +28,6 @@
    if($productsAll)
    {
         // Login to get latest product if belongs to same package
-        $i = 0;
         foreach($productsAll as $row)
         {
             if(!in_array($row['package_ids'], $packages))
@@ -37,15 +36,15 @@
             }
             else
             {
-                $products[$i-1] = $row;
+                $key = array_search($row['package_ids'], $packages);
+                $products[$key] = $row;
             }
 
             array_push($packages, $row['package_ids']);
-            $i++;
         }
    }
 
-   // echo '<pre>'; print_r($packages); exit;
+   // echo '<pre>'; print_r($products); exit;
 
    $productid = $_GET['productId'];
 
