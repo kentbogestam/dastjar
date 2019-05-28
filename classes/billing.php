@@ -467,13 +467,16 @@ class Billing{
                             <td align='left' vertical-align='top' style='padding:5px 15px;'>
                                 <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>{$rs['product_name']}</div>
                             </td>
-                            <td align='right' style='padding: 5px 15px;'>&#36;{$rs['product_name']}</td>
+                            <td align='right' style='padding: 5px 15px;'>&#36;{$rs['price']}</td>
                         </tr>";
                     }
+                }
 
+                if($emailContent != '')
+                {
                     $emailContent .= "<tr>
                         <td align='left' vertical-align='top' style='padding:5px 10px; background-color:#CCCD99;'>
-                            <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>{$rs['product_name']}</div>
+                            <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>Total</div>
                         </td>
                         <td align='right' style='padding:5px 10px;background-color: #CCCD99;'>&#36;{$total}</td>
                     </tr>";
