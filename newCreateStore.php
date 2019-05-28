@@ -14,6 +14,12 @@
    $openCloseingTime = $storeObj->listTimeing();
    //print_r($openCloseingTime);
    
+   // 
+   $accountObj = new accountView();
+   $data = $accountObj->getCompanyDetail();
+   $stripePayment = $accountObj->stripePayment();
+   // echo $stripePayment; exit;
+
    // Get packages to subscribe for location
    $billingObj = new billing();
    $productsAll = $billingObj->showPlanToSubscribe();
@@ -25,7 +31,7 @@
         $i = 0;
         foreach($productsAll as $row)
         {
-            if(!in_array($row['package_id'], $packages))
+            if(!in_array($row['package_ids'], $packages))
             {
                 $products[] = $row;
             }
@@ -34,12 +40,12 @@
                 $products[$i-1] = $row;
             }
 
-            array_push($packages, $row['package_id']);
+            array_push($packages, $row['package_ids']);
             $i++;
         }
    }
 
-   // echo '<pre>'; print_r($products); exit;
+   // echo '<pre>'; print_r($packages); exit;
 
    $productid = $_GET['productId'];
 
@@ -399,19 +405,19 @@
                                                 ?>
                                                     <tr class="prods">
                                                         <td align="left">
-                                                            <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo ($product['package_id'] == 1) ? "checked='checked' readonly" : '' ?> data-amount="<?php echo $product['price']; ?>" data-package="<?php echo $product['package_id']; ?>" data-tax="25">
+                                                            <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo ($product['package_ids'] == '1') ? "checked='checked' readonly" : '' ?> data-amount="<?php echo $product['price']; ?>" data-package="<?php echo $product['package_ids']; ?>" data-tax="25">
                                                         </td>
                                                         <td><?php echo $i; ?></td>
                                                         <td align="left" colspan="2" style="padding-right: 10px; padding-left: 10px">
                                                             <?php
-                                                            if($product['package_id'] == 1){ 
+                                                            if($product['package_ids'] == '1'){ 
                                                                 $total += floatval($product['price']);
                                                             ?>
                                                                 <div class="panel-group">
                                                                     <div class="panel panel-default">
                                                                         <div class="panel-heading">
                                                                             <h4 class="panel-title">
-                                                                            <a data-toggle="collapse" href="#collapse1">Anar Base Package<span class="caret pull-right"></span></a>
+                                                                            <a data-toggle="collapse" href="#collapse1"><?php echo $product['product_name']; ?><span class="caret pull-right"></span></a>
                                                                             </h4>
                                                                         </div>
                                                                         <div id="collapse1" class="panel-collapse collapse">
@@ -961,7 +967,7 @@
      function updatePlan()
      {
         var typeOfRestrurant = $('#typeofrestrurant option:selected').val();
-        addPlan = ['5']; // Default 'Payment package' (static id from packages)
+        addPlan = []; // Default 'Payment package' (static id from packages)
 
         if(typeOfRestrurant != '1')
         {

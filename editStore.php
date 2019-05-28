@@ -21,10 +21,10 @@
         $i = 0;
         foreach($productsUpd as $row)
         {   
-            if( !in_array($row['package_id'], $packages) )
+            if( !in_array($row['package_ids'], $packages) )
             {
                 $products[] = $row;
-                array_push($packages, $row['package_id']);
+                array_push($packages, $row['package_ids']);
 
                 $i++;
             }
@@ -279,36 +279,6 @@
                </td>
                <td align="right"><a title="<?=ZIP_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
-            <!-- <tr>
-               <td class="inner_grid"> Select a method for receiving <br />
-                  Coupon data<span class='mandatory'>*</span>:
-               </td>
-               <?  $barcode = $storeObj->getCouponDeliveryById($storeid);
-                  $dps = $storeObj->getCouponDeliveryByIdDPS($storeid); 
-                  if( $barcode == 'BARCODE')
-                    {
-                        $check = 'checked';
-                    }else
-                    {
-                        $check = '';
-                    } 
-                  ?>
-               <td>
-                  <table border="0" cellspacing="0" cellpadding="0">
-                     <tr>
-                        <td><input type="checkbox" name="BARCODE" value="BARCODE"  <? echo $check; ?> />BARCODE</td>
-                        <td><input type="checkbox" name="DPS" value="DPS" <?=($dps == "DPS"?"checked":"")?> />DPS</td>
-                        <td><input type="checkbox" name="PINCODE" value="PINCODE" disabled  checked />PINCODE</td>
-                     </tr>
-                     <tr>
-                        <td nowrap="nowrap"><input type="checkbox" name="MANUAL_SWIPE" value="MANUAL_SWIPE" disabled checked />MANUAL SWIPE</td>
-                        <td nowrap="nowrap"><input type="checkbox" name="TIME_LIMIT" value="TIME_LIMIT" disabled checked />TIME LIMIT</td>
-                        <td >&nbsp;</td>
-                     </tr>
-                  </table>
-               </td>
-               <td align="right"><a title="<?=METHOD_FOR_RECEIVING_COUPON_DATA_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
-            </tr> -->
             <tr>
                <td height="42" align="left">Opening hours of the Location </td>
                 <td>
@@ -513,19 +483,19 @@
                                                     <tr class="prods">
                                                         <td align="left">
                                                             <!-- <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo ($product['package_id'] == 1) ? "checked='checked' readonly" : '' ?> <?php echo (in_array($product['plan_id'], $arrProductsSubscribed)) ? "checked='checked' disabled" : ''; ?> data-amount="<?php echo $product['price']; ?>" data-package="<?php echo $product['package_id']; ?>" data-tax="25"> -->
-                                                            <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo ($product['package_id'] == 1) ? "checked='checked' readonly" : '' ?> <?php echo (is_numeric($product['up_id'])) ? "checked='checked' disabled" : ''; ?> data-amount="<?php echo $product['price']; ?>" data-package="<?php echo $product['package_id']; ?>" data-tax="25">
+                                                            <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo ($product['package_ids'] == '1') ? "checked='checked' readonly" : '' ?> <?php echo (is_numeric($product['up_id'])) ? "checked='checked' disabled" : ''; ?> data-amount="<?php echo $product['price']; ?>" data-package="<?php echo $product['package_ids']; ?>" data-tax="25">
                                                             <label for="plan_id<?php echo $product['plan_id']; ?>"></label>
                                                         </td>
                                                         <td><?php echo $i; ?></td>
                                                         <td align="left" colspan="2" style="padding-right: 10px; padding-left: 10px">
                                                             <?php
-                                                            if($product['package_id'] == 1){ 
+                                                            if($product['package_ids'] == '1'){ 
                                                             ?>
                                                                 <div class="panel-group">
                                                                     <div class="panel panel-default">
                                                                         <div class="panel-heading">
                                                                             <h4 class="panel-title">
-                                                                            <a data-toggle="collapse" href="#collapse1">Anar Base Package<span class="caret pull-right"></span></a>
+                                                                            <a data-toggle="collapse" href="#collapse1"><?php echo $product['product_name']; ?><span class="caret pull-right"></span></a>
                                                                             </h4>
                                                                         </div>
                                                                         <div id="collapse1" class="panel-collapse collapse">

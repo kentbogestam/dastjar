@@ -669,7 +669,7 @@ class store {
             die("Connection failed: " . mysqli_connect_error());
         }else{}
         $data = array();
-        $q = $db->query("SELECT * FROM store LEFT JOIN coupon_delivery_method ON (store.store_id = coupon_delivery_method.store)  WHERE store.u_id = '" . $_SESSION['userid'] . "' AND store.store_id='" . $storeid . "' ");
+        $q = $db->query("SELECT * FROM store AS store WHERE store.u_id = '" . $_SESSION['userid'] . "' AND store.store_id='" . $storeid . "' ");
       
         // $res = mysql_query($query) or die(mysql_error());
         while ($rs = mysqli_fetch_array($q)) {
