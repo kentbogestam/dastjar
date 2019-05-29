@@ -11,6 +11,11 @@
    $countryList = $regObj->getCountryList();
    $openCloseingTime = $storeObj->listTimeing();
 
+   $accountObj = new accountView();
+   $data = $accountObj->getCompanyDetail();
+   $stripePayment = $accountObj->stripePayment();
+   // echo $stripePayment; exit;
+
    // Get packages to subscribe for location and logic to show either subscribed or updated package
    $billingObj = new billing();
    $productsUpd = $billingObj->getSubscriptionPlanOnEdit($_GET['storeId']);
@@ -283,65 +288,10 @@
                 <td>
                   <table class="days_div" border="0" cellspacing="0" cellpadding="0">
                     <label><a style="font-size: 15px;vertical-align: top; cursor:pointer; text-decoration: underline;" id="add_tpye_of_dish">Location is open following days of the week</a></label></label>
-                    <!--  <tr>
-                        <td><input type="checkbox" name="Monday" <? if (explode(",",$data[0]['store_open_days'])[0] == 'Mon')echo "checked"; ?> value="Mon"/>Monday</td>
-                        <td><input type="checkbox" name="Tuesday"  <? if (explode(",",$data[0]['store_open_days'])[1] == 'Tue')echo "checked"; ?> value="Tue" />Tuesday</td>
-                        <td><input type="checkbox" name="Wednesday"  <? if (explode(",",$data[0]['store_open_days'])[2] == 'Wed')echo "checked"; ?> value="Wed" />Wednesday</td>
-                     </tr>
-                     <tr>
-                        <td ><input type="checkbox" name="Thursday"  <? if (explode(",",$data[0]['store_open_days'])[3] == 'Thu')echo "checked"; ?> value="Thu" />Thursday</td>
-                        <td><input type="checkbox" name="Friday"  <? if (explode(",",$data[0]['store_open_days'])[4] == 'Fri')echo "checked"; ?> value="Fri"/>Friday</td>
-                        <td><input type="checkbox" name="Saturday"  <? if (explode(",",$data[0]['store_open_days'])[5] == 'Sat')echo "checked"; ?> value="Sat"/>Saturday</td>
-                        <td >&nbsp;</td>
-                     </tr>
-                      <tr>
-                        <td><input type="checkbox" name="Sunday"  <? if (explode(",",$data[0]['store_open_days'])[6] == 'Sun')echo "checked"; ?> value="Sun"/>Sunday</td>
-                     </tr> -->
                   </table>
                </td>
-               <!-- <td><label>Location opens at</label>
-                  <select class="text_field_new" style="background-color:#e4e3dd; width:406px; height:36px;border: 1px solid #abadb3;" tabindex="27" id="storeOpenTime" name="storeOpenTime">
-                    <?php foreach($openCloseingTime as $key =>$value) { ?>
-                            <option <? if ($data[0]['store_open'] == $value['close_time'])echo "selected='selected'"; ?>   value=<?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
-                    <?php } ?>
-                  </select>
-               </td> -->
                <td align="right"><a title="<?=STORE_OPEN_CLOSE_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
-            <!-- <tr>
-               <td></td>
-                <td><label>Location closes at</label>
-                  <select class="text_field_new" style="background-color:#e4e3dd; width:406px; height:36px;border: 1px solid #abadb3;" tabindex="27" id="storeCloseTime" name="storeCloseTime">
-                     <?php foreach($openCloseingTime as $key =>$value) { ?>
-                              <option <? if ($data[0]['store_close'] == $value['close_time'])echo "selected='selected'"; ?>   value=<?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
-                      <?php } ?>
-                  </select>
-               </td> 
-            </tr> -->
-            <!--  <tr>
-               <td class="inner_grid">
-               </td>
-               <td>
-                  <table class="days_div" border="0" cellspacing="0" cellpadding="0">
-                    <label><a style="font-size: 15px;vertical-align: top; cursor:pointer; text-decoration: underline;" id="add_tpye_of_dish">Location is open following days of the week</a></label></label>
-                     <tr>
-                        <td><input type="checkbox" name="Monday" <? if (explode(",",$data[0]['store_open_days'])[0] == 'Mon')echo "checked"; ?> value="Mon"/>Monday</td>
-                        <td><input type="checkbox" name="Tuesday"  <? if (explode(",",$data[0]['store_open_days'])[1] == 'Tue')echo "checked"; ?> value="Tue" />Tuesday</td>
-                        <td><input type="checkbox" name="Wednesday"  <? if (explode(",",$data[0]['store_open_days'])[2] == 'Wed')echo "checked"; ?> value="Wed" />Wednesday</td>
-                     </tr>
-                     <tr>
-                        <td ><input type="checkbox" name="Thursday"  <? if (explode(",",$data[0]['store_open_days'])[3] == 'Thu')echo "checked"; ?> value="Thu" />Thursday</td>
-                        <td><input type="checkbox" name="Friday"  <? if (explode(",",$data[0]['store_open_days'])[4] == 'Fri')echo "checked"; ?> value="Fri"/>Friday</td>
-                        <td><input type="checkbox" name="Saturday"  <? if (explode(",",$data[0]['store_open_days'])[5] == 'Sat')echo "checked"; ?> value="Sat"/>Saturday</td>
-                        <td >&nbsp;</td>
-                     </tr>
-                      <tr>
-                        <td><input type="checkbox" name="Sunday"  <? if (explode(",",$data[0]['store_open_days'])[6] == 'Sun')echo "checked"; ?> value="Sun"/>Sunday</td>
-                     </tr>
-                  </table>
-               </td>
-               <td align="right"><a title="<?=METHOD_FOR_RECEIVING_COUPON_DATA_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
-            </tr> -->
             <tr>
               <td>Location is close following dates</td>
                <td style="position: relative;">
@@ -892,18 +842,19 @@
 </body>
 </html>
 <script type="text/javascript">
-      $(document).ready(function(){
-         $("input[name = openingDays]").click(function(){
+    stripePayment = "<?php echo $stripePayment ?>";
+    $(document).ready(function(){
+        $("input[name = openingDays]").click(function(){
             var vals = $(this).val();
             vals = 'all'+vals;
             if(vals=='all1'){
-               $('.all1').show();
-               $('.all2').hide();
+                $('.all1').show();
+                $('.all2').hide();
             }else{
-             $('.all2').show();
-             $('.all1').hide();
+                $('.all2').show();
+                $('.all1').hide();
             }
-         });
+        });
 
         // Update total
         $('input[name="plan_id[]"]').change(function() {
@@ -923,6 +874,17 @@
 
             // Update total
             updateTotal();
+
+            // Check if added plan including payment plan, and Stripe payment not been added before
+            if(checkedValue && stripePayment == 'No')
+            {
+                var packages = ($(this).data('package')).toString().split(',');
+                
+                if(packages.indexOf("5") != -1)
+                {
+                    alert("Stripe & IBAN\nYou will be redirected to our payment partner Stripe to get your company account details. Stripe is one of the most reliable payment systems in the World. Please follow the instructions and fill in the required information. \n\n- Step 1 Company card details\nWe are using electronic invoice. Please fill in your company card details.\nYou’ll receive a confirmation for each invoice on your e-mail. By doing so, we’ll contribute to a better environment for all of us.\n\n- Step 2 This information is needed for transferring all customer payments to your company account.\n\nNote: Stripe requires IBAN (International Bank Account Number). You can find IBAN, either in your internet bank or call your bank to help you.");
+                }
+            }
         });
 
         // Initialize Stripe

@@ -816,19 +816,19 @@
    <script src="https://checkout.stripe.com/checkout.js"></script>
 
    <script type="text/javascript">
-
-      $(document).ready(function(){
-         $("input[name = openingDays]").click(function(){
+    stripePayment = "<?php echo $stripePayment ?>";
+    $(document).ready(function(){
+        $("input[name = openingDays]").click(function(){
             var vals = $(this).val();
             vals = 'all'+vals;
             if(vals=='all1'){
-               $('.all1').show();
-               $('.all2').hide();
+                $('.all1').show();
+                $('.all2').hide();
             }else{
-             $('.all2').show();
-             $('.all1').hide();
+                $('.all2').show();
+                $('.all1').hide();
             }
-         });
+        });
 
         // Update total
         $('input[name="plan_id[]"]').change(function() {
@@ -848,6 +848,17 @@
 
             // Update total
             updateTotal();
+
+            // Check if added plan including payment plan, and Stripe payment not been added before
+            if(checkedValue && stripePayment == 'No')
+            {
+                var packages = ($(this).data('package')).toString().split(',');
+                
+                if(packages.indexOf("5") != -1)
+                {
+                    alert("Stripe & IBAN\nYou will be redirected to our payment partner Stripe to get your company account details. Stripe is one of the most reliable payment systems in the World. Please follow the instructions and fill in the required information. \n\n- Step 1 Company card details\nWe are using electronic invoice. Please fill in your company card details.\nYou’ll receive a confirmation for each invoice on your e-mail. By doing so, we’ll contribute to a better environment for all of us.\n\n- Step 2 This information is needed for transferring all customer payments to your company account.\n\nNote: Stripe requires IBAN (International Bank Account Number). You can find IBAN, either in your internet bank or call your bank to help you.");
+                }
+            }
         });
 
         // Initialize Stripe

@@ -384,11 +384,12 @@ class Billing{
             $uId = $_SESSION['userid'];
 
             // Get company and associated stripe customer detail
-            $qry = "SELECT U.email, CONCAT(U.fname, ' ', U.lname) AS userName, C.company_id, C.company_name, C.orgnr, CONCAT_WS(', ', C.street, C.city, C.zip, C.country) AS companyAddress, C.city, CSD.company_id AS csd_company_id, CSD.stripe_customer_id FROM user AS U INNER JOIN company AS C ON U.u_id = C.u_id LEFT JOIN company_subscription_detail AS CSD ON C.company_id = CSD.company_id WHERE U.u_id = '{$uId}'";
+            $qry = "SELECT U.email, CONCAT(U.fname, ' ', U.lname) AS userName, C.company_id, C.company_name, C.orgnr, CONCAT_WS(', ', C.street, C.city, C.zip, C.country) AS companyAddress, C.city, CSD.company_id AS csd_company_id, CSD.stripe_customer_id, CSD.stripe_user_id FROM user AS U INNER JOIN company AS C ON U.u_id = C.u_id LEFT JOIN company_subscription_detail AS CSD ON C.company_id = CSD.company_id WHERE U.u_id = '{$uId}'";
             $res = $db->query($qry);
 
             $user = mysqli_fetch_array($res);
             $customer_id = $user['stripe_customer_id'];
+            $stripe_user_id = $user['stripe_user_id'];
 
             // 
             \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
@@ -427,10 +428,12 @@ class Billing{
             // Create subscription
             if($customer_id && !empty($planIds))
             {
+                $subsProductPackages = array();
                 $emailContent = ''; $subTotal = $tax = $total = 0;
 
                 $planIds = join("','", $planIds);
-                $query = "SELECT product_name, plan_id, price, trial_period FROM billing_products WHERE plan_id IN ('{$planIds}')";
+                // $query = "SELECT product_name, plan_id, price, trial_period FROM billing_products WHERE plan_id IN ('{$planIds}')";
+                $query = "SELECT BP.product_name, BP.plan_id, BP.price, BP.trial_period, GROUP_CONCAT(BPP.package_id) AS package_ids FROM billing_products BP LEFT JOIN billing_product_packages BPP ON BP.id = BPP.billing_product_id WHERE BP.plan_id IN ('{$planIds}') GROUP BY BP.id";
                 $res = $db->query($query);
 
                 while ($rs = mysqli_fetch_array($res))
@@ -461,6 +464,17 @@ class Billing{
                         }
 
                         $resInsert = $db->query($query);
+
+                        // Get access packages belongs to plan
+                        if( $stripe_user_id == '' && $rs['package_ids'] != '' )
+                        {
+                            $package_ids = explode(',', $rs['package_ids']);
+
+                            foreach($package_ids as $package_id)
+                            {
+                                array_push($subsProductPackages, $package_id);
+                            }
+                        }
 
                         // 
                         $emailContent .= "<tr>
@@ -508,6 +522,16 @@ class Billing{
                 include_once("classes/emails.php");
                 $mailObj = new emails();
                 $mailObj->sendSubscriptionThankYouEmail($user['email'], $template);
+
+                // If subscribed to 'payment plan' and company is not connected to 'stripe connect'
+                if( $stripe_user_id == '' && in_array(5, $subsProductPackages))
+                {
+                    $url = "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=".STRIPE_CLIENT_ID."&scope=read_write&redirect_uri=".BASE_URL."stripe-connect-response.php";
+
+                    $inoutObj = new inOut();
+                    $inoutObj->reDirect($url);
+                    exit();
+                }
             }
         }
     }
