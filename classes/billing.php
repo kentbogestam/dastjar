@@ -481,7 +481,7 @@ class Billing{
                             <td align='left' vertical-align='top' style='padding:5px 15px;'>
                                 <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>{$rs['product_name']}</div>
                             </td>
-                            <td align='right' style='padding: 5px 15px;'>&#36;{$rs['price']}</td>
+                            <td align='right' style='padding: 5px 15px;'>".number_format($rs['price'], 2, '.', '')." (SEK)</td>
                         </tr>";
                     }
                 }
@@ -490,25 +490,28 @@ class Billing{
                 {
                     $tax = ($subTotal*25)/100;
                     $total = $subTotal + $tax;
+                    $tax = number_format($tax, 2, '.', '');
+                    $subTotal = number_format($subTotal, 2, '.', '');
+                    $total = number_format($total, 2, '.', '');
 
                     $emailContent .= "
                     <tr>
-                        <td align='right' vertical-align='top' style='padding:5px 10px; background-color:#CCCD99;'>
+                        <td align='right' vertical-align='top' style='padding:5px 10px 1px; background-color:#CCCD99;'>
                             <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>Sub Total:</div>
                         </td>
-                        <td align='right' style='padding:5px 10px;background-color: #CCCD99;'>&#36;{$subTotal}</td>
+                        <td align='right' style='padding:5px 10px 1px;background-color: #CCCD99;'>{$subTotal} (SEK)</td>
                     </tr>
                     <tr>
-                        <td align='right' vertical-align='top' style='padding:5px 10px; background-color:#CCCD99;'>
+                        <td align='right' vertical-align='top' style='padding:1px 10px 1px; background-color:#CCCD99;'>
                             <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>Tax:</div>
                         </td>
-                        <td align='right' style='padding:5px 10px;background-color: #CCCD99;'>&#36;{$tax}</td>
+                        <td align='right' style='padding:1px 10px 1px;background-color: #CCCD99;'>{$tax} (SEK)</td>
                     </tr>
                     <tr>
-                        <td align='right' vertical-align='top' style='padding:5px 10px; background-color:#CCCD99;'>
+                        <td align='right' vertical-align='top' style='padding:1px 10px 5px; background-color:#CCCD99;'>
                             <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>Total:</div>
                         </td>
-                        <td align='right' style='padding:5px 10px;background-color: #CCCD99;'>&#36;{$total}</td>
+                        <td align='right' style='padding:1px 10px 5px;background-color: #CCCD99;'>{$total} (SEK)</td>
                     </tr>";
                 }
 
