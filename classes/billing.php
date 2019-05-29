@@ -427,7 +427,7 @@ class Billing{
             // Create subscription
             if($customer_id && !empty($planIds))
             {
-                $emailContent = ''; $total = 0;
+                $emailContent = ''; $subTotal = $tax = $total = 0;
 
                 $planIds = join("','", $planIds);
                 $query = "SELECT product_name, plan_id, price, trial_period FROM billing_products WHERE plan_id IN ('{$planIds}')";
@@ -445,7 +445,7 @@ class Billing{
 
                     if($subscription)
                     {
-                        $total += $rs['price'];
+                        $subTotal += $rs['price'];
                         $trial_start = !is_null($subscription->trial_start) ? date('Y-m-d H:i:s', $subscription->trial_start) : $subscription->trial_start;
                         $trial_end = !is_null($subscription->trial_end) ? date('Y-m-d H:i:s', $subscription->trial_end) : $subscription->trial_end;
                         $current_period_start = date('Y-m-d H:i:s', $subscription->current_period_start);
@@ -474,9 +474,25 @@ class Billing{
 
                 if($emailContent != '')
                 {
-                    $emailContent .= "<tr>
-                        <td align='left' vertical-align='top' style='padding:5px 10px; background-color:#CCCD99;'>
-                            <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>Total</div>
+                    $tax = ($subTotal*25)/100;
+                    $total = $subTotal + $tax;
+
+                    $emailContent .= "
+                    <tr>
+                        <td align='right' vertical-align='top' style='padding:5px 10px; background-color:#CCCD99;'>
+                            <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>Sub Total:</div>
+                        </td>
+                        <td align='right' style='padding:5px 10px;background-color: #CCCD99;'>&#36;{$subTotal}</td>
+                    </tr>
+                    <tr>
+                        <td align='right' vertical-align='top' style='padding:5px 10px; background-color:#CCCD99;'>
+                            <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>Tax:</div>
+                        </td>
+                        <td align='right' style='padding:5px 10px;background-color: #CCCD99;'>&#36;{$tax}</td>
+                    </tr>
+                    <tr>
+                        <td align='right' vertical-align='top' style='padding:5px 10px; background-color:#CCCD99;'>
+                            <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>Total:</div>
                         </td>
                         <td align='right' style='padding:5px 10px;background-color: #CCCD99;'>&#36;{$total}</td>
                     </tr>";
