@@ -201,7 +201,7 @@ class store {
                  VALUES('" . $storeUniqueId . "','" . $_SESSION['userid'] . "','" . $arrUser['store_name'] . "','" . $arrUser['street'] . "','" . $arrUser['city'] . "','" . $arrUser['country'] . "','" . $arrUser['latitude'] . "','" . $arrUser['longitude'] . "','" . $arrUser['email'] . "','" . $arrUser['phone'] . "','" . $arrUser['link'] . "','" . $coutryIso . "','1','" . $arrUser['chain'] . "','" . $arrUser['block'] . "','" . $arrUser['zip'] . "')";
         $res = mysqli_query($conn , $query) or die('1' . mysqli_error($conn));
 
-      $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
+        /*$query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
                  VALUES('" . $storeUniqueId . "','PINCODE')";
         $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
@@ -216,7 +216,7 @@ class store {
         if (isset($arrUser['BARCODE'])) {
           $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
                  VALUES('" . $storeUniqueId . "','BARCODE')";
-        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+            $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
         }
 
 
@@ -224,7 +224,7 @@ class store {
             $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
                  VALUES('" . $storeUniqueId . "','AUTO')";
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
-        }
+        }*/
 
          /////////////////////////////////////////////////////////////////////////////////////////////
         //To check whether store belongs to Campaign or advertise or Product and update coupon related to that table
@@ -444,7 +444,7 @@ class store {
                  VALUES('" . $storeUniqueId . "','" . $_SESSION['userid'] . "','" . $arrUser['store_type'] . "','" . $arrUser['tagline'] . "','" . $arrUser['store_name'] . "','" . $arrUser['email'] . "','" . $arrUser['street'] . "','" . $arrUser['phone'] . "','" . $arrUser['link'] . "','" . $arrUser['delivery_type'] . "','" . $arrUser['city'] . "','" . $arrUser['country'] . "','" . $arrUser['latitude'] . "','" . $arrUser['longitude'] . "','1','" . $coutryIso . "','1','" . $arrUser['chain'] . "','" . $arrUser['block'] . "','" . $arrUser['zip'] . "'," . $catImg . "," . $large_image . ",'" . $arrUser['store_open_close_day_time'] . "','" . $arrUser['close_dates'] . "','" . $arrUser['online_payment'] . "')";
         $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
-        $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
+        /*$query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
                  VALUES('" . $storeUniqueId . "','PINCODE')";
         $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
@@ -466,7 +466,7 @@ class store {
             $query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
                  VALUES('" . $storeUniqueId . "','AUTO')";
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
-        }
+        }*/
 
         // Create subscription for newly created location
         if( !empty($_POST['plan_id']) )
@@ -928,7 +928,7 @@ class store {
         }
         $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
-         $query = "delete from coupon_delivery_method where store = '" . $_GET['storeId'] . "' and delivery_method in ('BARCODE','AUTO')";
+        /*$query = "delete from coupon_delivery_method where store = '" . $_GET['storeId'] . "' and delivery_method in ('BARCODE','AUTO')";
              $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
         
         
@@ -942,7 +942,7 @@ class store {
             $query = "insert into coupon_delivery_method(`store`,`delivery_method`)
                 values('" . $_GET['storeId'] . "','AUTO')";
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
-        }
+        }*/
 
         // Create subscription for updating location
         if( !empty($_GET['storeId']) && !empty($_POST['plan_id']) )
@@ -999,8 +999,6 @@ class store {
             die("Connection failed: " . mysqli_connect_error());
         }else{}
         $data = array();
-      //  $que = "SELECT * FROM store LEFT JOIN coupon_delivery_method ON (coupon_delivery_method.store = store.store_id)
-        //    WHERE store.u_id = '" . $_SESSION['userid'] . "' AND store.store_id='" . $storeid . "'";
         
         $q = $db->query("SELECT * FROM store WHERE store.u_id = '" . $_SESSION['userid'] . "' AND store.store_id='" . $storeid . "'");
 
@@ -1008,13 +1006,13 @@ class store {
         while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
-        $query = "SELECT delivery_method FROM coupon_delivery_method WHERE coupon_delivery_method.store='".$storeid."'";
+        /*$query = "SELECT delivery_method FROM coupon_delivery_method WHERE coupon_delivery_method.store='".$storeid."'";
         $res = mysqli_query($conn , $query) or die(mysqli_error());
         $delivery_method = "";
         while ($rs = mysqli_fetch_array($res)) {
             $delivery_method .= $rs['delivery_method']."  ";
         }
-        $data[0]['delivery_method']=  str_replace("AUTO","DPS",trim($delivery_method));
+        $data[0]['delivery_method']=  str_replace("AUTO","DPS",trim($delivery_method));*/
         
         return $data;
     }
