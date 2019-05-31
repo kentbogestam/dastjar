@@ -27,7 +27,7 @@
 
    if($productsAll)
    {
-        // Login to get latest product if belongs to same package
+        // Logic to get latest product if belongs to same package
         foreach($productsAll as $row)
         {
             if(!in_array($row['package_ids'], $packages))
@@ -143,11 +143,12 @@
             <tr>
                 <td height="42" align="left">Delivery Type</td>
                 <td>
-                    <select class="text_field_new" style="background-color:#e4e3dd; width:406px; height:36px;border: 1px solid #abadb3;" id="delivery_type" name="delivery_type">
+                    <select class="text_field_new" id="delivery_type" name="delivery_type[]" multiple="" style="width:406px; height:55px;border: 1px solid #abadb3;">
                         <option value="1">Dine-in</option>
                         <option value="2" selected>Take away</option>
-                        <option value="0">Both</option>
+                        <option value="3">Home Delivery</option>
                     </select>
+                    <div id='error_delivery_type' class="error"></div>
                 </td>
                 <td align="right"><a title="<?=DELIVERY_TYPE?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>

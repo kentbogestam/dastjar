@@ -440,9 +440,19 @@ class store {
 
         $_SESSION['post'] = "";
         $storeUniqueId = uuid();
-        $query = "INSERT into store(`store_id`,`u_id`,`store_type`,`tagline`,`store_name`,`email`,`street`,`phone`,`store_link`,`delivery_type`,`city`,`country`,`latitude`,`longitude`,`s_activ`,`country_code`,`access_type`,`chain`,`block`,`zip`,`store_image`,`large_image`,`store_open_close_day_time`,`store_close_dates`,`online_payment`)
-                 VALUES('" . $storeUniqueId . "','" . $_SESSION['userid'] . "','" . $arrUser['store_type'] . "','" . $arrUser['tagline'] . "','" . $arrUser['store_name'] . "','" . $arrUser['email'] . "','" . $arrUser['street'] . "','" . $arrUser['phone'] . "','" . $arrUser['link'] . "','" . $arrUser['delivery_type'] . "','" . $arrUser['city'] . "','" . $arrUser['country'] . "','" . $arrUser['latitude'] . "','" . $arrUser['longitude'] . "','1','" . $coutryIso . "','1','" . $arrUser['chain'] . "','" . $arrUser['block'] . "','" . $arrUser['zip'] . "'," . $catImg . "," . $large_image . ",'" . $arrUser['store_open_close_day_time'] . "','" . $arrUser['close_dates'] . "','" . $arrUser['online_payment'] . "')";
+        $query = "INSERT into store(`store_id`,`u_id`,`store_type`,`tagline`,`store_name`,`email`,`street`,`phone`,`store_link`,`city`,`country`,`latitude`,`longitude`,`s_activ`,`country_code`,`access_type`,`chain`,`block`,`zip`,`store_image`,`large_image`,`store_open_close_day_time`,`store_close_dates`,`online_payment`)
+                 VALUES('" . $storeUniqueId . "','" . $_SESSION['userid'] . "','" . $arrUser['store_type'] . "','" . $arrUser['tagline'] . "','" . $arrUser['store_name'] . "','" . $arrUser['email'] . "','" . $arrUser['street'] . "','" . $arrUser['phone'] . "','" . $arrUser['link'] . "','" . $arrUser['city'] . "','" . $arrUser['country'] . "','" . $arrUser['latitude'] . "','" . $arrUser['longitude'] . "','1','" . $coutryIso . "','1','" . $arrUser['chain'] . "','" . $arrUser['block'] . "','" . $arrUser['zip'] . "'," . $catImg . "," . $large_image . ",'" . $arrUser['store_open_close_day_time'] . "','" . $arrUser['close_dates'] . "','" . $arrUser['online_payment'] . "')";
         $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+
+        // Add store delivery type 'store_delivery_type'
+        if($res)
+        {
+            foreach($arrUser['delivery_type'] as $delivery_type)
+            {
+                $q2 = "INSERT INTO store_delivery_type(store_id, delivery_type) VALUES('{$storeUniqueId}', '{$delivery_type}')";
+                $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+            }
+        }
 
         /*$query = "INSERT into coupon_delivery_method(`store`,`delivery_method`)
                  VALUES('" . $storeUniqueId . "','PINCODE')";
@@ -669,10 +679,10 @@ class store {
             die("Connection failed: " . mysqli_connect_error());
         }else{}
         $data = array();
-        $q = $db->query("SELECT * FROM store AS store WHERE store.u_id = '" . $_SESSION['userid'] . "' AND store.store_id='" . $storeid . "' ");
+        $q = $db->query("SELECT S.*, GROUP_CONCAT(SDT.delivery_type) AS delivery_type FROM store S LEFT JOIN store_delivery_type SDT ON S.store_id = SDT.store_id WHERE S.u_id = '{$_SESSION['userid']}' AND S.store_id='{$storeid}'");
       
         // $res = mysql_query($query) or die(mysql_error());
-        while ($rs = mysqli_fetch_array($q)) {
+        while ($rs = mysqli_fetch_assoc($q)) {
             $data[] = $rs;
         }
         return $data;
@@ -919,14 +929,39 @@ class store {
 		
         if($_POST['opencloseTimeing']){
 
-            $query = "update store SET store_type='" . $arrUser['store_type'] . "',tagline='" . $arrUser['tagline'] . "',latitude='" . $arrUser['latitude'] . "',longitude='" . $arrUser['longitude'] . "',`store_name`='" . $arrUser['store_name'] . "' ,`street`='" . $arrUser['street'] . "', `city`='" . $arrUser['city'] . "', `country`='" . $arrUser['country'] . "', `email`='" . $arrUser['email'] . "', `phone`='" . $arrUser['phone'] . "', `store_link`='" . $arrUser['link'] . "', `delivery_type`='" . $arrUser['delivery_type'] . "'
-            , `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "' , `store_open_close_day_time`='" .$arrUser['store_open_close_day_time'] . "' , `store_close_dates`='" . $arrUser['close_dates'] . "', `online_payment` = '".$arrUser['online_payment']."' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
+            $query = "update store SET store_type='" . $arrUser['store_type'] . "',tagline='" . $arrUser['tagline'] . "',latitude='" . $arrUser['latitude'] . "',longitude='" . $arrUser['longitude'] . "',`store_name`='" . $arrUser['store_name'] . "' ,`street`='" . $arrUser['street'] . "', `city`='" . $arrUser['city'] . "', `country`='" . $arrUser['country'] . "', `email`='" . $arrUser['email'] . "', `phone`='" . $arrUser['phone'] . "', `store_link`='" . $arrUser['link'] . "', `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "' , `store_open_close_day_time`='" .$arrUser['store_open_close_day_time'] . "' , `store_close_dates`='" . $arrUser['close_dates'] . "', `online_payment` = '".$arrUser['online_payment']."' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
         }else{
 
-            $query = "update store SET store_type='" . $arrUser['store_type'] . "',tagline='" . $arrUser['tagline'] . "',latitude='" . $arrUser['latitude'] . "',longitude='" . $arrUser['longitude'] . "',`store_name`='" . $arrUser['store_name'] . "' ,`street`='" . $arrUser['street'] . "', `city`='" . $arrUser['city'] . "', `country`='" . $arrUser['country'] . "', `email`='" . $arrUser['email'] . "', `phone`='" . $arrUser['phone'] . "', `store_link`='" . $arrUser['link'] . "', `delivery_type`='" . $arrUser['delivery_type'] . "'
-            , `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "' , `store_close_dates`='" . $arrUser['close_dates'] . "', `online_payment` = '".$arrUser['online_payment']."' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
+            $query = "update store SET store_type='" . $arrUser['store_type'] . "',tagline='" . $arrUser['tagline'] . "',latitude='" . $arrUser['latitude'] . "',longitude='" . $arrUser['longitude'] . "',`store_name`='" . $arrUser['store_name'] . "' ,`street`='" . $arrUser['street'] . "', `city`='" . $arrUser['city'] . "', `country`='" . $arrUser['country'] . "', `email`='" . $arrUser['email'] . "', `phone`='" . $arrUser['phone'] . "', `store_link`='" . $arrUser['link'] . "', `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "' , `store_close_dates`='" . $arrUser['close_dates'] . "', `online_payment` = '".$arrUser['online_payment']."' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
         }
         $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+
+        // Update store deliver_type
+        if($res)
+        {
+            $q1 = "SELECT GROUP_CONCAT(delivery_type) AS delivery_type FROM store_delivery_type WHERE store_id = '{$_GET['storeId']}'";
+            $res = mysqli_query($conn , $q1) or die(mysqli_error($conn));
+
+            while($row = mysqli_fetch_assoc($res))
+            {
+                $delivery_type = explode(',', $row['delivery_type']);
+                sort($delivery_type);
+                sort($arrUser['delivery_type']);
+            }
+
+            // 
+            if( (count($delivery_type) != count($arrUser['delivery_type'])) || !empty(array_diff($delivery_type, $arrUser['delivery_type'])) )
+            {
+                $q2 = "DELETE FROM store_delivery_type WHERE store_id = '{$_GET['storeId']}'";
+                $res = mysqli_query($conn , $q2) or die(mysqli_error($conn));
+
+                foreach($arrUser['delivery_type'] as $delivery_type)
+                {
+                    $q2 = "INSERT INTO store_delivery_type(store_id, delivery_type) VALUES('{$_GET['storeId']}', '{$delivery_type}')";
+                    mysqli_query($conn , $q2) or die(mysqli_error($conn));
+                }
+            }
+        }
 
         /*$query = "delete from coupon_delivery_method where store = '" . $_GET['storeId'] . "' and delivery_method in ('BARCODE','AUTO')";
              $res = mysqli_query($conn , $query) or die(mysqli_error($conn));

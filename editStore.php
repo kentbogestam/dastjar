@@ -326,11 +326,15 @@
             <tr>
                 <td height="42" align="left">Delivery Type</td>
                 <td>
-                    <select class="text_field_new" style="background-color:#e4e3dd; width:406px; height:36px;border: 1px solid #abadb3;" id="delivery_type" name="delivery_type">
-                        <option value="1" <?php echo ($data[0]['delivery_type'] == '1') ? "selected='selected'" : ''; ?>>Dine-in</option>
-                        <option value="2" <?php echo ($data[0]['delivery_type'] == '2') ? "selected='selected'" : ''; ?>>Take away</option>
-                        <option value="0" <?php echo ($data[0]['delivery_type'] == '0') ? "selected='selected'" : ''; ?>>Both</option>
+                    <?php
+                    $delivery_type = explode(',', $data[0]['delivery_type']);
+                    ?>
+                    <select class="text_field_new" id="delivery_type" name="delivery_type[]" multiple="" style="width:406px; height:55px;border: 1px solid #abadb3;">
+                        <option value="1" <?php echo (in_array(1, $delivery_type)) ? "selected='selected'" : ''; ?>>Dine-in</option>
+                        <option value="2" <?php echo (in_array(2, $delivery_type)) ? "selected='selected'" : ''; ?>>Take away</option>
+                        <option value="3" <?php echo (in_array(3, $delivery_type)) ? "selected='selected'" : ''; ?>>Home Delivery</option>
                     </select>
+                    <div id='error_delivery_type' class="error"></div>
                 </td>
                 <td align="right"><a title="<?=DELIVERY_TYPE?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>

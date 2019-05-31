@@ -34,6 +34,7 @@ $(document).ready(function(){
         //$("#error_storeImage").html('');
         $("#error_email").html('');
         $("#error_link").html('');
+        $("#error_delivery_type").html('');
         $("#error_address").html('');
         $("#error_coordinate").html('');
         $("#error_zip").html('');
@@ -117,6 +118,13 @@ $(document).ready(function(){
         {
             var errorMsg = "Please Enter Valid Link to the Location Home.<br />";
             $("#error_link").html(errorMsg);
+            error = "true";
+        }
+
+        if($('#delivery_type :selected').length == 0)
+        {
+            var errorMsg = "Please select at least one delivery type.<br />";
+            $("#error_delivery_type").html(errorMsg);
             error = "true";
         }
  
