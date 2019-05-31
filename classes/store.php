@@ -343,7 +343,7 @@ class store {
         $arrUser['country'] = addslashes(trim($_POST['countryStore']));
         $arrUser['phone'] = addslashes(trim($_POST['phoneNo']));
         $arrUser['link'] = addslashes(trim($_POST['link']));
-        $arrUser['delivery_type'] = addslashes(trim($_POST['delivery_type']));
+        $arrUser['delivery_type'] = $_POST['delivery_type'];
         $arrUser['chain'] = addslashes(trim($_POST['chain']));
         $arrUser['block'] = addslashes(trim($_POST['block']));
         $arrUser['zip'] = addslashes(trim($_POST['zip']));
@@ -450,7 +450,8 @@ class store {
             foreach($arrUser['delivery_type'] as $delivery_type)
             {
                 $q2 = "INSERT INTO store_delivery_type(store_id, delivery_type) VALUES('{$storeUniqueId}', '{$delivery_type}')";
-                $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+                // echo $q2;
+                mysqli_query($conn , $q2) or die(mysqli_error($conn));
             }
         }
 
