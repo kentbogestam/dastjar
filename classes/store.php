@@ -914,7 +914,7 @@ class store {
         }
 
         // 
-        if($catImg <> ""){
+        if($catImg <> "NULL" && $catImg <> ""){
             $query = "update store SET store_image=$catImg, large_image=$large_image WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 		}else if($_POST['image_removed'] == 1){
