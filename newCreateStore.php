@@ -967,6 +967,23 @@
       $(document).on('change', '#typeofrestrurant', function() {
         updatePlan();
       });
+
+      // Store delivery type, dine-in/take away/home delivery
+      $(document).on('change', '#delivery_type', function() {
+        deliveryType = $("#delivery_type option:selected").map(function(){ return this.value }).get().join(",");
+        deliveryType = deliveryType.split(',');
+
+        if(deliveryType.indexOf('3') != -1)
+        {
+            $('input[name="plan_id[]"][data-package=14]').prop('checked', true);
+        }
+        else
+        {
+            $('input[name="plan_id[]"][data-package=14]').prop('checked', false);
+        }
+
+        updateTotal();
+      });
    });
 
      // Update plan on load
