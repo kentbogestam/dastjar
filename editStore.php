@@ -1009,15 +1009,15 @@
         deliveryType = $("#delivery_type option:selected").map(function(){ return this.value }).get().join(",");
         deliveryType = deliveryType.split(',');
 
-        if(!$('input[name="plan_id[]"][data-package=14]').prop('disabled'))
+        if(!$('input[name="plan_id[]"][data-package=12]').prop('disabled'))
         {
             if(deliveryType.indexOf('3') != -1)
             {
-                $('input[name="plan_id[]"][data-package=14]').prop('checked', true);
+                $('input[name="plan_id[]"][data-package=12]').prop('checked', true);
             }
             else
             {
-                $('input[name="plan_id[]"][data-package=14]').prop('checked', false);
+                $('input[name="plan_id[]"][data-package=12]').prop('checked', false);
             }
         }
 
