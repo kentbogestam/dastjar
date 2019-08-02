@@ -82,7 +82,7 @@ define("PRODUCTNUMBER_TEXT","If no EAN/GTIN code exists for your product, you ma
 
 // Page CreateStore.php
 
-define("NAME_OF_LOCATION_TEXT","The name of your location, eg: 'My Store'.");
+define("SNAME_OF_LOCATION_TEXT","This is the category types your dishes will be visible under");
 define("STORE_EMAIL_TEXT","The email address where your customer can reach you.");
 define("LINK_TO_THE_LOCATION_HOME_TEXT","The content of this link will appear when the user select the detailed campaign/product description and selects more info. Your page will appear under Product information.");
 define("PHONE_NUMBER_TEXT","The phone number where your customer can reach you.");
@@ -107,7 +107,7 @@ define("CHAIN_TEXT","The chain to which your location belong.");
 define("BLOCK_TEXT","If your chain belongs to a block, add the name of the block here.");
 define("ZIP_TEXT","Your location's zip code.");
 define("MAP_TEXT","Verify that your location is correctly placed on the map. If not, move the cursor on the map to the correct place.");
-define("TYPE_OF_TEXT","Define if the restaurant is of type Take Away e.g Customer can order and take food with them or Catering e.g You take orders for customers to pick up later the same day or another day or both options fits.");
+define("STYPE_OF_TEXT","This is the category type of dish you want your dish to appear under");
 define("DELIVERY_TYPE","This is a message to restaurant on how to package your delivery and that the same price will be given for both “Dine-in” and “Take away”");
 define("ONLINE_PAY_TEXT","Deselect if your location's should not accept web payment from stripe.");
 define("KITCHEN_PACKAGE_TEXT","Deselect if your location's should don't want to access kitchen module.");

@@ -192,7 +192,7 @@
                      ?>">
                   <div id='error_storeName' class="error"></div>
                </td>
-               <td align="right"><a title="<?=NAME_OF_LOCATION_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
+               <td align="right"><a title="<?=SNAME_OF_LOCATION_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
             <tr>
                <td class="inner_grid">E-mail<span class='mandatory'>*</span>:</td>
@@ -362,7 +362,7 @@
                      ?>" type="hidden" style="width:150px;" />
                   <div id='error_coordinate' class="error"></div>
                </td>
-		<td align="right"><a title="<?=TYPE_OF_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
+		<td align="right"><a title="<?=STYPE_OF_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
             <tr>
                <td width="592" valign="top">Map

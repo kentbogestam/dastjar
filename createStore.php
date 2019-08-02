@@ -103,7 +103,7 @@ include_once("header.php");
                                                     <INPUT class="text_field_new" type=text name="storeName" id ="storeName" value="<?=$data[0]['company_name']
                                                                    ?>">
                                                     <div id='error_storeName' class="error"></div>          </td>
-                                                 <td align="right"><a title="<?=NAME_OF_LOCATION_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
+                                                 <td align="right"><a title="<?=SNAME_OF_LOCATION_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
                                             </tr>
                                             <tr>
 

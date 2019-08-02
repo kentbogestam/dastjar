@@ -108,7 +108,7 @@
                      ?>">
                   <div id='error_storeName' class="error"></div>
                </td>
-               <td align="right"><a title="<?=NAME_OF_LOCATION_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
+               <td align="right"><a title="<?=SNAME_OF_LOCATION_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
             <tr>
                <td class="inner_grid">E-mail
@@ -138,7 +138,7 @@
                      <option value="3">Both</option>
                   </select>
                </td>
-               <td align="right"><a title="<?=TYPE_OF_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
+               <td align="right"><a title="<?=STYPE_OF_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
             <tr>
                 <td height="42" align="left">Delivery Type</td>

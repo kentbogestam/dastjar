@@ -419,7 +419,7 @@
                                           <div id='error_dishType' class="error"></div>
                                       </div>
                                     </td>
-                              <td align="right" valign="middle"><a title="<?=TYPE_OF_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
+                              <td align="right" valign="middle"><a title="<?=STYPE_OF_TEXT?>" class="vtip"><b><small>?</small></b></a> </td>
                                  </tr>
                                  <tr>
                                     <td colspan="4">
