@@ -108,7 +108,7 @@ define("BLOCK_TEXT","If your chain belongs to a block, add the name of the block
 define("ZIP_TEXT","Your location's zip code.");
 define("MAP_TEXT","Verify that your location is correctly placed on the map. If not, move the cursor on the map to the correct place.");
 define("STYPE_OF_TEXT","This is the category type of dish you want your dish to appear under");
-define("DELIVERY_TYPE","This is a message to restaurant on how to package your delivery and that the same price will be given for both “Dine-in” and “Take away”");
+define("DELIVERY_TYPE","This is a message to the customer about options that are available in this restaurant and also info to the restaurant on how to package the order. Note that Home Delivery requires that you have your own, resources to make the delivery. Currently, we do not support different prices for Dine-in and Takeaway. For home delivery, you can add pricing rules  per restaurant");
 define("ONLINE_PAY_TEXT","Deselect if your location's should not accept web payment from stripe.");
 define("KITCHEN_PACKAGE_TEXT","Deselect if your location's should don't want to access kitchen module.");
 define("ORDER_ONSITE_TEXT","Deselect if your location's don't want to use order on site module.");
