@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "93d88678f489114d1909d6045714f505",
+    "content-hash": "79c6a2c26de1dcc8979d0c31c5cb861f",
     "packages": [
         {
             "name": "stripe/stripe-php",
-            "version": "v6.10.2",
+            "version": "v6.43.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "e87970b2dd823b37ddae0ef90071ada67e9bc464"
+                "reference": "c06eb0da0e73750cab75948dd9ca4a15cf829e68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/e87970b2dd823b37ddae0ef90071ada67e9bc464",
-                "reference": "e87970b2dd823b37ddae0ef90071ada67e9bc464",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/c06eb0da0e73750cab75948dd9ca4a15cf829e68",
+                "reference": "c06eb0da0e73750cab75948dd9ca4a15cf829e68",
                 "shasum": ""
             },
             "require": {
@@ -27,9 +27,10 @@
                 "php": ">=5.4.0"
             },
             "require-dev": {
+                "php-coveralls/php-coveralls": "1.*",
                 "phpunit/phpunit": "~4.0",
-                "satooshi/php-coveralls": "~0.6.1",
-                "squizlabs/php_codesniffer": "~2.0"
+                "squizlabs/php_codesniffer": "~2.0",
+                "symfony/process": "~2.8"
             },
             "type": "library",
             "extra": {
@@ -59,7 +60,7 @@
                 "payment processing",
                 "stripe"
             ],
-            "time": "2018-07-11T08:17:50+00:00"
+            "time": "2019-08-09T20:54:08+00:00"
         }
     ],
     "packages-dev": [],
