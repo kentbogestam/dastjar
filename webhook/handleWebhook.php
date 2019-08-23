@@ -61,6 +61,11 @@ class handleWebhook {
 	{
 		$str = "======".date('Y-m-d H:i:s')."======\n";
 
+		/*$event = $this->getTestEvent();
+		$event = json_decode($event, true);
+		$event = json_decode(json_encode($event));
+		$invoice = $event->object;*/
+
 		// Get the invoice
 		$invoice = $event->data->object;
 
@@ -76,22 +81,30 @@ class handleWebhook {
 				$str .= "Subscription ID: {$subscriptionId}\n";
 				
 				// Check if Subscription exist in DB
-				$query = "SELECT id FROM user_plan WHERE subscription_id = '{$subscriptionId}'";
+				$query = "SELECT UP.id, UP.user_id, BP.plan_nickname, S.store_name FROM user_plan UP INNER JOIN billing_products BP ON UP.plan_id = BP.plan_id INNER JOIN store S ON UP.store_id = S.store_id WHERE UP.subscription_id = '{$subscriptionId}'";
 				$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
 				if( mysqli_num_rows($res) )
 				{
-					// $subscriptionEndAt = date('Y-m-d H:i:s', $invoice->period_end);
+					$subsDetail = mysqli_fetch_assoc($res);
+					$emailContent = '';
 					
+					include_once(dirname(__DIR__).'/classes/billing.php');
+					include_once(dirname(__DIR__).'/classes/emails.php');
+
 					// Get the invoice line items
 					$invoiceLineItems = $invoice->lines->data;
 
 					if( !empty($invoiceLineItems) )
 					{
-						$updatedAt = date('Y-m-d H:i:s');
-
+						// $updatedAt = date('Y-m-d H:i:s');
 						foreach($invoiceLineItems as $lineItem)
 						{
+							$amount = number_format(($lineItem->plan->amount/100), 2, '.', '');
+							$subtotal = number_format(($invoice->subtotal/100), 2, '.', '');
+							$tax = number_format(($invoice->tax/100), 2, '.', '');
+							$total = number_format(($invoice->total/100), 2, '.', '');
+
 							// Start test
 							$str .= "ILI Period Start: ".date('Y-m-d H:i:s', $lineItem->period->start)."\n";
 							$str .= "ILI Period End: ".date('Y-m-d H:i:s', $lineItem->period->end)."\n";
@@ -103,15 +116,60 @@ class handleWebhook {
 							$str .= "Plan ID: {$planId}\n";
 
 							// Update subscription in DB
-							$query = "UPDATE user_plan SET subscription_end_at = '{$endAt}', updated_at = '{$updatedAt}' WHERE subscription_id = '{$subscriptionId}' AND plan_id = '{$planId}'";
+							$query = "UPDATE user_plan SET subscription_end_at = '{$endAt}', status = '1' WHERE subscription_id = '{$subscriptionId}' AND plan_id = '{$planId}'";
 							$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
 							$str .= "Query: {$query}\n";
+
+							// 
+							$emailContent .= "
+	                        <tr>
+                                <td align='left' vertical-align='top' style='padding:5px 15px;'>
+                                    <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>{$subsDetail['plan_nickname']}</div>
+                                </td>
+                                <td align='right' style='padding: 5px 15px;'>{$amount} (SEK)</td>
+                            </tr>
+	                        <tr>
+	                            <td align='right' vertical-align='top' style='padding:5px 10px 1px; background-color:#CCCD99;'>
+	                                <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>Sub Total:</div>
+	                            </td>
+	                            <td align='right' style='padding:5px 10px 1px;background-color: #CCCD99;'>{$subtotal} (SEK)</td>
+	                        </tr>
+	                        <tr>
+	                            <td align='right' vertical-align='top' style='padding:1px 10px 1px; background-color:#CCCD99;'>
+	                                <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>Tax:</div>
+	                            </td>
+	                            <td align='right' style='padding:1px 10px 1px;background-color: #CCCD99;'>{$tax} (SEK)</td>
+	                        </tr>
+	                        <tr>
+	                            <td align='right' vertical-align='top' style='padding:1px 10px 5px; background-color:#CCCD99;'>
+	                                <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>Total:</div>
+	                            </td>
+	                            <td align='right' style='padding:1px 10px 5px;background-color: #CCCD99;'>{$total} (SEK)</td>
+	                        </tr>";
+
+	                        $str .= "Email content\n";
 						}
-					}
-					else
-					{
-						$str .= "Line item empty\n";
+
+						// 
+						if($emailContent != '')
+						{
+							$billingObj = new billing();
+    						$user = $billingObj->getUserCompanySubsDetail($subsDetail['user_id']);
+
+	                        // Send thank-you email
+	                        $template = file_get_contents(BASEPATH.'email-templates/subscription-confirmation-email.html');
+
+	                        $find = array('{{orgNo}}', '{{userName}}', '{{companyAddress}}', '{{storeName}}', '{{theContent}}');
+	                        $replace = array($user['orgnr'], $user['userName'], $user['companyAddress'], $subsDetail['store_name'], $emailContent);
+	                        $template = str_replace($find, $replace, $template);
+
+	                        $mailObj = new emails();
+	                        $mailObj->sendSubscriptionThankYouEmail($user['email'], $template);
+
+	                        // echo $template;
+	                        $str .= "Email sent\n";
+						}
 					}
 				}
 				else
@@ -130,6 +188,7 @@ class handleWebhook {
 		}
 
 		$str .= "\n\n";
+		// echo $str;
 		$this->log($str);
 	}
 
@@ -153,8 +212,36 @@ class handleWebhook {
 
 		if( !empty($invoice) )
 		{
-			$subscriptionId = $invoice->subscription;
-			$str .= "subscription: {$subscriptionId}\n";
+			$db = new db();
+			$conn = $db->makeConnection();
+
+			// Check connection
+			if($conn)
+			{
+				$subscriptionId = $invoice->subscription;
+				$str .= "subscription: {$subscriptionId}\n";
+
+				// Check if Subscription exist in DB
+				$query = "SELECT id FROM user_plan WHERE subscription_id = '{$subscriptionId}'";
+				$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+
+				if( mysqli_num_rows($res) )
+				{
+					// Update subscription in DB
+					$query = "UPDATE user_plan SET status = '0' WHERE subscription_id = '{$subscriptionId}'";
+					$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+
+					$str .= "Query: {$query}\n";
+				}
+				else
+				{
+					$str .= "Subscription not found in DB\n";
+				}
+			}
+			else
+			{
+				$str .= "Connection failed\n";
+			}
 		}
 		else
 		{

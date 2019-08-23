@@ -4,9 +4,12 @@
  *  Author  :Mayank Pathak  Date: 15rd,Aug,2018  Creation
 */
 
-require_once("cumbari.php");
+/*require_once("cumbari.php");
 require_once('vendor/autoload.php');
-require_once("classes/inOut.php");
+require_once("classes/inOut.php");*/
+require_once(dirname(__DIR__).'/cumbari.php');
+require_once(dirname(__DIR__).'/vendor/autoload.php');
+require_once(dirname(__DIR__).'/classes/inOut.php');
 
 class Billing{
 
@@ -183,7 +186,7 @@ class Billing{
         $date = date('Y-m-d H:i:s');
         
         // $query = "SELECT bp.id, bp.package_id, bp.product_id, bp.product_name, bp.plan_id, UP.id up_id, bp.plan_nickname, bp.currency, bp.price, bp.description FROM billing_products bp INNER JOIN anar_packages AP ON AP.id = bp.package_id LEFT JOIN user_plan UP ON (bp.plan_id = UP.plan_id AND UP.store_id='{$storeId}' AND UP.subscription_start_at <= '{$date}' AND UP.subscription_end_at >= '{$date}') WHERE bp.s_activ != 2 AND AP.status = '1' GROUP BY bp.id ORDER BY AP.id";
-        $query = "SELECT bp.id, GROUP_CONCAT(bpp.package_id) AS package_ids, bp.product_id, bp.product_name, bp.plan_id, UP.id up_id, bp.plan_nickname, bp.currency, bp.price, bp.description FROM billing_products bp INNER JOIN billing_product_packages bpp ON bp.id = bpp.billing_product_id INNER JOIN anar_packages AP ON AP.id = bpp.package_id LEFT JOIN user_plan UP ON (bp.plan_id = UP.plan_id AND UP.store_id='{$storeId}' AND UP.subscription_start_at <= '{$date}' AND UP.subscription_end_at >= '{$date}') WHERE bp.s_activ != 2 AND AP.status = '1' GROUP BY bp.id ORDER BY AP.id";
+        $query = "SELECT bp.id, GROUP_CONCAT(bpp.package_id) AS package_ids, bp.product_id, bp.product_name, bp.plan_id, UP.id up_id, bp.plan_nickname, bp.currency, bp.price, bp.description FROM billing_products bp INNER JOIN billing_product_packages bpp ON bp.id = bpp.billing_product_id INNER JOIN anar_packages AP ON AP.id = bpp.package_id LEFT JOIN user_plan UP ON (bp.plan_id = UP.plan_id AND UP.store_id='{$storeId}' AND UP.subscription_start_at <= '{$date}' AND UP.subscription_end_at >= '{$date}' AND UP.status='1') WHERE bp.s_activ != 2 AND AP.status = '1' GROUP BY bp.id ORDER BY AP.id";
         $res = $db->query($query);
 
         while ($rs = mysqli_fetch_array($res)) {
@@ -363,6 +366,12 @@ class Billing{
         }
     }
 
+    /*function getSetupIntent()
+    {
+        \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
+        return \Stripe\SetupIntent::create();
+    }*/
+
     /**
      * [subscribeForLocation description]
      * @return [type] [description]
@@ -395,146 +404,156 @@ class Billing{
             \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
             $token = $_POST['stripeToken'];
 
-            // Create a Customer if not exist
-            if(!$customer_id || is_null($customer_id) || $customer_id == '')
-            {
-                $description = "Org No.: {$user['orgnr']}, City: {$user['city']}";
-
-                $customer = \Stripe\Customer::create(array(
-                    'email'         => $user['email'],
-                    'name'          => $user['company_name'],
-                    'description'   => $description,
-                    'source'        => $token
-                ));
-
-                $customer_id = $customer->id;
-
-                // Insert/update stripe's detail in 'company_subscription_detail' table
-                if(!$user['csd_company_id'])
+            try {
+                // Create a Customer if not exist
+                if(!$customer_id || is_null($customer_id) || $customer_id == '')
                 {
-                    $query = "INSERT INTO company_subscription_detail(company_id, stripe_customer_id) VALUES('{$user['company_id']}', '{$customer_id}')";
-                }
-                else
-                {
-                    $query = "UPDATE company_subscription_detail SET stripe_customer_id = '$customer_id' WHERE company_id = '{$user['company_id']}'";
-                }
-                
-                $res = $db->query($query);
-            }
+                    $description = "Org No.: {$user['orgnr']}, City: {$user['city']}";
 
-            $this->logs("userid: " . $uId);
-            $this->logs("customerId: " . $customer_id);
-
-            // Create subscription
-            if($customer_id && !empty($planIds))
-            {
-                $subsProductPackages = array();
-                $emailContent = ''; $subTotal = $tax = $total = 0;
-
-                $planIds = join("','", $planIds);
-                // $query = "SELECT product_name, plan_id, price, trial_period FROM billing_products WHERE plan_id IN ('{$planIds}')";
-                $query = "SELECT BP.product_name, BP.plan_id, BP.price, BP.trial_period, GROUP_CONCAT(BPP.package_id) AS package_ids FROM billing_products BP LEFT JOIN billing_product_packages BPP ON BP.id = BPP.billing_product_id WHERE BP.plan_id IN ('{$planIds}') GROUP BY BP.id";
-                $res = $db->query($query);
-
-                while ($rs = mysqli_fetch_array($res))
-                {
-                    $subscription = \Stripe\Subscription::create(array(
-                        "customer"          => $customer_id,
-                        "items"             => [['plan' => $rs['plan_id']]],
-                        "trial_period_days" => $rs['trial_period'],
-                        "metadata"          => array('StoreID' => $storeId),
-                        "tax_percent"       => 25, // Need to set dynamically value later
+                    $customer = \Stripe\Customer::create(array(
+                        'email'         => $user['email'],
+                        'name'          => $user['company_name'],
+                        'description'   => $description,
+                        'source'        => $token
                     ));
 
-                    if($subscription)
+                    $customer_id = $customer->id;
+
+                    // Insert/update stripe's detail in 'company_subscription_detail' table
+                    if(!$user['csd_company_id'])
                     {
-                        $subTotal += $rs['price'];
-                        $trial_start = !is_null($subscription->trial_start) ? date('Y-m-d H:i:s', $subscription->trial_start) : $subscription->trial_start;
-                        $trial_end = !is_null($subscription->trial_end) ? date('Y-m-d H:i:s', $subscription->trial_end) : $subscription->trial_end;
-                        $current_period_start = date('Y-m-d H:i:s', $subscription->current_period_start);
-                        $current_period_end = date('Y-m-d H:i:s', $subscription->current_period_end);
+                        $query = "INSERT INTO company_subscription_detail(company_id, stripe_customer_id) VALUES('{$user['company_id']}', '{$customer_id}')";
+                    }
+                    else
+                    {
+                        $query = "UPDATE company_subscription_detail SET stripe_customer_id = '$customer_id' WHERE company_id = '{$user['company_id']}'";
+                    }
+                    
+                    $res = $db->query($query);
+                }
 
-                        if(is_null($trial_start) && is_null($trial_end))
+                $this->logs("userid: " . $uId);
+                $this->logs("customerId: " . $customer_id);
+
+                // Create subscription
+                if($customer_id && !empty($planIds))
+                {
+                    // 
+                    $subsProductPackages = array();
+                    $emailContent = ''; $subTotal = $tax = $total = 0;
+
+                    $planIds = join("','", $planIds);
+                    // $query = "SELECT product_name, plan_id, price, trial_period FROM billing_products WHERE plan_id IN ('{$planIds}')";
+                    $query = "SELECT BP.product_name, BP.plan_id, BP.price, BP.trial_period, GROUP_CONCAT(BPP.package_id) AS package_ids FROM billing_products BP LEFT JOIN billing_product_packages BPP ON BP.id = BPP.billing_product_id WHERE BP.plan_id IN ('{$planIds}') GROUP BY BP.id";
+                    $res = $db->query($query);
+
+                    while ($rs = mysqli_fetch_array($res))
+                    {
+                        $trial_period = $rs['trial_period'] ? $rs['trial_period'] : 0;
+                        $subscription = \Stripe\Subscription::create(array(
+                            "customer"          => $customer_id,
+                            "items"             => [['plan' => $rs['plan_id']]],
+                            "trial_period_days" => $trial_period,
+                            "metadata"          => array('StoreID' => $storeId),
+                            "tax_percent"       => 25, // Need to set dynamically value later
+                        ));
+
+                        if($subscription)
                         {
-                            $query = "INSERT INTO user_plan(user_id, store_id, subscription_id, plan_id, subscription_start_at, subscription_end_at) VALUES('{$_SESSION['userid']}', '{$storeId}', '{$subscription->id}', '{$rs['plan_id']}', '{$current_period_start}', '{$current_period_end}')";
-                        }
-                        else
-                        {
-                            $query = "INSERT INTO user_plan(user_id, store_id, subscription_id, plan_id, trial_start_at, trial_end_at, subscription_start_at, subscription_end_at) VALUES('{$_SESSION['userid']}', '{$storeId}', '{$subscription->id}', '{$rs['plan_id']}', '{$trial_start}', '{$trial_end}', '{$current_period_start}', '{$current_period_end}')";
-                        }
+                            $subTotal += $rs['price'];
+                            $trial_start = !is_null($subscription->trial_start) ? date('Y-m-d H:i:s', $subscription->trial_start) : $subscription->trial_start;
+                            $trial_end = !is_null($subscription->trial_end) ? date('Y-m-d H:i:s', $subscription->trial_end) : $subscription->trial_end;
+                            $current_period_start = date('Y-m-d H:i:s', $subscription->current_period_start);
+                            $current_period_end = date('Y-m-d H:i:s', $subscription->current_period_end);
 
-                        $resInsert = $db->query($query);
-
-                        // Get access packages belongs to plan
-                        if( $stripe_user_id == '' && $rs['package_ids'] != '' )
-                        {
-                            $package_ids = explode(',', $rs['package_ids']);
-
-                            foreach($package_ids as $package_id)
+                            if(is_null($trial_start) && is_null($trial_end))
                             {
-                                array_push($subsProductPackages, $package_id);
+                                $query = "INSERT INTO user_plan(user_id, store_id, subscription_id, plan_id, subscription_start_at, subscription_end_at) VALUES('{$_SESSION['userid']}', '{$storeId}', '{$subscription->id}', '{$rs['plan_id']}', '{$current_period_start}', '{$current_period_end}')";
+                            }
+                            else
+                            {
+                                $query = "INSERT INTO user_plan(user_id, store_id, subscription_id, plan_id, trial_start_at, trial_end_at, subscription_start_at, subscription_end_at) VALUES('{$_SESSION['userid']}', '{$storeId}', '{$subscription->id}', '{$rs['plan_id']}', '{$trial_start}', '{$trial_end}', '{$current_period_start}', '{$current_period_end}')";
+                            }
+
+                            $resInsert = $db->query($query);
+
+                            // Get access packages belongs to plan
+                            if( $stripe_user_id == '' && $rs['package_ids'] != '' )
+                            {
+                                $package_ids = explode(',', $rs['package_ids']);
+
+                                foreach($package_ids as $package_id)
+                                {
+                                    array_push($subsProductPackages, $package_id);
+                                }
+                            }
+
+                            // 
+                            if($subscription->status == 'active')
+                            {
+                                $emailContent .= "<tr>
+                                    <td align='left' vertical-align='top' style='padding:5px 15px;'>
+                                        <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>{$rs['product_name']}</div>
+                                    </td>
+                                    <td align='right' style='padding: 5px 15px;'>".number_format($rs['price'], 2, '.', '')." (SEK)</td>
+                                </tr>";
                             }
                         }
+                    }
 
-                        // 
-                        $emailContent .= "<tr>
-                            <td align='left' vertical-align='top' style='padding:5px 15px;'>
-                                <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>{$rs['product_name']}</div>
+                    if($emailContent != '')
+                    {
+                        $tax = ($subTotal*25)/100;
+                        $total = $subTotal + $tax;
+                        $tax = number_format($tax, 2, '.', '');
+                        $subTotal = number_format($subTotal, 2, '.', '');
+                        $total = number_format($total, 2, '.', '');
+
+                        $emailContent .= "
+                        <tr>
+                            <td align='right' vertical-align='top' style='padding:5px 10px 1px; background-color:#CCCD99;'>
+                                <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>Sub Total:</div>
                             </td>
-                            <td align='right' style='padding: 5px 15px;'>".number_format($rs['price'], 2, '.', '')." (SEK)</td>
+                            <td align='right' style='padding:5px 10px 1px;background-color: #CCCD99;'>{$subTotal} (SEK)</td>
+                        </tr>
+                        <tr>
+                            <td align='right' vertical-align='top' style='padding:1px 10px 1px; background-color:#CCCD99;'>
+                                <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>Tax:</div>
+                            </td>
+                            <td align='right' style='padding:1px 10px 1px;background-color: #CCCD99;'>{$tax} (SEK)</td>
+                        </tr>
+                        <tr>
+                            <td align='right' vertical-align='top' style='padding:1px 10px 5px; background-color:#CCCD99;'>
+                                <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>Total:</div>
+                            </td>
+                            <td align='right' style='padding:1px 10px 5px;background-color: #CCCD99;'>{$total} (SEK)</td>
                         </tr>";
+
+                        // Send thank-you email
+                        $template = file_get_contents(BASEPATH.'email-templates/subscription-confirmation-email.html');
+
+                        $find = array('{{orgNo}}', '{{userName}}', '{{companyAddress}}', '{{storeName}}', '{{theContent}}');
+                        $replace = array($user['orgnr'], $user['userName'], $user['companyAddress'], $store['store_name'], $emailContent);
+                        $template = str_replace($find, $replace, $template);
+
+                        include_once("classes/emails.php");
+                        $mailObj = new emails();
+                        $mailObj->sendSubscriptionThankYouEmail($user['email'], $template);
+
+                        // If subscribed to 'payment plan' and company is not connected to 'stripe connect'
+                        if( $stripe_user_id == '' && in_array(5, $subsProductPackages))
+                        {
+                            $url = "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=".STRIPE_CLIENT_ID."&scope=read_write&redirect_uri=".BASE_URL."stripe-connect-response.php";
+
+                            $inoutObj = new inOut();
+                            $inoutObj->reDirect($url);
+                            exit();
+                        }
                     }
                 }
-
-                if($emailContent != '')
-                {
-                    $tax = ($subTotal*25)/100;
-                    $total = $subTotal + $tax;
-                    $tax = number_format($tax, 2, '.', '');
-                    $subTotal = number_format($subTotal, 2, '.', '');
-                    $total = number_format($total, 2, '.', '');
-
-                    $emailContent .= "
-                    <tr>
-                        <td align='right' vertical-align='top' style='padding:5px 10px 1px; background-color:#CCCD99;'>
-                            <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>Sub Total:</div>
-                        </td>
-                        <td align='right' style='padding:5px 10px 1px;background-color: #CCCD99;'>{$subTotal} (SEK)</td>
-                    </tr>
-                    <tr>
-                        <td align='right' vertical-align='top' style='padding:1px 10px 1px; background-color:#CCCD99;'>
-                            <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>Tax:</div>
-                        </td>
-                        <td align='right' style='padding:1px 10px 1px;background-color: #CCCD99;'>{$tax} (SEK)</td>
-                    </tr>
-                    <tr>
-                        <td align='right' vertical-align='top' style='padding:1px 10px 5px; background-color:#CCCD99;'>
-                            <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>Total:</div>
-                        </td>
-                        <td align='right' style='padding:1px 10px 5px;background-color: #CCCD99;'>{$total} (SEK)</td>
-                    </tr>";
-                }
-
-                // Send thank-you email
-                $template = file_get_contents(BASEPATH.'email-templates/subscription-confirmation-email.html');
-
-                $find = array('{{orgNo}}', '{{userName}}', '{{companyAddress}}', '{{storeName}}', '{{theContent}}');
-                $replace = array($user['orgnr'], $user['userName'], $user['companyAddress'], $store['store_name'], $emailContent);
-                $template = str_replace($find, $replace, $template);
-
-                include_once("classes/emails.php");
-                $mailObj = new emails();
-                $mailObj->sendSubscriptionThankYouEmail($user['email'], $template);
-
-                // If subscribed to 'payment plan' and company is not connected to 'stripe connect'
-                if( $stripe_user_id == '' && in_array(5, $subsProductPackages))
-                {
-                    $url = "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=".STRIPE_CLIENT_ID."&scope=read_write&redirect_uri=".BASE_URL."stripe-connect-response.php";
-
-                    $inoutObj = new inOut();
-                    $inoutObj->reDirect($url);
-                    exit();
-                }
+            } catch (\Stripe\Error\Base $e) {
+                # Display error on client
+                $response = array('error' => $e->getMessage());
             }
         }
     }
@@ -640,5 +659,247 @@ on user_plan.user_id=user.u_id group by user.u_id";
         fclose($myfile);
     }
 
+    /**
+     * Get company and associated stripe customer detail
+     * @return [type] [description]
+     */
+    function getUserCompanySubsDetail($uId = null)
+    {
+        $db = new db();
+        $db->makeConnection();
+
+        $qry = "SELECT U.email, CONCAT(U.fname, ' ', U.lname) AS userName, C.company_id, C.company_name, C.orgnr, CONCAT_WS(', ', C.street, C.city, C.zip, C.country) AS companyAddress, C.city, CSD.company_id AS csd_company_id, CSD.stripe_customer_id, CSD.stripe_user_id FROM user AS U INNER JOIN company AS C ON U.u_id = C.u_id LEFT JOIN company_subscription_detail AS CSD ON C.company_id = CSD.company_id WHERE U.u_id = '{$uId}'";
+        $res = $db->query($qry);
+        $user = mysqli_fetch_array($res);
+        return $user;
+    }
+
+    /**
+     * Get all saved payment method of customer
+     * @param  [type] $customerId [description]
+     * @return [type]             [description]
+     */
+    function getPaymentMethod($customerId = null)
+    {
+        \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
+        $paymentMethod = \Stripe\PaymentMethod::all(['customer' => $customerId, 'type' => 'card']);
+
+        return $paymentMethod;
+    }
+
+    function getAllSources($customerId = null)
+    {
+        \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
+        $sources = \Stripe\Customer::allSources($customerId, ['object' => 'card']);
+
+        return $sources;
+    }
+
+    /**
+     * Create subscription for location
+     * @return [type] [description]
+     */
+    function subscribeForLocationSCA($data)
+    {
+        $db = new db();
+        $db->makeConnection();
+
+        $response = array();
+        $uId = $_SESSION['userid'];
+
+        // Create store if not already created
+        if( !isset($data->store_id) || empty($data->store_id) )
+        {
+            $storeUniqueId = uuid();
+
+            $query = "INSERT INTO store(store_id, u_id, store_name) VALUES('{$storeUniqueId}', '{$uId}', '{$data->store_name}')";
+            
+            if($db->query($query))
+            {
+                $data->store_id = $storeUniqueId;
+            }
+        }
+
+        // 
+        if( isset($data->store_id) && !empty($data->store_id) )
+        {
+            // Get company and associated stripe customer detail
+            $user = $this->getUserCompanySubsDetail($uId);
+            $customer_id = $user['stripe_customer_id'];
+            $stripe_user_id = $user['stripe_user_id'];
+
+            // 
+            \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
+
+            try {
+                // Create a Customer if not exist
+                if(!$customer_id || is_null($customer_id) || $customer_id == '')
+                {
+                    $description = "Org No.: {$user['orgnr']}, City: {$user['city']}";
+                    $customer = \Stripe\Customer::create(array(
+                        'email'         => $user['email'],
+                        'name'          => $user['company_name'],
+                        'description'   => $description,
+                        'source'        => $data->stripe_token
+                    ));
+
+                    $customer_id = $customer->id;
+
+                    // Insert/update stripe's detail in 'company_subscription_detail' table
+                    if(!$user['csd_company_id'])
+                    {
+                        $query = "INSERT INTO company_subscription_detail(company_id, stripe_customer_id) VALUES('{$user['company_id']}', '{$customer_id}')";
+                    }
+                    else
+                    {
+                        $query = "UPDATE company_subscription_detail SET stripe_customer_id = '$customer_id' WHERE company_id = '{$user['company_id']}'";
+                    }
+                    
+                    $res = $db->query($query);
+
+                    $this->logs("userid: " . $uId);
+                    $this->logs("customerId: " . $customer_id);
+                }
+                else
+                {
+                    // Attach new card to customer
+                    if(isset($data->stripe_token))
+                    {
+                        $card = \Stripe\Customer::createSource(
+                            $customer_id,
+                            array(
+                                'source' => $data->stripe_token
+                            )
+                        );
+                    }
+                }
+
+                // Create subscription
+                $planIds = $data->plan_id;
+                if($customer_id && !empty($planIds))
+                {
+                    $subsProductPackages = array();
+                    $emailContent = ''; $subTotal = $tax = $total = 0;
+                    $planIds = join("','", $planIds);
+
+                    // Get plan detail to subscribe
+                    $query = "SELECT BP.product_name, BP.plan_id, BP.price, BP.trial_period, GROUP_CONCAT(BPP.package_id) AS package_ids FROM billing_products BP LEFT JOIN billing_product_packages BPP ON BP.id = BPP.billing_product_id WHERE BP.plan_id IN ('{$planIds}') GROUP BY BP.id ORDER BY BP.trial_period";
+                    $res = $db->query($query);
+
+                    while ($rs = mysqli_fetch_array($res))
+                    {
+                        $arrSubsCreate = array(
+                            'customer'          => $customer_id,
+                            'items'             => [['plan' => $rs['plan_id']]],
+                            'trial_period_days' => $rs['trial_period'],
+                            'payment_behavior'  => 'allow_incomplete',
+                            'metadata'          => array('StoreID' => $data->store_id),
+                            'tax_percent'       => 25, // Need to set dynamically value later
+                            'expand'            => ['latest_invoice.payment_intent'],
+                            'off_session'       => true,
+                        );
+
+                        // Assign 'payment method' to subscription
+                        if( isset($card) )
+                        {
+                            $arrSubsCreate['default_payment_method'] = $card->id;
+                        }
+                        else
+                        {
+                            $arrSubsCreate['default_payment_method'] = $data->payment_method_id;
+                        }
+
+                        $subscription = \Stripe\Subscription::create($arrSubsCreate);
+
+                        // 
+                        if($subscription)
+                        {
+                            // Check if user action required and set response
+                            if( ($subscription->status == 'incomplete' && $subscription->latest_invoice->payment_intent->status == 'requires_source_action') )
+                            {
+                                $response = array(
+                                    'requires_action' => true,
+                                    'payment_intent_client_secret' => $subscription->latest_invoice->payment_intent->client_secret,
+                                    'storeId' => $data->store_id
+                                );
+                            }
+                            else
+                            {
+                                $response = array('success' => true, 'storeId' => $data->store_id);
+                            }
+
+                            // Add subscription in DB
+                            $trial_start = !is_null($subscription->trial_start) ? date('Y-m-d H:i:s', $subscription->trial_start) : $subscription->trial_start;
+                            $trial_end = !is_null($subscription->trial_end) ? date('Y-m-d H:i:s', $subscription->trial_end) : $subscription->trial_end;
+                            $current_period_start = date('Y-m-d H:i:s', $subscription->current_period_start);
+                            $current_period_end = date('Y-m-d H:i:s', $subscription->current_period_end);
+
+                            if(is_null($trial_start) && is_null($trial_end))
+                            {
+                                $query = "INSERT INTO user_plan(user_id, store_id, subscription_id, plan_id, subscription_start_at, subscription_end_at) VALUES('{$uId}', '{$data->store_id}', '{$subscription->id}', '{$rs['plan_id']}', '{$current_period_start}', '{$current_period_end}')";
+                            }
+                            else
+                            {
+                                $query = "INSERT INTO user_plan(user_id, store_id, subscription_id, plan_id, trial_start_at, trial_end_at, subscription_start_at, subscription_end_at) VALUES('{$uId}', '{$data->store_id}', '{$subscription->id}', '{$rs['plan_id']}', '{$trial_start}', '{$trial_end}', '{$current_period_start}', '{$current_period_end}')";
+                            }
+
+                            $resInsert = $db->query($query);
+                        }
+                    }
+                }
+            } catch (\Stripe\Error\Base $e) {
+                # Display error on client
+                $response = array('error' => $e->getMessage(), 'storeId' => $data->store_id);
+            }
+        }
+
+        return $response;
+    }
+
+    /**
+     * Delete attached customer source
+     */
+    function deleteSource($sourceId = null)
+    {
+        $response = array();
+
+        // Get stripe customer_id
+        $user = $this->getUserCompanySubsDetail($_SESSION['userid']);
+
+        if(!is_null($user['stripe_customer_id']) && !empty($user['stripe_customer_id']))
+        {
+            \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
+
+            $response = \Stripe\Customer::deleteSource($user['stripe_customer_id'], $sourceId);
+        }
+        else
+        {
+            $response['error'] = 'Attached source didn\'t match the customer.';
+        }
+
+        return $response;
+    }
+}
+
+// Create subscription on create/edit store
+if( isset($_POST['confirmStoreSubscription']) )
+{
+    // Get post data
+    $data = json_decode($_POST['confirmStoreSubscription']);
+
+    // 
+    $billingObj = new billing();
+    $response = $billingObj->subscribeForLocationSCA($data);
+
+    echo json_encode($response); exit;
+}
+
+// Delete source
+if( isset($_POST['deleteSource']) )
+{
+    $billingObj = new billing();
+    $response = $billingObj->deleteSource($_POST['sourceId']);
+    
+    echo json_encode($response); exit;
 }
 ?>

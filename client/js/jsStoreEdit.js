@@ -160,7 +160,29 @@ $(document).ready(function(){
         {
             return false;
         }
-        return true;
+
+        // 
+        if( $('input[name="plan_id[]"]:checked').not('[disabled]').length )
+        {
+            if( $('input[name=payment_method_id]:checked').length )
+            {
+                $('#charging-saved-cards').trigger('click');
+            }
+            else if( $('input[name=pay-options]:checked').length )
+            {
+                $('#card-button').trigger('click');
+            }
+            else
+            {
+                alert('Please select payment method.');
+                return false;
+            }
+        }
+        else
+        {
+            $('#registerform').submit();
+            return true;
+        }
     });
 });
 

@@ -299,10 +299,7 @@ class store {
      */
 
     function saveNewStoreDetails() {
-        
-        // echo "<pre>";print_r($_POST['opencloseTimeing']);/*print_r($_POST) ;*/
-        
-        // die();
+        // echo "<pre>"; print_r($_POST); die();
         
         $inoutObj = new inOut();
         $db = new db();
@@ -480,11 +477,11 @@ class store {
         }*/
 
         // Create subscription for newly created location
-        if( !empty($_POST['plan_id']) )
+        /*if( !empty($_POST['plan_id']) )
         {
             $billingObj = new billing();
             $billingObj->subscribeForLocation($storeUniqueId);
-        }
+        }*/
 
         //
         if ($_SESSION['createStore']) {
@@ -790,6 +787,15 @@ class store {
         $arrUser = array();
         $error = '';
 
+        if( isset($_GET['storeId']) && !empty($_GET['storeId']) )
+        {
+            $storeId = $_GET['storeId'];
+        }
+        else
+        {
+            $storeId = $_POST['storeId'];
+        }
+
         // if($_POST['Sunday'] != null) {$sun = $_POST['Sunday'];} else {$sun = 'close';}
         // if($_POST['Monday'] != null) { $mon =$_POST['Monday'];} else {$mon = 'close';}
         // if($_POST['Tuesday'] != null) { $tues = $_POST['Tuesday'];} else {$tues = 'close';}
@@ -915,10 +921,10 @@ class store {
 
         // 
         if($catImg <> "NULL" && $catImg <> ""){
-            $query = "update store SET store_image=$catImg, large_image=$large_image WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
+            $query = "update store SET store_image=$catImg, large_image=$large_image WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $storeId . "'";
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 		}else if($_POST['image_removed'] == 1){
-            $query = "update store SET store_image=$catImg, large_image=$large_image WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
+            $query = "update store SET store_image=$catImg, large_image=$large_image WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $storeId . "'";
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
         }
         		
@@ -930,17 +936,17 @@ class store {
 		
         if($_POST['opencloseTimeing']){
 
-            $query = "update store SET store_type='" . $arrUser['store_type'] . "',tagline='" . $arrUser['tagline'] . "',latitude='" . $arrUser['latitude'] . "',longitude='" . $arrUser['longitude'] . "',`store_name`='" . $arrUser['store_name'] . "' ,`street`='" . $arrUser['street'] . "', `city`='" . $arrUser['city'] . "', `country`='" . $arrUser['country'] . "', `email`='" . $arrUser['email'] . "', `phone`='" . $arrUser['phone'] . "', `store_link`='" . $arrUser['link'] . "', `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "' , `store_open_close_day_time`='" .$arrUser['store_open_close_day_time'] . "' , `store_close_dates`='" . $arrUser['close_dates'] . "', `online_payment` = '".$arrUser['online_payment']."' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
+            $query = "update store SET store_type='" . $arrUser['store_type'] . "',tagline='" . $arrUser['tagline'] . "',latitude='" . $arrUser['latitude'] . "',longitude='" . $arrUser['longitude'] . "',`store_name`='" . $arrUser['store_name'] . "' ,`street`='" . $arrUser['street'] . "', `city`='" . $arrUser['city'] . "', `country`='" . $arrUser['country'] . "', `email`='" . $arrUser['email'] . "', `phone`='" . $arrUser['phone'] . "', `store_link`='" . $arrUser['link'] . "', `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "' , `store_open_close_day_time`='" .$arrUser['store_open_close_day_time'] . "' , `store_close_dates`='" . $arrUser['close_dates'] . "', `online_payment` = '".$arrUser['online_payment']."' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $storeId . "'";
         }else{
 
-            $query = "update store SET store_type='" . $arrUser['store_type'] . "',tagline='" . $arrUser['tagline'] . "',latitude='" . $arrUser['latitude'] . "',longitude='" . $arrUser['longitude'] . "',`store_name`='" . $arrUser['store_name'] . "' ,`street`='" . $arrUser['street'] . "', `city`='" . $arrUser['city'] . "', `country`='" . $arrUser['country'] . "', `email`='" . $arrUser['email'] . "', `phone`='" . $arrUser['phone'] . "', `store_link`='" . $arrUser['link'] . "', `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "' , `store_close_dates`='" . $arrUser['close_dates'] . "', `online_payment` = '".$arrUser['online_payment']."' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
+            $query = "update store SET store_type='" . $arrUser['store_type'] . "',tagline='" . $arrUser['tagline'] . "',latitude='" . $arrUser['latitude'] . "',longitude='" . $arrUser['longitude'] . "',`store_name`='" . $arrUser['store_name'] . "' ,`street`='" . $arrUser['street'] . "', `city`='" . $arrUser['city'] . "', `country`='" . $arrUser['country'] . "', `email`='" . $arrUser['email'] . "', `phone`='" . $arrUser['phone'] . "', `store_link`='" . $arrUser['link'] . "', `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "' , `store_close_dates`='" . $arrUser['close_dates'] . "', `online_payment` = '".$arrUser['online_payment']."' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $storeId . "'";
         }
         $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
         // Update store deliver_type
         if($res)
         {
-            $q1 = "SELECT GROUP_CONCAT(delivery_type) AS delivery_type FROM store_delivery_type WHERE store_id = '{$_GET['storeId']}'";
+            $q1 = "SELECT GROUP_CONCAT(delivery_type) AS delivery_type FROM store_delivery_type WHERE store_id = '{$storeId}'";
             $res = mysqli_query($conn , $q1) or die(mysqli_error($conn));
 
             while($row = mysqli_fetch_assoc($res))
@@ -953,12 +959,12 @@ class store {
             // 
             if( (count($delivery_type) != count($arrUser['delivery_type'])) || !empty(array_diff($delivery_type, $arrUser['delivery_type'])) )
             {
-                $q2 = "DELETE FROM store_delivery_type WHERE store_id = '{$_GET['storeId']}'";
+                $q2 = "DELETE FROM store_delivery_type WHERE store_id = '{$storeId}'";
                 $res = mysqli_query($conn , $q2) or die(mysqli_error($conn));
 
                 foreach($arrUser['delivery_type'] as $delivery_type)
                 {
-                    $q2 = "INSERT INTO store_delivery_type(store_id, delivery_type) VALUES('{$_GET['storeId']}', '{$delivery_type}')";
+                    $q2 = "INSERT INTO store_delivery_type(store_id, delivery_type) VALUES('{$storeId}', '{$delivery_type}')";
                     mysqli_query($conn , $q2) or die(mysqli_error($conn));
                 }
             }
@@ -981,11 +987,11 @@ class store {
         }*/
 
         // Create subscription for updating location
-        if( !empty($_GET['storeId']) && !empty($_POST['plan_id']) )
+        /*if( !empty($_GET['storeId']) && !empty($_POST['plan_id']) )
         {
             $billingObj = new billing();
             $billingObj->subscribeForLocation($_GET['storeId']);
-        }
+        }*/
         
         $_SESSION['MESSAGE'] = CREATE_STORE_SUCCESS;
         $_SESSION['REG_STEP'] = 5;

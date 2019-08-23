@@ -20,8 +20,16 @@
    $stripePayment = $accountObj->stripePayment();
    // echo $stripePayment; exit;
 
-   // Get packages to subscribe for location
    $billingObj = new billing();
+
+   // Get 'payment method' belongs to customer
+   $user = $billingObj->getUserCompanySubsDetail($_SESSION['userid']);
+   if(!is_null($user['stripe_customer_id']))
+   {
+        $paymentMethod = $billingObj->getPaymentMethod($user['stripe_customer_id']);
+   }
+
+   // Get packages to subscribe for location
    $productsAll = $billingObj->showPlanToSubscribe();
    $products = $packages = array();
 
@@ -49,7 +57,8 @@
    $productid = $_GET['productId'];
 
    // Create location and then create subscribtion for that location
-   if (isset($_POST['plan_id']) && isset($_POST['stripeToken'])) {
+   // if (isset($_POST['plan_id']) && isset($_POST['stripeToken'])) {
+   if (isset($_POST['storeId']) && !empty($_POST['storeId'])) {
        $storeObj->svrStoreDflt();
    }
 
@@ -80,6 +89,7 @@
   <script type="text/javascript" src="client/js/newJs/jquery-ui.multidatespicker.js"></script>
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <style type="text/css">
    /*
       .center{width:900px; margin-left:auto; margin-right:auto;}
@@ -91,8 +101,10 @@
 <body>
    <div class="center">
       <form name="registerform" id="registerform" method="POST" action="" enctype="multipart/form-data">
-         <input type="hidden" name="m" value="saveNewStore">
          <input type="hidden" name="opencloseTimeing" value="" id="opencloseTimeing">
+         <!-- <input type="hidden" name="m" value="saveNewStore"> -->
+         <input type="hidden" name="m" value="editSaveStore">
+         <input type="hidden" name="storeId" value="67d41a72-5028-1b9e-f10d-a65e60bdf7a8">
          <table width="100%"  border="0">
             <tr>
                <td class="redwhitebutton">Add Location</td>
@@ -471,10 +483,54 @@
 <div class="col-md-9 text-right"><strong>Total: </strong></div>
                                 <div class="col-md-3 subscription-total" style="padding-left: 75px;"><?=number_format($total, 2, '.', '');?></div>
                             </div>
+                            <div class="panel panel-info">
+                                <div class="panel-heading">Make payment</div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <?php
+                                        if(isset($paymentMethod->data))
+                                        {
+                                            ?>
+                                            <div class="col-md-12 row-saved-cards">
+                                                <?php
+                                                foreach($paymentMethod->data as $row)
+                                                {
+                                                    ?>
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="payment_method_id" id="payment-method-<?=$row->card->last4;?>" value="<?=$row->id;?>">
+                                                            <i class="fa fa-cc-visa" aria-hidden="true"></i>
+                                                            <i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i><i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i><i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i><i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i>
+                                                            <?php echo $row->card->last4; ?>
+                                                        </label>
+                                                        <button type="button" class="btn btn-link btn-xs" onclick="deleteSource('<?php echo $row->id; ?>', this)">Delete</button>
+                                                    </div>
+                                                    <?php
+                                                }
+                                                ?>
+                                                <div class="card-errors"></div>
+                                                <button type="button" id="charging-saved-cards" class="hidden">Pay Securely</button>
+                                            </div>
+                                            <?php
+                                        }
+                                        ?>
+                                        <div class="col-md-12 row-new-card">
+                                            <label>
+                                                <input type="radio" name="pay-options" id="pay-options"> Credit card / Debit card
+                                            </label>
+                                            <div class="section-pay-with-card hidden">
+                                                <div id="card-element"></div>
+                                                <div class="card-errors"></div>
+                                                <button type="button" id="card-button" class="hidden">Pay</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div>
                                 <label><input type="checkbox" name="terms" id="terms" value="terms" required>Terms & Condition</label> 
                                 <span class="mandatory">*</span>
-                                <input type="hidden" id="stripe_token" name="stripeToken" value="">
+                                <input type="hidden" id="stripe_token" name="stripe_token" value="">
                             </div>
                         </div>
                     </div>
@@ -483,7 +539,7 @@
          </table>
          <div align="center">
             <input type="checkbox" name="onlinePayment" value="1"  checked style="display: none;" />
-            <INPUT style="margin-left:700px;" type="submit" value="Submit" name="continue" id="continue" class="button" >
+            <input style="margin-left:700px;" type="button" value="Submit" name="continue" id="continue" class="button">
             <br />
             <br />
          </div>
@@ -810,14 +866,241 @@
                </div>
            </div>
      </div>
+
+    <!-- Loading modal -->
+    <div class="modal fade" id="modal-loading" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div clas="loader-txt">
+                        <p>Loading...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
    </div>
    <? include("footer.php"); ?>
    
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-   <script src="https://checkout.stripe.com/checkout.js"></script>
+   <!-- <script src="https://checkout.stripe.com/checkout.js"></script> -->
+   <script src="https://js.stripe.com/v3/"></script>
 
    <script type="text/javascript">
     stripePayment = "<?php echo $stripePayment ?>";
+
+    // Initialize Stripe and card element
+    var stripe = Stripe('<?php echo STRPIE_PUB_KEY; ?>');
+
+    var elements = stripe.elements();
+    var cardElement = elements.create('card', {
+        hidePostalCode: true
+    });
+    cardElement.mount('#card-element');
+
+    // Pay with Card
+    // var cardholderName = document.getElementById('cardholder-name');
+    var cardButton = document.getElementById('card-button');
+    // var clientSecret = cardButton.dataset.secret;
+
+    cardButton.addEventListener('click', function(ev) {
+        if( !$('#stripe_token').val().length && $('input[name="plan_id[]"]:checked').not('[disabled]').length )
+        {
+            ev.preventDefault();
+            $('#modal-loading').modal('show');
+            $('#continue').prop('disabled', true);
+            let planIds = $('input[name="plan_id[]"]:checked').not('[disabled]').map(function () {
+                return this.value;
+            }).get();
+
+            // stripe.createPaymentMethod('card', cardElement).then(function(result) {
+            stripe.createToken(cardElement).then(function(result) {
+                if (result.error) {
+                    // Display error.message in your UI.
+                    let message = result.error;
+                    if( typeof(result.error) == 'object' ) {
+                        message = result.error.message;
+                    }
+                    $('.row-new-card').find('div.card-errors').html(message);
+                    $('#stripe_token').val('');
+                    $('#modal-loading').modal('hide');
+                    $('#continue').prop('disabled', false);
+                } else {
+                    $('#stripe_token').val(result.token.id);
+
+                    let data = {
+                        'stripe_token': $('#stripe_token').val(),
+                        'store_id': $('input[name=storeId]').val(),
+                        'store_name': $('#storeName').val(),
+                        'plan_id': planIds
+                    };
+
+                    fetch('<?php echo BASE_URL ?>classes/billing.php', {
+                        method: 'POST',
+                        body: 'confirmStoreSubscription='+JSON.stringify(data),
+                        headers: {
+                          "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                        },
+                    }).then(function(result) {
+                        // Handle server response (see Step 3)
+                        result.json().then(function(json) {
+                            // console.log(json);
+                            handleServerResponse(json);
+                        })
+                    });
+                }
+            });
+        }
+        else
+        {
+            // $('#registerform').submit();
+        }
+    });
+
+    // Handle subscription response
+    function handleServerResponse(response) {
+        $('input[name=storeId]').val(response.storeId);
+
+        if (response.error) {
+            // Show error from server on payment form
+            let message = response.error;
+            if( typeof(response.error) == 'object' ) {
+                message = response.error.message;
+            }
+            $('.row-new-card').find('div.card-errors').html(message);
+            $('#stripe_token').val('');
+            $('#modal-loading').modal('hide');
+            $('#continue').prop('disabled', false);
+        } else if (response.requires_action) {
+            // Use Stripe.js to handle required auth action
+            stripe.handleCardPayment(response.payment_intent_client_secret).then(function(result) {
+                if(result.error)
+                {
+                    // Display error.message in your UI.
+                    let message = result.error;
+                    if( typeof(result.error) == 'object' ) {
+                        message = result.error.message;
+                    }
+                    $('.row-new-card').find('div.card-errors').html(message);
+                    $('#stripe_token').val('');
+                    $('#modal-loading').modal('hide');
+                    $('#continue').prop('disabled', false);
+                }
+                else
+                {
+                    $('#modal-loading').modal('hide');
+                    $('#registerform').submit();
+                }
+            });
+        } else {
+            $('#modal-loading').modal('hide');
+            $('#registerform').submit();
+        }
+    }
+
+    // Pay with PaymentMethod (saved card)
+    $('#charging-saved-cards').on('click', function(ev) {
+        if( $('input[name=payment_method_id]:checked').length && $('input[name="plan_id[]"]:checked').not('[disabled]').length )
+        {
+            ev.preventDefault();
+            $('#modal-loading').modal('show');
+            $('#continue').prop('disabled', true);
+            let planIds = $('input[name="plan_id[]"]:checked').not('[disabled]').map(function () {
+                return this.value;
+            }).get();
+
+            let data = {
+                'payment_method_id': $('input[name=payment_method_id]:checked').val(),
+                'store_id': $('input[name=storeId]').val(),
+                'plan_id': planIds
+            };
+
+            fetch('<?php echo BASE_URL ?>classes/billing.php', {
+                method: 'POST',
+                body: 'confirmStoreSubscription='+JSON.stringify(data),
+                headers: {
+                  "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                },
+            }).then(function(result) {
+                // Handle server response (see Step 3)
+                result.json().then(function(json) {
+                    handleServerResponseSavedCard(json);
+                })
+            });
+        }
+        else
+        {
+            $('#registerform').submit();
+        }
+    });
+
+    // Handle response when pay with 'saved card' 
+    function handleServerResponseSavedCard(response) {
+        $('input[name=storeId]').val(response.storeId);
+
+        if (response.error) {
+            // Show error from server on payment form
+            let message = response.error;
+            if( typeof(response.error) == 'object' ) {
+                message = response.error.message;
+            }
+            $('.row-saved-cards').find('div.card-errors').html(message);
+            $('#modal-loading').modal('hide');
+            $('#continue').prop('disabled', false);
+        } else if (response.requires_action) {
+            // Use Stripe.js to handle required auth action
+            stripe.handleCardPayment(response.payment_intent_client_secret).then(function(result) {
+                if(result.error)
+                {
+                    // Display error.message in your UI.
+                    let message = result.error;
+                    if( typeof(result.error) == 'object' ) {
+                        message = result.error.message;
+                    }
+                    $('.row-saved-cards').find('div.card-errors').html(message);
+                    $('#modal-loading').modal('hide');
+                    $('#continue').prop('disabled', false);
+                }
+                else
+                {
+                    $('#modal-loading').modal('hide');
+                    $('#registerform').submit();
+                }
+            });
+        } else {
+            $('#modal-loading').modal('hide');
+            $('#registerform').submit();
+        }
+    }
+
+    // Delete source
+    function deleteSource(sourceId = null, This)
+    {
+        if( confirm('Are you sure you want to delete this card?') )
+        {
+            let $this = $(This);
+            $('#modal-loading').modal('show');
+
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo BASE_URL ?>classes/billing.php',
+                data: {
+                    'deleteSource': 1,
+                    'sourceId': sourceId
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if(response.deleted)
+                    {
+                        $this.closest('.radio').remove();
+                    }
+
+                    $('#modal-loading').modal('hide');
+                }
+            });
+        }
+    }
+
     $(document).ready(function(){
         $("input[name = openingDays]").click(function(){
             var vals = $(this).val();
@@ -859,35 +1142,6 @@
                 {
                     alert("Stripe & IBAN\nYou will be redirected to our payment partner Stripe to get your company account details. Stripe is one of the most reliable payment systems in the World. Please follow the instructions and fill in the required information. \n\n- Step 1 Company card details\nWe are using electronic invoice. Please fill in your company card details.\nYou’ll receive a confirmation for each invoice on your e-mail. By doing so, we’ll contribute to a better environment for all of us.\n\n- Step 2 This information is needed for transferring all customer payments to your company account.\n\nNote: Stripe requires IBAN (International Bank Account Number). You can find IBAN, either in your internet bank or call your bank to help you.");
                 }
-            }
-        });
-
-        // Initialize Stripe
-        var handler = StripeCheckout.configure({
-            key: "<?php echo STRPIE_PUB_KEY; ?>",
-            image: "https://stripe.com/img/documentation/checkout/marketplace.png",
-            name: "Dastjar",
-            description: "<?=$_SESSION['username'];?>",
-            locale: "auto",
-            allowRememberMe: false,
-            token: function(token) {
-                $('#stripe_token').val(token.id);
-                $('#registerform').submit();
-            }
-        });
-
-        // Ask for detail before submit the location
-        $('#registerform').submit(function(e){
-            if( !$('#stripe_token').val().length ){
-                e.preventDefault();
-                
-                var totalAmount = parseFloat($('.subscription-total').html());
-
-                //
-                handler.open({
-                    currency: 'sek',
-                    amount: (totalAmount*100)
-                });
             }
         });
 
@@ -1086,7 +1340,6 @@
           });
       
           function addPoint(point) {
-              //alert(point.lat());
               window.top.document.forms.registerform.elements.latitude.value = point.lat();
               window.top.document.forms.registerform.elements.longitude.value = point.lng();
           }
@@ -1101,7 +1354,6 @@
           map.setCenter(darwin);
       }
       function addPointOnClick(point) {
-          //alert(point.lat());
           window.top.document.forms.registerform.elements.latitude.value = point.lat();
           window.top.document.forms.registerform.elements.longitude.value = point.lng();
       }

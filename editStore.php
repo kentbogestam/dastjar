@@ -14,17 +14,24 @@
    $accountObj = new accountView();
    $data = $accountObj->getCompanyDetail();
    $stripePayment = $accountObj->stripePayment();
-   // echo $stripePayment; exit;
+
+   $billingObj = new billing();
+   
+   // Get 'payment method' belongs to customer
+   $user = $billingObj->getUserCompanySubsDetail($_SESSION['userid']);
+   if(!is_null($user['stripe_customer_id']))
+   {
+        $paymentMethod = $billingObj->getPaymentMethod($user['stripe_customer_id']);
+   }
 
    // Get packages to subscribe for location and logic to show either subscribed or updated package
-   $billingObj = new billing();
    $productsUpd = $billingObj->getSubscriptionPlanOnEdit($_GET['storeId']);
    $products = $packages = array();
 
    if($productsUpd)
    {
         foreach($productsUpd as $row)
-        {   
+        {
             if( !in_array($row['package_ids'], $packages) )
             {
                 $products[] = $row;
@@ -56,7 +63,7 @@
         }
    }*/
 
-   if ( (isset($_POST['continue'])) || (isset($_POST['plan_id']) && isset($_POST['stripeToken'])) ) {
+   if ( (isset($_POST['storeName'])) || (isset($_POST['plan_id']) && isset($_POST['stripe_token'])) ) {
        $storeObj->svrStoreDflt();
    } else {
        $storeid = $_GET['storeId']; 
@@ -153,6 +160,7 @@
 <script type="text/javascript" src="client/js/newJs/jquery-ui.multidatespicker.js"></script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
 <style type="text/css">
     input[type="checkbox"][readonly] {
@@ -178,8 +186,7 @@
       <form name="registerform" action="" id="registerform" method="Post" enctype="multipart/form-data">
         <input type="hidden" name="opencloseTimeing" value="" id="opencloseTimeing">
          <input type="hidden" name="m" value="editSaveStore">
-         <input type="hidden" name="storeId" value="<?=$storeId
-            ?>">
+         <input type="hidden" name="storeId" value="<?php echo $data[0]['store_id']; ?>">
          <input type="hidden" name="s" value="<?=$_REQUEST['s']?>">
          <div class="redwhitebutton123">Edit Location</div>
          <table BORDER=0 width="100%" cellspacing="18">
@@ -484,11 +491,6 @@
                                                     $i++;
                                                 }
                                                 ?>
-                                                <!-- <tr>
-                                                    <td align="left" colspan="4" style="padding-right: 10px; padding-left: 10px">&nbsp;</td>
-                                                    <td align="left"><strong>Total: </strong></td>
-                                                    <td align="left" colspan="2" class="subscription-total"><?=number_format($total, 2, '.', '');?></td>
-                                                </tr> -->
                                             </tbody>
                                         </table>
                                     </td>
@@ -502,6 +504,50 @@
 <div class="col-md-9 text-right"><strong>Total: </strong></div>
                                 <div class="col-md-3 subscription-total" style="padding-left: 75px;"><?=number_format($total, 2, '.', '');?></div>
                             </div>
+                            <div class="panel panel-info">
+                                <div class="panel-heading">Make payment</div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <?php
+                                        if(isset($paymentMethod->data))
+                                        {
+                                            ?>
+                                            <div class="col-md-12 row-saved-cards">
+                                                <?php
+                                                foreach($paymentMethod->data as $row)
+                                                {
+                                                    ?>
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="payment_method_id" id="payment-method-<?=$row->card->last4;?>" value="<?=$row->id;?>">
+                                                            <i class="fa fa-cc-visa" aria-hidden="true"></i>
+                                                            <i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i><i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i><i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i><i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i>
+                                                            <?php echo $row->card->last4; ?>
+                                                        </label>
+                                                        <button type="button" class="btn btn-link btn-xs" onclick="deleteSource('<?php echo $row->id; ?>', this)">Delete</button>
+                                                    </div>
+                                                    <?php
+                                                }
+                                                ?>
+                                                <div class="card-errors"></div>
+                                                <button type="button" id="charging-saved-cards" class="hidden">Pay Securely</button>
+                                            </div>
+                                            <?php
+                                        }
+                                        ?>
+                                        <div class="col-md-12 row-new-card">
+                                            <label>
+                                                <input type="radio" name="pay-options" id="pay-options"> Credit card / Debit card
+                                            </label>
+                                            <div class="section-pay-with-card hidden">
+                                                <div id="card-element"></div>
+                                                <div class="card-errors"></div>
+                                                <button type="button" id="card-button" class="hidden">Pay</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </td>
@@ -510,10 +556,10 @@
          <div align="center"><br />
             <br />
             <input type="checkbox" name="onlinePayment" value="1" <?php echo ($data[0]['online_payment']) ? 'checked="checked" readonly' : '' ?> style="display: none;" />
-            <INPUT type="submit" value="Update" name="continue" class="button" id="continue" >
-            <INPUT type="button" value="Back" name="" class="button"  id="continue" onClick="javascript:location.href='<?=$_SERVER[HTTP_REFERER]
+            <input type="button" value="Update" name="continue" class="button" id="continue" >
+            <input type="button" value="Back" name="" class="button" onClick="javascript:location.href='<?=$_SERVER[HTTP_REFERER]
                ?>';" >
-            <input type="hidden" id="stripe_token" name="stripeToken" value="">
+            <input type="hidden" id="stripe_token" name="stripe_token" value="">
             <br />
             <br />
          </div>
@@ -838,16 +884,251 @@
                </div>
            </div>
      </div>
+    <!-- Loading modal -->
+    <div class="modal fade" id="modal-loading" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div clas="loader-txt">
+                        <p>Loading...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
    </div>
    <? include("footer.php"); ?>
 
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-   <script src="https://checkout.stripe.com/checkout.js"></script>
+   <!-- <script src="https://checkout.stripe.com/checkout.js"></script> -->
+   <script src="https://js.stripe.com/v3/"></script>
 </body>
 </html>
 <script type="text/javascript">
     stripePayment = "<?php echo $stripePayment ?>";
+
+    // Initialize Stripe and card element
+    var stripe = Stripe('<?php echo STRPIE_PUB_KEY; ?>');
+
+    var elements = stripe.elements();
+    var cardElement = elements.create('card', {
+        hidePostalCode: true
+    });
+    cardElement.mount('#card-element');
+
+    // Pay with Card
+    // var cardholderName = document.getElementById('cardholder-name');
+    var cardButton = document.getElementById('card-button');
+    // var clientSecret = cardButton.dataset.secret;
+
+    cardButton.addEventListener('click', function(ev) {
+        if( !$('#stripe_token').val().length && $('input[name="plan_id[]"]:checked').not('[disabled]').length )
+        {
+            ev.preventDefault();
+            $('#modal-loading').modal('show');
+            $('#continue').prop('disabled', true);
+            let planIds = $('input[name="plan_id[]"]:checked').not('[disabled]').map(function () {
+                return this.value;
+            }).get();
+
+            // stripe.createPaymentMethod('card', cardElement).then(function(result) {
+            stripe.createToken(cardElement).then(function(result) {
+                if (result.error) {
+                    // Display error.message in your UI.
+                    let message = result.error;
+                    if( typeof(result.error) == 'object' ) {
+                        message = result.error.message;
+                    }
+                    $('.row-new-card').find('div.card-errors').html(message);
+                    $('#stripe_token').val('');
+                    $('#modal-loading').modal('hide');
+                    $('#continue').prop('disabled', false);
+                } else {
+                    $('#stripe_token').val(result.token.id);
+
+                    let data = {
+                        'stripe_token': $('#stripe_token').val(),
+                        'store_id': $('input[name=storeId]').val(),
+                        'store_name': $('#storeName').val(),
+                        'plan_id': planIds
+                    };
+
+                    fetch('<?php echo BASE_URL ?>classes/billing.php', {
+                        method: 'POST',
+                        body: 'confirmStoreSubscription='+JSON.stringify(data),
+                        headers: {
+                          "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                        },
+                    }).then(function(result) {
+                        // Handle server response (see Step 3)
+                        result.json().then(function(json) {
+                            // console.log(json);
+                            handleServerResponse(json);
+                        })
+                    });
+                }
+            });
+        }
+        else
+        {
+            $('#registerform').submit();
+        }
+    });
+
+    // Handle subscription response
+    function handleServerResponse(response) {
+        if (response.error) {
+            // Show error from server on payment form
+            let message = response.error;
+            if( typeof(response.error) == 'object' ) {
+                message = response.error.message;
+            }
+            $('.row-new-card').find('div.card-errors').html(message);
+            $('#stripe_token').val('');
+            $('#modal-loading').modal('hide');
+            $('#continue').prop('disabled', false);
+        } else if (response.requires_action) {
+            // Use Stripe.js to handle required auth action
+            stripe.handleCardPayment(response.payment_intent_client_secret).then(function(result) {
+                if(result.error)
+                {
+                    // Display error.message in your UI.
+                    let message = result.error;
+                    if( typeof(result.error) == 'object' ) {
+                        message = result.error.message;
+                    }
+                    $('.row-new-card').find('div.card-errors').html(message);
+                    $('#stripe_token').val('');
+                    $('#modal-loading').modal('hide');
+                    $('#continue').prop('disabled', false);
+                }
+                else
+                {
+                    $('#modal-loading').modal('hide');
+                    $('#registerform').submit();
+                }
+            });
+        } else {
+            $('#modal-loading').modal('hide');
+            $('#registerform').submit();
+        }
+    }
+
+    // Pay with PaymentMethod (saved card)
+    $('#charging-saved-cards').on('click', function(ev) {
+        if( $('input[name=payment_method_id]:checked').length && $('input[name="plan_id[]"]:checked').not('[disabled]').length )
+        {
+            ev.preventDefault();
+            $('#modal-loading').modal('show');
+            $('#continue').prop('disabled', true);
+            let planIds = $('input[name="plan_id[]"]:checked').not('[disabled]').map(function () {
+                return this.value;
+            }).get();
+
+            let data = {
+                'payment_method_id': $('input[name=payment_method_id]:checked').val(),
+                'store_id': $('input[name=storeId]').val(),
+                'plan_id': planIds
+            };
+
+            fetch('<?php echo BASE_URL ?>classes/billing.php', {
+                method: 'POST',
+                body: 'confirmStoreSubscription='+JSON.stringify(data),
+                headers: {
+                  "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                },
+            }).then(function(result) {
+                // Handle server response (see Step 3)
+                result.json().then(function(json) {
+                    handleServerResponseSavedCard(json);
+                })
+            });
+        }
+        else
+        {
+            $('#registerform').submit();
+        }
+    });
+
+    // Handle response when pay with 'saved card' 
+    function handleServerResponseSavedCard(response) {
+        if (response.error) {
+            // Show error from server on payment form
+            let message = response.error;
+            if( typeof(response.error) == 'object' ) {
+                message = response.error.message;
+            }
+            $('.row-saved-cards').find('div.card-errors').html(message);
+            $('#modal-loading').modal('hide');
+            $('#continue').prop('disabled', false);
+        } else if (response.requires_action) {
+            // Use Stripe.js to handle required auth action
+            stripe.handleCardPayment(response.payment_intent_client_secret).then(function(result) {
+                if(result.error)
+                {
+                    // Display error.message in your UI.
+                    let message = result.error;
+                    if( typeof(result.error) == 'object' ) {
+                        message = result.error.message;
+                    }
+                    $('.row-saved-cards').find('div.card-errors').html(message);
+                    $('#modal-loading').modal('hide');
+                    $('#continue').prop('disabled', false);
+                }
+                else
+                {
+                    $('#modal-loading').modal('hide');
+                    $('#registerform').submit();
+                }
+            });
+        } else {
+            $('#modal-loading').modal('hide');
+            $('#registerform').submit();
+        }
+    }
+
+    // Delete source
+    function deleteSource(sourceId = null, This)
+    {
+        if( confirm('Are you sure you want to delete this card?') )
+        {
+            let $this = $(This);
+            $('#modal-loading').modal('show');
+
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo BASE_URL ?>classes/billing.php',
+                data: {
+                    'deleteSource': 1,
+                    'sourceId': sourceId
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if(response.deleted)
+                    {
+                        $this.closest('.radio').remove();
+                    }
+
+                    $('#modal-loading').modal('hide');
+                }
+            });
+        }
+    }
+
+    // 
     $(document).ready(function(){
+        $('input[name=payment_method_id]').on('click', function() {
+            $('#pay-options').prop('checked', false);
+            $('.section-pay-with-card').addClass('hidden');
+        });
+
+        // 
+        $('#pay-options').on('click', function() {
+            $('input[name=payment_method_id]').prop('checked', false);
+            $('.section-pay-with-card').removeClass('hidden');
+        });
+
+        // 
         $("input[name = openingDays]").click(function(){
             var vals = $(this).val();
             vals = 'all'+vals;
@@ -892,7 +1173,7 @@
         });
 
         // Initialize Stripe
-        var handler = StripeCheckout.configure({
+        /*var handler = StripeCheckout.configure({
             key: "<?php echo STRPIE_PUB_KEY; ?>",
             image: "https://stripe.com/img/documentation/checkout/marketplace.png",
             name: "Dastjar",
@@ -903,10 +1184,10 @@
                 $('#stripe_token').val(token.id);
                 $('#registerform').submit();
             }
-        });
+        });*/
 
         // Ask for detail before submit the location
-        $('#registerform').submit(function(e){
+        /*$('#registerform').submit(function(e){
             if( !$('#stripe_token').val().length && $('input[name="plan_id[]"]:checked').not('[disabled]').length ){
                 e.preventDefault();
                 
@@ -918,7 +1199,7 @@
                     amount: (totalAmount*100)
                 });
             }
-        });
+        });*/
 
           if(typeof("<?=$data[0]['store_image']?>") != "undefined" && "<?=$data[0]['store_image']?>" !== null){
                   $('.image-upload-wrap').hide();
