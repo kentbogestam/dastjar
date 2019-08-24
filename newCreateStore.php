@@ -104,7 +104,7 @@
          <input type="hidden" name="opencloseTimeing" value="" id="opencloseTimeing">
          <!-- <input type="hidden" name="m" value="saveNewStore"> -->
          <input type="hidden" name="m" value="editSaveStore">
-         <input type="hidden" name="storeId" value="67d41a72-5028-1b9e-f10d-a65e60bdf7a8">
+         <input type="hidden" name="storeId" value="">
          <table width="100%"  border="0">
             <tr>
                <td class="redwhitebutton">Add Location</td>
