@@ -1102,6 +1102,17 @@
     }
 
     $(document).ready(function(){
+        $('input[name=payment_method_id]').on('click', function() {
+            $('#pay-options').prop('checked', false);
+            $('.section-pay-with-card').addClass('hidden');
+        });
+
+        // 
+        $('#pay-options').on('click', function() {
+            $('input[name=payment_method_id]').prop('checked', false);
+            $('.section-pay-with-card').removeClass('hidden');
+        });
+        
         $("input[name = openingDays]").click(function(){
             var vals = $(this).val();
             vals = 'all'+vals;
