@@ -538,7 +538,7 @@
             </tr>
          </table>
          <div align="center">
-            <input type="checkbox" name="onlinePayment" value="1"  checked style="display: none;" />
+            <input type="checkbox" name="onlinePayment" value="1" style="display: none;" />
             <input style="margin-left:700px;" type="button" value="Submit" name="continue" id="continue" class="button">
             <br />
             <br />
