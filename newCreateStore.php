@@ -488,8 +488,13 @@
                                 <div class="panel-body">
                                     <div class="row">
                                         <?php
+                                        $isCardDefault = false;
                                         if(isset($paymentMethod->data))
                                         {
+                                            if( count($paymentMethod->data) == 1 )
+                                            {
+                                                $isCardDefault = true;
+                                            }
                                             ?>
                                             <div class="col-md-12 row-saved-cards">
                                                 <?php
@@ -498,7 +503,7 @@
                                                     ?>
                                                     <div class="radio">
                                                         <label>
-                                                            <input type="radio" name="payment_method_id" id="payment-method-<?=$row->card->last4;?>" value="<?=$row->id;?>">
+                                                            <input type="radio" name="payment_method_id" id="payment-method-<?=$row->card->last4;?>" value="<?=$row->id;?>" <?php echo ($isCardDefault) ? 'checked' : ''; ?>>
                                                             <i class="fa fa-cc-visa" aria-hidden="true"></i>
                                                             <i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i><i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i><i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i><i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i>
                                                             <?php echo $row->card->last4; ?>
@@ -516,9 +521,9 @@
                                         ?>
                                         <div class="col-md-12 row-new-card">
                                             <label>
-                                                <input type="radio" name="pay-options" id="pay-options"> Credit card / Debit card
+                                                <input type="radio" name="pay-options" id="pay-options" <?php echo ($isCardDefault == false) ? 'checked' : ''; ?>> Credit card / Debit card
                                             </label>
-                                            <div class="section-pay-with-card hidden">
+                                            <div class="section-pay-with-card<?php echo ($isCardDefault == false) ? '' : ' hidden'; ?>">
                                                 <div id="card-element"></div>
                                                 <div class="card-errors"></div>
                                                 <button type="button" id="card-button" class="hidden">Pay</button>
