@@ -1,0 +1,16 @@
+
+
+Get: handleGet============
+Array
+(
+    [mac] => 00:11:62:1b:e3:53
+    [code] => 200
+)
+
+
+Get: handleGet============
+Array
+(
+    [mac] => 00:11:62:1b:e3:53
+    [code] => 200
+)
