@@ -3,7 +3,25 @@
 	{
 		header('Content-Type: application/json');
 		$arr;
-		if (file_exists("print.txt") || file_exists("print.png"))
+
+		// Get JSON payload recieved from the request and parse it
+		$receivedJson = file_get_contents("php://input");
+		$parsedJson = json_decode($receivedJson, true);
+		
+		if (!isset($parsedJson['printerMAC'])) exit;
+
+		$str = "\n\nPost: handlePost ".date('Y-m-d H:i')."============\n";
+		updateLog($str);
+		
+		// Setup printer storage directories
+		$printerDir = getPrinterDir($parsedJson['printerMAC']);
+		// Create any local directories for storing printer data if they do not exist already (i.e. the first time the printer polls to the server)
+		// if (!is_dir($printerDir)) mkdir($printerDir, 0755);
+
+		$file = $printerDir."/print.txt";
+		updateLog($file);
+
+		if (file_exists($file))
 		{
 			$arr = array("jobReady" => true,
 			"mediaTypes" => array('text/plain'),
@@ -18,19 +36,10 @@
 		$mac = $_GET['mac'];
 		if ($mac == "") return;
 
-		$str = "\n\nGet: handleGet============\n";
-		updateLog($str);
-		$str = $_GET;
+		$str = "\n\nGet: handleGet ".date('Y-m-d H:i')."============\n";
 		updateLog($str);
 
-		$whitelist = array('127.0.0.1', '::1');
-		if(in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
-			$printerDir = $_SERVER['DOCUMENT_ROOT']."/dastjar/cloudprnt/printerdata/".getPrinterFolder($mac);
-		}
-		else {
-			$printerDir = $_SERVER['DOCUMENT_ROOT']."/cloudprnt/printerdata/".getPrinterFolder($mac);
-		}
-
+		$printerDir = getPrinterDir($_GET['mac']);
 		$file = $printerDir."/print.txt";
 
 		if (file_exists($file)) 
@@ -49,14 +58,45 @@
 	
 	function handleDelete()
 	{
-		$str = isset($_GET) ? "\n\nGet: handleDelete============\n" : "\n\nPost: handleDelete============\n";
-		updateLog($str);
-		$str = $_REQUEST;
-		updateLog($str);
+		$str = isset($_GET) ? "\n\nGet: handleDelete ".date('Y-m-d H:i')."============\n" : "\n\nPost: handleDelete ".date('Y-m-d H:i')."============\n";
 
 		header('Content-Type: text/plain');
-		if (file_exists("print.txt")) unlink("print.txt");
-		else if (file_exists("print.png")) unlink("print.png");
+		if (isset($_GET['code']) && ($_GET['code'] == '200 OK'))
+		{
+			$printerDir = getPrinterDir($_GET['mac']);
+			$file = $printerDir."/print.txt";
+			$str .= $file."\n";
+
+			if (file_exists($file)) {
+				unlink($file);
+				$str .= "Unlinked: ".$file;
+			}
+			else if (file_exists("print.png")) {
+				unlink("print.png");
+			}
+			else {
+				$str .= "File not found: ".$file;
+			}
+		}
+		else
+		{
+			$str .= "Code: ".$_GET['code'];
+		}
+
+		updateLog($str);
+	}
+
+	function getPrinterDir($mac)
+	{
+		$whitelist = array('127.0.0.1', '::1');
+		if(in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
+			$printerDir = $_SERVER['DOCUMENT_ROOT']."/dastjar/cloudprnt/printerdata/".getPrinterFolder($mac);
+		}
+		else {
+			$printerDir = $_SERVER['DOCUMENT_ROOT']."/cloudprnt/printerdata/".getPrinterFolder($mac);
+		}
+
+		return $printerDir;
 	}
 
 	function getPrinterFolder($printerMac)
