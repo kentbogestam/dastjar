@@ -19,7 +19,7 @@
    
    // Get 'payment method' belongs to customer
    $user = $billingObj->getUserCompanySubsDetail($_SESSION['userid']);
-   if(!is_null($user['stripe_customer_id']))
+   if(!is_null($user['stripe_customer_id']) && !empty($user['stripe_customer_id']))
    {
         $paymentMethod = $billingObj->getPaymentMethod($user['stripe_customer_id']);
    }
