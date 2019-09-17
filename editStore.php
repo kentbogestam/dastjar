@@ -512,6 +512,7 @@
                                         $isCardDefault = false;
                                         if(isset($paymentMethod->data))
                                         {
+                                            $i = 0;
                                             if( count($paymentMethod->data) == 1 )
                                             {
                                                 $isCardDefault = true;
@@ -524,7 +525,7 @@
                                                     ?>
                                                     <div class="radio">
                                                         <label>
-                                                            <input type="radio" name="payment_method_id" id="payment-method-<?=$row->card->last4;?>" value="<?=$row->id;?>" <?php echo ($isCardDefault) ? 'checked' : ''; ?>>
+                                                            <input type="radio" name="payment_method_id" id="payment-method-<?=$i;?>" value="<?=$row->id;?>" <?php echo ($isCardDefault) ? 'checked' : ''; ?>>
                                                             <i class="fa fa-cc-visa" aria-hidden="true"></i>
                                                             <i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i><i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i><i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i><i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i>
                                                             <?php echo $row->card->last4; ?>
@@ -532,6 +533,7 @@
                                                         <button type="button" class="btn btn-link btn-xs" onclick="deleteSource('<?php echo $row->id; ?>', this)">Delete</button>
                                                     </div>
                                                     <?php
+                                                    $i++;
                                                 }
                                                 ?>
                                                 <div class="card-errors"></div>
