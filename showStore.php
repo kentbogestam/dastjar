@@ -243,16 +243,23 @@
                                     </tr>-->
                                  <!-- with selected htl ends-->
                               </table>
-                              <table width="100%" border="0" cellpadding="6" cellspacing="0" class="border">
-                                 <tr>
-                                    <td width="67%" align="left"><?php echo $pager->get_title('Displaying Results {FROM} to {TO} of {TOTAL}'); ?></td>
-                                    <td width="33%" align="right"><?php
-                                       echo $pager->get_prev('<a href="{LINK_HREF}">Prev</a>&nbsp;');
-                                       echo $pager->get_range('<a href="{LINK_HREF}">{LINK_LINK}</a>', ' &raquo ') . '';
-                                       echo $pager->get_next('<a href="{LINK_HREF}">&nbsp;Next</a>');
-                                       ?></td>
-                                 </tr>
-                              </table>
+                              <?php
+                              if($total_records)
+                              {
+                                 ?>
+                                 <table width="100%" border="0" cellpadding="6" cellspacing="0" class="border">
+                                    <tr>
+                                       <td width="67%" align="left"><?php echo $pager->get_title('Displaying Results {FROM} to {TO} of {TOTAL}'); ?></td>
+                                       <td width="33%" align="right"><?php
+                                          echo $pager->get_prev('<a href="{LINK_HREF}">Prev</a>&nbsp;');
+                                          echo $pager->get_range('<a href="{LINK_HREF}">{LINK_LINK}</a>', ' &raquo ') . '';
+                                          echo $pager->get_next('<a href="{LINK_HREF}">&nbsp;Next</a>');
+                                          ?></td>
+                                    </tr>
+                                 </table>
+                                 <?php
+                              }
+                              ?>
                               <input type="hidden" name="action" value="check_box_action">
                            </form>
                            <?php } else {
