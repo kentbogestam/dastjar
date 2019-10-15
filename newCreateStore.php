@@ -422,24 +422,37 @@
                                                         <td><?php echo $i; ?></td>
                                                         <td align="left" colspan="2" style="padding-right: 10px; padding-left: 10px">
                                                             <?php
-                                                            if($product['package_ids'] == '1'){ 
+                                                            if($product['package_ids'] == '1' || !empty($product['mappedPackages'])){ 
                                                                 $total += floatval($product['price']);
                                                             ?>
                                                                 <div class="panel-group">
                                                                     <div class="panel panel-default">
                                                                         <div class="panel-heading">
                                                                             <h4 class="panel-title">
-                                                                            <a data-toggle="collapse" href="#collapse1"><?php echo $product['product_name']; ?><span class="caret pull-right"></span></a>
+                                                                            <a data-toggle="collapse" href="#collapse<?php echo $product['id'] ?>"><?php echo $product['product_name']; ?><span class="caret pull-right"></span></a>
                                                                             </h4>
                                                                         </div>
-                                                                        <div id="collapse1" class="panel-collapse collapse">
+                                                                        <div id="collapse<?php echo $product['id'] ?>" class="panel-collapse collapse">
                                                                             <ul class="list-group">
-                                                                                <li class="list-group-item">Order status (incoming and delivered orders)
-                                                                                </li>
-                                                                                <li class="list-group-item">Delivery and Payment confirmation</li>
-                                                                                <li class="list-group-item">Menu (Edit and add new dishes to Menu)</li>
-                                                                                <li class="list-group-item">Administration support (Change company setting and information)</li>
-                                                                                <li class="list-group-item">Additional features under “More” ooo</li>
+                                                                                <?php
+                                                                                if(!empty($product['mappedPackages']))
+                                                                                {
+                                                                                    foreach($product['mappedPackages'] as $row)
+                                                                                    {
+                                                                                        ?>
+                                                                                        <li class="list-group-item">
+                                                                                            <?php echo $row; ?>
+                                                                                        </li>
+                                                                                        <?php
+                                                                                    }
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    ?>
+                                                                                    <li class="list-group-item">Order status (incoming and delivered orders)</li><li class="list-group-item">Delivery and Payment confirmation</li><li class="list-group-item">Menu (Edit and add new dishes to Menu)</li><li class="list-group-item">Administration support (Change company setting and information)</li><li class="list-group-item">Additional features under “More” ooo</li>
+                                                                                    <?php
+                                                                                }
+                                                                                ?>
                                                                             </ul>
                                                                         </div>
                                                                     </div>

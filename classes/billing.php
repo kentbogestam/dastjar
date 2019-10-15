@@ -170,7 +170,35 @@ class Billing{
         $res = $db->query($query);
 
         while ($rs = mysqli_fetch_assoc($res)) {
-            $data[] = $rs;
+            // 
+            $mappedPackages = array();
+            // $billing_product_ids = $rs['billing_product_ids'];
+            $package_ids = explode(',', $rs['package_ids']);
+            $package_ids = implode("','",$package_ids);
+            $q2 = "SELECT title FROM anar_packages WHERE id IN('".$package_ids."')";
+            $res1 = $db->query($q2);
+            if($res1->num_rows > 1)
+            {
+                while ($rs1 = mysqli_fetch_assoc($res1))
+                {
+                    $mappedPackages[] = $rs1['title'];
+                }
+            }
+            
+            // 
+            $data[] = array(
+                'id' => $rs['id'],
+                'billing_product_ids' => $rs['billing_product_ids'],
+                'package_ids' => $rs['package_ids'],
+                'product_id' => $rs['product_id'],
+                'product_name' => $rs['product_name'],
+                'plan_id' => $rs['plan_id'],
+                'plan_nickname' => $rs['plan_nickname'],
+                'currency' => $rs['currency'],
+                'price' => $rs['price'],
+                'description' => $rs['description'],
+                'mappedPackages' => $mappedPackages,
+            );
         }
 
         return $data;
@@ -190,7 +218,36 @@ class Billing{
         $res = $db->query($query);
 
         while ($rs = mysqli_fetch_array($res)) {
-            $data[] = $rs;
+            // 
+            $mappedPackages = array();
+            // $billing_product_ids = $rs['billing_product_ids'];
+            $package_ids = explode(',', $rs['package_ids']);
+            $package_ids = implode("','",$package_ids);
+            $q2 = "SELECT title FROM anar_packages WHERE id IN('".$package_ids."')";
+            $res1 = $db->query($q2);
+            if($res1->num_rows > 1)
+            {
+                while ($rs1 = mysqli_fetch_assoc($res1))
+                {
+                    $mappedPackages[] = $rs1['title'];
+                }
+            }
+
+            // 
+            $data[] = array(
+                'id' => $rs['id'],
+                'billing_product_ids' => $rs['billing_product_ids'],
+                'package_ids' => $rs['package_ids'],
+                'product_id' => $rs['product_id'],
+                'product_name' => $rs['product_name'],
+                'plan_id' => $rs['plan_id'],
+                'up_id' => $rs['up_id'],
+                'plan_nickname' => $rs['plan_nickname'],
+                'currency' => $rs['currency'],
+                'price' => $rs['price'],
+                'description' => $rs['description'],
+                'mappedPackages' => $mappedPackages,
+            );
         }
 
         return $data;
