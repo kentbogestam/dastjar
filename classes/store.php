@@ -523,7 +523,7 @@ class store {
             die("Connection failed: " . mysqli_connect_error());
         }else{}
         $data = array();
-        $q = $db->query("SELECT * FROM store WHERE u_id = '{$uid}' AND s_activ='1'");
+        $q = $db->query("SELECT * FROM store WHERE u_id = '{$uid}' AND s_activ!='2'");
       
         // $res = mysql_query($query) or die(mysql_error());
         while ($rs = mysqli_fetch_array($q)) {
@@ -610,7 +610,7 @@ class store {
         else
             $set_keywords = " 1 AND ";
 
-        $q = $db->query("SELECT * FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND $set_keywords s_activ='1'  LIMIT {$paging_limit} ");
+        $q = $db->query("SELECT * FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND $set_keywords s_activ!='2'  LIMIT {$paging_limit} ");
 
         // $res = mysql_query($query) or die(mysql_error());
         while ($rs = mysqli_fetch_array($q)) {
@@ -1154,7 +1154,7 @@ class store {
         if ($_REQUEST['m'] == "showOutdatedStore") {
            $QUE = "SELECT * FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND $set_keywords  s_activ='2'";
         } else {
-           $QUE = "SELECT * FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND $set_keywords  s_activ='1'";
+           $QUE = "SELECT * FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND $set_keywords  s_activ!='2'";
         }
         //echo $QUE;
         // $res = mysql_query($query) or die(mysql_error());
@@ -1201,7 +1201,7 @@ class store {
         }
         $data = array();
         //echo $_SESSION['userid'];
-        $q = $db->query("SELECT store_id,store_name FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND s_activ='1'");
+        $q = $db->query("SELECT store_id,store_name FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND s_activ!='2'");
         while ($rs = mysqli_fetch_array($q)) {
         $stores[] = $rs;
         //echo $storename=$stores['store_name'];
@@ -1245,7 +1245,7 @@ class store {
         else
             $set_keywords = " 1 AND ";
  
-           $q = "SELECT * FROM store WHERE access_type = '0' AND $set_keywords  s_activ='1'";
+           $q = "SELECT * FROM store WHERE access_type = '0' AND $set_keywords  s_activ!='2'";
        
         $res = mysqli_query($conn , $q) or die(mysqli_error($conn));
         $total_records = $db->numRows($res);
@@ -1288,7 +1288,7 @@ class store {
         else
             $set_keywords = " 1 AND ";
 
-        $q = $db->query("SELECT * FROM store WHERE access_type = '0' AND $set_keywords s_activ='1'  LIMIT {$paging_limit} ");
+        $q = $db->query("SELECT * FROM store WHERE access_type = '0' AND $set_keywords s_activ!='2'  LIMIT {$paging_limit} ");
 
          //$res = mysql_query($q) or die(mysql_error());
         while ($rs = mysqli_fetch_array($q)) {
@@ -1412,7 +1412,7 @@ class store {
         else
             $set_keywords = " 1 AND ";
 
-        $q = "SELECT * FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND s_activ='1'";
+        $q = "SELECT * FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND s_activ!='2'";
 
         $res = mysqli_query($conn , $q) or die(mysqli_error($conn));
         $total_records = $db->numRows($res);
@@ -1454,7 +1454,7 @@ class store {
         else
             $set_keywords = " 1 AND ";
 
-        $q = $db->query("SELECT * FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND s_activ='1' AND  $set_keywords s_activ='1'  LIMIT {$paging_limit} ");
+        $q = $db->query("SELECT * FROM store WHERE u_id = '" . $_SESSION['userid'] . "' AND s_activ!='2' AND  $set_keywords s_activ!='2'  LIMIT {$paging_limit} ");
 
          //$res = mysql_query($q) or die(mysql_error());
         while ($rs = mysqli_fetch_array($q)) {
@@ -1609,6 +1609,29 @@ class store {
         exit();
     }
 
+    // Update store status 'active/inactive'
+    function updateStoreStatus($data)
+    {
+        $db = new db();
+        $conn = $db->makeConnection();
+        
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+
+        $status = 0;
+
+        if( isset($data['store_id']) && isset($data['s_activ']) )
+        {
+            $query = "UPDATE store SET s_activ={$data['s_activ']} WHERE store_id='{$data['store_id']}' ";
+            $res = mysqli_query($conn , $query) or die("Get Company : " . mysqli_error($conn));
+            $row = mysqli_fetch_array($res);
+            $status = 1;
+        }
+
+        return $status;
+    }
 }
 
 ?>

@@ -13,6 +13,15 @@
    else
        $show = 'checked="checked"';
    
+   // Update store status 'active/inactive'
+   if( isset($_GET['updateStatus']) )
+   {
+      $storeObj = new store();
+      $resp = $storeObj->updateStoreStatus($_GET);
+      echo $resp;
+      exit;
+   }
+
    include("main.php");
    include("Paging.php");
    $_SESSION["companyUser"] = $_SESSION['userid'];
@@ -187,7 +196,7 @@
                                     <!--<td align="center"><?php echo $data1['link']; ?></td>-->
                                     <!--<td align="center"><a href="map.php?lat=<?=$data1['latitude'] ?>&lang=<?=$data['longitude'] ?>&zoom=16" rel="lyteframe" rev="width: 650px; height: 600px; scrolling: no;" >View Store on Map</a></td>-->
                                     <td align="center">
-                                       <a href="viewStore.php?storeId=<?=$data1['store_id']; ?>" class="a2" title="View"><img src="lib/grid/images/view.gif"></a>&nbsp;&nbsp;
+                                       <a href="viewStore.php?storeId=<?=$data1['store_id']; ?>" class="a2" title="View"><img src="lib/grid/images/view.gif"></a>
                                        <?php if ($_REQUEST['m'] == "showOutdatedStore") {
                                           ?>
                                        <!--<a href="javascript:delete_re('storeId=<?=$data1['store_id']; ?>')" onClick="" class="a2" title="Delete">
@@ -202,9 +211,10 @@
                                        <?php if ($_REQUEST['m'] == "showOutdatedStore") {
                                           ?>
                                        <?php } else {
-                                          ?> &nbsp;|&nbsp;
+                                          ?>|
                                        <a href="editStore.php?storeId=<?=$data1['store_id']; ?>" class="a2" title="Edit"><img src="lib/grid/images/edite.gif"></a>
-                                       <?php } ?>
+                                       <?php } ?>|
+                                       <input type="checkbox" name="s_activ" value="<?php echo $data1['store_id']; ?>" <?php echo ($data1['s_activ'] == 1) ? 'checked="checked"' : ''; ?>>
                                     </td>
                                  </tr>
                                  <?
@@ -263,6 +273,30 @@
          </table>
       </div>
    </div>
+   <script>
+      $(function() {
+         // 
+         $('input[name=s_activ]').click(function() {
+            let isChecked = 1;
+
+            if( !$(this).is(':checked') )
+            {
+               isChecked = 0;
+            }
+
+            $.ajax({
+               url: 'showStore.php',
+               data: {
+                  'updateStatus': 1,
+                  'store_id': $(this).val(),
+                  's_activ': isChecked
+               }
+            }).done(function(response) {
+               console.log(response);
+            });
+         });
+      });
+   </script>
    <div><? include("footer.php"); ?></div>
 </body>
 </html>
