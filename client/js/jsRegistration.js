@@ -164,7 +164,8 @@ $(document).ready(function(){
             $("#error_phone").html(errorMsg);
             $("#error_mobile").html(errorMsg);
             error = "true";
-        }else if(phoneValidator($.trim($("#phone").val())))
+        }
+        /*else if(phoneValidator($.trim($("#phone").val())))
         {
             var errorMsg = "Please Enter Valid Phone Number.<br/>";
             $("#error_phone").html(errorMsg);
@@ -174,7 +175,7 @@ $(document).ready(function(){
             var errorMsg = "Please Enter Valid Mobile Number.<br/>";
             $("#error_mobile").html(errorMsg);
             error = "true";
-        }
+        }*/
 
         /*if(document.getElementById('terms').checked==false)
         {
