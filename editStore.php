@@ -202,7 +202,7 @@
                <td align="right"><a title="<?=SNAME_OF_LOCATION_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
             <tr>
-               <td class="inner_grid">E-mail<span class='mandatory'>*</span>:</td>
+               <td class="inner_grid">Restaurant email<span class='mandatory'>*</span>:</td>
                <td>
                   <INPUT class="text_field_new" type=text name="email" value="<?=$data[0]['email']
                      ?>" id ="email">
@@ -211,7 +211,7 @@
                <td align="right"><a title="<?=STORE_EMAIL_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
             <tr>
-               <td class="inner_grid">Phone Number<span class='mandatory'>*</span>:</td>
+               <td class="inner_grid">Restaurant phone<span class='mandatory'>*</span>:</td>
                <td>
                   <INPUT class="text_field_new" type=text name="phoneNo"  value="<?=$data[0]['phone']
                      ?>" id ="phoneNo">
@@ -263,7 +263,7 @@
                </td>
                <td align="right"><a title="<?=COUNTRY_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
-            <tr>
+            <!-- <tr>
                <td class="inner_grid">Chain:</td>
                <td>
                   <INPUT class="text_field_new" type=text name="chain" id ="chain" value="<?=$data[0]['chain']
@@ -271,7 +271,7 @@
                   <div id='error_chain' class="error" ></div>
                </td>
                <td align="right"><a title="<?=CHAIN_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
-            </tr>
+            </tr> -->
             <tr>
                <td class="inner_grid">Block:</td>
                <td>
@@ -312,7 +312,7 @@
 		<td align="right"><a title="<?=STORE_CLOSE_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
             <tr>
-               <td class="inner_grid">Link to the location home<span class='mandatory'>*</span>:</td>
+               <td class="inner_grid">Restaurant homepage:</td>
                <td>
                   <INPUT class="text_field_new" type=text name="link"  value="<?=$data[0]['store_link']
                      ?>" id ="link" >
@@ -396,7 +396,7 @@
                             <input class="file-upload-input" type='file' id="imageStore" name="imageStore" onBlur="iconPreview(this.form);"  onchange="readURL(this);" accept="image/" />
                             <div class="drag-text">
                                 <h3>Drag and drop a file or select add Image</h3>
-                                <samp>Please upload only png Image</samp>
+                                <samp>Please upload only png/jpg/jpeg Image</samp>
                             </div>
                         </div>
                         <div class="file-upload-content">
@@ -429,6 +429,7 @@
                                                     <th></th>
                                                     <th>S. No.</th>
                                                     <th colspan="2" style="padding-bottom: 10px; padding-right: 10px">Product Description</th>
+                                                    <th>Trial Period</th>
                                                     <th>Unit Price(kr)</th>
                                                     <th>Amount</th>
                                                     <th></th>
@@ -443,7 +444,7 @@
                                                     <tr class="prods">
                                                         <td align="left">
                                                             <!-- <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo ($product['package_id'] == 1) ? "checked='checked' readonly" : '' ?> <?php echo (in_array($product['plan_id'], $arrProductsSubscribed)) ? "checked='checked' disabled" : ''; ?> data-amount="<?php echo $product['price']; ?>" data-package="<?php echo $product['package_id']; ?>" data-tax="25"> -->
-                                                            <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo ($product['package_ids'] == '1') ? "checked='checked' readonly" : '' ?> <?php echo (is_numeric($product['up_id'])) ? "checked='checked' disabled" : ''; ?> data-amount="<?php echo $product['price']; ?>" data-package="<?php echo $product['package_ids']; ?>" data-tax="25">
+                                                            <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo ($product['package_ids'] == '1') ? "checked='checked' readonly" : "" ?> <?php echo (is_numeric($product['up_id'])) ? "checked='checked' disabled" : ''; ?> data-amount="<?php echo $product['price']; ?>" data-package="<?php echo $product['package_ids']; ?>" data-tax="25">
                                                             <label for="plan_id<?php echo $product['plan_id']; ?>"></label>
                                                         </td>
                                                         <td><?php echo $i; ?></td>
@@ -487,10 +488,12 @@
                                                                 <?=$product['product_name']?>
                                                             <?php } ?>
                                                         </td>
+                                                        <td>
+                                                            <?php echo ($product['trial_period']) ? $product['trial_period'].' Days' : 'No'; ?>
+                                                        </td>
                                                         <td align="left">
                                                             <?= number_format(($product['price']), 2, '.', '')." (" .$product['currency'].")"?>
                                                         </td>
-                                                        <!-- <td align="left">1</td> -->
                                                         <td align="left">
                                                             <?php  echo number_format(($product['price']*1), 2, '.', ''); ?>
                                                         </td>
@@ -511,11 +514,14 @@
                             </table>
                             <div class="block-total row">
                                 <div class="col-md-9 text-right"><strong>Sub Total: </strong></div>
-                                <div class="col-md-3 subscription-sub-total" style="padding-left: 75px;"><?=number_format($total, 2, '.', '');?></div>
+                                <div class="col-md-3 subscription-sub-total" style="padding-left: 97px;"><?=number_format($total, 2, '.', '');?></div>
 <div class="col-md-9 text-right"><strong>Tax: </strong></div>
-                                <div class="col-md-3 subscription-tax" style="padding-left: 75px;"><?=number_format($total, 2, '.', '');?></div>
+                                <div class="col-md-3 subscription-tax" style="padding-left: 97px;"><?=number_format($total, 2, '.', '');?></div>
 <div class="col-md-9 text-right"><strong>Total: </strong></div>
-                                <div class="col-md-3 subscription-total" style="padding-left: 75px;"><?=number_format($total, 2, '.', '');?></div>
+                                <div class="col-md-3 subscription-total" style="padding-left: 97px;"><?=number_format($total, 2, '.', '');?></div>
+                                <div class="col-md-12">
+                                    <small>Note*: The total value of (SUM)  will be deducted from you account after end of trial period.</small>
+                                </div>
                             </div>
                             <div class="panel panel-info">
                                 <div class="panel-heading">Make payment</div>

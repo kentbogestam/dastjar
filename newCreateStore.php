@@ -123,7 +123,7 @@
                <td align="right"><a title="<?=SNAME_OF_LOCATION_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
             <tr>
-               <td class="inner_grid">E-mail
+               <td class="inner_grid">Restaurant email
                   <span class='mandatory'>*</span>:
                </td>
                <td>
@@ -134,7 +134,7 @@
                <td align="right"><a title="<?=STORE_EMAIL_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
             <tr>
-               <td class="inner_grid">Link to the location home<span class='mandatory'>*</span>:</td>
+               <td class="inner_grid">Restaurant homepage:</td>
                <td>
                   <INPUT class="text_field_new" type=text name="link" id ="link" >
                   <div id='error_link' class="error"></div>
@@ -176,9 +176,9 @@
             </tr>
             <!-- End code added by saurabh to add new field for restaurant keyword"-->
             <tr>
-               <td class="inner_grid">Phone Number<span class='mandatory'>*</span>:</td>
+               <td class="inner_grid">Restaurant phone<span class='mandatory'>*</span>:</td>
                <td>
-                  <INPUT class="text_field_new" type=text name="phoneNo" id ="phoneNo">
+                  <INPUT class="text_field_new" type=text name="phoneNo" id ="phoneNo" value="<?php echo isset($user['phone']) ? $user['phone'] : ''; ?>">
                   <div id='error_phoneNo' class="error"></div>
                </td>
                <td align="right"><a title="<?=PHONE_NUMBER_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
@@ -311,14 +311,14 @@
                </td>
                <td align="right"><a title="<?=COUNTRY_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
-            <tr>
+            <!-- <tr>
                <td class="inner_grid">Chain:</td>
                <td>
                   <input class="text_field_new" type="text" name="chain" id ="chain" value="<?=$data[0]['chain'] ?>" />
                   <div id='error_chain' class="error"></div>
                </td>
                <td align="right"><a title="<?=CHAIN_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
-            </tr>
+            </tr> -->
             <!-- <tr>
                <td class="inner_grid">Block:</td>
                <td>
@@ -369,7 +369,7 @@
                         <input class="file-upload-input" type='file' id="imageStore" name="imageStore" onchange="readURL(this)" onBlur="iconPreview(this.form);" accept="image" />
                         <div class="drag-text">
                            <h3>Drag and drop a file or select add Image</h3>
-                           <samp>Please upload only png Image</samp>
+                           <samp>Please upload only png/jpg/jpeg Image</samp>
                         </div>
                      </div>
                      <div class="file-upload-content">
@@ -403,8 +403,8 @@
                                                     <th></th>
                                                     <th>S. No.</th>
                                                     <th colspan="2" style="padding-bottom: 10px; padding-right: 10px">Product Description</th>
+                                                    <th>Trial Period</th>
                                                     <th>Unit Price(kr)</th>
-                                                    <!-- <th>Quantity</th> -->
                                                     <th>Amount</th>
                                                     <th></th>
                                                 </tr>
@@ -461,10 +461,12 @@
                                                                 <?=$product['product_name']?>
                                                             <?php } ?>
                                                         </td>
+                                                        <td>
+                                                            <?php echo ($product['trial_period']) ? $product['trial_period'].' Days' : 'No'; ?>
+                                                        </td>
                                                         <td align="left">
                                                             <?= number_format(($product['price']), 2, '.', '')." (" .$product['currency'].")"?>
                                                         </td>
-                                                        <!-- <td align="left">1</td> -->
                                                         <td align="left">
                                                             <?php  echo number_format(($product['price']*1), 2, '.', ''); ?>
                                                         </td>
@@ -490,11 +492,14 @@
                             </table>
                             <div class="block-total row">
                                 <div class="col-md-9 text-right"><strong>Sub Total: </strong></div>
-                                <div class="col-md-3 subscription-sub-total" style="padding-left: 75px;"><?=number_format($total, 2, '.', '');?></div>
+                                <div class="col-md-3 subscription-sub-total" style="padding-left: 90px;"><?=number_format($total, 2, '.', '');?></div>
 <div class="col-md-9 text-right"><strong>Tax: </strong></div>
-                                <div class="col-md-3 subscription-tax" style="padding-left: 75px;"><?=number_format($total, 2, '.', '');?></div>
+                                <div class="col-md-3 subscription-tax" style="padding-left: 90px;"><?=number_format($total, 2, '.', '');?></div>
 <div class="col-md-9 text-right"><strong>Total: </strong></div>
-                                <div class="col-md-3 subscription-total" style="padding-left: 75px;"><?=number_format($total, 2, '.', '');?></div>
+                                <div class="col-md-3 subscription-total" style="padding-left: 90px;"><?=number_format($total, 2, '.', '');?></div>
+                                <div class="col-md-12">
+                                    <small>Note*: The total value of (SUM)  will be deducted from you account after end of trial period.</small>
+                                </div>
                             </div>
                             <div class="panel panel-info">
                                 <div class="panel-heading">Make payment</div>
@@ -548,7 +553,7 @@
                                 </div>
                             </div>
                             <div>
-                                <label><input type="checkbox" name="terms" id="terms" value="terms" required>Terms & Condition</label> 
+                                <label><input type="checkbox" name="terms" id="terms" value="terms" required> I agree to <a href="<?php echo BASE_URL.'terms.php' ?>" target="_blank">Terms & Condition</a></label> 
                                 <span class="mandatory">*</span>
                                 <input type="hidden" id="stripe_token" name="stripe_token" value="">
                             </div>

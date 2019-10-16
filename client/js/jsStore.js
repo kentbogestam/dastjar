@@ -110,14 +110,14 @@ $(document).ready(function(){
             error = "true";            
         }
 
-        if($.trim($("#link").val()).length == 0)
+        /*if($.trim($("#link").val()).length == 0)
         {
             var errorMsg = "Please Enter Link to the Location Home.<br/>";
             $("#error_link").html(errorMsg);
             error = "true";
-        }
+        }*/
             
-        if(!isURL($.trim($("#link").val())))
+        if($("#link").val().length && !isURL($.trim($("#link").val())))
         {
             var errorMsg = "Please Enter Valid Link to the Location Home.<br />";
             $("#error_link").html(errorMsg);

@@ -148,16 +148,14 @@ class store {
         $arrUser['email'] = $_POST['email'];
         $arrUser['phone'] = $_POST['phoneNo'];
         $arrUser['link'] = $_POST['link'];
-        $arrUser['chain'] = $_POST['chain'];
+        $arrUser['chain'] = isset($_POST['chain']) ? $_POST['chain'] : '';
         $arrUser['block'] = $_POST['block'];
         $arrUser['zip'] = $_POST['zip'];
         // string matching
         $filestring = $arrUser['link'];
         $findme  = 'http://';
         $pos = strpos($filestring, $findme);
-        if ($pos === false) {
-            $arrUser['link'] = 'http://' . $filestring;
-        } else {
+        if ($pos != false) {
             $arrUser['link'] = $filestring;
         }
 
@@ -177,7 +175,7 @@ class store {
 
         $error.= ( $arrUser['phone'] == '') ? ERROR_PHONE_NUMBER : '';
 
-        $error.= ( $arrUser['link'] == '') ? ERROR_LINK : '';
+        // $error.= ( $arrUser['link'] == '') ? ERROR_LINK : '';
 
         if ($error != '') {
             $_SESSION['MESSAGE'] = $error;
@@ -341,26 +339,16 @@ class store {
         $arrUser['phone'] = addslashes(trim($_POST['phoneNo']));
         $arrUser['link'] = addslashes(trim($_POST['link']));
         $arrUser['delivery_type'] = $_POST['delivery_type'];
-        $arrUser['chain'] = addslashes(trim($_POST['chain']));
+        $arrUser['chain'] = isset($_POST['chain']) ? addslashes(trim($_POST['chain'])) : '';
         $arrUser['block'] = addslashes(trim($_POST['block']));
         $arrUser['zip'] = addslashes(trim($_POST['zip']));
         $arrUser['tagline']= addslashes(trim($_POST['tagline'])); // added code for tag line by saurabh
+        
         // string matching
         $filestring = $arrUser['link'];
         $findme  = 'http://';
         $pos = strpos($filestring, $findme);
-        if ($pos === false) {
-            $arrUser['link'] = 'http://' . $filestring;
-        } else {
-            $arrUser['link'] = $filestring;
-        }
-        // string matching
-        $filestring = $arrUser['link'];
-        $findme  = 'http://';
-        $pos = strpos($filestring, $findme);
-        if ($pos === false) {
-            $arrUser['link'] = 'http://' . $filestring;
-        } else {
+        if ($pos != false) {
             $arrUser['link'] = $filestring;
         }
         
@@ -394,8 +382,10 @@ class store {
         if (!empty($_FILES["imageStore"]["name"])) {
             // $CategoryIconName = "cat_icon_" . time();
             $info = pathinfo($_FILES["imageStore"]["name"]);
+            $file_extension = strtolower($info['extension']);
             
-            if (strtolower($info['extension']) == "png" || strtolower($info['extension']) == "jpg") {
+            if ($file_extension == "png" || $file_extension == "jpg" || $file_extension == "jpeg")
+            {
                 if ($_FILES["imageStore"]["error"] > 0) {
                     $error.=$_FILES["imageStore"]["error"] . "<br />";
                 } else {
@@ -830,7 +820,7 @@ class store {
         $arrUser['country'] = $_POST['countryStore'];
         $arrUser['link'] = $_POST['link'];
         $arrUser['delivery_type'] = $_POST['delivery_type'];
-        $arrUser['chain'] = $_POST['chain'];
+        $arrUser['chain'] = isset($_POST['chain']) ? $_POST['chain'] : '';
         $arrUser['block'] = $_POST['block'];
         $arrUser['zip'] = $_POST['zip'];
         $arrUser['tagline'] = $_POST['tagline'];
@@ -838,9 +828,7 @@ class store {
         $filestring = $arrUser['link'];
         $findme  = 'http://';
         $pos = strpos($filestring, $findme);
-        if ($pos === false) {
-            $arrUser['link'] = 'http://' . $filestring;
-        } else {
+        if ($pos != false) {
             $arrUser['link'] = $filestring;
         }
         $arrUser['latitude'] = $_POST['latitude'];

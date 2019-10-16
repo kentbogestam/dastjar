@@ -166,7 +166,7 @@ class Billing{
 
         // $query = "SELECT BP.id, BP.package_id, BP.product_id, BP.product_name, BP.plan_id, BP.plan_nickname, BP.currency, BP.price, BP.description FROM billing_products AS BP INNER JOIN anar_packages AS AP ON AP.id = BP.package_id WHERE BP.s_activ != 2 AND AP.status = '1' ORDER BY AP.id";
         // $query = "SELECT bp1.id, bp1.package_id, bp1.product_id, bp1.product_name, bp1.plan_id, bp1.plan_nickname, bp1.currency, bp1.price, bp1.description FROM billing_products bp1 LEFT JOIN billing_products bp2 ON (bp1.package_id = bp2.package_id AND bp1.id < bp2.id) INNER JOIN anar_packages AP ON AP.id = bp1.package_id WHERE bp2.id IS NULL AND bp1.s_activ != 2 AND AP.status = '1' ORDER BY AP.id";
-        $query = "SELECT bp.id, GROUP_CONCAT(bpp.package_id) AS package_ids, bp.product_id, bp.product_name, bp.plan_id, bp.plan_nickname, bp.currency, bp.price, bp.description FROM billing_products bp INNER JOIN billing_product_packages bpp ON bp.id = bpp.billing_product_id INNER JOIN anar_packages AP ON AP.id = bpp.package_id WHERE bp.s_activ != 2 AND AP.status = '1' GROUP BY bp.id ORDER BY AP.id, bp.id";
+        $query = "SELECT bp.id, GROUP_CONCAT(bpp.package_id) AS package_ids, bp.product_id, bp.product_name, bp.plan_id, bp.plan_nickname, bp.currency, bp.price, bp.trial_period, bp.description FROM billing_products bp INNER JOIN billing_product_packages bpp ON bp.id = bpp.billing_product_id INNER JOIN anar_packages AP ON AP.id = bpp.package_id WHERE bp.s_activ != 2 AND AP.status = '1' GROUP BY bp.id ORDER BY AP.id, bp.id";
         $res = $db->query($query);
 
         while ($rs = mysqli_fetch_assoc($res)) {
@@ -196,6 +196,7 @@ class Billing{
                 'plan_nickname' => $rs['plan_nickname'],
                 'currency' => $rs['currency'],
                 'price' => $rs['price'],
+                'trial_period' => $rs['trial_period'],
                 'description' => $rs['description'],
                 'mappedPackages' => $mappedPackages,
             );
@@ -214,7 +215,7 @@ class Billing{
         $date = date('Y-m-d H:i:s');
         
         // $query = "SELECT bp.id, bp.package_id, bp.product_id, bp.product_name, bp.plan_id, UP.id up_id, bp.plan_nickname, bp.currency, bp.price, bp.description FROM billing_products bp INNER JOIN anar_packages AP ON AP.id = bp.package_id LEFT JOIN user_plan UP ON (bp.plan_id = UP.plan_id AND UP.store_id='{$storeId}' AND UP.subscription_start_at <= '{$date}' AND UP.subscription_end_at >= '{$date}') WHERE bp.s_activ != 2 AND AP.status = '1' GROUP BY bp.id ORDER BY AP.id";
-        $query = "SELECT bp.id, GROUP_CONCAT(bpp.package_id) AS package_ids, bp.product_id, bp.product_name, bp.plan_id, UP.id up_id, bp.plan_nickname, bp.currency, bp.price, bp.description FROM billing_products bp INNER JOIN billing_product_packages bpp ON bp.id = bpp.billing_product_id INNER JOIN anar_packages AP ON AP.id = bpp.package_id LEFT JOIN user_plan UP ON (bp.plan_id = UP.plan_id AND UP.store_id='{$storeId}' AND UP.subscription_start_at <= '{$date}' AND UP.subscription_end_at >= '{$date}' AND UP.status='1') WHERE bp.s_activ != 2 AND AP.status = '1' GROUP BY bp.id ORDER BY AP.id";
+        $query = "SELECT bp.id, GROUP_CONCAT(bpp.package_id) AS package_ids, bp.product_id, bp.product_name, bp.plan_id, UP.id up_id, bp.plan_nickname, bp.currency, bp.price, bp.trial_period, bp.description FROM billing_products bp INNER JOIN billing_product_packages bpp ON bp.id = bpp.billing_product_id INNER JOIN anar_packages AP ON AP.id = bpp.package_id LEFT JOIN user_plan UP ON (bp.plan_id = UP.plan_id AND UP.store_id='{$storeId}' AND UP.subscription_start_at <= '{$date}' AND UP.subscription_end_at >= '{$date}' AND UP.status='1') WHERE bp.s_activ != 2 AND AP.status = '1' GROUP BY bp.id ORDER BY AP.id";
         $res = $db->query($query);
 
         while ($rs = mysqli_fetch_array($res)) {
@@ -245,6 +246,7 @@ class Billing{
                 'plan_nickname' => $rs['plan_nickname'],
                 'currency' => $rs['currency'],
                 'price' => $rs['price'],
+                'trial_period' => $rs['trial_period'],
                 'description' => $rs['description'],
                 'mappedPackages' => $mappedPackages,
             );
@@ -584,6 +586,9 @@ class Billing{
                                 <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>Total:</div>
                             </td>
                             <td align='right' style='padding:1px 10px 5px;background-color: #CCCD99;'>{$total} (SEK)</td>
+                        </tr>
+                        <tr>
+                            <td colspan='2'>Note*: The total value of (SUM)  will be deducted from you account after end of trial period.</td>
                         </tr>";
 
                         // Send thank-you email
@@ -725,7 +730,7 @@ on user_plan.user_id=user.u_id group by user.u_id";
         $db = new db();
         $db->makeConnection();
 
-        $qry = "SELECT U.email, CONCAT(U.fname, ' ', U.lname) AS userName, C.company_id, C.company_name, C.orgnr, CONCAT_WS(', ', C.street, C.city, C.zip, C.country) AS companyAddress, C.city, CSD.company_id AS csd_company_id, CSD.stripe_customer_id, CSD.stripe_user_id FROM user AS U INNER JOIN company AS C ON U.u_id = C.u_id LEFT JOIN company_subscription_detail AS CSD ON C.company_id = CSD.company_id WHERE U.u_id = '{$uId}'";
+        $qry = "SELECT U.email, CONCAT(U.fname, ' ', U.lname) AS userName, U.phone, C.company_id, C.company_name, C.orgnr, CONCAT_WS(', ', C.street, C.city, C.zip, C.country) AS companyAddress, C.city, CSD.company_id AS csd_company_id, CSD.stripe_customer_id, CSD.stripe_user_id FROM user AS U INNER JOIN company AS C ON U.u_id = C.u_id LEFT JOIN company_subscription_detail AS CSD ON C.company_id = CSD.company_id WHERE U.u_id = '{$uId}'";
         $res = $db->query($qry);
         $user = mysqli_fetch_array($res);
         return $user;
