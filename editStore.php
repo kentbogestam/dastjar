@@ -73,64 +73,49 @@
    $openCloseList = explode(",",$data[0]['store_open_close_day_time']);
    foreach ($openCloseList as $key => $value) {
       $getDay = explode("::",$value);
-      if(strcmp($getDay[0],All)==1){
+      $getDay[0] = str_replace(' ', '', $getDay[0]);
+
+      if($getDay[0] == 'All'){
         $getTime = explode("to",$getDay[1]);
         $allDayOpen = $getTime[0];
         $allDayClose = $getTime[1];
       }
-      if(strcmp($getDay[0],Mon)==1){
+      if($getDay[0] == 'Mon'){
         $getTime = explode("to",$getDay[1]);
         $monDayOpen = $getTime[0];
         $monDayClose = $getTime[1];
       }
-      if(strcmp($getDay[0],Tue)==1){
+      if($getDay[0] == 'Tue'){
         $getTime = explode("to",$getDay[1]);
         $tueDayOpen = $getTime[0];
         $tueDayClose = $getTime[1];
       }
-      if(strcmp($getDay[0],Wed)==1){
+      if($getDay[0] == 'Wed'){
         $getTime = explode("to",$getDay[1]);
         $wedDayOpen = $getTime[0];
         $wedDayClose = $getTime[1];
       }
-      if(strcmp($getDay[0],Thu)==1){
+      if($getDay[0] == 'Thu'){
         $getTime = explode("to",$getDay[1]);
         $thuDayOpen = $getTime[0];
         $thuDayClose = $getTime[1];
       }
-      if(strcmp($getDay[0],Fri)==1){
+      if($getDay[0] == 'Fri'){
         $getTime = explode("to",$getDay[1]);
         $friDayOpen = $getTime[0];
         $friDayClose = $getTime[1];
       }
-      if(strcmp($getDay[0],Sat)==1){
+      if($getDay[0] == 'Sat'){
         $getTime = explode("to",$getDay[1]);
         $satDayOpen = $getTime[0];
         $satDayClose = $getTime[1];
       }
-      if(str_replace(' ', '', $getDay[0]) == Sun){
+      if($getDay[0] == 'Sun'){
         $getTime = explode("to",$getDay[1]);
         $sunDayOpen = $getTime[0];
         $sunDayClose = $getTime[1];
       }
    }
-    // "<pre>";print_r($allDayOpen);echo "</pre>";
-    // "<pre>";print_r($allDayClose);echo "</pre>";
-    // "<pre>";print_r($monDayOpen);echo "</pre>";
-    // "<pre>";print_r($monDayClose);echo "</pre>";
-    // "<pre>";print_r($tueDayOpen);echo "</pre>";
-    // "<pre>";print_r($tueDayClose);echo "</pre>";
-    // "<pre>";print_r($wedDayOpen);echo "</pre>";
-    // "<pre>";print_r($wedDayClose);echo "</pre>";
-    // "<pre>";print_r($thuDayOpen);echo "</pre>";
-    // "<pre>";print_r($thuDayClose);echo "</pre>";
-    // "<pre>";print_r($friDayOpen);echo "</pre>";
-    // "<pre>";print_r($friDayClose);echo "</pre>";
-    // "<pre>";print_r($satDayOpen);echo "</pre>";
-    // "<pre>";print_r($satDayClose);echo "</pre>";
-    // "<pre>";print_r($sunDayOpen);echo "</pre>";
-    // "<pre>";print_r($sunDayClose);echo "</pre>";
-   //die();
    //echo "<pre>";print_r($data);echo "</pre>";die();
    if ($data[0]['latitude'] && $data[0]['longitude']) {
        $latitude = $data[0]['latitude'];
@@ -191,10 +176,10 @@
          <div class="redwhitebutton123">Edit Location</div>
          <table BORDER=0 width="100%" cellspacing="18">
             <tr>
-               <td width="592" class="inner_grid">Name of location 
+               <td width="50%" class="inner_grid">Name of location 
                   <span class='mandatory'>*</span>:
                </td>
-               <td width="415" >
+               <td width="40%">
                   <INPUT class="text_field_new"  type=text name="storeName" id ="storeName" value="<?=$data[0]['store_name']
                      ?>">
                   <div id='error_storeName' class="error"></div>
@@ -291,11 +276,12 @@
                <td align="right"><a title="<?=ZIP_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
             <tr>
-               <td height="42" align="left">Opening hours of the Location </td>
+               <td height="42" align="left" style="vertical-align: top;">Opening hours of the Location </td>
                 <td>
-                  <table class="days_div" border="0" cellspacing="0" cellpadding="0">
+                <?php include('elements/store-opening-hours.php'); ?>
+                  <!-- <table class="days_div" border="0" cellspacing="0" cellpadding="0">
                     <label><a style="font-size: 15px;vertical-align: top; cursor:pointer; text-decoration: underline;" id="add_tpye_of_dish">Location is open following days of the week</a></label></label>
-                  </table>
+                  </table> -->
                </td>
                <td align="right"><a title="<?=STORE_OPEN_CLOSE_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
@@ -592,324 +578,7 @@
       </form>
       <span class='mandatory'>* These Fields Are Mandatory </span>
    </div>
-    <div id="addDishType-popup" style="display: none;" class="login-popup" data-theme="a">
-     <div class="inner-popup">
-           <div id = "cancel-popup" class="cross1">
-              <img src="client/images/cross.png" />
-           </div>
-           <div class="pop-body">
-            <div>
-               <input type="radio" name="openingDays" checked value="1"> All Days<br>
-               <input type="radio" name="openingDays" value="2"> Week Days<br>
-            </div>
 
-            <div class="all1">
-              <div class="label_space">
-                  <label for="working_hours" class="control-label">
-                      Allday:
-                  </label>
-              </div>
-              <div class="row_half">
-                  <div class=" mobile_margin">
-                      <label for="working_hours" class=" control-label">
-                          Opening Time: 
-                      </label>
-                      <div class="select_time">
-                          <div class='input-group date' id='datetimepicker3'>
-                             <select id = "allOpen">
-                                      <option>Select Opening Time</option>
-                                <?php foreach($openCloseingTime as $key =>$value) { ?>
-                                        <option <? if (str_replace(':', '', str_replace(' ', '', $allDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
-                                <?php } ?>
-                             </select>
-                          </div>
-                      </div>
-                  </div>
-                  <div class=" mobile_margin">
-                      <label for="working_hours" class=" control-label">
-                          Closing Time: 
-                      </label>
-                      <div class="select_time">
-                          <div class='input-group date' id='datetimepicker3'>
-                               <select id = "allClose">
-                                        <option>Select Closing Time</option>
-                                <?php foreach($openCloseingTime as $key =>$value) { ?>
-                                        <option <? if (str_replace(':', '', $allDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
-                                <?php } ?>
-                             </select>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-            </div>
-
-            <div class="all2" style="display: none;">
-              <div class="label_space">
-                  <label for="working_hours" class="control-label">
-                      Monday:
-                  </label>
-              </div>
-                <div class="row_half">
-                    <div class=" mobile_margin">
-                        <label for="working_hours" class=" control-label">
-                            Opening Time: 
-                        </label>
-                        <div class="select_time">
-                            <div class='input-group date' id='datetimepicker3'>
-                               <select id = "monOpen">
-                                        <option>Select Opening Time</option>
-                                  <?php foreach($openCloseingTime as $key =>$value) { ?>
-                                          <option <? if (str_replace(':', '', str_replace(' ', '', $monDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
-                                  <?php } ?>
-                               </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class=" mobile_margin">
-                        <label for="working_hours" class=" control-label">
-                            Closing Time: 
-                        </label>
-                        <div class="select_time">
-                            <div class='input-group date' id='datetimepicker3'>
-                                 <select id = "monClose">
-                                      <option>Select Closing Time</option>
-                                  <?php foreach($openCloseingTime as $key =>$value) { ?>
-                                          <option <? if (str_replace(':', '', $monDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
-                                  <?php } ?>
-                               </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="label_space">
-                  <label for="working_hours" class="control-label">
-                      Tuesday:
-                  </label>
-                  </div>
-                    <div class="row_half">
-                        <div class=" mobile_margin">
-                            <label for="working_hours" class=" control-label">
-                                Opening Time: 
-                            </label>
-                            <div class="select_time">
-                                <div class='input-group date' id='datetimepicker3'>
-                                   <select id = "tueOpen">
-                                        <option>Select Opening Time</option>
-                                      <?php foreach($openCloseingTime as $key =>$value) { ?>
-                                              <option <? if (str_replace(':', '', str_replace(' ', '', $tueDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
-                                      <?php } ?>
-                                   </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class=" mobile_margin">
-                            <label for="working_hours" class=" control-label">
-                                Closing Time: 
-                            </label>
-                            <div class="select_time">
-                                <div class='input-group date' id='datetimepicker3'>
-                                     <select id = "tueClose">
-                                            <option>Select Closing Time</option>
-                                      <?php foreach($openCloseingTime as $key =>$value) { ?>
-                                              <option <? if (str_replace(':', '', $tueDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
-                                      <?php } ?>
-                                   </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                 <div class="label_space">
-                  <label for="working_hours" class="control-label">
-                      Wednesday:
-                  </label>
-              </div>
-                <div class="row_half">
-                    <div class=" mobile_margin">
-                        <label for="working_hours" class=" control-label">
-                            Opening Time: 
-                        </label>
-                        <div class="select_time">
-                            <div class='input-group date' id='datetimepicker3'>
-                               <select id = "wedOpen">
-                                  <option>Select Opening Time</option>
-                                  <?php foreach($openCloseingTime as $key =>$value) { ?>
-                                          <option <? if (str_replace(':', '', str_replace(' ', '', $wedDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
-                                  <?php } ?>
-                               </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class=" mobile_margin">
-                        <label for="working_hours" class=" control-label">
-                            Closing Time: 
-                        </label>
-                        <div class="select_time">
-                            <div class='input-group date' id='datetimepicker3'>
-                                 <select id = "wedClose">
-                                          <option>Select Closing Time</option>
-                                  <?php foreach($openCloseingTime as $key =>$value) { ?>
-                                          <option <? if (str_replace(':', '', $wedDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
-                                  <?php } ?>
-                               </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                 <div class="label_space">
-                  <label for="working_hours" class="control-label">
-                      Thursday:
-                  </label>
-              </div>
-                <div class="row_half">
-                    <div class=" mobile_margin">
-                        <label for="working_hours" class=" control-label">
-                            Opening Time: 
-                        </label>
-                        <div class="select_time">
-                            <div class='input-group date' id='datetimepicker3'>
-                               <select id = "thuOpen">
-                                        <option>Select Opening Time</option>
-                                  <?php foreach($openCloseingTime as $key =>$value) { ?>
-                                          <option <? if (str_replace(':', '', str_replace(' ', '', $thuDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
-                                  <?php } ?>
-                               </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class=" mobile_margin">
-                        <label for="working_hours" class=" control-label">
-                            Closing Time: 
-                        </label>
-                        <div class="select_time">
-                            <div class='input-group date' id='datetimepicker3'>
-                                 <select id = "thuClose">
-                                        <option>Select Closing Time</option>
-                                  <?php foreach($openCloseingTime as $key =>$value) { ?>
-                                          <option <? if (str_replace(':', '', $thuDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
-                                  <?php } ?>
-                               </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                 <div class="label_space">
-                  <label for="working_hours" class="control-label">
-                      Friday:
-                  </label>
-              </div>
-                <div class="row_half">
-                    <div class=" mobile_margin">
-                        <label for="working_hours" class=" control-label">
-                            Opening Time: 
-                        </label>
-                        <div class="select_time">
-                            <div class='input-group date' id='datetimepicker3'>
-                               <select id = "friOpen">
-                                <option>Select Opening Time</option>
-                                  <?php foreach($openCloseingTime as $key =>$value) { ?>
-                                          <option <? if (str_replace(':', '', str_replace(' ', '', $friDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
-                                  <?php } ?>
-                               </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class=" mobile_margin">
-                        <label for="working_hours" class=" control-label">
-                            Closing Time: 
-                        </label>
-                        <div class="select_time">
-                            <div class='input-group date' id='datetimepicker3'>
-                                 <select id = "friClose">
-                                  <option>Select Closing Time</option>
-                                  <?php foreach($openCloseingTime as $key =>$value) { ?>
-                                          <option <? if (str_replace(':', '', $friDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
-                                  <?php } ?>
-                               </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                 <div class="label_space">
-                  <label for="working_hours" class="control-label">
-                      Saturday:
-                  </label>
-              </div>
-                <div class="row_half">
-                    <div class=" mobile_margin">
-                        <label for="working_hours" class=" control-label">
-                            Opening Time: 
-                        </label>
-                        <div class="select_time">
-                            <div class='input-group date' id='datetimepicker3'>
-                               <select id = "satOpen">
-                                        <option>Select Opening Time</option>
-                                  <?php foreach($openCloseingTime as $key =>$value) { ?>
-                                          <option <? if (str_replace(':', '', str_replace(' ', '', $satDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
-                                  <?php } ?>
-                               </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class=" mobile_margin">
-                        <label for="working_hours" class=" control-label">
-                            Closing Time: 
-                        </label>
-                        <div class="select_time">
-                            <div class='input-group date' id='datetimepicker3'>
-                                 <select id = "satClose">
-                                         <option>Select Closing Time</option>
-                                  <?php foreach($openCloseingTime as $key =>$value) { ?>
-                                          <option <? if (str_replace(':', '', $satDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
-                                  <?php } ?>
-                               </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                 <div class="label_space">
-                  <label for="working_hours" class="control-label">
-                      Sunday:
-                  </label>
-              </div>
-                <div class="row_half">
-                    <div class=" mobile_margin">
-                        <label for="working_hours" class=" control-label">
-                            Opening Time: 
-                        </label>
-                        <div class="select_time">
-                            <div class='input-group date' id='datetimepicker3'>
-                               <select id = "sunOpen">
-                                            <option>Select Opening Time</option>
-                                  <?php foreach($openCloseingTime as $key =>$value) { ?>
-                                          <option <? if (str_replace(':', '', str_replace(' ', '', $sunDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
-                                  <?php } ?>
-                               </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class=" mobile_margin">
-                        <label for="working_hours" class=" control-label">
-                            Closing Time: 
-                        </label>
-                        <div class="select_time">
-                            <div class='input-group date' id='datetimepicker3'>
-                                 <select id = "sunClose">
-                                        <option>Select Closing Time</option>
-                                  <?php foreach($openCloseingTime as $key =>$value) { ?>
-                                          <option <? if (str_replace(':', '', $sunDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?> value = <?php echo $value['close_time']?> ><?php echo $value['close_time']?></option>
-                                  <?php } ?>
-                               </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-          </div>
-              <div class="form-group">
-                 <input type="submit" value="Continue" name="continue" id="submit-btn" class="form-submit-btn">
-               </div>
-           </div>
-     </div>
     <!-- Loading modal -->
     <div class="modal fade" id="modal-loading" role="dialog" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-sm">
@@ -1238,52 +907,47 @@
           // Tooltip
           $('[data-toggle="tooltip"]').tooltip();
       });
-     $('#add_tpye_of_dish').click(function(){
-        $('#addDishType-popup').show();
-     });
-
-     $("#cancel-popup").click(function () {
-       $('#addDishType-popup').hide();
-     });
 
      $(function(){
-      $('[id*=submit-btn]').click(function(){
+      $('[id*=Open], [id*=Close]').change(function(){
+        openingDays = $('input[name=openingDays]:checked').val();
         var dataString = new Array();
         var i = 0;
-        if($('[id*=allOpen]').val() != 'Select Opening Time' && $('[id*=allClose]').val() != 'Select Closing Time'){
-          dataString = 'All :: '+$('[id*=allOpen]').val()+' to '+$('[id*=allClose]').val();
-        }else{
-          if($('[id*=monOpen]').val() != 'Select Opening Time' && $('[id*=monClose]').val() != 'Select Closing Time'){
+        if(openingDays == 1){
+          if($('[id*=allOpen]').val() != '' && $('[id*=allClose]').val() != ''){
+            dataString = 'All :: '+$('[id*=allOpen]').val()+' to '+$('[id*=allClose]').val();
+          }
+        }else if(openingDays == 2){
+          if($('[id*=monOpen]').val() != '' && $('[id*=monClose]').val() != ''){
             dataString[i] = 'Mon :: '+$('[id*=monOpen]').val()+' to '+$('[id*=monClose]').val();
             i = i+1;
           }
-          if($('[id*=tueOpen]').val() != 'Select Opening Time' && $('[id*=tueClose]').val() != 'Select Closing Time'){
+          if($('[id*=tueOpen]').val() != '' && $('[id*=tueClose]').val() != ''){
             dataString[i] = ['Tue :: '+$('[id*=tueOpen]').val()+' to '+$('[id*=tueClose]').val()];
             i = i+1;
           }
-          if($('[id*=wedOpen]').val() != 'Select Opening Time' && $('[id*=wedClose]').val() != 'Select Closing Time'){
+          if($('[id*=wedOpen]').val() != '' && $('[id*=wedClose]').val() != ''){
             dataString[i] = ['Wed :: '+$('[id*=wedOpen]').val()+' to '+$('[id*=wedClose]').val()];
             i = i+1;
           }
-          if($('[id*=thuOpen]').val() != 'Select Opening Time' && $('[id*=thuClose]').val() != 'Select Closing Time'){
+          if($('[id*=thuOpen]').val() != '' && $('[id*=thuClose]').val() != ''){
             dataString[i] = ['Thu :: '+$('[id*=thuOpen]').val()+' to '+$('[id*=thuClose]').val()];
             i = i+1;
           }
-          if($('[id*=friOpen]').val() != 'Select Opening Time' && $('[id*=friClose]').val() != 'Select Closing Time'){
+          if($('[id*=friOpen]').val() != '' && $('[id*=friClose]').val() != ''){
             dataString[i] = ['Fri :: '+$('[id*=friOpen]').val()+' to '+$('[id*=friClose]').val()];
             i = i+1;
           }
-          if($('[id*=satOpen]').val() != 'Select Opening Time' && $('[id*=satClose]').val() != 'Select Closing Time'){
+          if($('[id*=satOpen]').val() != '' && $('[id*=satClose]').val() != ''){
             dataString[i] = ['Sat :: '+$('[id*=satOpen]').val()+' to '+$('[id*=satClose]').val()];
             i = i+1;
           }
-          if($('[id*=sunOpen]').val() != 'Select Opening Time' && $('[id*=sunClose]').val() != 'Select Closing Time'){
+          if($('[id*=sunOpen]').val() != '' && $('[id*=sunClose]').val() != ''){
             dataString[i] = ['Sun :: '+$('[id*=sunOpen]').val()+' to '+$('[id*=sunClose]').val()];
             i = i+1;
           }
 
         }
-         console.log(dataString);
          document.getElementById('opencloseTimeing').value=dataString;
          $.ajax({
             type: "POST",
@@ -1291,11 +955,7 @@
             data: dataString,
             success: function (response) {
                $data = JSON.parse(response);
-               console.log($data);
-
-
-               $('#addDishType-popup').hide();
-
+               // $('#addDishType-popup').hide();
             },
             failure: function (response) {
                alert(response.responseText);
