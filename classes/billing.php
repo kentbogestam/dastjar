@@ -941,6 +941,44 @@ on user_plan.user_id=user.u_id group by user.u_id";
 
         return $response;
     }
+
+    // Cancel store subscription
+    function cancelLocationSubscription($userId, $storeId)
+    {
+        $db = new db();
+        $inoutObj = new inOut();
+        $db->makeConnection();
+
+        $q = "SELECT id, subscription_id, plan_id FROM user_plan WHERE user_id = '{$userId}' AND store_id = '{$storeId}' AND status = '1'";
+        $res = $db->query($q);
+
+        if($db->numRows($res))
+        {
+            \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
+
+            while ($row = mysqli_fetch_array($res))
+            {
+                try {
+                    // Cancel subscription on Stripe
+                    $sub = \Stripe\Subscription::retrieve($row['subscription_id']);
+                    
+                    if($sub->status != 'canceled')
+                    {
+                        $sub = $sub->cancel();
+                    }
+
+                    // Update subscription status in DB
+                    if($sub->status == 'canceled')
+                    {
+                        $res = $db->query("UPDATE user_plan SET status = '2' WHERE id = '{$row['id']}'");
+                    }
+                } catch (\Stripe\Error\Base $e) {
+                    print_r($response); exit;
+                    $response = array('error' => $e->getMessage());
+                }
+            }
+        }
+    }
 }
 
 // Create subscription on create/edit store

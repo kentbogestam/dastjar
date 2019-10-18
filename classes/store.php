@@ -1094,13 +1094,19 @@ class store {
      */
 
     function deleteStoreById() {
-        //print_r($data); die("dssdada");
-
         $db = new db();
         $inoutObj = new inOut();
         $db->makeConnection();
+        
+        // Delete store
         $_SQL = "UPDATE store SET s_activ='2' WHERE u_id = '" . $_SESSION['userid'] . "' AND store_id='" . $_GET['storeId'] . "'";
         $q = $db->query($_SQL);
+
+        // Cancel active subscription
+        $billingObj = new billing();
+        $billingObj->cancelLocationSubscription($_SESSION['userid'], $_GET['storeId']);
+
+
         $url = BASE_URL . 'showStore.php';
         $inoutObj->reDirect($url);
     }
