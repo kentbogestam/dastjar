@@ -220,7 +220,7 @@ function isNumeric(val)
 function isAlphabetic(val)
 {
     // let reg = /^[a-zA-Z]+$/;
-    let reg = /^[a-zA-Z\u00c0-\u017e ]+$/; // Allow a-z, A-Z, letin char and space
+    let reg = /^[a-zA-Z\u00c0-\u017e -]+$/; // Allow a-z, A-Z, letin char, space and hyphen
     reg = new RegExp(reg);
 
     if (reg.test(val))
