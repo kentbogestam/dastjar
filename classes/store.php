@@ -473,6 +473,12 @@ class store {
             $billingObj->subscribeForLocation($storeUniqueId);
         }*/
 
+        // If subscribed to 'payment plan' and company is not connected to 'stripe connect'
+        if( !empty($_POST['plan_id']) )
+        {
+            $this->redirectToStripeConnect($_POST['plan_id'], $_SESSION['userid']);
+        }
+
         //
         if ($_SESSION['createStore']) {
             $_SESSION['createStore'] = "";
@@ -495,6 +501,54 @@ class store {
 
         $inoutObj->reDirect($url);
         exit();
+    }
+
+    // If subscribed to 'payment plan' and company is not connected to 'stripe connect'
+    function redirectToStripeConnect($planIds = array(), $userid)
+    {
+        // Check connection
+        $db = new db();
+        $conn = $db->makeConnection();
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }else{}
+
+        $inoutObj = new inOut();
+
+        $billingObj = new billing();
+        $user = $billingObj->getUserCompanySubsDetail($userid);
+
+        if( is_null($user['stripe_user_id']) || $user['stripe_user_id'] == '' )
+        // if( 1 )
+        {
+            $subsProductPackages = array();
+            $planIds = join("','", $planIds);
+
+            $query = "SELECT BP.product_name, BP.plan_id, BP.price, BP.trial_period, GROUP_CONCAT(BPP.package_id) AS package_ids FROM billing_products BP LEFT JOIN billing_product_packages BPP ON BP.id = BPP.billing_product_id WHERE BP.plan_id IN ('{$planIds}') GROUP BY BP.id";
+                $res = $db->query($query);
+
+            while ($rs = mysqli_fetch_array($res))
+            {
+                // Get access packages belongs to plan
+                if( $rs['package_ids'] != '' )
+                {
+                    $package_ids = explode(',', $rs['package_ids']);
+
+                    foreach($package_ids as $package_id)
+                    {
+                        array_push($subsProductPackages, $package_id);
+                    }
+                }
+            }
+
+            if( !empty($subsProductPackages) && in_array(5, $subsProductPackages))
+            {
+                $url = "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=".STRIPE_CLIENT_ID."&scope=read_write&redirect_uri=".BASE_URL."stripe-connect-response.php";
+
+                $inoutObj->reDirect($url);
+                exit();
+            }
+        }
     }
 
     /* Function Header :getStoreDetail()
@@ -984,39 +1038,7 @@ class store {
         // If subscribed to 'payment plan' and company is not connected to 'stripe connect'
         if( !empty($_POST['plan_id']) )
         {
-            $billingObj = new billing();
-            $user = $billingObj->getUserCompanySubsDetail($_SESSION['userid']);
-
-            if( is_null($user['stripe_user_id']) || $user['stripe_user_id'] == '' )
-            {
-                $subsProductPackages = array();
-                $planIds = join("','", $_POST['plan_id']);
-
-                $query = "SELECT BP.product_name, BP.plan_id, BP.price, BP.trial_period, GROUP_CONCAT(BPP.package_id) AS package_ids FROM billing_products BP LEFT JOIN billing_product_packages BPP ON BP.id = BPP.billing_product_id WHERE BP.plan_id IN ('{$planIds}') GROUP BY BP.id";
-                    $res = $db->query($query);
-
-                while ($rs = mysqli_fetch_array($res))
-                {
-                    // Get access packages belongs to plan
-                    if( $rs['package_ids'] != '' )
-                    {
-                        $package_ids = explode(',', $rs['package_ids']);
-
-                        foreach($package_ids as $package_id)
-                        {
-                            array_push($subsProductPackages, $package_id);
-                        }
-                    }
-                }
-
-                if( !empty($subsProductPackages) && in_array(5, $subsProductPackages))
-                {
-                    $url = "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=".STRIPE_CLIENT_ID."&scope=read_write&redirect_uri=".BASE_URL."stripe-connect-response.php";
-
-                    $inoutObj->reDirect($url);
-                    exit();
-                }
-            }
+            $this->redirectToStripeConnect($_POST['plan_id'], $_SESSION['userid']);
         }
         
         // 
