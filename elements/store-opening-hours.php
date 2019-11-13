@@ -6,14 +6,14 @@ if(isset($data[0]['store_open_close_day_time']))
     <div class="panel panel-default">
         <div class="panel-heading">
             <label class="radio-inline">
-                <input type="radio" name="openingDays" value="1" checked>All Days
+                <input type="radio" name="openingDays" value="1" <?php echo (isset($allDayOpen) && !empty($allDayOpen)) ? "checked" : '' ?>>All Days
             </label>
             <label class="radio-inline">
-                <input type="radio" name="openingDays" value="2">Week Days
+                <input type="radio" name="openingDays" value="2" <?php echo (!isset($allDayOpen)) ? "checked" : '' ?>>Week Days
             </label>
         </div>
         <div class="panel-body">
-            <div class="row all1">
+            <div class="row all1" <?php echo (isset($allDayOpen) && !empty($allDayOpen)) ? '' : 'display: none'; ?>>
                 <div class="col-xs-6">
                     <div class="form-group">
                         <label for="allOpen">Opening Time:</label>
@@ -45,7 +45,7 @@ if(isset($data[0]['store_open_close_day_time']))
                     </div>
                 </div>
             </div>
-            <div class="row all2" style="display: none;">
+            <div class="row all2" style="<?php echo (!isset($allDayOpen)) ? '' : 'display: none' ?>">
                 <div class="col-xs-6">
                     <div class="form-group">
                         <label for="monOpen">Monday Opening Time:</label>
