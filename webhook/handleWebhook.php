@@ -34,7 +34,11 @@ class handleWebhook {
 			// Emailing the customer when a payment fails
 			// Extending the length of time that a customer can use your service
 			// Terminating access when a subscription is canceled
-			if( isset($event) && $event->type == "invoice.payment_succeeded" )
+			if( isset($event) && $event->type == "customer.subscription.created" )
+			{
+				$this->handleCustomerSubscriptionCreated($event);
+			}
+			elseif( isset($event) && $event->type == "invoice.payment_succeeded" )
 			{
 				$this->handleInvoicePaymentSuccess($event);
 			}
@@ -54,13 +58,40 @@ class handleWebhook {
 	}
 
 	/**
+	 * Update subscription on event 'customer.subscription.created' fired after 'invoice.payment_succeeded'
+	 * @param  [type] $event [description]
+	 * @return [type]        [description]
+	 */
+	function handleCustomerSubscriptionCreated($event = null)
+	{
+		$eventData = $event->data->object;
+
+		if( !empty($eventData) )
+		{
+			$subscriptionId = $eventData->id;
+
+			// 
+			$subscription = \Stripe\Subscription::retrieve($subscriptionId);
+
+			if( !empty($subscription) && $subscription->status != 'incomplete' )
+			{
+				$invoiceId = $eventData->latest_invoice;
+				$invoice = \Stripe\Invoice::retrieve($invoiceId);
+
+				if( !empty($invoice) )
+				{
+					$this->onUpdateSubscriptionToActive($invoice, 'customer.subscription.created');
+				}
+			}
+		}
+	}
+
+	/**
 	 * Update subscription on payment success
 	 * @param  [object] $event [description]
 	 */
 	public function handleInvoicePaymentSuccess($event = null)
 	{
-		$str = "======".date('Y-m-d H:i:s')."======\n";
-
 		/*$event = $this->getTestEvent();
 		$event = json_decode($event, true);
 		$event = json_decode(json_encode($event));
@@ -68,6 +99,17 @@ class handleWebhook {
 
 		// Get the invoice
 		$invoice = $event->data->object;
+
+		if( !empty($invoice) )
+		{
+			$this->onUpdateSubscriptionToActive($invoice, 'invoice.payment_succeeded');
+		}
+	}
+
+	function onUpdateSubscriptionToActive($invoice = array(), $eventType)
+	{
+		$str = "======".date('Y-m-d H:i:s')."======\n";
+		$str .= "Event Type: {$eventType}\n";
 
 		if( !empty($invoice) )
 		{
@@ -81,7 +123,7 @@ class handleWebhook {
 				$str .= "Subscription ID: {$subscriptionId}\n";
 				
 				// Check if Subscription exist in DB
-				$query = "SELECT UP.id, UP.user_id, BP.plan_nickname, S.store_name FROM user_plan UP INNER JOIN billing_products BP ON UP.plan_id = BP.plan_id INNER JOIN store S ON UP.store_id = S.store_id WHERE UP.subscription_id = '{$subscriptionId}'";
+				$query = "SELECT UP.id, UP.user_id, BP.plan_nickname, S.store_name FROM user_plan UP INNER JOIN billing_products BP ON UP.plan_id = BP.plan_id INNER JOIN store S ON UP.store_id = S.store_id WHERE UP.subscription_id = '{$subscriptionId}' AND status = '0'";
 				$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
 				if( mysqli_num_rows($res) )
@@ -188,7 +230,6 @@ class handleWebhook {
 		}
 
 		$str .= "\n\n";
-		// echo $str;
 		$this->log($str);
 	}
 
