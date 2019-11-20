@@ -46,6 +46,10 @@ class handleWebhook {
 			{
 				$this->handleInvoicePaymentFailure($event);
 			}
+			elseif( isset($event) && $event->type == "customer.subscription.deleted" )
+			{
+				$this->handleCustomerSubscriptionDeleted($event);
+			}
 		} catch(\UnexpectedValueException $e) {
 			// Invalid payload
 			http_response_code(400); // PHP 5.4 or greater
@@ -106,6 +110,62 @@ class handleWebhook {
 		}
 	}
 
+	/**
+	 * Cancel subscription
+	 * @return [type] [description]
+	 */
+	public function handleCustomerSubscriptionDeleted($event = null)
+	{
+		$str = "======".date('Y-m-d H:i:s')."======\n";
+		$str .= "Event Type: customer.subscription.deleted\n";
+
+		// Get event data
+		$subscription = $event->data->object;
+
+		if( !empty($subscription) )
+		{
+			$db = new db();
+			$conn = $db->makeConnection();
+			
+			// Check connection
+			if($conn)
+			{
+				$subscriptionId = $subscription->id;
+
+				// Check if Subscription exist in DB
+				$query = "SELECT UP.id, UP.user_id, BP.plan_nickname, S.store_name FROM user_plan UP INNER JOIN billing_products BP ON UP.plan_id = BP.plan_id INNER JOIN store S ON UP.store_id = S.store_id WHERE UP.subscription_id = '{$subscriptionId}'";
+				$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+
+				if( mysqli_num_rows($res) )
+				{
+					// Update subscription in DB
+					$query = "UPDATE user_plan SET status = '2' WHERE subscription_id = '{$subscriptionId}'";
+					$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+
+					$str .= "Query: {$query}\n";
+				}
+				else
+				{
+					$str .= "Subscription {$subscriptionId} not found in DB\n";
+				}
+			}
+			else
+			{
+				$str .= "Connection failed\n";
+			}
+		}
+		else
+		{
+			$str .= "Event empty\n";
+		}
+
+		$str .= "\n\n";
+		$this->log($str);
+	}
+
+	/**
+	 * Update subscription status to 'active' and send confirmation email
+	 */
 	function onUpdateSubscriptionToActive($invoice = array(), $eventType)
 	{
 		$str = "======".date('Y-m-d H:i:s')."======\n";
