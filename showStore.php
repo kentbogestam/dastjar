@@ -144,7 +144,9 @@
                                           ?> <? } else { ?>
                                        <img src="lib/grid/images/edite.gif">&nbsp;Edit&nbsp;&nbsp;&nbsp;<img src="lib/grid/images/delete.gif">&nbsp;Delete&nbsp;&nbsp;&nbsp;
                                        <? } ?>
-                                       <img src="lib/grid/images/view.gif">&nbsp;View&nbsp;&nbsp;&nbsp;<!--<img src="lib/grid/images/active.gif">Active&nbsp;&nbsp;&nbsp;<img src="lib/grid/images/deactive.gif">Inactive &nbsp;&nbsp;&nbsp;-->
+                                       <img src="lib/grid/images/view.gif">&nbsp;View&nbsp;&nbsp;&nbsp;
+                                       <img src="lib/grid/images/active.gif">Active&nbsp;&nbsp;&nbsp;
+                                       <!-- <img src="lib/grid/images/deactive.gif">Inactive &nbsp;&nbsp;&nbsp; -->
                                     </td>
                                  </tr>
                               </table>
