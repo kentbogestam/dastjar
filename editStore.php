@@ -24,8 +24,11 @@
         $paymentMethod = $billingObj->getPaymentMethod($user['stripe_customer_id']);
    }
 
+   // 
+   $subscribedPlan = $billingObj->getSubscribedPlanByStoreId($_GET['storeId']);
+
    // Get packages to subscribe for location and logic to show either subscribed or updated package
-   $productsUpd = $billingObj->getSubscriptionPlanOnEdit($_GET['storeId']);
+   $productsUpd = $billingObj->showPlanToSubscribe($_GET['storeId']);
    $products = $packages = array();
 
    if($productsUpd)
@@ -41,10 +44,19 @@
             {
                 $key = array_search($row['package_ids'], $packages);
 
-                if( !is_numeric($products[($key)]['up_id']) )
+                if(array_search($row['plan_id'], array_column($subscribedPlan, 'plan_id')) == false)
                 {
                     $products[($key)] = $row;
                 }
+            }
+
+            // 
+            $key = array_search($row['package_ids'], array_column($subscribedPlan, 'package_ids'));
+
+            if( is_numeric($key) )
+            {
+                $key = array_search($row['package_ids'], $packages);
+                $products[($key)]['up_id'] = 1;
             }
         }
    }
@@ -650,7 +662,7 @@
 
                     fetch('<?php echo BASE_URL ?>classes/billing.php', {
                         method: 'POST',
-                        body: 'confirmStoreSubscription='+JSON.stringify(data),
+                        body: 'confirmStoreSubscription__='+JSON.stringify(data),
                         headers: {
                           "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
                         },
@@ -728,7 +740,7 @@
 
             fetch('<?php echo BASE_URL ?>classes/billing.php', {
                 method: 'POST',
-                body: 'confirmStoreSubscription='+JSON.stringify(data),
+                body: 'confirmStoreSubscription__='+JSON.stringify(data),
                 headers: {
                   "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
                 },
