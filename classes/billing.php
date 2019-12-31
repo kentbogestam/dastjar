@@ -1016,23 +1016,45 @@ on user_plan.user_id=user.u_id group by user.u_id";
                 if($customer_id && !empty($planIds))
                 {
                     $items = $subsProductPackages = array();
+                    $billingInterval = 'month';
                     $emailContent = ''; $subTotal = $tax = $total = 0;
-                    $billing_cycle_anchor_date = date('Y-m-26 10:00:00');
                     $planIds = join("','", $planIds);
 
-                    // Set 'billing cycle' always in future
-                    if( strtotime(date('Y-m-d H:i:s')) >= strtotime($billing_cycle_anchor_date) )
-                    {
-                        $billing_cycle_anchor_date = date('Y-m-26 10:00:00', strtotime("+1 months", strtotime($billing_cycle_anchor_date)));
-                    }
-
                     // Get plan detail to subscribe
-                    $query = "SELECT BP.product_name, BP.plan_id, BP.price, BP.trial_period, GROUP_CONCAT(BPP.package_id) AS package_ids FROM billing_products BP LEFT JOIN billing_product_packages BPP ON BP.id = BPP.billing_product_id WHERE BP.plan_id IN ('{$planIds}') GROUP BY BP.id ORDER BY BP.trial_period";
+                    $query = "SELECT BP.product_name, BP.plan_id, BP.price, BP.trial_period, BP.billing_interval, GROUP_CONCAT(BPP.package_id) AS package_ids FROM billing_products BP LEFT JOIN billing_product_packages BPP ON BP.id = BPP.billing_product_id WHERE BP.plan_id IN ('{$planIds}') GROUP BY BP.id ORDER BY BP.trial_period";
                     $res = $db->query($query);
 
                     while ($rs = mysqli_fetch_array($res))
                     {
                         $items[] = array('plan' => $rs['plan_id']);
+
+                        // 
+                        if($rs['billing_interval'] == 'day')
+                        {
+                            $billingInterval = 'day';
+                        }
+                    }
+
+                    // Set billing cycle according to 'billing_interval'
+                    if($billingInterval == 'month')
+                    {
+                        $billing_cycle_anchor_date = date('Y-m-26 10:00:00');
+
+                        // Set 'billing cycle' always in future
+                        if( strtotime(date('Y-m-d H:i:s')) >= strtotime($billing_cycle_anchor_date) )
+                        {
+                            $billing_cycle_anchor_date = date('Y-m-26 10:00:00', strtotime("+1 months", strtotime($billing_cycle_anchor_date)));
+                        }
+                    }
+                    else
+                    {
+                        $billing_cycle_anchor_date = date('Y-m-d 10:00:00');
+
+                        // Set 'billing cycle' always in future
+                        if( strtotime(date('Y-m-d H:i:s')) >= strtotime($billing_cycle_anchor_date) )
+                        {
+                            $billing_cycle_anchor_date = date('Y-m-d 10:00:00', strtotime("+1 days", strtotime($billing_cycle_anchor_date)));
+                        }
                     }
 
                     // Update if store already has subscription or create new subscription
@@ -1135,9 +1157,19 @@ on user_plan.user_id=user.u_id group by user.u_id";
                                 {
                                     if( is_numeric($item->plan->trial_period_days) && $item->plan->trial_period_days > 0 )
                                     {
-                                        $months = ($item->plan->trial_period_days/30);
-                                        $coupon_trial_from = date('Y-m-d 00:00:00', strtotime($billing_cycle_anchor_date));
-                                        $coupon_trial_to = date('Y-m-d 00:00:00', strtotime("+{$months} months", strtotime($billing_cycle_anchor_date)));
+                                        // Set trial according to 'billing_interval'
+                                        if($billingInterval == 'month')
+                                        {
+                                            $months = ($item->plan->trial_period_days/30);
+                                            $coupon_trial_from = date('Y-m-d 00:00:00', strtotime($billing_cycle_anchor_date));
+                                            $coupon_trial_to = date('Y-m-d 00:00:00', strtotime("+{$months} months", strtotime($billing_cycle_anchor_date)));
+                                        }
+                                        else
+                                        {
+                                            $days = $item->plan->trial_period_days;
+                                            $coupon_trial_from = date('Y-m-d 00:00:00', strtotime($billing_cycle_anchor_date));
+                                            $coupon_trial_to = date('Y-m-d 00:00:00', strtotime("+{$days} days", strtotime($billing_cycle_anchor_date)));
+                                        }
 
                                         $query = "INSERT INTO user_subscription_items(subscription_id, plan_id, coupon_trial_from, coupon_trial_to) VALUES('{$subscription->id}', '{$item->plan->id}', '{$coupon_trial_from}', '$coupon_trial_to')";
                                     }
@@ -1153,7 +1185,7 @@ on user_plan.user_id=user.u_id group by user.u_id";
                         }
 
                         // 
-                        $this->applyDiscountOnSubscription($subscription->id);
+                        $response['error'] = $this->applyDiscountOnSubscription($subscription->id);
                     }
                 }
             } catch (\Stripe\Error\Base $e) {
@@ -1177,7 +1209,8 @@ on user_plan.user_id=user.u_id group by user.u_id";
             $discountTotal = 0;
 
             // Select plan having trial periods on
-            $query = "SELECT price FROM billing_products BP INNER JOIN user_subscription_items USI ON BP.plan_id = USI.plan_id WHERE BP.trial_period != 0 AND USI.subscription_id = '{$subscriptionId}' AND USI.coupon_trial_from <= '{$date}' AND USI.coupon_trial_to >= '{$date}'";
+            // $query = "SELECT price FROM billing_products BP INNER JOIN user_subscription_items USI ON BP.plan_id = USI.plan_id WHERE BP.trial_period != 0 AND USI.subscription_id = '{$subscriptionId}' AND USI.coupon_trial_from <= '{$date}' AND USI.coupon_trial_to >= '{$date}'";
+            $query = "SELECT price FROM billing_products BP INNER JOIN user_subscription_items USI ON BP.plan_id = USI.plan_id WHERE BP.trial_period != 0 AND USI.subscription_id = '{$subscriptionId}' AND USI.coupon_trial_to >= '{$date}'";
             $res = $db->query($query);
 
             if($db->numRows($res))
@@ -1205,7 +1238,7 @@ on user_plan.user_id=user.u_id group by user.u_id";
                             'amount_off' => ($discountTotal*100),
                             'currency' => 'SEK',
                             'duration' => 'repeating',
-                            'duration_in_months' => 1,
+                            'duration_in_months' => 3,
                         ]);
                     }
 
@@ -1226,7 +1259,7 @@ on user_plan.user_id=user.u_id group by user.u_id";
             }
             else
             {
-                echo 'Subscription not found.';
+                return 'Subscription not found.';
             }
         }
     }
