@@ -18,6 +18,7 @@ class Billing{
     $productName = $_POST['product_name'];
     $planNickname = $_POST['plan_nickname'];
     $price = trim($_POST['price']);
+    $billing_interval = $_POST['billing_interval'];
     $trialPeriod = is_numeric($_POST['trial_period']) ? $_POST['trial_period'] : 0;
     $currency = $_POST['currency'];
     $description = $_POST['description'];
@@ -39,10 +40,10 @@ class Billing{
         "nickname" => $planNickname,
         "amount" => ($price*100),
         "trial_period_days" => $trialPeriod,
-        "interval" => "month",
+        "interval" => $billing_interval,
         "currency" => $currency,
         'product' => $productId,
-        "usage_type" => $usageType         
+        "usage_type" => $usageType
     ));
 
     $planId = $plan->id;
@@ -53,7 +54,7 @@ class Billing{
     $date = date("Y-m-d h:i:s",$time);
 
     // Insert into billing product
-    $query = "insert into billing_products(product_id, product_name, plan_id, plan_nickname, currency, price, trial_period, usage_type, description, created_at, updated_at, s_activ) values('$productId', '$productName', '$planId', '$planNickname', '$currency', '$price', '$trialPeriod', '$usageType', '$description', '$date', '$date', 1)";
+    $query = "insert into billing_products(product_id, product_name, plan_id, plan_nickname, currency, price, trial_period, billing_interval, usage_type, description, created_at, updated_at, s_activ) values('$productId', '$productName', '$planId', '$planNickname', '$currency', '$price', '$trialPeriod', '$billing_interval', '$usageType', '$description', '$date', '$date', 1)";
 
     $res = $db->query($query);
 

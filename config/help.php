@@ -154,6 +154,7 @@ define("ASSIGNCCODE","<li class='notice_success'>CCode are Assigned.</li>");
 define("PRODUCT_NAME", "Product name");
 define("PLAN_NICKNAME", "A brief description of the plan, hidden from customers.");
 define("PRICE", "Price");
+define("BILLING_INTERVAL", "Specifies billing frequency. Either day, week, month or year.");
 define("TRIAL_PERIOD", "Trial period in days (optional)");
 define("CURRENCY", "Currency");
 

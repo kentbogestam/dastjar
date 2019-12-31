@@ -147,6 +147,22 @@ input:read-only {
                         <div id='error_price' class="error"></div></td>
                 </tr>
 
+                <?php
+                $billing_interval = isset($data[0]['billing_interval']) ? $data[0]['billing_interval'] : 'month';
+                ?>
+                <tr>
+                    <td align="left" class="inner_grid">Billing Interval<span class='mandatory'>*</span>:</td>
+                    <td align="left">
+                        <select class="text_field_new" style="background-color:#e4e3dd; width:406px; height:36px;border: 1px solid #abadb3;" id="billing_interval" name="billing_interval" <?php echo isset($data[0]['billing_interval']) ? 'disabled' : ''; ?>>
+                            <option value="day" <?php echo ($billing_interval == 'day') ? 'selected' : ''; ?>>Day</option>
+                            <option value="week" <?php echo ($billing_interval == 'week') ? 'selected' : ''; ?>>Week</option>
+                            <option value="month" <?php echo ($billing_interval == 'month') ? 'selected' : ''; ?>>Month</option>
+                            <option value="year" <?php echo ($billing_interval == 'year') ? 'selected' : ''; ?>>Year</option>
+                        </select>
+                        <a title="<?=BILLING_INTERVAL?>" class="vtip"><b><small>?</small></b></a><br/>
+                        <div id='error_currency' class="error"></div></td>
+                </tr>
+
                 <tr>
                     <td align="left" class="inner_grid">Trial Period:</td>
                     <td align="left">
