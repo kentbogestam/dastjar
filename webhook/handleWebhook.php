@@ -184,7 +184,7 @@ class handleWebhook {
 				
 				// Check if Subscription exist in DB
 				// $query = "SELECT UP.id, UP.user_id, BP.plan_nickname, S.store_name FROM user_plan UP INNER JOIN billing_products BP ON UP.plan_id = BP.plan_id INNER JOIN store S ON UP.store_id = S.store_id WHERE UP.subscription_id = '{$subscriptionId}' AND status = '0'";
-				$query = "SELECT UP.id, UP.user_id, BP.plan_nickname, S.store_name FROM user_plan UP INNER JOIN billing_products BP ON UP.plan_id = BP.plan_id INNER JOIN store S ON UP.store_id = S.store_id WHERE UP.subscription_id = '{$subscriptionId}'";
+				$query = "SELECT UP.id, UP.user_id, S.store_name FROM user_plan UP INNER JOIN store S ON UP.store_id = S.store_id WHERE UP.subscription_id = '{$subscriptionId}'";
 				$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
 				if( mysqli_num_rows($res) )
@@ -200,13 +200,23 @@ class handleWebhook {
 
 					if( !empty($invoiceLineItems) )
 					{
+						$subtotal = number_format(($invoice->subtotal/100), 2, '.', '');
+						$tax = number_format(($invoice->tax/100), 2, '.', '');
+						$total = number_format(($invoice->total/100), 2, '.', '');
+						$endAt = date('Y-m-d H:i:s', $invoiceLineItems->period_end);
+
+						$str .= "Subscription end at: {$endAt}\n";
+
+						// Update subscription in DB
+						$query = "UPDATE user_plan SET subscription_end_at = '{$endAt}' WHERE subscription_id = '{$subscriptionId}'";
+						$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+						$str .= "Query: {$query}\n";
+
 						// $updatedAt = date('Y-m-d H:i:s');
 						foreach($invoiceLineItems as $lineItem)
 						{
 							$amount = number_format(($lineItem->plan->amount/100), 2, '.', '');
-							$subtotal = number_format(($invoice->subtotal/100), 2, '.', '');
-							$tax = number_format(($invoice->tax/100), 2, '.', '');
-							$total = number_format(($invoice->total/100), 2, '.', '');
+							$plan_nickname = '';
 
 							// Start test
 							$str .= "ILI Period Start: ".date('Y-m-d H:i:s', $lineItem->period->start)."\n";
@@ -214,25 +224,36 @@ class handleWebhook {
 							// End test
 							
 							$planId = $lineItem->plan->id;
-							$endAt = date('Y-m-d H:i:s', $lineItem->period->end);
-
 							$str .= "Plan ID: {$planId}\n";
 
-							// Update subscription in DB
-							$query = "UPDATE user_plan SET subscription_end_at = '{$endAt}', status = '1' WHERE subscription_id = '{$subscriptionId}' AND plan_id = '{$planId}'";
+							// Get plan detail from DB
+							$query = "SELECT plan_nickname FROM billing_products WHERE plan_id = '{$planId}'";
 							$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
-							$str .= "Query: {$query}\n";
+							if( mysqli_num_rows($res) )
+							{
+								$billingProducts = mysqli_fetch_assoc($res);
+								$plan_nickname = $billingProducts['plan_nickname'];
+							}
 
 							// 
 							$emailContent .= "
 	                        <tr>
                                 <td align='left' vertical-align='top' style='padding:5px 15px;'>
-                                    <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>{$subsDetail['plan_nickname']}</div>
+                                    <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>{$plan_nickname}</div>
                                 </td>
                                 <td align='right' style='padding: 5px 15px;'>{$amount} (SEK)</td>
-                            </tr>
-	                        <tr>
+                            </tr>";
+						}
+
+						// 
+						if($emailContent != '')
+						{
+							$str .= "Email content\n";
+							
+							// 
+							$emailContent .= "
+							<tr>
 	                            <td align='right' vertical-align='top' style='padding:5px 10px 1px; background-color:#CCCD99;'>
 	                                <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>Sub Total:</div>
 	                            </td>
@@ -249,14 +270,10 @@ class handleWebhook {
 	                                <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>Total:</div>
 	                            </td>
 	                            <td align='right' style='padding:1px 10px 5px;background-color: #CCCD99;'>{$total} (SEK)</td>
-	                        </tr>";
+	                        </tr>
+							";
 
-	                        $str .= "Email content\n";
-						}
-
-						// 
-						if($emailContent != '')
-						{
+							// 
 							$billingObj = new billing();
     						$user = $billingObj->getUserCompanySubsDetail($subsDetail['user_id']);
 
