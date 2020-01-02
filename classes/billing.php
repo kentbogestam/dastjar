@@ -1237,8 +1237,9 @@ on user_plan.user_id=user.u_id group by user.u_id";
                             'id' => $couponId,
                             'amount_off' => ($discountTotal*100),
                             'currency' => 'SEK',
-                            'duration' => 'repeating',
-                            'duration_in_months' => 3,
+                            'duration' => 'once',
+                            // 'duration' => 'repeating',
+                            // 'duration_in_months' => 3,
                         ]);
                     }
 
