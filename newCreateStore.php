@@ -41,14 +41,13 @@
             if(!in_array($row['package_ids'], $packages))
             {
                 $products[] = $row;
+                array_push($packages, $row['package_ids']);
             }
             else
             {
                 $key = array_search($row['package_ids'], $packages);
                 $products[$key] = $row;
             }
-
-            array_push($packages, $row['package_ids']);
         }
    }
 

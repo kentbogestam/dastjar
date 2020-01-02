@@ -44,18 +44,19 @@
             {
                 $key = array_search($row['package_ids'], $packages);
 
-                if(array_search($row['plan_id'], array_column($subscribedPlan, 'plan_id')) == false)
+                if( !is_numeric(array_search($row['plan_id'], array_column($subscribedPlan, 'plan_id'))) && !isset($products[$key]['up_id']) )
                 {
                     $products[($key)] = $row;
                 }
             }
 
             // 
-            $key = array_search($row['package_ids'], array_column($subscribedPlan, 'package_ids'));
+            $key = array_search($row['plan_id'], array_column($subscribedPlan, 'plan_id'));
 
             if( is_numeric($key) )
             {
                 $key = array_search($row['package_ids'], $packages);
+                $products[$key] = $row;
                 $products[($key)]['up_id'] = 1;
             }
         }
