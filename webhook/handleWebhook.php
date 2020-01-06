@@ -50,6 +50,10 @@ class handleWebhook {
 			{
 				$this->handleCustomerSubscriptionDeleted($event);
 			}
+			elseif( isset($event) && $event->type == "invoice.created" )
+			{
+				$this->handleInvoiceCreated($event);
+			}
 		} catch(\UnexpectedValueException $e) {
 			// Invalid payload
 			http_response_code(400); // PHP 5.4 or greater
@@ -161,6 +165,16 @@ class handleWebhook {
 
 		$str .= "\n\n";
 		$this->log($str);
+	}
+
+	/**
+	 * Apply coupon on subscription
+	 * @param  [type] $event [description]
+	 * @return [type]        [description]
+	 */
+	function handleInvoiceCreated($event = null)
+	{
+
 	}
 
 	/**
