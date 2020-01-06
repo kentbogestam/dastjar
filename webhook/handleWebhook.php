@@ -195,6 +195,19 @@ class handleWebhook {
 			{
 				$subscriptionId = $invoice->subscription;
 				$str .= "Subscription ID: {$subscriptionId}\n";
+
+				// Retrieve subscription and update subscription in DB
+				$subscription = \Stripe\Subscription::retrieve($subscriptionId);
+
+				if( !empty($subscription) )
+				{
+					$endAt = date('Y-m-d H:i:s', $subscription->current_period_end);
+					$str .= "Subscription end at: {$endAt}\n";
+					
+					$query = "UPDATE user_plan SET subscription_end_at = '{$endAt}' WHERE subscription_id = '{$subscriptionId}'";
+					$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+					$str .= "Query: {$query}\n";
+				}
 				
 				// Check if Subscription exist in DB
 				// $query = "SELECT UP.id, UP.user_id, BP.plan_nickname, S.store_name FROM user_plan UP INNER JOIN billing_products BP ON UP.plan_id = BP.plan_id INNER JOIN store S ON UP.store_id = S.store_id WHERE UP.subscription_id = '{$subscriptionId}' AND status = '0'";
@@ -217,14 +230,6 @@ class handleWebhook {
 						$subtotal = number_format(($invoice->subtotal/100), 2, '.', '');
 						$tax = number_format(($invoice->tax/100), 2, '.', '');
 						$total = number_format(($invoice->total/100), 2, '.', '');
-						$endAt = date('Y-m-d H:i:s', $invoiceLineItems->period_end);
-
-						$str .= "Subscription end at: {$endAt}\n";
-
-						// Update subscription in DB
-						$query = "UPDATE user_plan SET subscription_end_at = '{$endAt}' WHERE subscription_id = '{$subscriptionId}'";
-						$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
-						$str .= "Query: {$query}\n";
 
 						// $updatedAt = date('Y-m-d H:i:s');
 						foreach($invoiceLineItems as $lineItem)
