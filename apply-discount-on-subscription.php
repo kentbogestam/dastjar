@@ -6,7 +6,7 @@ $subscriptionId = isset($_GET['subscriptionId']) ? $_GET['subscriptionId'] : nul
 // Apply discount on subscription
 if( !is_null($subscriptionId) )
 {
-	$billingObj = new Billing();
+	$billingObj = new billing();
 	$billingObj->applyDiscountOnSubscription($subscriptionId);
 }
 ?>
