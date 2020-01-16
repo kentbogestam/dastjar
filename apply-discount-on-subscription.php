@@ -1,12 +1,24 @@
 <?
 include_once("cumbari.php");
 
-$subscriptionId = isset($_GET['subscriptionId']) ? $_GET['subscriptionId'] : null;
+$db = new db();
+$conn = $db->makeConnection();
 
-// Apply discount on subscription
-if( !is_null($subscriptionId) )
+if($conn)
 {
-	$billingObj = new billing();
-	$billingObj->applyDiscountOnSubscription($subscriptionId);
+	// Get all 'active' subscription
+	$query = "SELECT UP.id, UP.subscription_id FROM user_plan UP INNER JOIN user_subscription_items USI ON UP.subscription_id = USI.subscription_id WHERE UP.status = '1' GROUP BY UP.subscription_id";
+	$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+
+	if( mysqli_num_rows($res) )
+	{
+		while ($rs = mysqli_fetch_assoc($res)) {
+			$subscriptionId = $rs['subscription_id'];
+
+			// Apply discount on subscription
+            $billingObj = new billing();
+			$billingObj->applyDiscountOnSubscription($subscriptionId);
+        }
+	}
 }
 ?>
