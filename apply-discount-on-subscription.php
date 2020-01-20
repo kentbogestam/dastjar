@@ -1,5 +1,9 @@
 <?
-include_once("cumbari.php");
+// include_once("cumbari.php");
+require('config/dbConfig.php');
+require('classes/db.php');
+require('config/config.php');
+require('classes/billing.php');
 
 $db = new db();
 $conn = $db->makeConnection();
