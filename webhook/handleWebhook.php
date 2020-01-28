@@ -230,6 +230,7 @@ class handleWebhook {
 						$subtotal = number_format(($invoice->subtotal/100), 2, '.', '');
 						$tax = number_format(($invoice->tax/100), 2, '.', '');
 						$total = number_format(($invoice->total/100), 2, '.', '');
+						$coupon = ($invoice->discount != null) ? $invoice->discount->coupon : null;
 
 						// $updatedAt = date('Y-m-d H:i:s');
 						foreach($invoiceLineItems as $lineItem)
@@ -277,8 +278,23 @@ class handleWebhook {
 	                                <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>Sub Total:</div>
 	                            </td>
 	                            <td align='right' style='padding:5px 10px 1px;background-color: #CCCD99;'>{$subtotal} (SEK)</td>
-	                        </tr>
-	                        <tr>
+	                        </tr>";
+
+	                        // If discount exist
+	                        if( $coupon != null )
+	                        {
+	                        	$amount_off = number_format(($coupon->amount_off/100), 2, '.', '');
+
+	                        	$emailContent .= "
+								<tr>
+		                            <td align='right' vertical-align='top' style='padding:5px 10px 1px; background-color:#CCCD99;'>
+		                                <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>{$coupon->id}:</div>
+		                            </td>
+		                            <td align='right' style='padding:5px 10px 1px;background-color: #CCCD99;'>-{$amount_off} (SEK)</td>
+		                        </tr>";
+	                        }
+
+	                        $emailContent .= "<tr>
 	                            <td align='right' vertical-align='top' style='padding:1px 10px 1px; background-color:#CCCD99;'>
 	                                <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>Tax:</div>
 	                            </td>
