@@ -95,7 +95,11 @@ class Billing
                 {
                 	try {
                         $sub = \Stripe\Subscription::retrieve($subscriptionId);
-                    	$sub->deleteDiscount();
+
+                        if( isset($sub->discount) && ($sub->discount != null) )
+                        {
+                            $sub->deleteDiscount();
+                        }
                     } catch (\Stripe\Error\Base $e) {}
                 }
             }
@@ -103,10 +107,12 @@ class Billing
             {
             	try {
                     $sub = \Stripe\Subscription::retrieve($subscriptionId);
-                	$sub->deleteDiscount();
-                } catch (\Stripe\Error\Base $e) {}
 
-                return 'Subscription not found.';
+                    if( isset($sub->discount) && ($sub->discount != null) )
+                    {
+                        $sub->deleteDiscount();
+                    }
+                } catch (\Stripe\Error\Base $e) {}
             }
         }
     }

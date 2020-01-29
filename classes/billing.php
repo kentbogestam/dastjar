@@ -1252,23 +1252,31 @@ on user_plan.user_id=user.u_id group by user.u_id";
                                 $subscriptionId,
                                 ['coupon' => $coupon->id]
                             );
-                        } catch (\Stripe\Error\Base $e) {
-
-                        }
+                        } catch (\Stripe\Error\Base $e) {}
                     }
                 }
                 else
                 {
-                    $sub = \Stripe\Subscription::retrieve($subscriptionId);
-                    $sub->deleteDiscount();
+                    try {
+                        $sub = \Stripe\Subscription::retrieve($subscriptionId);
+
+                        if( isset($sub->discount) && ($sub->discount != null) )
+                        {
+                            $sub->deleteDiscount();
+                        }
+                    } catch (\Stripe\Error\Base $e) {}
                 }
             }
             else
             {
-                $sub = \Stripe\Subscription::retrieve($subscriptionId);
-                $sub->deleteDiscount();
+                try {
+                    $sub = \Stripe\Subscription::retrieve($subscriptionId);
 
-                return 'Subscription not found.';
+                    if( isset($sub->discount) && ($sub->discount != null) )
+                    {
+                        $sub->deleteDiscount();
+                    }
+                } catch (\Stripe\Error\Base $e) {}
             }
         }
     }
