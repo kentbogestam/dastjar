@@ -663,7 +663,7 @@
 
                     fetch('<?php echo BASE_URL ?>classes/billing.php', {
                         method: 'POST',
-                        body: 'confirmStoreSubscription__='+JSON.stringify(data),
+                        body: 'confirmStoreSubscription__='+encodeURIComponent( JSON.stringify(data) ),
                         headers: {
                           "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
                         },
@@ -741,7 +741,7 @@
 
             fetch('<?php echo BASE_URL ?>classes/billing.php', {
                 method: 'POST',
-                body: 'confirmStoreSubscription__='+JSON.stringify(data),
+                body: 'confirmStoreSubscription__='+encodeURIComponent( JSON.stringify(data) ),
                 headers: {
                   "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
                 },
