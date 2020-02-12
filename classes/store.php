@@ -1503,7 +1503,7 @@ class store {
     function listTimeing(){
         $db = new db();
         $db->makeConnection();
-        $q = $db->query("SELECT open_time,close_time FROM store_open_close");
+        $q = $db->query("SELECT open_time,close_time FROM store_open_close order by open_time");
         while ($rs = mysqli_fetch_array($q)) {
             $data[] = $rs;
         }
