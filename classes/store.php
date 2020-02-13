@@ -412,6 +412,17 @@ class store {
                     // 
                     $catImg = "'".IMAGE_AMAZON_PATH . 'store_image/' . $smallImg."'";
                     $large_image = "'".IMAGE_AMAZON_PATH . 'store_image/' . $largeImg."'";
+
+                    // Delete file from local repos
+                    if( file_exists($path.$smallImg) )
+                    {
+                        unlink($path.$smallImg);
+                    }
+
+                    if( file_exists($path.$largeImg) )
+                    {
+                        unlink($path.$largeImg);
+                    }
                 }
             } else {
                 $error.=NOT_VALID_EXT;
@@ -957,6 +968,17 @@ class store {
 
                     $catImg = "'".IMAGE_AMAZON_PATH . 'store_image/' . $smallImg."'";
                     $large_image = "'".IMAGE_AMAZON_PATH . 'store_image/' . $largeImg."'";
+
+                    // Delete file from local repos
+                    if( file_exists($path.$smallImg) )
+                    {
+                        unlink($path.$smallImg);
+                    }
+
+                    if( file_exists($path.$largeImg) )
+                    {
+                        unlink($path.$largeImg);
+                    }
                 }
             }
         }
