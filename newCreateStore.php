@@ -12,6 +12,7 @@
    $countryList = $regObj->getCountryList();
    //$data = $storeObj->getCompanyDetail($_SESSION['userid']);
    $openCloseingTime = $storeObj->listTimeing();
+   $openCloseingTimeCatering = $storeObj->listTimeing();
    //print_r($openCloseingTime);
    
    // 
@@ -101,6 +102,7 @@
    <div class="center">
       <form name="registerform" id="registerform" method="POST" action="" enctype="multipart/form-data">
          <input type="hidden" name="opencloseTimeing" value="" id="opencloseTimeing">
+         <input type="hidden" name="opencloseTimeingCatering" value="" id="opencloseTimeingCatering">
          <!-- <input type="hidden" name="m" value="saveNewStore"> -->
          <input type="hidden" name="m" value="editSaveStore">
          <input type="hidden" name="storeId" value="">
@@ -188,6 +190,16 @@
                 <?php include('elements/store-opening-hours.php'); ?>
                   <!-- <a style="font-size: 15px;vertical-align: top; cursor:pointer; text-decoration: underline;" id="add_tpye_of_dish">Location is open following days of the week</a>
                   <div id='error_storeTime' class="error"></div> -->
+               </td>
+               <td align="right"><a title="<?=STORE_OPEN_CLOSE_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
+            </tr>
+            <tr id="catering_open_close_row">
+               <td height="42" align="left" style="vertical-align: top;">Opening hours of the Location for catering</td>
+                <td>
+                <?php include('elements/store-catering-opening-hours.php'); ?>
+                  <!-- <table class="days_div" border="0" cellspacing="0" cellpadding="0">
+                    <label><a style="font-size: 15px;vertical-align: top; cursor:pointer; text-decoration: underline;" id="add_tpye_of_dish">Location is open following days of the week</a></label></label>
+                  </table> -->
                </td>
                <td align="right"><a title="<?=STORE_OPEN_CLOSE_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
@@ -527,7 +539,20 @@
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
    <!-- <script src="https://checkout.stripe.com/checkout.js"></script> -->
    <script src="https://js.stripe.com/v3/"></script>
-
+    <script>
+        $('#catering_open_close_row').hide();      
+        $("#catering_open_close").change(function() {
+            catering_option=$('#catering_open_close').is(":checked"); 
+            if(catering_option==true)
+            {
+                $('#catering_open_close_row').show();
+            }
+            else
+            {
+                $('#catering_open_close_row').hide();        
+            }   
+        });
+    </script>
    <script type="text/javascript">
     stripePayment = "<?php echo $stripePayment ?>";
 
@@ -766,7 +791,17 @@
                 $('.all1').hide();
             }
         });
-
+        $("input[name = openingDaysCatering]").click(function(){
+            var vals = $(this).val();
+            vals = 'catall'+vals;
+            if(vals=='catall1'){
+                $('.catall1').show();
+                $('.catall2').hide();
+            }else{
+                $('.catall2').show();
+                $('.catall1').hide();
+            }
+        });
         // Update total
         $('input[name="plan_id[]"]').change(function() {
             // Update 'onlinePayment' fields
@@ -859,6 +894,69 @@
             }
          });
       });
+
+
+      $('[id*=OpenCatering], [id*=CloseCatering]').change(function()
+      {
+
+        openingDaysCatering = $('input[name=openingDaysCatering]:checked').val();
+        var dataString = new Array();
+        var i = 0;
+        if(openingDaysCatering == 1){
+          if($('[id*=allOpenCatering]').val() != '' && $('[id*=allCloseCatering]').val() != ''){
+            dataString = 'All :: '+$('[id*=allOpenCatering]').val()+' to '+$('[id*=allCloseCatering]').val();
+          }
+        }else if(openingDaysCatering == 2){
+          if($('[id*=monOpenCatering]').val() != '' && $('[id*=monCloseCatering]').val() != ''){
+            dataString[i] = 'Mon :: '+$('[id*=monOpenCatering]').val()+' to '+$('[id*=monCloseCatering]').val();
+            i = i+1;
+          }
+          if($('[id*=tueOpenCatering]').val() != '' && $('[id*=tueCloseCatering]').val() != ''){
+            dataString[i] = ['Tue :: '+$('[id*=tueOpenCatering]').val()+' to '+$('[id*=tueCloseCatering]').val()];
+            i = i+1;
+          }
+          if($('[id*=wedOpenCatering]').val() != '' && $('[id*=wedCloseCatering]').val() != ''){
+            dataString[i] = ['Wed :: '+$('[id*=wedOpenCatering]').val()+' to '+$('[id*=wedCloseCatering]').val()];
+            i = i+1;
+          }
+          if($('[id*=thuOpenCatering]').val() != '' && $('[id*=thuCloseCatering]').val() != ''){
+            dataString[i] = ['Thu :: '+$('[id*=thuOpenCatering]').val()+' to '+$('[id*=thuCloseCatering]').val()];
+            i = i+1;
+          }
+          if($('[id*=friOpenCatering]').val() != '' && $('[id*=friCloseCatering]').val() != ''){
+            dataString[i] = ['Fri :: '+$('[id*=friOpenCatering]').val()+' to '+$('[id*=friCloseCatering]').val()];
+            i = i+1;
+          }
+          if($('[id*=satOpenCatering]').val() != '' && $('[id*=satCloseCatering]').val() != ''){
+            dataString[i] = ['Sat :: '+$('[id*=satOpenCatering]').val()+' to '+$('[id*=satCloseCatering]').val()];
+            i = i+1;
+          }
+          if($('[id*=sunOpenCatering]').val() != '' && $('[id*=sunCloseCatering]').val() != ''){
+            dataString[i] = ['Sun :: '+$('[id*=sunOpenCatering]').val()+' to '+$('[id*=sunCloseCatering]').val()];
+            i = i+1;
+          }
+
+        }
+         document.getElementById('opencloseTimeingCatering').value=dataString;
+         $.ajax({
+            type: "POST",
+            url: "storeOpenCloseTime.php?",
+            data: dataString,
+            success: function (response) {
+               $data = JSON.parse(response);
+               // $('#addDishType-popup').hide();
+            },
+            failure: function (response) {
+               alert(response.responseText);
+            },
+            error: function (response) {
+               alert(response.responseText);
+            }
+         });
+      }); 
+
+
+
 
       // Update plan on change
       $(document).on('change', '#typeofrestrurant', function() {

@@ -323,7 +323,15 @@ class store {
         // $arrUser['store_close'] = $_POST['storeCloseTime'];
         $arrUser['close_dates'] = $_POST['altField'];
         $arrUser['store_open_close_day_time'] = $_POST['opencloseTimeing'];
-
+        if(isset($_POST['opencloseTimeingCatering']))
+        {
+            $arrUser['store_open_close_day_time_catering'] = $_POST['opencloseTimeingCatering'];
+        }
+        else
+        {
+            $arrUser['store_open_close_day_time'] = $_POST['opencloseTimeing'];            
+        }
+        
         if($_POST['onlinePayment'] == 1){
             $arrUser['online_payment'] = $_POST['onlinePayment'];
         }else{
@@ -438,8 +446,8 @@ class store {
 
         $_SESSION['post'] = "";
         $storeUniqueId = uuid();
-        $query = "INSERT into store(`store_id`,`u_id`,`store_type`,`tagline`,`store_name`,`email`,`street`,`phone`,`store_link`,`city`,`country`,`latitude`,`longitude`,`s_activ`,`country_code`,`access_type`,`chain`,`block`,`zip`,`store_image`,`large_image`,`store_open_close_day_time`,`store_close_dates`,`online_payment`)
-                 VALUES('" . $storeUniqueId . "','" . $_SESSION['userid'] . "','" . $arrUser['store_type'] . "','" . $arrUser['tagline'] . "','" . $arrUser['store_name'] . "','" . $arrUser['email'] . "','" . $arrUser['street'] . "','" . $arrUser['phone'] . "','" . $arrUser['link'] . "','" . $arrUser['city'] . "','" . $arrUser['country'] . "','" . $arrUser['latitude'] . "','" . $arrUser['longitude'] . "','1','" . $coutryIso . "','1','" . $arrUser['chain'] . "','" . $arrUser['block'] . "','" . $arrUser['zip'] . "'," . $catImg . "," . $large_image . ",'" . $arrUser['store_open_close_day_time'] . "','" . $arrUser['close_dates'] . "','" . $arrUser['online_payment'] . "')";
+        $query = "INSERT into store(`store_id`,`u_id`,`store_type`,`tagline`,`store_name`,`email`,`street`,`phone`,`store_link`,`city`,`country`,`latitude`,`longitude`,`s_activ`,`country_code`,`access_type`,`chain`,`block`,`zip`,`store_image`,`large_image`,`store_open_close_day_time`,`store_open_close_day_time_catering`,`store_close_dates`,`online_payment`)
+                 VALUES('" . $storeUniqueId . "','" . $_SESSION['userid'] . "','" . $arrUser['store_type'] . "','" . $arrUser['tagline'] . "','" . $arrUser['store_name'] . "','" . $arrUser['email'] . "','" . $arrUser['street'] . "','" . $arrUser['phone'] . "','" . $arrUser['link'] . "','" . $arrUser['city'] . "','" . $arrUser['country'] . "','" . $arrUser['latitude'] . "','" . $arrUser['longitude'] . "','1','" . $coutryIso . "','1','" . $arrUser['chain'] . "','" . $arrUser['block'] . "','" . $arrUser['zip'] . "'," . $catImg . "," . $large_image . ",'" . $arrUser['store_open_close_day_time'] . "','" . $arrUser['store_open_close_day_time_catering'] . "','" . $arrUser['close_dates'] . "','" . $arrUser['online_payment'] . "')";
         $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
         // Add store delivery type 'store_delivery_type'
@@ -866,7 +874,13 @@ class store {
         if($_POST['opencloseTimeing']){
             $arrUser['store_open_close_day_time'] = $_POST['opencloseTimeing'];
         }
-
+        if($_POST['opencloseTimeingCatering']){
+            $arrUser['store_open_close_day_time_catering'] = $_POST['opencloseTimeingCatering'];
+        }
+        else
+        {
+            $arrUser['store_open_close_day_time'] = $_POST['opencloseTimeing'];            
+        }
         if($_POST['onlinePayment'] == 1){
             $arrUser['online_payment'] = $_POST['onlinePayment'];
         }else{
@@ -998,9 +1012,8 @@ class store {
         $arrUser['street'] = mysqli_real_escape_string($conn, $arrUser['street']);
         $arrUser['city'] = mysqli_real_escape_string($conn, $arrUser['city']);
 		
-        if($_POST['opencloseTimeing']){
-
-            $query = "update store SET store_type='" . $arrUser['store_type'] . "',tagline='" . $arrUser['tagline'] . "',latitude='" . $arrUser['latitude'] . "',longitude='" . $arrUser['longitude'] . "',`store_name`='" . $arrUser['store_name'] . "' ,`street`='" . $arrUser['street'] . "', `city`='" . $arrUser['city'] . "', `country`='" . $arrUser['country'] . "', `email`='" . $arrUser['email'] . "', `phone`='" . $arrUser['phone'] . "', `store_link`='" . $arrUser['link'] . "', `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "' , `store_open_close_day_time`='" .$arrUser['store_open_close_day_time'] . "' , `store_close_dates`='" . $arrUser['close_dates'] . "', `online_payment` = '".$arrUser['online_payment']."' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $storeId . "'";
+        if($_POST['opencloseTimeing'] or $_POST['opencloseTimeingCatering']){
+            $query = "update store SET store_type='" . $arrUser['store_type'] . "',tagline='" . $arrUser['tagline'] . "',latitude='" . $arrUser['latitude'] . "',longitude='" . $arrUser['longitude'] . "',`store_name`='" . $arrUser['store_name'] . "' ,`street`='" . $arrUser['street'] . "', `city`='" . $arrUser['city'] . "', `country`='" . $arrUser['country'] . "', `email`='" . $arrUser['email'] . "', `phone`='" . $arrUser['phone'] . "', `store_link`='" . $arrUser['link'] . "', `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "' , `store_open_close_day_time`='" .$arrUser['store_open_close_day_time'] . "' ,`store_open_close_day_time_catering`='" .$arrUser['store_open_close_day_time_catering'] . "' , `store_close_dates`='" . $arrUser['close_dates'] . "', `online_payment` = '".$arrUser['online_payment']."' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $storeId . "'";
         }else{
 
             $query = "update store SET store_type='" . $arrUser['store_type'] . "',tagline='" . $arrUser['tagline'] . "',latitude='" . $arrUser['latitude'] . "',longitude='" . $arrUser['longitude'] . "',`store_name`='" . $arrUser['store_name'] . "' ,`street`='" . $arrUser['street'] . "', `city`='" . $arrUser['city'] . "', `country`='" . $arrUser['country'] . "', `email`='" . $arrUser['email'] . "', `phone`='" . $arrUser['phone'] . "', `store_link`='" . $arrUser['link'] . "', `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "' , `store_close_dates`='" . $arrUser['close_dates'] . "', `online_payment` = '".$arrUser['online_payment']."' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $storeId . "'";

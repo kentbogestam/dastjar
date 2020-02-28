@@ -1,28 +1,28 @@
 <?php
-if(isset($data[0]['store_open_close_day_time']))
+if(isset($data[0]['store_open_close_day_time_catering']) or isset($data[0]['store_open_close_day_time']))
 {
     // echo '<pre>'; print_r($allDayOpen); exit;
     ?>
     <div class="panel panel-default">
         <div class="panel-heading">
             <label class="radio-inline">
-                <input type="radio" name="openingDays" value="1" <?php echo (isset($allDayOpen) && !empty($allDayOpen)) ? "checked" : '' ?>>All Days
+                <input type="radio" name="openingDaysCatering" value="1" <?php echo (isset($allDayOpenCatering) && !empty($allDayOpenCatering)) ? "checked" : '' ?>>All Days
             </label>
             <label class="radio-inline">
-                <input type="radio" name="openingDays" value="2" <?php echo (!isset($allDayOpen)) ? "checked" : '' ?>>Week Days
+                <input type="radio" name="openingDaysCatering" value="2" <?php echo (!isset($allDayOpenCatering)) ? "checked" : '' ?>>Week Days
             </label>
         </div>
         <div class="panel-body">
-            <div class="row all1" <?php echo (isset($allDayOpen) && !empty($allDayOpen)) ? '' : 'display: none'; ?>>
+            <div class="row catall1" <?php echo (isset($allDayOpenCatering) && !empty($allDayOpenCatering)) ? '' : 'display: none'; ?>>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label for="allOpen">Opening Time:</label>
-                        <select class="form-control input-sm" id="allOpen">
+                        <label for="allOpenCatering">Opening Time:</label>
+                        <select class="form-control input-sm" id="allOpenCatering">
                             <option value="">Select Opening Time</option>
                             <?php
-                            foreach($openCloseingTime as $key =>$value) {
+                            foreach($openCloseingTimeCatering as $key =>$value) {
                                 ?>
-                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', str_replace(' ', '', $allDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
+                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', str_replace(' ', '', $allDayOpenCatering)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
                                 <?php
                             }
                             ?>
@@ -31,13 +31,13 @@ if(isset($data[0]['store_open_close_day_time']))
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label for="allClose">Closing Time:</label>
-                        <select class="form-control input-sm" id="allClose">
+                        <label for="allCloseCatering">Closing Time:</label>
+                        <select class="form-control input-sm" id="allCloseCatering">
                             <option value="">Select Closing Time</option>
                             <?php
-                            foreach($openCloseingTime as $key =>$value) {
+                            foreach($openCloseingTimeCatering as $key =>$value) {
                                 ?>
-                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', $allDayClose) == str_replace(':', '', $value['close_time'])) echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
+                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', $allDayCloseCatering) == str_replace(':', '', $value['close_time'])) echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
                                 <?php
                             }
                             ?>
@@ -45,16 +45,16 @@ if(isset($data[0]['store_open_close_day_time']))
                     </div>
                 </div>
             </div>
-            <div class="row all2" style="<?php echo (!isset($allDayOpen)) ? '' : 'display: none' ?>">
+            <div class="row catall2" style="<?php echo (!isset($allDayOpenCatering)) ? '' : 'display: none' ?>">
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label for="monOpen">Monday Opening Time:</label>
-                        <select class="form-control input-sm" id="monOpen">
+                        <label for="monOpenCatering">Monday Opening Time:</label>
+                        <select class="form-control input-sm" id="monOpenCatering">
                             <option value="">Monday Opening Time</option>
                             <?php
-                            foreach($openCloseingTime as $key =>$value) {
+                            foreach($openCloseingTimeCatering as $key =>$value) {
                                 ?>
-                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', str_replace(' ', '', $monDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
+                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', str_replace(' ', '', $monDayOpenCatering)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
                                 <?php
                             }
                             ?>
@@ -63,13 +63,13 @@ if(isset($data[0]['store_open_close_day_time']))
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label for="monClose">Monday Closing Time:</label>
-                        <select class="form-control input-sm" id="monClose">
+                        <label for="monCloseCatering">Monday Closing Time:</label>
+                        <select class="form-control input-sm" id="monCloseCatering">
                             <option value="">Monday Closing Time</option>
                             <?php
-                            foreach($openCloseingTime as $key =>$value) {
+                            foreach($openCloseingTimeCatering as $key =>$value) {
                                 ?>
-                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', $monDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
+                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', $monDayCloseCatering) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
                                 <?php
                             }
                             ?>
@@ -78,13 +78,13 @@ if(isset($data[0]['store_open_close_day_time']))
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label for="tueOpen">Tuesday Opening Time:</label>
-                        <select class="form-control input-sm" id="tueOpen">
+                        <label for="tueOpenCatering">Tuesday Opening Time:</label>
+                        <select class="form-control input-sm" id="tueOpenCatering">
                             <option value="">Tuesday Opening Time</option>
                             <?php
-                            foreach($openCloseingTime as $key =>$value) {
+                            foreach($openCloseingTimeCatering as $key =>$value) {
                                 ?>
-                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', str_replace(' ', '', $tueDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
+                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', str_replace(' ', '', $tueDayOpenCatering)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
                                 <?php
                             }
                             ?>
@@ -93,13 +93,13 @@ if(isset($data[0]['store_open_close_day_time']))
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label for="tueClose">Tuesday Closing Time:</label>
-                        <select class="form-control input-sm" id="tueClose">
+                        <label for="tueCloseCatering">Tuesday Closing Time:</label>
+                        <select class="form-control input-sm" id="tueCloseCateringCatering">
                             <option value="">Tuesday Closing Time</option>
                             <?php
-                            foreach($openCloseingTime as $key =>$value) {
+                            foreach($openCloseingTimeCatering as $key =>$value) {
                                 ?>
-                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', $tueDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
+                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', $tueDayCloseCatering) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
                                 <?php
                             }
                             ?>
@@ -108,13 +108,13 @@ if(isset($data[0]['store_open_close_day_time']))
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label for="wedOpen">Wednesday Opening Time:</label>
-                        <select class="form-control input-sm" id="wedOpen">
+                        <label for="wedOpenCatering">Wednesday Opening Time:</label>
+                        <select class="form-control input-sm" id="wedOpenCatering">
                             <option value="">Wednesday Opening Time</option>
                             <?php
-                            foreach($openCloseingTime as $key =>$value) {
+                            foreach($openCloseingTimeCatering as $key =>$value) {
                                 ?>
-                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', str_replace(' ', '', $wedDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
+                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', str_replace(' ', '', $wedDayOpenCatering)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
                                 <?php
                             }
                             ?>
@@ -123,13 +123,13 @@ if(isset($data[0]['store_open_close_day_time']))
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label for="wedClose">Wednesday Closing Time:</label>
-                        <select class="form-control input-sm" id="wedClose">
+                        <label for="wedCloseCatering">Wednesday Closing Time:</label>
+                        <select class="form-control input-sm" id="wedCloseCatering">
                             <option value="">Wednesday Closing Time</option>
                             <?php
-                            foreach($openCloseingTime as $key =>$value) {
+                            foreach($openCloseingTimeCatering as $key =>$value) {
                                 ?>
-                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', $wedDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
+                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', $wedDayCloseCatering) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
                                 <?php
                             }
                             ?>
@@ -138,13 +138,13 @@ if(isset($data[0]['store_open_close_day_time']))
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label for="thuOpen">Thursday Opening Time:</label>
-                        <select class="form-control input-sm" id="thuOpen">
+                        <label for="thuOpenCatering">Thursday Opening Time:</label>
+                        <select class="form-control input-sm" id="thuOpenCatering">
                             <option value="">Thursday Opening Time</option>
                             <?php
-                            foreach($openCloseingTime as $key =>$value) {
+                            foreach($openCloseingTimeCatering as $key =>$value) {
                                 ?>
-                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', str_replace(' ', '', $thuDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
+                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', str_replace(' ', '', $thuDayOpenCatering)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
                                 <?php
                             }
                             ?>
@@ -153,13 +153,13 @@ if(isset($data[0]['store_open_close_day_time']))
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label for="thuClose">Thursday Closing Time:</label>
-                        <select class="form-control input-sm" id="thuClose">
+                        <label for="thuCloseCatering">Thursday Closing Time:</label>
+                        <select class="form-control input-sm" id="thuCloseCatering">
                             <option value="">Thursday Closing Time</option>
                             <?php
-                            foreach($openCloseingTime as $key =>$value) {
+                            foreach($openCloseingTimeCatering as $key =>$value) {
                                 ?>
-                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', $thuDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
+                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', $thuDayCloseCatering) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
                                 <?php
                             }
                             ?>
@@ -168,13 +168,13 @@ if(isset($data[0]['store_open_close_day_time']))
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label for="friOpen">Friday Opening Time:</label>
-                        <select class="form-control input-sm" id="friOpen">
+                        <label for="friOpenCatering">Friday Opening Time:</label>
+                        <select class="form-control input-sm" id="friOpenCatering">
                             <option value="">Friday Opening Time</option>
                             <?php
-                            foreach($openCloseingTime as $key =>$value) {
+                            foreach($openCloseingTimeCatering as $key =>$value) {
                                 ?>
-                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', str_replace(' ', '', $friDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
+                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', str_replace(' ', '', $friDayOpenCatering)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
                                 <?php
                             }
                             ?>
@@ -183,13 +183,13 @@ if(isset($data[0]['store_open_close_day_time']))
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label for="friClose">Friday Closing Time:</label>
-                        <select class="form-control input-sm" id="friClose">
+                        <label for="friCloseCatering">Friday Closing Time:</label>
+                        <select class="form-control input-sm" id="friCloseCatering">
                             <option value="">Friday Closing Time</option>
                             <?php
-                            foreach($openCloseingTime as $key =>$value) {
+                            foreach($openCloseingTimeCatering as $key =>$value) {
                                 ?>
-                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', $friDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
+                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', $friDayCloseCatering) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
                                 <?php
                             }
                             ?>
@@ -198,13 +198,13 @@ if(isset($data[0]['store_open_close_day_time']))
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label for="satOpen">Saturday Opening Time:</label>
-                        <select class="form-control input-sm" id="satOpen">
+                        <label for="satOpenCatering">Saturday Opening Time:</label>
+                        <select class="form-control input-sm" id="satOpenCatering">
                             <option value="">Saturday Opening Time</option>
                             <?php
-                            foreach($openCloseingTime as $key =>$value) {
+                            foreach($openCloseingTimeCatering as $key =>$value) {
                                 ?>
-                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', str_replace(' ', '', $satDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
+                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', str_replace(' ', '', $satDayOpenCatering)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
                                 <?php
                             }
                             ?>
@@ -213,13 +213,13 @@ if(isset($data[0]['store_open_close_day_time']))
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label for="satClose">Saturday Closing Time:</label>
-                        <select class="form-control input-sm" id="satClose">
+                        <label for="satCloseCatering">Saturday Closing Time:</label>
+                        <select class="form-control input-sm" id="satCloseCatering">
                             <option value="">Saturday Closing Time</option>
                             <?php
-                            foreach($openCloseingTime as $key =>$value) {
+                            foreach($openCloseingTimeCatering as $key =>$value) {
                                 ?>
-                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', $satDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
+                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', $satDayCloseCatering) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
                                 <?php
                             }
                             ?>
@@ -228,13 +228,13 @@ if(isset($data[0]['store_open_close_day_time']))
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label for="sunOpen">Sunday Opening Time:</label>
-                        <select class="form-control input-sm" id="sunOpen">
+                        <label for="sunOpenCatering">Sunday Opening Time:</label>
+                        <select class="form-control input-sm" id="sunOpenCatering">
                             <option value="">Sunday Opening Time</option>
                             <?php
-                            foreach($openCloseingTime as $key =>$value) {
+                            foreach($openCloseingTimeCatering as $key =>$value) {
                                 ?>
-                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', str_replace(' ', '', $sunDayOpen)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
+                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', str_replace(' ', '', $sunDayOpenCatering)) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
                                 <?php
                             }
                             ?>
@@ -243,13 +243,13 @@ if(isset($data[0]['store_open_close_day_time']))
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label for="sunClose">Sunday Closing Time:</label>
-                        <select class="form-control input-sm" id="sunClose">
+                        <label for="sunCloseCatering">Sunday Closing Time:</label>
+                        <select class="form-control input-sm" id="sunCloseCatering">
                             <option value="">Sunday Closing Time</option>
                             <?php
-                            foreach($openCloseingTime as $key =>$value) {
+                            foreach($openCloseingTimeCatering as $key =>$value) {
                                 ?>
-                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', $sunDayClose) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
+                                <option value="<?php echo $value['close_time']; ?>" <?php if(str_replace(':', '', $sunDayCloseCatering) == str_replace(':', '', $value['close_time']))echo "selected='selected'"; ?>><?php echo $value['close_time']?></option>
                                 <?php
                             }
                             ?>
@@ -258,38 +258,34 @@ if(isset($data[0]['store_open_close_day_time']))
                 </div>
                 <div id='error_storeTime' class="error"></div>
             </div>
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="catering_open_close">
-                <label class="custom-control-label" for="catering_open_close">Catering closing opening time</label>
-            </div>
         </div>
     </div>
     <?php
 }
 else
-{
+{ 
     ?>
     <div class="panel panel-default">
         <div class="panel-heading">
             <label class="radio-inline">
-                <input type="radio" name="openingDays" value="1" checked>All Days
+                <input type="radio" name="openingDaysCatering" value="1" checked>All Days
             </label>
             <label class="radio-inline">
-                <input type="radio" name="openingDays" value="2">Week Days
+                <input type="radio" name="openingDaysCatering" value="2">Week Days
             </label>
         </div>
         <div class="panel-body">
             <?php
             $strOptionsForOpenCloseingTime = '';
-            foreach($openCloseingTime as $key =>$value) {
+            foreach($openCloseingTimeCatering as $key =>$value) {
                 $strOptionsForOpenCloseingTime .= "<option value='{$value['close_time']}'>{$value['close_time']}</option>";
             }
             ?>
-            <div class="row all1">
+            <div class="row catall1">
                 <div class="col-xs-6">
                     <div class="form-group">
                         <label for="allOpen">Opening Time:</label>
-                        <select class="form-control input-sm" id="allOpen">
+                        <select class="form-control input-sm" id="allOpenCatering">
                             <option value="">Select Opening Time</option>
                             <?php echo $strOptionsForOpenCloseingTime; ?>
                         </select>
@@ -298,14 +294,14 @@ else
                 <div class="col-xs-6">
                     <div class="form-group">
                         <label for="allClose">Closing Time:</label>
-                        <select class="form-control input-sm" id="allClose">
+                        <select class="form-control input-sm" id="allCloseCatering">
                             <option value="">Select Closing Time</option>
                             <?php echo $strOptionsForOpenCloseingTime; ?>
                         </select>
                     </div>
                 </div>
             </div>
-            <div class="row all2" style="display: none;">
+            <div class="row catall2" style="display: none;">
                 <div class="col-xs-6">
                     <div class="form-group">
                         <label for="monOpen">Monday Opening Time:</label>
@@ -432,10 +428,6 @@ else
                         </select>
                     </div>
                 </div>
-            </div>
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="check_catering_option" class="custom-control-input" id="catering_open_close">
-                <label class="custom-control-label" for="catering_open_close">Catering closing opening time</label>
             </div>
             <div id='error_storeTime' class="error"></div>
             <!-- <div class="form-group">
