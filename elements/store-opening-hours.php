@@ -13,7 +13,7 @@ if(isset($data[0]['store_open_close_day_time']))
             </label>
         </div>
         <div class="panel-body">
-            <div class="row all1" <?php echo (isset($allDayOpen) && !empty($allDayOpen)) ? '' : 'display: none'; ?>>
+            <div class="row all1" style="<?php echo (isset($allDayOpen) && !empty($allDayOpen)) ? '' : 'display: none'; ?>">
                 <div class="col-xs-6">
                     <div class="form-group">
                         <label for="allOpen">Opening Time:</label>
