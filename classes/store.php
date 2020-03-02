@@ -5,7 +5,7 @@
  *  Author  :Himanshu Singh  Date: 23rd,Nov,2010  Creation
  */
 
-//print_r($_SESSION);
+//print_r($_SESSION);editSaveStore
 //$_SESSION['COMP_ID']="";
 require_once(dirname(__DIR__).'/lib/resizer/resizer.php');
 class store {
@@ -323,13 +323,13 @@ class store {
         // $arrUser['store_close'] = $_POST['storeCloseTime'];
         $arrUser['close_dates'] = $_POST['altField'];
         $arrUser['store_open_close_day_time'] = $_POST['opencloseTimeing'];
-        if(isset($_POST['opencloseTimeingCatering']))
+        if($_POST['opencloseTimeingCatering']!="")
         {
             $arrUser['store_open_close_day_time_catering'] = $_POST['opencloseTimeingCatering'];
         }
         else
         {
-            $arrUser['store_open_close_day_time'] = $_POST['opencloseTimeing'];            
+            $arrUser['store_open_close_day_time_catering'] = $_POST['opencloseTimeing'];            
         }
         
         if($_POST['onlinePayment'] == 1){
@@ -874,12 +874,13 @@ class store {
         if($_POST['opencloseTimeing']){
             $arrUser['store_open_close_day_time'] = $_POST['opencloseTimeing'];
         }
-        if($_POST['opencloseTimeingCatering']){
+        //var_dump(isset($_POST['opencloseTimeingCatering']));die;
+        if($_POST['opencloseTimeingCatering']!=""){
             $arrUser['store_open_close_day_time_catering'] = $_POST['opencloseTimeingCatering'];
         }
         else
         {
-            $arrUser['store_open_close_day_time'] = $_POST['opencloseTimeing'];            
+            $arrUser['store_open_close_day_time_catering'] = $_POST['opencloseTimeing'];            
         }
         if($_POST['onlinePayment'] == 1){
             $arrUser['online_payment'] = $_POST['onlinePayment'];
@@ -1012,7 +1013,7 @@ class store {
         $arrUser['street'] = mysqli_real_escape_string($conn, $arrUser['street']);
         $arrUser['city'] = mysqli_real_escape_string($conn, $arrUser['city']);
 		
-        if($_POST['opencloseTimeing'] or $_POST['opencloseTimeingCatering']){
+        if($_POST['opencloseTimeing'] ){
             $query = "update store SET store_type='" . $arrUser['store_type'] . "',tagline='" . $arrUser['tagline'] . "',latitude='" . $arrUser['latitude'] . "',longitude='" . $arrUser['longitude'] . "',`store_name`='" . $arrUser['store_name'] . "' ,`street`='" . $arrUser['street'] . "', `city`='" . $arrUser['city'] . "', `country`='" . $arrUser['country'] . "', `email`='" . $arrUser['email'] . "', `phone`='" . $arrUser['phone'] . "', `store_link`='" . $arrUser['link'] . "', `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "' , `store_open_close_day_time`='" .$arrUser['store_open_close_day_time'] . "' ,`store_open_close_day_time_catering`='" .$arrUser['store_open_close_day_time_catering'] . "' , `store_close_dates`='" . $arrUser['close_dates'] . "', `online_payment` = '".$arrUser['online_payment']."' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $storeId . "'";
         }else{
 
