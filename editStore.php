@@ -11,7 +11,14 @@
    $countryList = $regObj->getCountryList();
    $openCloseingTime = $storeObj->listTimeing();
    $openCloseingTimeCatering = $storeObj->listTimeing();
-    //print_r($openCloseingTime);
+    $storeDetail=$storeObj->getStoreDetailById($_REQUEST['storeId']);
+    $storeCount=count($storeDetail);
+    if($storeCount>0)
+    {
+        $storeopenCloseTimeCatering=$storeDetail[0]['store_open_close_day_time_catering'];
+        $storeopenCloseTime=$storeDetail[0]['store_open_close_day_time'];
+    }
+    //print_r($storeDetail);
    $accountObj = new accountView();
    $data = $accountObj->getCompanyDetail();
    $stripePayment = $accountObj->stripePayment();
@@ -233,8 +240,8 @@
 <body>
    <div class="center">
       <form name="registerform" action="" id="registerform" method="Post" enctype="multipart/form-data">
-        <input type="hidden" name="opencloseTimeing" value="" id="opencloseTimeing">
-        <input type="hidden" name="opencloseTimeingCatering" value="" id="opencloseTimeingCatering">
+        <input type="hidden" name="opencloseTimeing" value="<?php echo $storeopenCloseTime;   ?>" id="opencloseTimeing">
+        <input type="hidden" name="opencloseTimeingCatering" value="<?php echo $storeopenCloseTimeCatering;   ?>" id="opencloseTimeingCatering">
          <input type="hidden" name="m" value="editSaveStore">
          <input type="hidden" name="storeId" value="<?php echo $data[0]['store_id']; ?>">
          <input type="hidden" name="s" value="<?=$_REQUEST['s']?>">
@@ -675,16 +682,17 @@
 </body>
 </html>
 <script>
-    //cdata='<?php // echo $data[0]['store_open_close_day_time_catering']; ?>';
-    //console.log(cdata); 
-    //if(cdata==null)
-    //{
-    //    $('#catering_open_close_row').show();        
-    //}
-    //else
-    //{
+    cdata='<?php  echo $data[0]['store_open_close_day_time_catering']; ?>';
+    cdata1='<?php  echo $data[0]['store_open_close_day_time']; ?>';
+    console.log(cdata); 
+    if(cdata!=cdata1)
+    {
+        $('#catering_open_close_row').show();        
+    }
+    else
+    {
         $('#catering_open_close_row').hide();        
-    //}    
+    }    
      
     $("#catering_open_close").change(function() {
     catering_option=$('#catering_open_close').is(":checked"); 

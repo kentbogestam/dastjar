@@ -258,10 +258,7 @@ if(isset($data[0]['store_open_close_day_time']))
                 </div>
                 <div id='error_storeTime' class="error"></div>
             </div>
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="catering_open_close">
-                <label class="custom-control-label" for="catering_open_close">Catering closing opening time</label>
-            </div>
+   
         </div>
     </div>
     <?php
@@ -433,10 +430,7 @@ else
                     </div>
                 </div>
             </div>
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" name="check_catering_option" class="custom-control-input" id="catering_open_close">
-                <label class="custom-control-label" for="catering_open_close">Catering closing opening time</label>
-            </div>
+
             <div id='error_storeTime' class="error"></div>
             <!-- <div class="form-group">
                 <input type="button" value="Continue" name="continue" id="submit-btn" class="form-submit-btn">
@@ -446,3 +440,7 @@ else
     <?php
 }
 ?>
+<div class="custom-control custom-checkbox">
+    <input type="checkbox" name="check_catering_option"  <?php if($data[0]['store_open_close_day_time_catering']!=$data[0]['store_open_close_day_time']) { ?> checked <?php } ?>class="custom-control-input" id="catering_open_close" value="1">
+    <label class="custom-control-label" for="catering_open_close">Different open/close time for Catering</label>
+</div>

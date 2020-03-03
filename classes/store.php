@@ -323,8 +323,7 @@ class store {
         // $arrUser['store_close'] = $_POST['storeCloseTime'];
         $arrUser['close_dates'] = $_POST['altField'];
         $arrUser['store_open_close_day_time'] = $_POST['opencloseTimeing'];
-        if($_POST['opencloseTimeingCatering']!="")
-        {
+        if(isset($_POST['check_catering_option']) && $_POST['opencloseTimeingCatering']){
             $arrUser['store_open_close_day_time_catering'] = $_POST['opencloseTimeingCatering'];
         }
         else
@@ -874,8 +873,11 @@ class store {
         if($_POST['opencloseTimeing']){
             $arrUser['store_open_close_day_time'] = $_POST['opencloseTimeing'];
         }
-        //var_dump(isset($_POST['opencloseTimeingCatering']));die;
-        if($_POST['opencloseTimeingCatering']!=""){
+
+        //echo '<pre>'; print_r($_POST); exit;
+
+        //var_dump($_POST['check_catering_option']);die;
+        if(isset($_POST['check_catering_option']) && $_POST['opencloseTimeingCatering']){
             $arrUser['store_open_close_day_time_catering'] = $_POST['opencloseTimeingCatering'];
         }
         else
