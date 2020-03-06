@@ -1324,7 +1324,7 @@ on user_plan.user_id=user.u_id group by user.u_id";
             try {
                 // Retrieve and delete SI
                 $subscription_item = \Stripe\SubscriptionItem::retrieve($subscriptionItem);
-                $response = $subscription_item->delete();
+                $response = $subscription_item->delete(['proration_behavior' => 'none']);
                 
                 // Update SI status in DB
                 if( isset($response->deleted) && $response->deleted )
