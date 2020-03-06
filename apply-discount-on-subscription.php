@@ -13,7 +13,7 @@ $conn = $db->makeConnection();
 if($conn)
 {
 	// Get all 'active' subscription
-	$query = "SELECT UP.id, UP.subscription_id FROM user_plan UP INNER JOIN user_subscription_items USI ON UP.subscription_id = USI.subscription_id WHERE UP.status = '1' AND USI.status = '1' GROUP BY UP.subscription_id";
+	$query = "SELECT UP.id, UP.subscription_id FROM user_plan UP INNER JOIN user_subscription_items USI ON UP.subscription_id = USI.subscription_id WHERE UP.status = '1' GROUP BY UP.subscription_id";
 	$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
 	if( mysqli_num_rows($res) )
@@ -48,7 +48,7 @@ class Billing
 
             // Select plan having trial periods on
             // $query = "SELECT price FROM billing_products BP INNER JOIN user_subscription_items USI ON BP.plan_id = USI.plan_id WHERE BP.trial_period != 0 AND USI.subscription_id = '{$subscriptionId}' AND USI.coupon_trial_from <= '{$date}' AND USI.coupon_trial_to >= '{$date}'";
-            $query = "SELECT price FROM billing_products BP INNER JOIN user_subscription_items USI ON BP.plan_id = USI.plan_id WHERE BP.trial_period != 0 AND USI.subscription_id = '{$subscriptionId}' AND USI.coupon_trial_from <= '{$date}' AND USI.coupon_trial_to > '{$date}'";
+            $query = "SELECT price FROM billing_products BP INNER JOIN user_subscription_items USI ON BP.plan_id = USI.plan_id WHERE BP.trial_period != 0 AND USI.subscription_id = '{$subscriptionId}' AND USI.coupon_trial_from <= '{$date}' AND USI.coupon_trial_to > '{$date}' AND USI.status = '1'";
             $res = $db->query($query);
 
             if($db->numRows($res))
