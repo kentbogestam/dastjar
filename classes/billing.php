@@ -262,7 +262,7 @@ class Billing{
 
         $date = date('Y-m-d H:i:s');
 
-        $query = "SELECT UP.subscription_id, USI.plan_id, GROUP_CONCAT(BPP.package_id) AS package_ids FROM user_plan UP INNER JOIN user_subscription_items USI ON USI.subscription_id = UP.subscription_id INNER JOIN billing_products BP ON BP.plan_id = USI.plan_id INNER JOIN billing_product_packages BPP ON BPP.billing_product_id = BP.id INNER JOIN anar_packages AP ON AP.id = BPP.package_id WHERE UP.store_id='{$storeId}' AND UP.subscription_start_at <= '{$date}' AND UP.subscription_end_at >= '{$date}' AND UP.status='1' GROUP BY USI.plan_id ORDER BY AP.id";
+        $query = "SELECT UP.subscription_id, USI.plan_id, USI.subscription_item, GROUP_CONCAT(BPP.package_id) AS package_ids FROM user_plan UP INNER JOIN user_subscription_items USI ON USI.subscription_id = UP.subscription_id INNER JOIN billing_products BP ON BP.plan_id = USI.plan_id INNER JOIN billing_product_packages BPP ON BPP.billing_product_id = BP.id INNER JOIN anar_packages AP ON AP.id = BPP.package_id WHERE UP.store_id='{$storeId}' AND UP.subscription_start_at <= '{$date}' AND UP.subscription_end_at >= '{$date}' AND UP.status='1' AND USI.status = '1' GROUP BY USI.plan_id ORDER BY AP.id";
         $res = $db->query($query);
 
         while ($rs = mysqli_fetch_assoc($res)) {
@@ -1149,7 +1149,7 @@ on user_plan.user_id=user.u_id group by user.u_id";
                             foreach($subscriptionItems as $item)
                             {
                                 // Check if plan is not already added into 'user_subscription_items' table
-                                $query = "SELECT id FROM user_subscription_items WHERE subscription_id = '{$subscription->id}' AND plan_id = '{$item->plan->id}'";
+                                $query = "SELECT id FROM user_subscription_items WHERE subscription_id = '{$subscription->id}' AND plan_id = '{$item->plan->id}' AND status = '1'";
                                 $res = $db->query($query);
                                 $subscriptionItem = mysqli_fetch_array($res);
 
@@ -1171,11 +1171,11 @@ on user_plan.user_id=user.u_id group by user.u_id";
                                             $coupon_trial_to = date('Y-m-d 00:00:00', strtotime("+{$days} days", strtotime($billing_cycle_anchor_date)));
                                         }
 
-                                        $query = "INSERT INTO user_subscription_items(subscription_id, plan_id, coupon_trial_from, coupon_trial_to) VALUES('{$subscription->id}', '{$item->plan->id}', '{$coupon_trial_from}', '$coupon_trial_to')";
+                                        $query = "INSERT INTO user_subscription_items(subscription_id, plan_id, subscription_item, coupon_trial_from, coupon_trial_to) VALUES('{$subscription->id}', '{$item->plan->id}', '{$item->id}', '{$coupon_trial_from}', '$coupon_trial_to')";
                                     }
                                     else
                                     {
-                                        $query = "INSERT INTO user_subscription_items(subscription_id, plan_id) VALUES('{$subscription->id}', '{$item->plan->id}')";
+                                        $query = "INSERT INTO user_subscription_items(subscription_id, plan_id, subscription_item) VALUES('{$subscription->id}', '{$item->plan->id}', '{$item->id}')";
                                     }
 
                                     // Insert plan into 'user_subscription_items' table
@@ -1210,7 +1210,7 @@ on user_plan.user_id=user.u_id group by user.u_id";
 
             // Select plan having trial periods on
             // $query = "SELECT price FROM billing_products BP INNER JOIN user_subscription_items USI ON BP.plan_id = USI.plan_id WHERE BP.trial_period != 0 AND USI.subscription_id = '{$subscriptionId}' AND USI.coupon_trial_from <= '{$date}' AND USI.coupon_trial_to >= '{$date}'";
-            $query = "SELECT price FROM billing_products BP INNER JOIN user_subscription_items USI ON BP.plan_id = USI.plan_id WHERE BP.trial_period != 0 AND USI.subscription_id = '{$subscriptionId}' AND USI.coupon_trial_from <= '{$date}' AND USI.coupon_trial_to > '{$date}'";
+            $query = "SELECT price FROM billing_products BP INNER JOIN user_subscription_items USI ON BP.plan_id = USI.plan_id WHERE BP.trial_period != 0 AND USI.subscription_id = '{$subscriptionId}' AND USI.coupon_trial_from <= '{$date}' AND USI.coupon_trial_to > '{$date}' AND USI.status = '1'";
             $res = $db->query($query);
 
             if($db->numRows($res))
@@ -1305,6 +1305,40 @@ on user_plan.user_id=user.u_id group by user.u_id";
         return $response;
     }
 
+    /**
+     * Remove subscription item
+     */
+    function removeSubscriptionItem($subscriptionItem = null)
+    {
+        $response = array();
+
+        if( !is_null($subscriptionItem) )
+        {
+            $db = new db();
+            $inoutObj = new inOut();
+            $db->makeConnection();
+            
+            \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
+
+            // 
+            try {
+                // Retrieve and delete SI
+                $subscription_item = \Stripe\SubscriptionItem::retrieve($subscriptionItem);
+                $response = $subscription_item->delete();
+                
+                // Update SI status in DB
+                if( isset($response->deleted) && $response->deleted )
+                {
+                    $res = $db->query("UPDATE user_subscription_items SET status = '2' WHERE subscription_item = '{$subscriptionItem}'");
+                }
+            } catch (\Stripe\Error\Base $e) {
+                $response = array('error' => $e->getMessage());
+            }
+        }
+
+        return $response;
+    }
+
     // Cancel store subscription
     function cancelLocationSubscription($userId, $storeId)
     {
@@ -1375,6 +1409,15 @@ if( isset($_POST['deleteSource']) )
 {
     $billingObj = new billing();
     $response = $billingObj->deleteSource($_POST['sourceId']);
+    
+    echo json_encode($response); exit;
+}
+
+// Delete source
+if( isset($_POST['removeSubscriptionItem']) )
+{
+    $billingObj = new billing();
+    $response = $billingObj->removeSubscriptionItem($_POST['subscriptionItem']);
     
     echo json_encode($response); exit;
 }
