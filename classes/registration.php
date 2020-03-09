@@ -50,6 +50,7 @@ class registration {
      */
     
 
+    //resend verification code
     function resendCode()
     {
         $mailObj = new sms();
@@ -61,16 +62,15 @@ class registration {
         $conn = $db->makeConnection();
         // Check connection
         if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
+            die("Connection failed: " . mysqli_connect_error());
         }
-
         if(isset($_SESSION['userid']))
         {
-        $query = "SELECT * FROM user WHERE u_id = '".$_SESSION['userid']."'";
-        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
-        $data=[];
-        while($rs = mysqli_fetch_array($res)) {
-        $data[] = $rs; 
+            $query = "SELECT * FROM user WHERE u_id = '".$_SESSION['userid']."'";
+            $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+            $data=[];
+            while($rs = mysqli_fetch_array($res)) {
+            $data[] = $rs; 
 
         }
         $recipients=['+'.$data[0]['mobile_phone']];
@@ -86,6 +86,7 @@ class registration {
 
     }
 
+    //if valid code then update activ status
     function updateConfirmationCode()
     {
         if($_POST['userid'])
@@ -105,39 +106,31 @@ class registration {
         $res = mysqli_query($conn, $query) or die(mysql_error());
         $result = mysqli_fetch_array($res);
          if ($result['email_varify_code'] == $_SESSION['input_verify_code']) {
-            // if($result['email_varify_code']==0)
-            //     {
-            //         echo json_encode(array("status"=>"2","msg"=>"You have already verified."));
-            //     }
-            // else{
-                    $query1 = "UPDATE user SET email_varify_code='0', activ='1' where  u_id='" . $_SESSION['userid'] . "'";
-                    $res1 = mysqli_query($conn ,$query1) or die(mysql_error());
-                    $_SESSION['userid'] = $result['u_id'];
-                    $_SESSION['active_sess'] = 1;
-                    $_SESSION['verify_code_sess'] = 0;
-                    $_SESSION['userid'] = $result['u_id'];
-                    $_SESSION['userrole'] = $result['role'];
-                    $_SESSION['username'] = $result['fname'] . " " . $result['lname'];
-                    $_SESSION['useremailid'] = $result['email'];
-
-                    $_SESSION['MESSAGE'] = SUCCESS_SMS_VALID;
-                    $_SESSION['REG_STEP'] = 1;
-                    unset($_SESSION['usersessionid']);
-                   //unset($_SESSION['REG_STEP']);
-                    unset($_SESSION['MAIL_URL']);
-                    unset($_SESSION['createStore']);
-                    unset($_SESSION['ccode']);
-                    unset($_SESSION['temp_campId']);
-                    unset($_SESSION['temp_ccode']);
-                    unset($_SESSION['temp_uId']);
-                    $url = BASE_URL . 'addCompany.php';
-                    //echo json_encode(array("data"=>array("url"=>url)),"status"=>"success","msg"=>"success");
-                    echo json_encode(array("data"=>array("url"=>$url),"status"=>"1","msg"=>"<li class='notice_success'>You has verified.You can add company's details.</li>"));  
-                // } 
+                $query1 = "UPDATE user SET email_varify_code='0', activ='1' where  u_id='" . $_SESSION['userid'] . "'";
+                $res1 = mysqli_query($conn ,$query1) or die(mysql_error());
+                $_SESSION['userid'] = $result['u_id'];
+                $_SESSION['active_sess'] = 1;
+                $_SESSION['verify_code_sess'] = 0;
+                $_SESSION['userid'] = $result['u_id'];
+                $_SESSION['userrole'] = $result['role'];
+                $_SESSION['username'] = $result['fname'] . " " . $result['lname'];
+                $_SESSION['useremailid'] = $result['email'];
+                $_SESSION['MESSAGE'] = SUCCESS_SMS_VALID;
+                $_SESSION['REG_STEP'] = 1;
+                unset($_SESSION['usersessionid']);
+               //unset($_SESSION['REG_STEP']);
+                unset($_SESSION['MAIL_URL']);
+                unset($_SESSION['createStore']);
+                unset($_SESSION['ccode']);
+                unset($_SESSION['temp_campId']);
+                unset($_SESSION['temp_ccode']);
+                unset($_SESSION['temp_uId']);
+                $url = BASE_URL . 'addCompany.php';
+                //echo json_encode(array("data"=>array("url"=>url)),"status"=>"success","msg"=>"success");
+                echo json_encode(array("data"=>array("url"=>$url),"status"=>"1","msg"=>"<li class='notice_success'>You has verified.You can add company's details.</li>"));
          }
          elseif($result['email_varify_code'] != $_SESSION['input_verify_code'])
          {
-
             //echo json_encode(array("status"=>"2","msg"=>"<li class='notice_success'>You have already verified.You can add company's details.</li>"));  
             echo json_encode(array("status"=>"0","msg"=>"Incorrect verification code."));          
          }
@@ -185,22 +178,12 @@ class registration {
         $arrUser['phone'] = preg_replace("/[^0-9]/", '', $arrUser['phone']);
         $arrUser['mobile_phone'] = trim($_POST['mob']);
         $arrUser['mobile_phone'] = preg_replace("/[^0-9]/", '', $arrUser['mobile_phone']);
-        //retailer session
          $arrUser['retail'] = $_POST['$_SESSION["Retailers"]'];
-
         $error.= ( $arrUser['email'] == '') ? ERROR_EMAIL : '';
-
         $error.= ( $arrUser['passwd'] == '') ? ERROR_PASSWORD : '';
-
         $error.= ( $arrUser['fname'] == '') ? ERROR_FNAME : '';
-
         $error.= ( $arrUser['lname'] == '') ? ERROR_LNAME : '';
-
-        // $error.= ($arrUser['role']=='')?ERROR_ROLE:'';
-
         $error.= ( $arrUser['mobile_phone'] == '') ? ERROR_PHONE_MOBILE : '';
-
-
         if ($error != '') {
             $_SESSION['MESSAGE'] = $error;
             $_SESSION['post'] = $_POST;
@@ -215,10 +198,8 @@ class registration {
             $password_sha256 = $arrUser['passwd'];
            $password_hash = hash_hmac('sha256', $password_sha256, $userUniqueId);
            $passwordHash = password_hash($password_sha256, PASSWORD_BCRYPT);
-       
-            //$arrUser['email_varify_code'] = md5(time());
+           //$arrUser['email_varify_code'] = md5(time());
             $arrUser['email_varify_code'] = rand(10000,99999);
-			
             $query = "INSERT INTO user (u_id, email, passwd, password, fname, lname, role, phone, mobile_phone,email_varify_code,activ)
                 VALUES ('" . $userUniqueId . "', '" . $arrUser['email'] . "', '" . $password_hash . "', '".$passwordHash."', '" . $arrUser['fname'] . "', '" . $arrUser['lname'] . "','" . $arrUser['role'] . "', '" . $arrUser['cprefix'] . $arrUser['phone'] . "', '" . $arrUser['cprefix'] . $arrUser['mobile_phone'] . "','" . $arrUser['email_varify_code'] . "','8');";
                 // Create connection
@@ -227,17 +208,13 @@ class registration {
             if (!$conn) {
                 die("Connection failed: " . mysqli_connect_error());
             }
-
             $res = mysqli_query($conn, $query)or die(mysqli_error($conn));
-
             if ($res) {
                 //echo "New record created successfully";
             } else {
                 echo "Error: " . $sql . "<br>" . mysqli_error($conn);
             }
-
             mysqli_close($conn);
-
             $ch = curl_init();
             $skipper = "luxury assault recreational vehicle";
             $fields = array( 'email' => $arrUser['email'],'password' => $arrUser['passwd']);
@@ -286,15 +263,11 @@ class registration {
 
              $query = "UPDATE user SET temp='" . $temp_value . "' WHERE u_id = '" . $_SESSION['userid'] . "'";
             $res = mysql_query($query) or die(mysqli_error($conn));
-              
             }
-
             //$_SESSION['MESSAGE'] = REGISTER_EMAIL_VARIFICATION;
             $_SESSION['MESSAGE'] =REGISTER_SMS_VARIFICATION;
             $_SESSION['REG_STEP'] = 8;
             $_SESSION['active_state'] =8;
-
-            
             $url = BASE_URL . 'registrationStep.php';
             $inoutObj->reDirect($url);
             exit();
@@ -585,12 +558,6 @@ class registration {
 
             $_SESSION['MESSAGE'] = SUCCESS_EMAIL_VALID;
             $_SESSION['REG_STEP'] = 1;
-///////////////////for testing
-                //  unset($_SESSION['userid']);
-        //unset($_SESSION['active_state']);
-        //unset($_SESSION['userrole']);
-        //unset($_SESSION['username']);
-        //unset($_SESSION['useremail']);
             unset($_SESSION['usersessionid']);
            //unset($_SESSION['REG_STEP']);
             unset($_SESSION['MAIL_URL']);
@@ -599,10 +566,7 @@ class registration {
             unset($_SESSION['temp_campId']);
             unset($_SESSION['temp_ccode']);
             unset($_SESSION['temp_uId']);
-
             $url = BASE_URL . 'registrationStep.php';
-
-
             $inoutObj->reDirect($url);
         } else {
             $_SESSION['MESSAGE'] = VALID_MATCH_ERROR;
@@ -619,17 +583,13 @@ class registration {
         if (!$conn) {
             die("Connection failed: " . mysqli_connect_error());
         }
-
 		$query = "select iso,printable_name from country where iso in('SE','IN','DE')";
         $result = mysqli_query($conn, $query);
-
 		$countryList=array();
-		
 		while($row=mysqli_fetch_array($result))
 		{
 			$countryList[$row['iso']]=$row['printable_name'];
 		}
-
 		return $countryList;
 	}
 

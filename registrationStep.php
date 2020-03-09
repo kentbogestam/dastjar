@@ -61,14 +61,12 @@
                 <input type="hidden" name="userid" id="userid" value="<?php echo $_SESSION['userid']; ?>">
                 <div class="confirmation_code  split_input large_bottom_margin" data-multi-input-code="true">
                     <div class="confirmation_code_group">
-              
                         <div class="split_input_item input_wrapper">
                             <input type="text" id="code" name="code"  style="width:60px;" value="" class="text_field_new inline_input" maxlength="5">
                         </div>
                     </div>
                     <div id="message"></div>
                     <br>
-                    <!-- <input id="confirmation" type="button"  value="confirmation" name="confirmation" class="button1"> -->
                     <button name="confirmation" value="confirmation" id="confirmation" class="btn btn-primary">Continue</button>
                     
                 </div><!-- endof col -->
@@ -239,12 +237,12 @@
    </div>
    <?php include("footer.php"); ?>
 </body>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
     var objstatus=confirmVerification();
    buttonLinkAction(<?=$_SESSION['REG_STEP']
       ?>);
 
 </script>
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 </html>
 

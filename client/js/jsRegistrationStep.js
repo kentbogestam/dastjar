@@ -1,6 +1,5 @@
 /*  File Name : jsRegistrationStep.js
  *  Description : Javascript file for registration step file
- *  Author  :Sushil Singh  Date: 26th,Nov,2010  Creation
 */
 function confirmVerification()
 {
@@ -29,8 +28,6 @@ function confirmVerification()
                     //return false;
                 },
                 success : function(response) {
-                    //$("." + response.type).html(response.message)
-                    //$("." + response.type).show();
                     console.log(response);
                     if(response.status==1 )
                     {
@@ -39,18 +36,13 @@ function confirmVerification()
                     else if(response.status==0)
                     {
                         //not match
-                        //window.location.href = response.data.url;
-                        //$("#register").html(response.msg);
-                        $("#message").html(response.msg);//$('#mainnav li a').prepend('<span>');
+                        $("#message").html(response.msg);
                         $("#spinner").remove();
-                        
                     }
                     else if(response.status==2)
                     {
                         //match but already verify
-                        //window.location.href = response.data.url
-                        $("#register").html(response.msg);
-                        
+                        $("#register").html(response.msg);  
                     }
                     else
                     {
@@ -66,7 +58,6 @@ function confirmVerification()
 }
 function buttonLinkAction(regStep)
 {
-    
 	if(regStep==1)
     {
         document.getElementById("step1").disabled=true;
