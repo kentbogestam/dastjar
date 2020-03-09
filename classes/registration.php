@@ -139,11 +139,11 @@ class registration {
          {
 
             //echo json_encode(array("status"=>"2","msg"=>"<li class='notice_success'>You have already verified.You can add company's details.</li>"));  
-            echo json_encode(array("status"=>"0","msg"=>"Code is not verify."));          
+            echo json_encode(array("status"=>"0","msg"=>"Incorrect verification code."));          
          }
          else
          {
-            echo json_encode(array("status"=>"0","msg"=>"Code is not verify."));
+            echo json_encode(array("status"=>"0","msg"=>"Incorrect verification code."));
          }
 }
 
