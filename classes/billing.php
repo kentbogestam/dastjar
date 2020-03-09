@@ -1162,7 +1162,16 @@ on user_plan.user_id=user.u_id group by user.u_id";
                                         {
                                             $months = ($item->plan->trial_period_days/30);
                                             $coupon_trial_from = date('Y-m-d 00:00:00', strtotime($billing_cycle_anchor_date));
-                                            $coupon_trial_to = date('Y-m-d 00:00:00', strtotime("+{$months} months", strtotime($billing_cycle_anchor_date)));
+
+                                            if($months >= 1)
+                                            {
+                                                $coupon_trial_to = date('Y-m-d 00:00:00', strtotime("+{$months} months", strtotime($billing_cycle_anchor_date)));
+                                            }
+                                            else
+                                            {
+                                                $days = $item->plan->trial_period_days;
+                                                $coupon_trial_to = date('Y-m-d 00:00:00', strtotime("+{$days} days", strtotime($billing_cycle_anchor_date)));
+                                            }
                                         }
                                         else
                                         {
