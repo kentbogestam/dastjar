@@ -42,6 +42,7 @@
           
          <div id="register" align="center" style="padding-top:10px; padding-bottom:10px;">
             <li class='notice_success'>To continue, please enter verification code sent on your mobile.</li>
+            
             <?php
                 // if (isset($_SESSION['MESSAGE']) && $_SESSION['REG_STEP'] == 8) {
                 // echo $_SESSION['MESSAGE'];
@@ -62,18 +63,19 @@
                     <div class="confirmation_code_group">
               
                         <div class="split_input_item input_wrapper">
-                            <input type="text" id="code" name="code" onKeyPress="confirmVerification()" style="width:60px;" value="" class="text_field_new inline_input" maxlength="5">
+                            <input type="text" id="code" name="code"  style="width:60px;" value="" class="text_field_new inline_input" maxlength="5">
                         </div>
                     </div>
+                    <div id="message"></div>
                     <br>
                     <!-- <input id="confirmation" type="button"  value="confirmation" name="confirmation" class="button1"> -->
-                    <button name="confirmation" value="confirmation" id="confirmation" class="button1">Continue</button>
+                    <button name="confirmation" value="confirmation" id="confirmation" class="btn btn-primary">Continue</button>
                     
                 </div><!-- endof col -->
             </form>
             <form action="" method="post">
                 <input type="hidden" name="m" value="resend_code">
-                <button name="resend" type="submit" value="resend" id="resend" class="button1">Resend Code</button>
+                <button name="resend" type="submit" value="resend" id="resend" class="button1 btn btn-link">Resend verification code</button>
             </form>
          </div>
          <table width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -238,8 +240,10 @@
    <?php include("footer.php"); ?>
 </body>
 <script>
+    var objstatus=confirmVerification();
    buttonLinkAction(<?=$_SESSION['REG_STEP']
       ?>);
+
 </script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 </html>

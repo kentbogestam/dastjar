@@ -25,7 +25,7 @@ function confirmVerification()
                 dataType : "json",
                 data : input,
                 beforeSend: function(){
-                    $('#confirmation').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Continue');
+                    $('#confirmation').html('<span id="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Continue');
                     //return false;
                 },
                 success : function(response) {
@@ -40,7 +40,9 @@ function confirmVerification()
                     {
                         //not match
                         //window.location.href = response.data.url;
-                        $("#register").html(response.msg);
+                        //$("#register").html(response.msg);
+                        $("#message").html(response.msg);//$('#mainnav li a').prepend('<span>');
+                        $("#spinner").remove();
                         
                     }
                     else if(response.status==2)

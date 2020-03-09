@@ -77,8 +77,10 @@ class registration {
         //print_r($recipients);die;
         //mysqli_close($conn);
          $query1 = "UPDATE user SET email_varify_code='" . $arrUser['email_varify_code'] . "' WHERE u_id = '" . $_SESSION['userid'] . "'";
+         $message="Your Dastjar verification code is ".$arrUser['email_varify_code'];
         $res1 = mysqli_query($conn,$query1) or die(mysqli_error($conn));
-        $mailObj->apiSendTextMessage($recipients,$arrUser['email_varify_code']);
+        //print_r($recipients);print_r($message);die;
+        $mailObj->apiSendTextMessage($recipients,$message);
         //$this->apiSendTextMessage($recipients , $message );            
         }
 
@@ -128,18 +130,20 @@ class registration {
                     unset($_SESSION['temp_campId']);
                     unset($_SESSION['temp_ccode']);
                     unset($_SESSION['temp_uId']);
-                    $url = BASE_URL . 'registrationStep.php';
+                    $url = BASE_URL . 'addCompany.php';
                     //echo json_encode(array("data"=>array("url"=>url)),"status"=>"success","msg"=>"success");
                     echo json_encode(array("data"=>array("url"=>$url),"status"=>"1","msg"=>"<li class='notice_success'>You has verified.You can add company's details.</li>"));  
                 // } 
          }
-         elseif($_SESSION['active_sess']==1 && $_SESSION['verify_code_sess']==0)
+         elseif($result['email_varify_code'] != $_SESSION['input_verify_code'])
          {
-            echo json_encode(array("status"=>"2","msg"=>"<li class='notice_success'>You have already verified.You can add company's details.</li>"));            
+
+            //echo json_encode(array("status"=>"2","msg"=>"<li class='notice_success'>You have already verified.You can add company's details.</li>"));  
+            echo json_encode(array("status"=>"0","msg"=>"Code is not verify."));          
          }
          else
          {
-            echo json_encode(array("status"=>"0","msg"=>"Verification code is not match."));
+            echo json_encode(array("status"=>"0","msg"=>"Code is not verify."));
          }
 }
 
