@@ -1395,10 +1395,10 @@ on user_plan.user_id=user.u_id group by user.u_id";
                     // Update subscription status in DB
                     if($sub->status == 'canceled')
                     {
-                        $res = $db->query("UPDATE user_plan SET status = '2' WHERE id = '{$row['id']}'");
+                        $db->query("UPDATE user_plan SET status = '2' WHERE id = '{$row['id']}'");
                     }
                 } catch (\Stripe\Error\Base $e) {
-                    print_r($response); exit;
+                    // print_r($response); exit;
                     $response = array('error' => $e->getMessage());
                 }
             }
