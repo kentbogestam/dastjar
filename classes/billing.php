@@ -1162,7 +1162,16 @@ on user_plan.user_id=user.u_id group by user.u_id";
                                         {
                                             $months = ($item->plan->trial_period_days/30);
                                             $coupon_trial_from = date('Y-m-d 00:00:00', strtotime($billing_cycle_anchor_date));
-                                            $coupon_trial_to = date('Y-m-d 00:00:00', strtotime("+{$months} months", strtotime($billing_cycle_anchor_date)));
+
+                                            if($months >= 1)
+                                            {
+                                                $coupon_trial_to = date('Y-m-d 00:00:00', strtotime("+{$months} months", strtotime($billing_cycle_anchor_date)));
+                                            }
+                                            else
+                                            {
+                                                $days = $item->plan->trial_period_days;
+                                                $coupon_trial_to = date('Y-m-d 00:00:00', strtotime("+{$days} days", strtotime($billing_cycle_anchor_date)));
+                                            }
                                         }
                                         else
                                         {
@@ -1322,14 +1331,33 @@ on user_plan.user_id=user.u_id group by user.u_id";
 
             // 
             try {
-                // Retrieve and delete SI
-                $subscription_item = \Stripe\SubscriptionItem::retrieve($subscriptionItem);
-                $response = $subscription_item->delete(['proration_behavior' => 'none']);
-                
-                // Update SI status in DB
-                if( isset($response->deleted) && $response->deleted )
+                // Get 'subscription_id' belongs to 'subscriptionItem'
+                $subs = $db->query("SELECT subscription_id FROM user_subscription_items WHERE subscription_item = '{$subscriptionItem}'");
+
+                if($db->numRows($subs))
                 {
-                    $res = $db->query("UPDATE user_subscription_items SET status = '2' WHERE subscription_item = '{$subscriptionItem}'");
+                    while ($row = mysqli_fetch_array($subs))
+                    {
+                        // Check if single SI item found then remove subscription, otherwise remove SI
+                        $subItems = $db->query("SELECT id FROM user_subscription_items WHERE subscription_id = '{$row['subscription_id']}' AND status = '1'");
+
+                        if($db->numRows($subItems) == 1)
+                        {
+                            $response = $this->cancelSubscription($row['subscription_id']);
+                        }
+                        else
+                        {
+                            // Retrieve and delete SI
+                            $subscription_item = \Stripe\SubscriptionItem::retrieve($subscriptionItem);
+                            $response = $subscription_item->delete(['proration_behavior' => 'none']);
+                            
+                            // Update SI status in DB
+                            if( isset($response->deleted) && $response->deleted )
+                            {
+                                $res = $db->query("UPDATE user_subscription_items SET status = '2' WHERE subscription_item = '{$subscriptionItem}'");
+                            }
+                        }
+                    }
                 }
             } catch (\Stripe\Error\Base $e) {
                 $response = array('error' => $e->getMessage());
@@ -1367,14 +1395,45 @@ on user_plan.user_id=user.u_id group by user.u_id";
                     // Update subscription status in DB
                     if($sub->status == 'canceled')
                     {
-                        $res = $db->query("UPDATE user_plan SET status = '2' WHERE id = '{$row['id']}'");
+                        $db->query("UPDATE user_plan SET status = '2' WHERE id = '{$row['id']}'");
                     }
                 } catch (\Stripe\Error\Base $e) {
-                    print_r($response); exit;
+                    // print_r($response); exit;
                     $response = array('error' => $e->getMessage());
                 }
             }
         }
+    }
+
+    // Cancel subscription and update status in DB
+    function cancelSubscription($subscription_id = null)
+    {
+        $db = new db();
+        $inoutObj = new inOut();
+        $db->makeConnection();
+
+        $sub = array('error' => 'Error');
+
+        if( !is_null($subscription_id) )
+        {
+            \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
+
+            // Cancel subscription on Stripe
+            $sub = \Stripe\Subscription::retrieve($subscription_id);
+            
+            if($sub->status != 'canceled')
+            {
+                $sub = $sub->cancel();
+            }
+
+            // Update subscription status in DB
+            if($sub->status == 'canceled')
+            {
+                $res = $db->query("UPDATE user_plan SET status = '2' WHERE subscription_id = '{$subscription_id}'");
+            }
+        }
+
+        return $sub;
     }
 }
 
@@ -1413,7 +1472,7 @@ if( isset($_POST['deleteSource']) )
     echo json_encode($response); exit;
 }
 
-// Delete source
+// Delete SI post
 if( isset($_POST['removeSubscriptionItem']) )
 {
     $billingObj = new billing();

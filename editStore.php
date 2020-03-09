@@ -945,7 +945,7 @@
                 },
                 dataType: 'json',
                 success: function(response) {
-                    if(response.deleted)
+                    if(response.deleted || response.status)
                     {
                         window.location.reload();
                     }
