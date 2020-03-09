@@ -158,10 +158,10 @@ $(document).ready(function(){
         }
 
         
-        if(($.trim($("#phone").val()).length == 0) && ($.trim($("#mob").val()).length == 0))
+        if(($.trim($("#mob").val()).length == 0))
         {
-            var errorMsg = "Only one Contact Number required.<br/>";
-            $("#error_phone").html(errorMsg);
+            var errorMsg = "Please enter your Mobile Number.<br/>";
+            //$("#error_phone").html(errorMsg);
             $("#error_mobile").html(errorMsg);
             error = "true";
         }

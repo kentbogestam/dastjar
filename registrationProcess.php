@@ -52,6 +52,7 @@
             
                 $regObj->svrRegDflt();
             }
+            
         }
         else
         {
@@ -164,7 +165,7 @@
                      </td>
                   </tr>
                   <tr>
-                     <td align="left">Country Phone Number Prefix<span class='mandatory'>*</span></td>
+                     <td align="left">Country Phone Number Prefix<!--<span class='mandatory'>*</span>--></td>
                      <td align="left">
                         <select class="text_field_new" style="width:406px; background-color:#e4e3dd; height:36px; margin-top:2px; margin-bottom:1px; border: 1px solid #abadb3;"  tabindex="27" id="cprefix" name="cprefix">
                            <option class="text_field_new" selected="" value="US">United States - 1</option>
@@ -371,7 +372,7 @@
                      </td>
                   </tr>
                   <tr>
-                     <td align="left">Phone Number<span class='mandatory'>*</span></td>
+                     <td align="left">Phone Number<!--<span class='mandatory'>*</span>--></td>
                      <td align="left">
                         <INPUT class="text_field_new" type=text name="phone" id="phone"  value="<?= isset($_SESSION['post']['phone']) ? $_SESSION['post']['phone'] : '' ?>">
                         <a  title="<?=PHONE_TEXT ?>" class="vtip" ><b><small>?</small></b></a><br/>
@@ -379,7 +380,7 @@
                      </td>
                   </tr>
                   <tr>
-                     <td align="left">Mobile phone</td>
+                     <td align="left">Mobile phone<span class='mandatory'>*</span></td>
                      <td align="left">
                         <INPUT class="text_field_new" type=text name="mob" id="mob" value="<?= isset($_SESSION['post']['mob']) ? $_SESSION['post']['mob'] : '' ?>">
                         <div id="error_mobile" class="error"></div>

@@ -5,22 +5,29 @@
    */
    header('Content-Type: text/html; charset=utf-8');
    include_once("cumbari.php");
+    $regObj = new registration(); 
    if (isset($_SESSION['msg'])) {
    
    } else {
    //header("Location:index.php");
    }
-   
+  
    if ($_GET['reg_step']) {
        $_SESSION['REG_STEP'] = $_GET['reg_step'];
    }
+    if (isset($_POST['resend'])) {
+    $regObj->svrRegDflt();
+    }
    include_once("header.php");
+
    ?>
 <link rel="stylesheet" type="text/css" href="client/css/stylesheet123.css" />
 <script type="text/javascript" src="lib/vtip/js/jquery.js"></script>
 <script type="text/javascript" src="lib/vtip/js/vtip.js"></script>
 <script type="text/javascript" src="client/js/jsRegistrationStep.js"></script>
 <link rel="stylesheet" type="text/css" href="lib/vtip/css/vtip.css" />
+<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+
 <body>
    <div class="center">
       <div class="b_h_nhpx">
@@ -32,17 +39,42 @@
                <td colspan="2" bgcolor="#FFFFFF"  class="redwhitebutton"  id="step1" onClick="javascript:window.location.href='registrationProcess.php'" value="Register">1 Register</td>
             </tr>
          </table>
+          
          <div id="register" align="center" style="padding-top:10px; padding-bottom:10px;">
+            <li class='notice_success'>To continue, please enter verification code sent on your mobile.</li>
             <?php
-               if (isset($_SESSION['MESSAGE']) && $_SESSION['REG_STEP'] == 8) {
-                   echo $_SESSION['MESSAGE'];
-                   $_SESSION['MESSAGE'] = '';
-               }
-               if (isset($_SESSION['MESSAGE']) && $_SESSION['REG_STEP'] == 1) {
-                   echo $_SESSION['MESSAGE'];
-                   $_SESSION['MESSAGE'] = '';
-               }
-               ?>
+                // if (isset($_SESSION['MESSAGE']) && $_SESSION['REG_STEP'] == 8) {
+                // echo $_SESSION['MESSAGE'];
+                // $_SESSION['MESSAGE'] = '';
+                // echo "<br>";
+                // }
+                // if (isset($_SESSION['MESSAGE']) && $_SESSION['REG_STEP'] == 1) {
+                // echo $_SESSION['MESSAGE'];
+                // $_SESSION['MESSAGE'] = '';
+                // echo "<br>";
+                // }
+            ?>
+            
+            <form method="post" action="">
+                <input type="hidden" name="m"  id="m" value="verification_code">
+                <input type="hidden" name="userid" id="userid" value="<?php echo $_SESSION['userid']; ?>">
+                <div class="confirmation_code  split_input large_bottom_margin" data-multi-input-code="true">
+                    <div class="confirmation_code_group">
+              
+                        <div class="split_input_item input_wrapper">
+                            <input type="text" id="code" name="code" onKeyPress="confirmVerification()" style="width:60px;" value="" class="text_field_new inline_input" maxlength="5">
+                        </div>
+                    </div>
+                    <br>
+                    <!-- <input id="confirmation" type="button"  value="confirmation" name="confirmation" class="button1"> -->
+                    <button name="confirmation" value="confirmation" id="confirmation" class="button1">Continue</button>
+                    
+                </div><!-- endof col -->
+            </form>
+            <form action="" method="post">
+                <input type="hidden" name="m" value="resend_code">
+                <button name="resend" type="submit" value="resend" id="resend" class="button1">Resend Code</button>
+            </form>
          </div>
          <table width="100%" border="0" cellpadding="0" cellspacing="0">
             <tr>
@@ -205,8 +237,10 @@
    </div>
    <?php include("footer.php"); ?>
 </body>
-</html>
 <script>
    buttonLinkAction(<?=$_SESSION['REG_STEP']
       ?>);
 </script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+</html>
+
