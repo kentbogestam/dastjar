@@ -31,6 +31,7 @@ $(document).ready(function(){
         $("#error_cityStore").html('');
         $("#error_countryStore").html('');
         $("#error_phoneNo").html('');
+        $("#error_phone_prefix").html('');
         $("#error_storeImage").html('');
         $("#error_email").html('');
         $("#error_link").html('');
@@ -102,7 +103,12 @@ $(document).ready(function(){
             $("#error_phoneNo").html(errorMsg);
             error = "true";
         }
-
+        if(($.trim($("#phone_prefix").val()).length == 0))
+        {
+            var errorMsg = "Please Enter National Code.<br/>";
+            $("#error_phone_prefix").html(errorMsg);
+            error = "true";
+        }
         if(phoneValidator($.trim($("#phoneNo").val())))
         {
             var errorMsg = "Please Enter Valid Phone Number.<br/>";
@@ -200,10 +206,21 @@ function isValidEmailAddress(emailAddress) {
 
 function phoneValidator(val)
 {
-    if(val.match(/[^0-9]/g))
+    if(val.length < 7){
+        return true;
+    }
+    else if(val.length > 10){
+        return true;
+    }
+    else if(val.charAt(0)==0)
+    {
+        return true;
+    }
+    else if(val.match(/[^0-9]/g))
     {
         return true;
     }else if(val.length < 7){
+
         return true;
     }
     else

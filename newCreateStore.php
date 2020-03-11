@@ -109,50 +109,50 @@
         <div class="redwhitebutton123">Add Location</div>
         <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="storeName">Name of location<span class='mandatory'>*</span>:</label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <input class="form-control" type=text name="storeName" id="storeName" value="<?=$data[0]['company_name']?>">
                 <div id='error_storeName' class="error"></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=SNAME_OF_LOCATION_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="email">Restaurant email<span class='mandatory'>*</span>:</label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <input class="form-control" type=text name="email" id ="email" value="<?=$data1[0]['email']?>">
                  <div id='error_email' class="error"></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=STORE_EMAIL_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="storeName">Restaurant homepage:</label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                   <input class="form-control" type=text name="link" id ="link" >
                   <div id='error_link' class="error"></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=LINK_TO_THE_LOCATION_HOME_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="typeofrestrurant">Type of Restaurant:</label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <select class="form-control" style="background-color:#e4e3dd;  height:36px;border: 1px solid #abadb3;" tabindex="27" id="typeofrestrurant" name="typeofrestrurant">
                      <option value="1">Eat Now</option>
                      <option value="2">Eat Later</option>
                      <option value="3">Both</option>
                 </select>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=STYPE_OF_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="email">Delivery Type:</label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <select class="form-control" id="delivery_type" name="delivery_type[]" multiple="" style="height:55px;border: 1px solid #abadb3;">
                     <option value="1">Dine-in</option>
                     <option value="2" selected>Take away</option>
@@ -160,51 +160,73 @@
                 </select>
                 <div id='error_delivery_type' class="error"></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=DELIVERY_TYPE?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="email">Tag line For Location:</label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <input type="text" class="form-control"  name="tagline" id ="tagline" maxlength="50" />
                 <div id='error_link' class="error"></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=RESTAURANT_TAGLINE?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
-        <div class="form-group">
-            <label class="control-label col-sm-5 text-left" for="phoneNo">Restaurant phone<span class='mandatory'>*</span>:</label>
+<!--         <div class="form-group">
+            <label class="control-label col-sm-5 text-left" for="national_code">National code<span class='mandatory'>*</span>:</label>
             <div class="col-sm-5">
-                <input class="form-control" type=text name="phoneNo" id ="phoneNo" value="<?php echo isset($user['phone']) ? $user['phone'] : ''; ?>">
-                <div id='error_phoneNo' class="error"></div>
+                <select class="form-control" name="national_code" id="national_code">
+                    <option value="46" selected="selected">Sweden - 46</option>
+                    <option value="91" >India - 91</option>
+                </select>
+                <div id='error_national_code' class="error"></div>
             </div>
             <div class="col-sm-2">
+                <a title="<?=PHONE_NUMBER_NATIONAL_CODE?>" class="vtip"><b><small>?</small></b></a>
+            </div>
+        </div> -->
+        <div class="form-group">
+            <label class="control-label col-sm-5 text-left" for="phoneNo">Restaurant phone<span class='mandatory'>*</span>:</label>
+            <div class="col-sm-3">
+                <select class="form-control" name="phone_prefix" id="phone_prefix">
+                    <option value="" >National Code</option>
+                    <option value="46" selected="selected">Sweden - 46</option>
+                    <option value="91" >India - 91</option>
+                </select>
+                <div id='error_phone_prefix' class="error"></div>
+            </div>
+            <div class="col-sm-3">
+                <input class="form-control" type=text name="phoneNo" id ="phoneNo" value="<?php echo isset($user['phone']) ? $user['phone'] : ''; ?>" placeholder="Phone Number">
+                <br>
+                <div id='error_phoneNo' class="error"></div>
+            </div>
+            <div class="col-sm-1">
                 <a title="<?=PHONE_NUMBER_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="phoneNo">Opening hours of the Location <span class='mandatory'>*</span>: </label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <?php include('elements/store-opening-hours.php'); ?>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=STORE_OPEN_CLOSE_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
         <div class="form-group" id="catering_open_close_row">
             <label class="control-label col-sm-5 text-left" for="phoneNo">Opening hours of the Location for catering</label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <?php include('elements/store-catering-opening-hours.php'); ?>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=STORE_OPEN_CLOSE_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="phoneNo">Location is closed following dates</label>
-            <div class="col-sm-5" style="position: relative;">
+            <div class="col-sm-6" style="position: relative;">
                 <div id="with-altField">
                     <span class="cross"><img src="client/js/newJs/images/error.png"></span>
                 </div>
@@ -213,34 +235,34 @@
                     <input class="form-control" type="text" id="altField" name="altField1" value="">
                 </div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=STORE_CLOSE_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
        <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="streetaddStore">Street Address<span class='mandatory'>*</span>:</label>
-            <div class="col-sm-5" >
+            <div class="col-sm-6" >
                   <input class="form-control" type="text" name="streetaddStore" id ="streetaddStore" value="<?=$data[0]['streetaddStore'] ?>" onChange="initialize()" />
                   <div id='error_address' class="error"></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=STREET_ADDRESS_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
        <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="streetaddStore">City<span class='mandatory'>*</span>:</label>
-            <div class="col-sm-5" >
+            <div class="col-sm-6" >
                 <input class="form-control" type="text" name="cityStore" id ="cityStore" value="<?=$data[0]['city'] ?>" onChange="initialize()" />
                 <input type="hidden" name="productid" value="<?=$productid?>">
                 <div id='error_cityStore' class="error"></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=CITY_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
        <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="streetaddStore">Country<span class='mandatory'>*</span>:</label>
-            <div class="col-sm-5" >
+            <div class="col-sm-6" >
                 <select class="form-control" style=" background-color:#e4e3dd;"  tabindex="27"  name="countryStore" id ="countryStore" value="<?=$data[0]['cname'] ?>" onChange="initialize()" >
                     <option value="">Select</option>
                     <?php
@@ -261,37 +283,37 @@
                 </select>
                 <div id='error_countryStore' class="error"></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=COUNTRY_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="storeName">Block:</label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <input class="form-control" type=text name="block" id ="block" value="<?=$data[0]['block']?>" >
                 <div id='error_block' class="error" ></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=BLOCK_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
-        </div>
+        </div> -->
        <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="streetaddStore">Zip<span class='mandatory'>*</span>:</label>
-            <div class="col-sm-5" >
+            <div class="col-sm-6" >
                 <input class="form-control" type="text" name="zip" id ="zip" value="<?=$data[0]['zip'] ?>" />
                 <div id='error_zip' class="error"></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=ZIP_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
        <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="streetaddStore">Map<span class='mandatory'>*</span></label>
-            <div class="col-sm-5" >
+            <div class="col-sm-6" >
                 <div id="map_canvas" style="height:320px; border: solid 1px;"></div>
                 <div id='error_zip' class="error"></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=MAP_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
@@ -301,15 +323,15 @@
             </div>
         </div> 
         <div class="form-group">
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <div id='error_coordinate' class="error"></div>            
             </div>
-             <div class="col-sm-5">
+             <div class="col-sm-6">
                 You can set your location on map by click or drag           
             </div>
         </div>  
         <div class="form-group">
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <input type="hidden" name="longitude" value="<?=$longitude1 ?>" id="longitude" />
                 <input type="hidden" name="latitude" value="<?=$latitude1 ?>" id="latitude" />
                 <input name="zoom" id="zoom" value="<?=$zoom ?>" type="hidden" style="width:150px;" />   
@@ -320,7 +342,7 @@
                 Upload Image For Restaurant<span class='mandatory'>*</span>:<br>
                 <strong>Recommended: 1024x1024</strong>     
             </label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <div class="file-upload">
                     <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
                     <div class="image-upload-wrap">

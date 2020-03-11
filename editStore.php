@@ -249,57 +249,94 @@
         <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="storeName">Name of location 
                 <span class='mandatory'>*</span>:</label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <input class="form-control"  type=text name="storeName" id ="storeName" value="<?=$data[0]['store_name']?>">
                 <div id='error_storeName' class="error"></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=SNAME_OF_LOCATION_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="storeName">Restaurant email<span class='mandatory'>*</span>:</label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <input class="form-control" type=text name="email" value="<?=$data[0]['email']?>" id ="email">
                 <div id='error_email' class="error"></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=STORE_EMAIL_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="storeName">Restaurant phone<span class='mandatory'>*</span>:</label>
-            <div class="col-sm-5">
+            <div class="col-sm-3">
+                <?php 
+                //if in phone input already code then pick there prefix
+                //otherwise take from prefix column
+                    $selected_prefix=$data[0]['phone_prefix'];
+                    if($selected_prefix==null)
+                    {
+                        if(substr($data[0]['phone'], 0, 2)=="46")
+                        {
+                            $selected_prefix=46;
+                        }
+                        if(substr($data[0]['phone'], 0, 2)=="91")
+                        {
+                            $selected_prefix=91;
+                        }
+                        elseif(substr($data[0]['phone'], 0, 1)=="0")
+                        {
+                            $selected_prefix=46;
+                        }
+                        else
+                        {
+                            $selected_prefix=46;
+                        }        
+                    }
+                    else
+                    {
+                        $selected_prefix=$data[0]['phone_prefix'];
+                    }
+                 ?>
+                <select class="form-control" name="phone_prefix" id="phone_prefix">
+                    <option value="" >National Code</option>
+                    <option <?php if($selected_prefix==46){ echo "selected"; }  ?> value="46" >Sweden - 46</option>  <!-- selected="selected" -->
+                    <option <?php if($selected_prefix==91){ echo "selected"; }  ?> value="91" >India - 91</option>
+                </select>
+                <div id='error_phone_prefix' class="error"></div>
+            </div>
+            <div class="col-sm-3">
                 <input class="form-control" type=text name="phoneNo"  value="<?=$data[0]['phone']?>" id ="phoneNo">
+                <br>
                 <div id='error_phoneNo' class="error"></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=PHONE_NUMBER_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="storeName">Street Address<span class='mandatory'>*</span>:</label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <input class="form-control" type=text name="streetaddStore" id ="streetaddStore" value="<?=$data[0]['street'] ?>" onChange="initialize()">
                 <div id='error_streetaddStore' class="error" ></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=STREET_ADDRESS_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="storeName">City<span class='mandatory'>*</span>:</label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <input class="form-control" type=text name="cityStore" id ="cityStore" value="<?=$data[0]['city']?>" onChange="initialize()">
                 <div id='error_cityStore' class="error" ></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=CITY_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="storeName">Country<span class='mandatory'>*</span>:</label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <select class="form-control" style=" background-color:#e4e3dd;"  tabindex="27"   name="countryStore" id ="countryStore" value="<?=$data[0]['country']?>" onChange="initialize()" >
                     <option value="">Select</option>
                     <?php
@@ -318,51 +355,51 @@
                 </select>
                 <div id='error_countryStore' class="error" ></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=COUNTRY_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="storeName">Block:</label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <input class="form-control" type=text name="block" id ="block" value="<?=$data[0]['block']?>" >
                 <div id='error_block' class="error" ></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=BLOCK_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
-        </div>
+        </div> -->
         <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="storeName">Zip<span class='mandatory'>*</span>:</label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <input class="form-control" type=text name="zip" id ="zip" value="<?=$data[0]['zip'] ?>">
                 <div id='error_zip' class="error" ></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=ZIP_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-5 text-left" for="storeName">Opening hours of the Location</label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <?php include('elements/store-opening-hours.php'); ?>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=STORE_OPEN_CLOSE_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
         <div class="form-group" id="catering_open_close_row">
             <label class="control-label col-sm-5 text-left" for="storeName">Opening hours of the Location for catering</label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <?php include('elements/store-catering-opening-hours.php'); ?>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=STORE_OPEN_CLOSE_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
         <div class="form-group" >
             <label class="control-label col-sm-5 text-left" for="storeName">Location is close following dates</label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <div id="with-altField1">
                     <span class="cross"><img src="client/js/newJs/images/error.png"></span>
                 </div>
@@ -372,36 +409,36 @@
                     <label><?=$data[0]['store_close_dates']?></label>
                 </div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=STORE_CLOSE_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
         <div class="form-group" >
             <label class="control-label col-sm-5 text-left" for="storeName">Restaurant homepage:</label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <input class="form-control" type=text name="link"  value="<?=$data[0]['store_link'] ?>" id ="link" >
                 <div id='error_link' class="error"></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=LINK_TO_THE_LOCATION_HOME_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
         <div class="form-group" >
             <label class="control-label col-sm-5 text-left" for="storeName">Type of Restaurant</label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <select class="form-control" style="background-color:#e4e3dd; height:36px;border: 1px solid #abadb3;" tabindex="27" id="typeofrestrurant" name="typeofrestrurant">
                     <option <? if ($data[0]['store_type'] == '1')echo "selected='selected'"; ?>   value="1">Eat Now</option>
                     <option <? if ($data[0]['store_type'] == '2')echo "selected='selected'"; ?>   value="2">Eat Later</option>
                     <option <? if ($data[0]['store_type'] == '3')echo "selected='selected'"; ?>   value="3">Both</option>
                 </select>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 
             </div>
         </div>
         <div class="form-group" >
             <label class="control-label col-sm-5 text-left" for="storeName">Delivery Type</label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                  <?php
                 $delivery_type = explode(',', $data[0]['delivery_type']);
                 ?>
@@ -412,40 +449,40 @@
                 </select>
                 <div id='error_delivery_type' class="error"></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=DELIVERY_TYPE?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
         <div class="form-group" >
             <label class="control-label col-sm-5 text-left" for="storeName">Tag line For Location:
             </label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                   <input class="form-control"  type="text" name="tagline" id ="tagline" value="<?=$data[0]['tagline']?>" maxlength="50" />
                   <div id='error_storeName' class="error"></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=RESTAURANT_TAGLINE?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
         <div class="form-group" >
             <label class="control-label col-sm-5 text-left" for="storeName"></label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <input class="form-control" type="hidden" name="latitude" id="latitude" value="<?=$data[0]['latitude']?>"/>
                 <input class="form-control" type="hidden" name="longitude" id="longitude" value="<?=$data[0]['longitude']?>" />
                 <input class="form-control" name="zoom" id="zoom" value="<?=$zoom?>" type="hidden" style="width:150px;" />
                 <div id='error_coordinate' class="error"></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=STYPE_OF_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
         <div class="form-group" >
             <label class="control-label col-sm-5 text-left" for="storeName">Map<span class='mandatory'>*</span>:</label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <div id="map_canvas" style="height:320px;  border: 1px solid #99999b;"></div>
                 <div id='error_coordinate' class="error"></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a title="<?=MAP_TEXT?>" class="vtip"><b><small>?</small></b></a>
             </div>
         </div>
@@ -461,7 +498,7 @@
                 Upload Image For Restaurant<span class='mandatory'>*</span>:<br>
                 <strong>Recommended: 1024x1024</strong>
             </label>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <div class="file-upload">
                     <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' );$('.image-removed').val('0');">Add Image</button>
                     <div class="image-upload-wrap">
@@ -483,7 +520,7 @@
                 <div id='error_storeImage' class="error"></div>
                 <div id='warning-store-image' class="warning"></div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 
             </div>
         </div>
@@ -502,11 +539,11 @@
                                             <thead>
                                                 <tr>
                                                     <th></th>
-                                                    <th>S. No.</th>
+                                                    <th>No.</th>
                                                     <th colspan="2" style="padding-bottom: 10px; padding-right: 10px">Product Description</th>
-                                                    <th>Trial Period</th>
-                                                    <th>Unit Price(kr)</th>
-                                                    <th>Amount</th>
+                                                    <th>Free Intro</th>
+                                                    <th>Quantity Price(kr)</th>
+                                                    <!--<th>Amount</th>-->
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -569,9 +606,9 @@
                                                         <td align="left">
                                                             <?= number_format(($product['price']), 2, '.', '')." (" .$product['currency'].")"?>
                                                         </td>
-                                                        <td align="left">
+                                                      <!--   <td align="left">
                                                             <?php  echo number_format(($product['price']*1), 2, '.', ''); ?>
-                                                        </td>
+                                                        </td> -->
                                                         <td>
                                                             <a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="<?php echo $product['description']; ?>">
                                                                 <span class="glyphicon glyphicon-info-sign"></span>
@@ -588,7 +625,7 @@
                                 </tr>
                             </table>
                             <div class="block-total row">
-                                <div class="col-md-9 text-right"><strong>Sub Total: </strong></div>
+                                <div class="col-md-9 text-right"><strong>Total Services fee per month: 198 SEK (Valid after free introduction period): </strong></div>
                                 <div class="col-md-3 subscription-sub-total" style="padding-left: 97px;"><?=number_format($total, 2, '.', '');?></div>
 <div class="col-md-9 text-right"><strong>Tax: </strong></div>
                                 <div class="col-md-3 subscription-tax" style="padding-left: 97px;"><?=number_format($total, 2, '.', '');?></div>
