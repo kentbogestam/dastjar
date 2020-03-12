@@ -73,7 +73,7 @@ class registration {
             $data[] = $rs; 
 
         }
-        $recipients=['+'.$data[0]['mobile_phone']];
+        $recipients=['+'.$data[0]['phone_prefix'].$data[0]['mobile_phone']];
         //print_r($recipients);die;
         //mysqli_close($conn);
          $query1 = "UPDATE user SET email_varify_code='" . $arrUser['email_varify_code'] . "' WHERE u_id = '" . $_SESSION['userid'] . "'";
@@ -200,8 +200,8 @@ class registration {
            $passwordHash = password_hash($password_sha256, PASSWORD_BCRYPT);
            //$arrUser['email_varify_code'] = md5(time());
             $arrUser['email_varify_code'] = rand(10000,99999);
-            $query = "INSERT INTO user (u_id, email, passwd, password, fname, lname, role, phone, mobile_phone,email_varify_code,activ)
-                VALUES ('" . $userUniqueId . "', '" . $arrUser['email'] . "', '" . $password_hash . "', '".$passwordHash."', '" . $arrUser['fname'] . "', '" . $arrUser['lname'] . "','" . $arrUser['role'] . "', '" . $arrUser['cprefix'] . $arrUser['phone'] . "', '" . $arrUser['cprefix'] . $arrUser['mobile_phone'] . "','" . $arrUser['email_varify_code'] . "','8');";
+            $query = "INSERT INTO user (u_id, email, passwd, password, fname, lname, role,phone_prefix, phone, mobile_phone,email_varify_code,activ)
+                VALUES ('" . $userUniqueId . "', '" . $arrUser['email'] . "', '" . $password_hash . "', '".$passwordHash."', '" . $arrUser['fname'] . "', '" . $arrUser['lname'] . "','" . $arrUser['role'] . "','" . $arrUser['cprefix'] . "', '" .  $arrUser['phone'] . "', '" .  $arrUser['mobile_phone'] . "','" . $arrUser['email_varify_code'] . "','8');";
                 // Create connection
             $conn = $db->makeConnection();
             // Check connection

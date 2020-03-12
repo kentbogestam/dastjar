@@ -165,7 +165,7 @@
                      </td>
                   </tr>
                   <tr>
-                     <td align="left">Country Phone Number Prefix<!--<span class='mandatory'>*</span>--></td>
+                     <td align="left">Country Phone Number Prefix<span class='mandatory'>*</span></td>
                      <td align="left">
                         <select class="text_field_new" style="width:406px; background-color:#e4e3dd; height:36px; margin-top:2px; margin-bottom:1px; border: 1px solid #abadb3;"  tabindex="27" id="cprefix" name="cprefix">
                            <option class="text_field_new" selected="" value="US">United States - 1</option>

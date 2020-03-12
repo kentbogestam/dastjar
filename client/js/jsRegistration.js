@@ -165,6 +165,12 @@ $(document).ready(function(){
             $("#error_mobile").html(errorMsg);
             error = "true";
         }
+        if(mobileValidator($.trim($("#mob").val())))
+        {
+            var errorMsg = "Please Enter Valid Mobile Number.<br/>";
+            $("#error_mobile").html(errorMsg);
+            error = "true";
+        }
         /*else if(phoneValidator($.trim($("#phone").val())))
         {
             var errorMsg = "Please Enter Valid Phone Number.<br/>";
@@ -264,6 +270,30 @@ function phoneValidator(val)
     }
 }
 
+function mobileValidator(val)
+{
+    if(val.length < 7){
+        return true;
+    }
+    else if(val.length > 10){
+        return true;
+    }
+    else if(val.charAt(0)==0)
+    {
+        return true;
+    }
+    else if(val.match(/[^0-9]/g))
+    {
+        return true;
+    }else if(val.length < 7){
+
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 /* Function Header :checkEmailExist()
 *             Args: none
 *           Errors: none
