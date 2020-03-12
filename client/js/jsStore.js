@@ -209,7 +209,7 @@ function phoneValidator(val)
     if(val.length < 7){
         return true;
     }
-    else if(val.length > 10){
+    else if(val.length > 15){
         return true;
     }
     else if(val.charAt(0)==0)

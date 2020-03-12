@@ -258,10 +258,14 @@ function passwordValidator(val)
 
 function phoneValidator(val)
 {
-    if(val.match(/[^0-9]/g))
-    {
+    if(val.length < 7){
         return true;
-    }else if(val.length < 7 && val.length != 0){
+    }
+    else if(val.length > 15){
+        return true;
+    }
+    else if(val.charAt(0)==0)
+    {
         return true;
     }
     else
@@ -275,7 +279,7 @@ function mobileValidator(val)
     if(val.length < 7){
         return true;
     }
-    else if(val.length > 10){
+    else if(val.length > 15){
         return true;
     }
     else if(val.charAt(0)==0)
