@@ -52,6 +52,7 @@
             
                 $regObj->svrRegDflt();
             }
+            
         }
         else
         {
@@ -371,7 +372,7 @@
                      </td>
                   </tr>
                   <tr>
-                     <td align="left">Phone Number<span class='mandatory'>*</span></td>
+                     <td align="left">Phone Number<!--<span class='mandatory'>*</span>--></td>
                      <td align="left">
                         <INPUT class="text_field_new" type=text name="phone" id="phone"  value="<?= isset($_SESSION['post']['phone']) ? $_SESSION['post']['phone'] : '' ?>">
                         <a  title="<?=PHONE_TEXT ?>" class="vtip" ><b><small>?</small></b></a><br/>
@@ -379,7 +380,7 @@
                      </td>
                   </tr>
                   <tr>
-                     <td align="left">Mobile phone</td>
+                     <td align="left">Mobile phone<span class='mandatory'>*</span></td>
                      <td align="left">
                         <INPUT class="text_field_new" type=text name="mob" id="mob" value="<?= isset($_SESSION['post']['mob']) ? $_SESSION['post']['mob'] : '' ?>">
                         <div id="error_mobile" class="error"></div>

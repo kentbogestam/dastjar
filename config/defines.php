@@ -96,7 +96,9 @@ define("DISH_TYPE_SUCCESS","<li class='notice_success'>You have successfully sub
 define("CREATE_STORE_SUCCESS","<li class='notice_success'>You have successfully submitted your location details.</li>");
 define("CREATE_STRIPACCOUNT_SUCCESS","<li class='notice_success'>You have successfully created stripe account.</li>");
 define("SUCCESS_EMAIL_VALID","<li class='notice_success'>Your email has been verified successfully.</li>");
+define("SUCCESS_SMS_VALID","<li class='notice_success'>Your account has been verified successfully.</li>");
 define("REGISTER_EMAIL_VARIFICATION","<li class='notice_success'>Confirm your e-mail address by clicking on the link sent to you by e-mail.</li>");
+define("REGISTER_SMS_VARIFICATION","<li class='notice_success'>To continue, please enter verification code sent on your mobile.</li>");
 define("EMAIL_VARIFICATION_CHECK","<li class='notice_success'>Please confirm your email-id for the next step.</li>");
 
 define("VALID_MATCH_ERROR","<li class='notice_error'>Email verification code did not match.</li>");

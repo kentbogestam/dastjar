@@ -128,7 +128,8 @@ class inOut {
 //            $row = mysql_fetch_array($res);
             //echo $row;
             if($_SESSION['active_state']==1) {
-                $url = BASE_URL.'registrationStep.php?reg_step=1';
+                //$url = BASE_URL.'registrationStep.php?reg_step=1';
+                $url = BASE_URL.'addCompany.php';
                 $this->reDirect($url);
             }
             else if($_SESSION['active_state']==2) {

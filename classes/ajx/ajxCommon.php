@@ -12,6 +12,10 @@ if (isset($_REQUEST['m']) && $_REQUEST['m'] != '') {
 }
 
 switch ($mode) {
+    case 'verification_code':
+        $ajxObj = new registration();
+        $ajxObj->updateConfirmationCode();
+        break;
     case 'emailvarification':
         //$search_html = filter_input(INPUT_GET, 'email', FILTER_SANITIZE_SPECIAL_CHARS);
         $ajxObj = new ajxCommon();

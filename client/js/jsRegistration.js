@@ -158,10 +158,16 @@ $(document).ready(function(){
         }
 
         
-        if(($.trim($("#phone").val()).length == 0) && ($.trim($("#mob").val()).length == 0))
+        if(($.trim($("#mob").val()).length == 0))
         {
-            var errorMsg = "Only one Contact Number required.<br/>";
-            $("#error_phone").html(errorMsg);
+            var errorMsg = "Please enter your Mobile Number.<br/>";
+            //$("#error_phone").html(errorMsg);
+            $("#error_mobile").html(errorMsg);
+            error = "true";
+        }
+        if(mobileValidator($.trim($("#mob").val())))
+        {
+            var errorMsg = "Please Enter Valid Mobile Number.<br/>";
             $("#error_mobile").html(errorMsg);
             error = "true";
         }
@@ -252,10 +258,14 @@ function passwordValidator(val)
 
 function phoneValidator(val)
 {
-    if(val.match(/[^0-9]/g))
-    {
+    if(val.length < 7){
         return true;
-    }else if(val.length < 7 && val.length != 0){
+    }
+    else if(val.length > 15){
+        return true;
+    }
+    else if(val.charAt(0)==0)
+    {
         return true;
     }
     else
@@ -264,6 +274,30 @@ function phoneValidator(val)
     }
 }
 
+function mobileValidator(val)
+{
+    if(val.length < 7){
+        return true;
+    }
+    else if(val.length > 15){
+        return true;
+    }
+    else if(val.charAt(0)==0)
+    {
+        return true;
+    }
+    else if(val.match(/[^0-9]/g))
+    {
+        return true;
+    }else if(val.length < 7){
+
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 /* Function Header :checkEmailExist()
 *             Args: none
 *           Errors: none

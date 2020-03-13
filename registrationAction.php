@@ -22,7 +22,8 @@ switch($mode) {
     //echo base64_decode($_GET['varcode']);
     //die();
         $regObj = new registration();
-        $regObj->emailVarification($_GET);
+        //$regObj->emailVarification($_GET);
+        $regObj->smsVarification($_GET);
         break;
     
 	 case 'emailVarReseller':
