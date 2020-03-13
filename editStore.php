@@ -34,6 +34,7 @@
 
    // 
    $subscribedPlan = $billingObj->getSubscribedPlanByStoreId($_GET['storeId']);
+   // echo '<pre>'; print_r($subscribedPlan); exit;
 
    // Get packages to subscribe for location and logic to show either subscribed or updated package
    $productsUpd = $billingObj->showPlanToSubscribe($_GET['storeId']);
@@ -59,13 +60,14 @@
             }
 
             // 
-            $key = array_search($row['plan_id'], array_column($subscribedPlan, 'plan_id'));
+            $keySubscribedPlan = array_search($row['plan_id'], array_column($subscribedPlan, 'plan_id'));
 
-            if( is_numeric($key) )
+            if( is_numeric($keySubscribedPlan) )
             {
                 $key = array_search($row['package_ids'], $packages);
                 $products[$key] = $row;
                 $products[($key)]['up_id'] = 1;
+                $products[($key)]['subscription_item'] = $subscribedPlan[$keySubscribedPlan]['subscription_item'];
             }
         }
    }
@@ -500,6 +502,7 @@
                                                     <th>Trial Period</th>
                                                     <th>Unit Price(kr)</th>
                                                     <th>Amount</th>
+                                                    <th>Action</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -511,7 +514,6 @@
                                                 ?>
                                                     <tr class="prods">
                                                         <td align="left">
-                                                            <!-- <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo ($product['package_id'] == 1) ? "checked='checked' readonly" : '' ?> <?php echo (in_array($product['plan_id'], $arrProductsSubscribed)) ? "checked='checked' disabled" : ''; ?> data-amount="<?php echo $product['price']; ?>" data-package="<?php echo $product['package_id']; ?>" data-tax="25"> -->
                                                             <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo ($product['package_ids'] == '1') ? "checked='checked' readonly" : "" ?> <?php echo (is_numeric($product['up_id'])) ? "checked='checked' disabled" : ''; ?> data-amount="<?php echo $product['price']; ?>" data-package="<?php echo $product['package_ids']; ?>" data-tax="25">
                                                             <label for="plan_id<?php echo $product['plan_id']; ?>"></label>
                                                         </td>
@@ -564,6 +566,16 @@
                                                         </td>
                                                         <td align="left">
                                                             <?php  echo number_format(($product['price']*1), 2, '.', ''); ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php
+                                                            if( !is_null($product['subscription_item']) && $product['package_ids'] != '1' )
+                                                            {
+                                                                ?>
+                                                                <a href="javascript:removeSubscriptionItem('<?php echo $product['subscription_item'] ?>')" data-toggle="tooltip" data-placement="top" title="Remove package">Remove</a>
+                                                                <?php
+                                                            }
+                                                            ?>
                                                         </td>
                                                         <td>
                                                             <a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="<?php echo $product['description']; ?>">
@@ -909,6 +921,37 @@
                     if(response.deleted)
                     {
                         $this.closest('.radio').remove();
+                    }
+
+                    $('#modal-loading').modal('hide');
+                }
+            });
+        }
+    }
+
+    // Remove subscription item
+    function removeSubscriptionItem(subscriptionItem = null)
+    {
+        if( confirm('Are you sure you want to remove this item?') )
+        {
+            $('#modal-loading').modal('show');
+
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo BASE_URL ?>classes/billing.php',
+                data: {
+                    'removeSubscriptionItem': 1,
+                    'subscriptionItem': subscriptionItem
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if(response.deleted || response.status)
+                    {
+                        window.location.reload();
+                    }
+                    else if(response.error)
+                    {
+                        alert(response.error);
                     }
 
                     $('#modal-loading').modal('hide');
