@@ -1,5 +1,9 @@
 /* ######### CSS for top level tabs ######### */
-
+/**/
+label.text-left {
+    text-align: left!important;
+    font-weight: 1!important;
+}
 textarea {
     resize: none;
 }

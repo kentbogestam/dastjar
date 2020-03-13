@@ -1,10 +1,63 @@
 /*  File Name : jsRegistrationStep.js
  *  Description : Javascript file for registration step file
- *  Author  :Sushil Singh  Date: 26th,Nov,2010  Creation
 */
+function confirmVerification()
+{
+    $('#code').keyup(function() {
+        //alert($(this).val());
+        var m = $("#m").val();
+        var userid = $("#userid").val();
+        var code = $("#code").val();
+        $("#code").val(code);
+        //alert(code.length);
+        if ( userid != null && m != null &&  code  &&  code.length==5 ) 
+        { 
+            var input = {
+                "code" : code,
+                "userid":userid,
+                "m":m
+            };
+            //console.log(input); 
+            $.ajax({
+                url : 'classes/ajx/ajxCommon.php',
+                type : 'POST',
+                dataType : "json",
+                data : input,
+                beforeSend: function(){
+                    $('#confirmation').html('<span id="spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Continue');
+                    //return false;
+                },
+                success : function(response) {
+                    console.log(response);
+                    if(response.status==1 )
+                    {
+                        window.location.href = response.data.url;
+                    }
+                    else if(response.status==0)
+                    {
+                        //not match
+                        $("#message").html(response.msg);
+                        $("#spinner").remove();
+                    }
+                    else if(response.status==2)
+                    {
+                        //match but already verify
+                        $("#register").html(response.msg);  
+                    }
+                    else
+                    {
+                       $("#register").html("Something went wrong"); 
+                    }
+                },
+                error : function() {
+                    alert("Something went wrong.");
+                }
+            });
+        }
+    });   
+}
 function buttonLinkAction(regStep)
 {
-    
 	if(regStep==1)
     {
         document.getElementById("step1").disabled=true;
