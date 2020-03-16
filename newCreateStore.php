@@ -191,7 +191,6 @@
             <label class="control-label col-sm-5 text-left" for="phoneNo">Restaurant phone<span class='mandatory'>*</span>:</label>
             <div class="col-sm-3">
                 <select class="form-control" name="phone_prefix" id="phone_prefix">
-                    <option value="" >National Code</option>
                     <option value="46" selected="selected">Sweden - 46</option>
                     <option value="91" >India - 91</option>
                 </select>
@@ -473,10 +472,15 @@
                             <div class="block-total row">
                                 <div class="col-md-9 text-right"><strong>Sub Total: </strong></div>
                                 <div class="col-md-3 subscription-sub-total" style="padding-left: 90px;"><?=number_format($total, 2, '.', '');?></div>
-<div class="col-md-9 text-right"><strong>Tax: </strong></div>
+                                <div class="col-md-9 text-right"><strong>Tax: </strong></div>
                                 <div class="col-md-3 subscription-tax" style="padding-left: 90px;"><?=number_format($total, 2, '.', '');?></div>
-<div class="col-md-9 text-right"><strong>Total: </strong></div>
+                                <div class="col-md-9 text-right"><strong>Total: </strong></div>
                                 <div class="col-md-3 subscription-total" style="padding-left: 90px;"><?=number_format($total, 2, '.', '');?></div>
+                                <div class="col-md-12">
+                                    <strong>Total Services fee per month: 
+                                        <span class="subscription-total"><?=number_format($total, 2, '.', '');?></span> SEK (Valid after free introduction period)
+                                    </strong>
+                                </div>
                                 <div class="col-md-12">
                                     <small>Note*: The total value of (SUM)  will be deducted from you account after end of trial period.</small>
                                 </div>

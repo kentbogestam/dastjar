@@ -2,7 +2,7 @@
 /**/
 label.text-left {
     text-align: left!important;
-    font-weight: 1!important;
+    font-weight: 600!important;
 }
 textarea {
     resize: none;
