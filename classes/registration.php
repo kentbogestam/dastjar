@@ -174,9 +174,9 @@ class registration {
         $arrUser['lname'] = addslashes(trim($_POST['lname']));
         $arrUser['role'] = "Store Admin"; //addslashes(trim($_POST['role']));
         $arrUser['cprefix'] = $_POST['cprefix'];
-        $arrUser['phone'] = trim($_POST['phone']);
+        $arrUser['phone'] = ltrim(trim($_POST['phone']), '0');
         $arrUser['phone'] = preg_replace("/[^0-9]/", '', $arrUser['phone']);
-        $arrUser['mobile_phone'] = trim($_POST['mob']);
+        $arrUser['mobile_phone'] = ltrim(trim($_POST['mob']), '0');
         $arrUser['mobile_phone'] = preg_replace("/[^0-9]/", '', $arrUser['mobile_phone']);
          $arrUser['retail'] = $_POST['$_SESSION["Retailers"]'];
         $error.= ( $arrUser['email'] == '') ? ERROR_EMAIL : '';

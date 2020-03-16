@@ -171,6 +171,16 @@ $(document).ready(function(){
             $("#error_mobile").html(errorMsg);
             error = "true";
         }
+        if(($.trim($("#phone").val()).length != 0))
+        {
+            if(phoneValidator($.trim($("#phone").val())))
+            {
+                var errorMsg = "Please Enter Valid Phone Number.<br/>";
+                $("#error_phone").html(errorMsg);
+                error = "true";
+            }
+       
+        }
         /*else if(phoneValidator($.trim($("#phone").val())))
         {
             var errorMsg = "Please Enter Valid Phone Number.<br/>";
@@ -264,7 +274,7 @@ function phoneValidator(val)
     else if(val.length > 15){
         return true;
     }
-    else if(val.charAt(0)==0)
+    else if(val.match(/[^0-9]/g))
     {
         return true;
     }
@@ -282,15 +292,8 @@ function mobileValidator(val)
     else if(val.length > 15){
         return true;
     }
-    else if(val.charAt(0)==0)
-    {
-        return true;
-    }
     else if(val.match(/[^0-9]/g))
     {
-        return true;
-    }else if(val.length < 7){
-
         return true;
     }
     else
