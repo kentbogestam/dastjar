@@ -897,7 +897,7 @@ class store {
         $arrUser['store_name'] = $_POST['storeName'];
         $arrUser['email'] = $_POST['email'];
         $arrUser['phone_prefix'] = $_POST['phone_prefix'];
-        $arrUser['phone'] = $_POST['phoneNo'];
+        $arrUser['phone'] = ltrim($_POST['phoneNo'],0);
         $arrUser['street'] = $_POST['streetaddStore'];
         $arrUser['city'] = $_POST['cityStore'];
         $arrUser['country'] = $_POST['countryStore'];
