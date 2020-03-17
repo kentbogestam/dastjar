@@ -344,6 +344,8 @@ class store {
         $arrUser['city'] = addslashes(trim($_POST['cityStore']));
         $arrUser['country'] = addslashes(trim($_POST['countryStore']));
         $arrUser['phone'] = addslashes(trim($_POST['phoneNo']));
+        $arrUser['phone'] = str_replace("-", "", $arrUser['phone']);
+        $arrUser['phone'] = str_replace(" ", "", $arrUser['phone']);
         $arrUser['link'] = addslashes(trim($_POST['link']));
         $arrUser['delivery_type'] = $_POST['delivery_type'];
         $arrUser['chain'] = isset($_POST['chain']) ? addslashes(trim($_POST['chain'])) : '';
@@ -898,6 +900,8 @@ class store {
         $arrUser['email'] = $_POST['email'];
         $arrUser['phone_prefix'] = $_POST['phone_prefix'];
         $arrUser['phone'] = ltrim($_POST['phoneNo'],0);
+        $arrUser['phone'] = str_replace("-", "", $arrUser['phone']);
+        $arrUser['phone'] = str_replace(" ", "", $arrUser['phone']);
         $arrUser['street'] = $_POST['streetaddStore'];
         $arrUser['city'] = $_POST['cityStore'];
         $arrUser['country'] = $_POST['countryStore'];
