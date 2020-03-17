@@ -1040,20 +1040,27 @@
                 $('.catall1').hide();
             }
         });
+
         // Update total
         $('input[name="plan_id[]"]').change(function() {
-            // Update 'onlinePayment' fields
             var inputFields = '';
             var checkedValue = $(this).is(':checked') ? true : false;
 
-            if($(this).data('package') == '5')
+            if($(this).data('package') == '5') // Update 'onlinePayment' fields
             {
                 inputFields = 'onlinePayment';
-            }
-
-            if(inputFields != '')
-            {
                 $('input[name="'+inputFields+'"]').prop('checked', checkedValue);
+            }
+            else if($(this).data('package') == '4') // Update 'typeofrestrurant'
+            {
+                if(checkedValue)
+                {
+                    $('#typeofrestrurant').val('3');
+                }
+                else
+                {
+                    $('#typeofrestrurant').val('1');
+                }
             }
 
             // Update total
@@ -1271,17 +1278,16 @@
 
         if(typeOfRestrurant != '1')
         {
-            //addPlan.push('4');
+            addPlan.push('4');
         }
 
+        $('input[name="plan_id[]"]:not([readonly])').prop('checked', false);
+        
         if(addPlan.length)
         {
-            //$('input[name="plan_id[]"]:not([readonly])').prop('checked', false);
-
             for(index = 0; index < addPlan.length; index++)
             {
                 $('input[name="plan_id[]"][data-package='+addPlan[index]+']').prop('checked', true);
-                // $('input[name="plan_id[]"][value='+addPlan[index]+']').prop('checked', true);
             }
         }
 
