@@ -21,7 +21,7 @@
        $inoutObj->reDirectUrl($url);
    }
 
-   if($_SERVER["REQUEST_METHOD"] === "POST")
+/*   if($_SERVER["REQUEST_METHOD"] === "POST")
     {
         //form submitted
 
@@ -59,7 +59,8 @@
             echo "You are a robot";
         }
     }
-
+*/
+                $regObj->svrRegDflt();
 
    ?>
 <script>
@@ -386,6 +387,7 @@
                         <div id="error_mobile" class="error"></div>
                      </td>
                   </tr>
+<!--
                   <tr>
                      <td align="left" valign="top">Check the captcha<span class='mandatory'>*</span></td>
                      <td align="left">
@@ -393,6 +395,7 @@
                         <div id="error_recaptcha" class="error"></div>
                      </td>
                   </tr>
+-->
                   <tr>
                      <td colspan="3">            </td>
                   </tr>

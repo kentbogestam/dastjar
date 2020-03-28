@@ -62,7 +62,7 @@
                 <div class="confirmation_code  split_input large_bottom_margin" data-multi-input-code="true">
                     <div class="confirmation_code_group">
                         <div class="split_input_item input_wrapper">
-                            <input type="text" id="code" name="code"  style="width:60px;" value="" class="text_field_new inline_input" maxlength="5">
+                            <input type="text" id="code" name="code"  style="width:60px;background-color:lightblue;" value="" class="text_field_new inline_input" maxlength="5">
                         </div>
                     </div>
                     <div id="message"></div>
