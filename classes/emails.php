@@ -4,6 +4,9 @@
 *  Author  : Sushil Singh  Date: 20th,Jul,2010  Added Header
 */
 
+use Aws\Ses\SesClient;
+use Aws\Exception\AwsException;
+
 class emails {
 
     /* Function Header :sendVarificationEmail()
@@ -307,6 +310,61 @@ function sendDeactivateCampaignPreloadedMail($uId)
 
         mail($to, $subject, $template, $headers);
     }
-}
 
+    // Send email thorugh AWS PHP SDK
+    function awsSendEmail($to = array(), $subject = 'Test subject', $message = 'Test email')
+    {
+        if( is_array($to) !empty($to) )
+        {
+            $SesClient = new SesClient([
+                'version' => '2010-12-01',
+                'region'  => AWS_DEFAULT_REGION,
+                // 'profile' => 'default',
+                'credentials' => [
+                    'key' => AWS_ACCESS_KEY_ID,
+                    'secret' => AWS_SECRET_ACCESS_KEY
+                ]
+            ]);
+
+            // This address must be verified with Amazon SES.
+            $sender_email = 'admin@dastjar.com';
+            
+            $plaintext_body = 'This email was sent with Dastjar SES using the AWS SDK for PHP.';
+            $char_set = 'UTF-8';
+
+            try {
+                $result = $SesClient->sendEmail([
+                    'Destination' => [
+                        'ToAddresses' => $to,
+                    ],
+                    'ReplyToAddresses' => [$sender_email],
+                    'Source' => $sender_email,
+                    'Message' => [
+                      'Body' => [
+                          'Html' => [
+                              'Charset' => $char_set,
+                              'Data' => $message,
+                          ],
+                          'Text' => [
+                              'Charset' => $char_set,
+                              'Data' => $plaintext_body,
+                          ],
+                      ],
+                      'Subject' => [
+                          'Charset' => $char_set,
+                          'Data' => $subject,
+                      ],
+                    ],
+                ]);
+
+                return $result;
+            } catch (AwsException $e) {
+                // output error message if fails
+                echo $e->getMessage();
+                echo("The email was not sent. Error message: ".$e->getAwsErrorMessage()."\n");
+                echo "\n";
+            }
+        }
+    }
+}
 ?>
