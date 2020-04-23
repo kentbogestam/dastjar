@@ -318,9 +318,11 @@ class handleWebhook {
 	                        $find = array('{{orgNo}}', '{{userName}}', '{{companyAddress}}', '{{storeName}}', '{{theContent}}');
 	                        $replace = array($user['orgnr'], $user['userName'], $user['companyAddress'], $subsDetail['store_name'], $emailContent);
 	                        $template = str_replace($find, $replace, $template);
+	                        $subject = 'Thank you for subscription!';
+	                        $to = [$user['email']];
 
 	                        $mailObj = new emails();
-	                        $mailObj->sendSubscriptionThankYouEmail($user['email'], $template);
+	                        $mailObj->awsSendEmail($to, $subject, $template);
 
 	                        // echo $template;
 	                        $str .= "Email sent\n";
