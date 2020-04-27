@@ -38,6 +38,10 @@ class handleWebhook {
 			{
 				$this->handleCustomerSubscriptionCreated($event);
 			}
+			elseif( isset($event) && $event->type == "customer.subscription.updated" )
+			{
+				$this->handleCustomerSubscriptionUpdated($event);
+			}
 			elseif( isset($event) && $event->type == "invoice.payment_succeeded" )
 			{
 				$this->handleInvoicePaymentSuccess($event);
@@ -93,6 +97,21 @@ class handleWebhook {
 			}*/
 
 			$this->subscriptionThankyouEmail($eventData, 'customer.subscription.created');
+		}
+	}
+
+	/**
+	 * Update subscription on event 'customer.subscription.updated'
+	 * @param  [type] $event [description]
+	 * @return [type]        [description]
+	 */
+	function handleCustomerSubscriptionUpdated()
+	{
+		$eventData = $event->data->object;
+
+		if( !empty($eventData) )
+		{
+			$this->subscriptionThankyouEmail($eventData, 'customer.subscription.updated');
 		}
 	}
 
