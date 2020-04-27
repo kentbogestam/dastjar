@@ -83,11 +83,21 @@
       .text-center {
         text-align: center !important;
       }
+      .text-left {
+        text-align: left !important;
+      }
+      .text-right {
+        text-align: right !important;
+      }
       @media only screen and (min-width:480px) {
        .thanks-text {
         padding:18px 0px
       } 
       .mj-column-per-33 {
+      width: 33.333333333333336% !important;
+      max-width: 33.333333333333336%;
+      }
+      .mj-column-per-50 {
       width: 33.333333333333336% !important;
       max-width: 33.333333333333336%;
       }
@@ -206,15 +216,11 @@
                                           <td align="center" vertical-align="top" style="font-size:0px;padding:20px 25px;word-break:break-word;">
                                             <div style="font-family:Lato, Helvetica, Arial, sans-serif;font-size:12px;line-height:1;text-align:left;color:#444444;">
                                               <div>
-                                                Organization Number: <br>
-                                                {{orgNo}}
-                                              </div>
-                                              <div>
-                                                <p>
-                                                  Bill to Address:<br>
-                                                  ATTN: {{userName}}<br>
-                                                  {{companyAddress}}
-                                                </p>
+                                                <strong>Bill to:</strong><br>
+                                                {{companyName}} <br>
+                                                Org. No: {{orgNo}}: <br>
+                                                <strong>Reference:</strong> {{userName}}<br>
+                                                {{companyAddress}}
                                               </div>
                                             </div>
                                           </td>
@@ -329,7 +335,7 @@
               <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#ffffff;background-color:#ffffff;width:100%;">
                 <tbody>
                   <tr>
-                    <td style="direction:ltr;font-size:0px;padding:50px 0;text-align:center;vertical-align:top;">
+                    <td style="direction:ltr;font-size:0px;padding:50px 0 0;text-align:center;vertical-align:top;">
                       <!--[if mso | IE]>
                       <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                         <tr>
@@ -337,12 +343,15 @@
                             class="" style="vertical-align:top;width:200px;"
                             >
                             <![endif]-->
-                            <div class="mj-column-per-33 outlook-group-fix text-center" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;padding-bottom: 10px;">
+                            <div class="mj-column-per-40 outlook-group-fix text-left" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;padding-bottom: 10px;">
                               <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
                                 <tbody>
                                   <tr>
                                     <td style="vertical-align:top;padding:0px; font-family:Lato, Helvetica, Arial, sans-serif;">
-                                      <span style="font-size: 16px;word-break:break-word;">Service Provider Dastjar AB</span>
+                                      <span style="word-break:break-word; font-weight: bold;">Dastjar AB</span><br>
+                                      <span>Phone: <a href="tel:+46 76 0067125">+46 76 0067125</a></span><br>
+                                      <span>Org. No: 559123-5311</span><br>
+                                      <span>E-mail: <a href="mailto:info@dastjar.com" target="blank">info@dastjar.com</a></span>
                                     </td>
                                   </tr>
                                 </tbody>
@@ -354,31 +363,12 @@
                             class="" style="vertical-align:top;width:200px;"
                             >
                             <![endif]-->
-                            <div class="mj-column-per-33 outlook-group-fix text-center" style="font-size:11px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;padding-bottom: 10px;">
+                            <div class="mj-column-per-60 outlook-group-fix text-center" style="font-size:11px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;padding-bottom: 10px;">
                               <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
                                 <tbody>
                                   <tr>
-                                    <td style="vertical-align:top;padding:0px;font-family:Lato, Helvetica, Arial, sans-serif;">
-                                      <a href="mailto:info@dastjar.com" target="blank">info@dastjar.com</a> <br>
-                                      <a href="tel:+46 76 0067125">+46 76 0067125</a> <br>
-                                      We always answer your questions.
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <!--[if mso | IE]>
-                          </td>
-                          <td
-                            class="" style="vertical-align:top;width:200px;"
-                            >
-                            <![endif]-->
-                            <div class="mj-column-per-33 outlook-group-fix text-center" style="font-size:11px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;padding-bottom: 10px;">
-                              <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
-                                <tbody>
-                                  <tr>
-                                    <td style="vertical-align:top;padding:0px;font-family:Lato, Helvetica, Arial, sans-serif;">
-                                      Organization Number 559123-5311
+                                    <td style="vertical-align:top;padding:30px 0 0 0;font-family:Lato, Helvetica, Arial, sans-serif;">
+                                        Godkänd för F-skatt
                                     </td>
                                   </tr>
                                 </tbody>
@@ -390,6 +380,11 @@
                       </table>
                       <![endif]-->
                     </td>
+                  </tr>
+                  <tr>
+                      <td style="text-align: center; font-family:Lato, Helvetica, Arial, sans-serif;">
+                          Don't hesitate to contact us! We will always answer your questions.
+                      </td>
                   </tr>
                 </tbody>
               </table>

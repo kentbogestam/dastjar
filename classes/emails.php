@@ -314,7 +314,7 @@ function sendDeactivateCampaignPreloadedMail($uId)
     // Send email thorugh AWS PHP SDK
     function awsSendEmail($to = array(), $subject = 'Test subject', $message = 'Test email')
     {
-        if( is_array($to) !empty($to) )
+        if( is_array($to) && !empty($to) )
         {
             $SesClient = new SesClient([
                 'version' => '2010-12-01',

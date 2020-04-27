@@ -76,7 +76,7 @@ class handleWebhook {
 
 		if( !empty($eventData) )
 		{
-			$subscriptionId = $eventData->id;
+			/*$subscriptionId = $eventData->id;
 
 			// 
 			$subscription = \Stripe\Subscription::retrieve($subscriptionId);
@@ -90,7 +90,9 @@ class handleWebhook {
 				{
 					$this->onUpdateSubscriptionToActive($invoice, 'customer.subscription.created');
 				}
-			}
+			}*/
+
+			$this->subscriptionThankyouEmail($eventData, 'customer.subscription.created');
 		}
 	}
 
@@ -178,6 +180,91 @@ class handleWebhook {
 	}
 
 	/**
+	 * Sends email to customer on create subscription
+	 * @param  [type] $event [description]
+	 * @return [type]        [description]
+	 */
+	function subscriptionThankyouEmail($eventData = array(), $eventType)
+	{
+		$str = "======".date('Y-m-d H:i:s')."======\n";
+		$str .= "Event Type: {$eventType}\n";
+
+		$db = new db();
+		$conn = $db->makeConnection();
+
+		// Check connection
+		if($conn)
+		{
+			$subscriptionId = $eventData->id;
+			$str .= "Subscription ID: {$subscriptionId}\n";
+
+			// Check if Subscription exist in DB
+			$query = "SELECT UP.id, UP.user_id, S.store_name FROM user_plan UP INNER JOIN store S ON UP.store_id = S.store_id WHERE UP.subscription_id = '{$subscriptionId}'";
+			$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+
+			if( mysqli_num_rows($res) )
+			{
+				$subsDetail = mysqli_fetch_assoc($res);
+				$emailContent = '';
+				
+				include_once(dirname(__DIR__).'/classes/billing.php');
+				include_once(dirname(__DIR__).'/classes/emails.php');
+
+				// Get the invoice line items
+				$invoiceLineItems = $eventData->items->data;
+
+				if( !empty($invoiceLineItems) )
+				{
+					foreach($invoiceLineItems as $lineItem)
+					{
+						$amount = number_format(($lineItem->plan->amount/100), 2, '.', '');
+						$plan_nickname = $lineItem->plan->nickname;
+						$planId = $lineItem->plan->id;
+						$str .= "Plan ID: {$planId}\n";
+
+						// 
+						$emailContent .= "
+                        <tr>
+                            <td align='left' vertical-align='top' style='padding:5px 15px;'>
+                                <div style='font-family:Lato, Helvetica, Arial, sans-serif;font-size:14px;line-height:1;color:#222222;'>{$plan_nickname}</div>
+                            </td>
+                            <td align='right' style='padding: 5px 15px;'>{$amount} (SEK)</td>
+                        </tr>";
+					}
+
+					// 
+					if($emailContent != '')
+					{
+						$str .= "Email content\n";
+
+						// 
+						$billingObj = new billing();
+						$user = $billingObj->getUserCompanySubsDetail($subsDetail['user_id']);
+
+                        // Send thank-you email
+                        $template = file_get_contents(BASEPATH.'email-templates/subscription-confirmation-email.html');
+
+                        $find = array('{{orgNo}}', '{{userName}}', '{{companyName}}', '{{companyAddress}}', '{{storeName}}', '{{theContent}}');
+                        $replace = array($user['orgnr'], $user['userName'], $user['company_name'], $user['companyAddress'], $subsDetail['store_name'], $emailContent);
+                        $template = str_replace($find, $replace, $template);
+                        $subject = 'Thank you for subscription!';
+                        $to = [$user['email']];
+
+                        $mailObj = new emails();
+                        $mailObj->awsSendEmail($to, $subject, $template);
+
+                        // echo $template;
+                        $str .= "Email sent\n";
+					}
+				}
+			}
+		}
+
+		$str .= "\n\n";
+		$this->log($str);
+	}
+
+	/**
 	 * Update subscription status to 'active' and send confirmation email
 	 */
 	function onUpdateSubscriptionToActive($invoice = array(), $eventType)
@@ -209,6 +296,7 @@ class handleWebhook {
 					$str .= "Query: {$query}\n";
 				}
 				
+				/*
 				// Check if Subscription exist in DB
 				// $query = "SELECT UP.id, UP.user_id, BP.plan_nickname, S.store_name FROM user_plan UP INNER JOIN billing_products BP ON UP.plan_id = BP.plan_id INNER JOIN store S ON UP.store_id = S.store_id WHERE UP.subscription_id = '{$subscriptionId}' AND status = '0'";
 				$query = "SELECT UP.id, UP.user_id, S.store_name FROM user_plan UP INNER JOIN store S ON UP.store_id = S.store_id WHERE UP.subscription_id = '{$subscriptionId}'";
@@ -315,8 +403,8 @@ class handleWebhook {
 	                        // Send thank-you email
 	                        $template = file_get_contents(BASEPATH.'email-templates/subscription-confirmation-email.html');
 
-	                        $find = array('{{orgNo}}', '{{userName}}', '{{companyAddress}}', '{{storeName}}', '{{theContent}}');
-	                        $replace = array($user['orgnr'], $user['userName'], $user['companyAddress'], $subsDetail['store_name'], $emailContent);
+	                        $find = array('{{orgNo}}', '{{userName}}', '{{companyName}}', '{{companyAddress}}', '{{storeName}}', '{{theContent}}');
+	                        $replace = array($user['orgnr'], $user['userName'], $user['company_name'], $user['companyAddress'], $subsDetail['store_name'], $emailContent);
 	                        $template = str_replace($find, $replace, $template);
 	                        $subject = 'Thank you for subscription!';
 	                        $to = [$user['email']];
@@ -332,7 +420,7 @@ class handleWebhook {
 				else
 				{
 					$str .= "Subscription not found in DB\n";
-				}
+				}*/
 			}
 			else
 			{
