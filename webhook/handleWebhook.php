@@ -105,7 +105,7 @@ class handleWebhook {
 	 * @param  [type] $event [description]
 	 * @return [type]        [description]
 	 */
-	function handleCustomerSubscriptionUpdated()
+	function handleCustomerSubscriptionUpdated($event = null)
 	{
 		$eventData = $event->data->object;
 
