@@ -169,13 +169,13 @@ include("main.php");
      if( isset($_SESSION['domain']) )
      {
         $data = array('u_id' => $_SESSION['userid'], 'domain' => $_SESSION['domain']);
-        $url = HOMES_BASE_URL."config/create-sub-domain";
+        $url = HOMES_BASE_URL."config/create-domain";
         unset($_SESSION['domain']);
         ?>
 
         // 
         var data = <?php echo json_encode($data); ?>;
-        
+
         $.ajax({
            type: 'GET',
            url: "<?php echo $url; ?>",

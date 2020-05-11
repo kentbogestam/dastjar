@@ -209,7 +209,7 @@
    include_once("main.php");
    ?>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByLiizP2XW9JUAiD92x57u7lFvU3pS630&sensor=false"></script>
-<script language="JavaScript" src="client/js/jsStoreEdit.js" type="text/javascript"></script>
+<script language="JavaScript" src="client/js/jsStoreEdit.js?v=1" type="text/javascript"></script>
 
 <script type="text/javascript" src="client/js/newJs/jquery-1.11.1.js"></script>
 <link rel="stylesheet" type="text/css" href="client/js/newJs/mdp.css">
@@ -253,6 +253,7 @@
                 <span class='mandatory'>*</span>:</label>
             <div class="col-sm-6">
                 <input class="form-control"  type=text name="storeName" id ="storeName" value="<?=$data[0]['store_name']?>">
+                <small><i>Note*- Only letters, numbers and dash (-) allowed</i></small>
                 <div id='error_storeName' class="error"></div>
             </div>
             <div class="col-sm-1">
@@ -1061,6 +1062,10 @@
                 {
                     $('#typeofrestrurant').val('1');
                 }
+            }
+            else if(checkedValue && $(this).data('package') == '16')
+            {   
+                alert("From admin@datjar.com: \nYou will get a mail from us as soon the new website is available. \nIt can take from 10 minutes up to a couple of hours to finish the process so we can send the mail. \nYou can then login with you userid and password and select your website and select your wanted template. \nYou can also change domain etc in settings");
             }
 
             // Update total

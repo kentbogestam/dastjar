@@ -170,11 +170,11 @@
                                  <?php
                                     $i = 1 + $pager->get_limit_offset();
                                     foreach ($data as $data1) {
-										if($data1['store_image'] == null || $data1['store_image']=="null"){
+                                       if($data1['store_image'] == null || $data1['store_image']=="null"){
                                           $data1['store_image'] = 'images/placeholder-image.png';
-                                        }elseif(substr($data1['store_image'],-1) == "/"){   
-											$data1['store_image'] = 'images/placeholder-image.png';
-										}else{
+                                       }elseif(substr($data1['store_image'],-1) == "/"){   
+                                          $data1['store_image'] = 'images/placeholder-image.png';
+                                       }else{
                                            $content = @file_get_contents($data1['store_image']);
                                            if (!strpos($http_response_header[0], "200")) { 
                                              $data1['store_image'] = 'images/placeholder-image.png';
@@ -282,6 +282,7 @@
          </table>
       </div>
    </div>
+
    <script>
       $(function() {
          // 
@@ -304,6 +305,33 @@
                console.log(response);
             });
          });
+
+         <?php
+         // Call .sh script on homes server to create subdomain on AWS if subscribed to 'homepage'
+         if( isset($_SESSION['isSubscribedHomepage']) )
+         {
+            $data = array('storeId' => $_SESSION['storeId'], 'u_id' => $_SESSION['userid'], 'domain' => $_SESSION['domain']);
+            $url = HOMES_BASE_URL."config/create-domain";
+
+            unset($_SESSION['isSubscribedHomepage']);
+            unset($_SESSION['storeId']);
+            unset($_SESSION['domain']);
+            ?>
+
+            // 
+            var data = <?php echo json_encode($data); ?>;
+            
+            $.ajax({
+               type: 'GET',
+               url: "<?php echo $url; ?>",
+               data: data,
+               success: function(response) {
+
+               }
+            });
+            <?php
+         }
+         ?>
       });
    </script>
    <div><? include("footer.php"); ?></div>

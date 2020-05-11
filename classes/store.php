@@ -496,7 +496,14 @@ class store {
         // If subscribed to 'payment plan' and company is not connected to 'stripe connect'
         if( !empty($_POST['plan_id']) )
         {
-            $this->redirectToStripeConnect($_POST['plan_id'], $_SESSION['userid']);
+            $data = array(
+                'planIds' => $_POST['plan_id'],
+                'userid' => $_SESSION['userid'],
+                'storeId' => $storeUniqueId,
+                'storeName' => $arrUser['store_name'],
+            );
+
+            $this->redirectToStripeConnect($data);
         }
 
         //
@@ -524,7 +531,7 @@ class store {
     }
 
     // If subscribed to 'payment plan' and company is not connected to 'stripe connect'
-    function redirectToStripeConnect($planIds = array(), $userid)
+    function redirectToStripeConnect($data)
     {
         // Check connection
         $db = new db();
@@ -533,40 +540,59 @@ class store {
             die("Connection failed: " . mysqli_connect_error());
         }else{}
 
-        $inoutObj = new inOut();
+        $subsProductPackages = array();
+        $planIds = join("','", $data['planIds']);
 
-        $billingObj = new billing();
-        $user = $billingObj->getUserCompanySubsDetail($userid);
+        $query = "SELECT BP.product_name, BP.plan_id, BP.price, BP.trial_period, GROUP_CONCAT(BPP.package_id) AS package_ids FROM billing_products BP LEFT JOIN billing_product_packages BPP ON BP.id = BPP.billing_product_id WHERE BP.plan_id IN ('{$planIds}') GROUP BY BP.id";
+            $res = $db->query($query);
 
-        if( is_null($user['stripe_user_id']) || $user['stripe_user_id'] == '' )
-        // if( 1 )
+        while ($rs = mysqli_fetch_array($res))
         {
-            $subsProductPackages = array();
-            $planIds = join("','", $planIds);
-
-            $query = "SELECT BP.product_name, BP.plan_id, BP.price, BP.trial_period, GROUP_CONCAT(BPP.package_id) AS package_ids FROM billing_products BP LEFT JOIN billing_product_packages BPP ON BP.id = BPP.billing_product_id WHERE BP.plan_id IN ('{$planIds}') GROUP BY BP.id";
-                $res = $db->query($query);
-
-            while ($rs = mysqli_fetch_array($res))
+            // Get access packages belongs to plan
+            if( $rs['package_ids'] != '' )
             {
-                // Get access packages belongs to plan
-                if( $rs['package_ids'] != '' )
-                {
-                    $package_ids = explode(',', $rs['package_ids']);
+                $package_ids = explode(',', $rs['package_ids']);
 
-                    foreach($package_ids as $package_id)
-                    {
-                        array_push($subsProductPackages, $package_id);
-                    }
+                foreach($package_ids as $package_id)
+                {
+                    array_push($subsProductPackages, $package_id);
                 }
             }
+        }
 
-            if( !empty($subsProductPackages) && in_array(5, $subsProductPackages))
+        if( !empty($subsProductPackages) )
+        {
+            // Homepage package
+            if( in_array(16, $subsProductPackages) )
             {
-                $url = "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=".STRIPE_CLIENT_ID."&scope=read_write&redirect_uri=".BASE_URL."stripe-connect-response.php";
+                $storeName = $data['storeName'];
+                $storeName = str_replace(
+                    array('å', 'Å', 'ä', 'Ä', 'ö', 'Ö', ' '),
+                    array('a', 'A', 'a', 'a', 'o', 'o', ''),
+                    $storeName
+                );
+                $storeName = strtolower($storeName);
+                $storeName = $storeName.'.dastjar.com';
 
-                $inoutObj->reDirect($url);
-                exit();
+                $_SESSION['isSubscribedHomepage'] = 1;
+                $_SESSION['storeId'] = $data['storeId'];
+                $_SESSION['domain'] = str_replace(' ', '', $storeName);
+            }
+
+            // Payment package
+            if( in_array(5, $subsProductPackages) )
+            {
+                $billingObj = new billing();
+                $user = $billingObj->getUserCompanySubsDetail($data['userid']);
+
+                if( is_null($user['stripe_user_id']) || $user['stripe_user_id'] == '' )
+                {
+                    $url = "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=".STRIPE_CLIENT_ID."&scope=read_write&redirect_uri=".BASE_URL."stripe-connect-response.php";
+
+                    $inoutObj = new inOut();
+                    $inoutObj->reDirect($url);
+                    exit();
+                }
             }
         }
     }
@@ -1009,17 +1035,17 @@ class store {
         if($catImg <> "NULL" && $catImg <> ""){
             $query = "update store SET store_image=$catImg, large_image=$large_image WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $storeId . "'";
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
-		}else if($_POST['image_removed'] == 1){
+        }else if($_POST['image_removed'] == 1){
             $query = "update store SET store_image=$catImg, large_image=$large_image WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $storeId . "'";
             $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
         }
-        		
+                
         $storeUniqueId = uuid();
 
-		$arrUser['store_name'] = mysqli_real_escape_string($conn, $arrUser['store_name']);
+        $arrUser['store_name'] = mysqli_real_escape_string($conn, $arrUser['store_name']);
         $arrUser['street'] = mysqli_real_escape_string($conn, $arrUser['street']);
         $arrUser['city'] = mysqli_real_escape_string($conn, $arrUser['city']);
-		
+        
         if($_POST['opencloseTimeing'] ){
             $query = "update store SET store_type='" . $arrUser['store_type'] . "',tagline='" . $arrUser['tagline'] . "',latitude='" . $arrUser['latitude'] . "',longitude='" . $arrUser['longitude'] . "',`store_name`='" . $arrUser['store_name'] . "' ,`street`='" . $arrUser['street'] . "', `city`='" . $arrUser['city'] . "', `country`='" . $arrUser['country'] . "', `email`='" . $arrUser['email'] . "',`phone_prefix`='" . $arrUser['phone_prefix'] . "', `phone`='" . $arrUser['phone'] . "', `store_link`='" . $arrUser['link'] . "', `chain`='" . $arrUser['chain'] . "', `block`='" . $arrUser['block'] . "', `zip`='" . $arrUser['zip'] . "' , `country_code`='" . $coutryIso . "' , `store_open_close_day_time`='" .$arrUser['store_open_close_day_time'] . "' ,`store_open_close_day_time_catering`='" .$arrUser['store_open_close_day_time_catering'] . "' , `store_close_dates`='" . $arrUser['close_dates'] . "', `online_payment` = '".$arrUser['online_payment']."' WHERE u_id='" . $_SESSION['userid'] . "' AND store_id='" . $storeId . "'";
         }else{
@@ -1081,7 +1107,14 @@ class store {
         // If subscribed to 'payment plan' and company is not connected to 'stripe connect'
         if( !empty($_POST['plan_id']) )
         {
-            $this->redirectToStripeConnect($_POST['plan_id'], $_SESSION['userid']);
+            $data = array(
+                'planIds' => $_POST['plan_id'],
+                'userid' => $_SESSION['userid'],
+                'storeId' => $storeId,
+                'storeName' => $arrUser['store_name'],
+            );
+
+            $this->redirectToStripeConnect($data);
         }
         
         // 
