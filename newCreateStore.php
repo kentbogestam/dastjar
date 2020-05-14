@@ -576,7 +576,7 @@
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
    <!-- <script src="https://checkout.stripe.com/checkout.js"></script> -->
    <script src="https://js.stripe.com/v3/"></script>
-    <script>
+    <script>        
         $('#catering_open_close_row').hide();      
         $("#catering_open_close").change(function() {
             catering_option=$('#catering_open_close').is(":checked"); 

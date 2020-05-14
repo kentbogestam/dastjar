@@ -811,6 +811,10 @@
                         'plan_id': planIds
                     };
 
+                    if($.inArray("plan_GxKu8deyxGwZVg",planIds) >= 0){
+                        openWindow();  
+                    }
+                    
                     fetch('<?php echo BASE_URL ?>classes/billing.php', {
                         method: 'POST',
                         body: 'confirmStoreSubscription__='+encodeURIComponent( JSON.stringify(data) ),
@@ -889,6 +893,10 @@
                 'plan_id': planIds
             };
 
+            if($.inArray("plan_GxKu8deyxGwZVg",planIds) >= 0){
+                openWindow();  
+            }
+            
             fetch('<?php echo BASE_URL ?>classes/billing.php', {
                 method: 'POST',
                 body: 'confirmStoreSubscription__='+encodeURIComponent( JSON.stringify(data) ),
@@ -1558,6 +1566,13 @@
         $('.image-upload-wrap').bind('dragleave', function () {
             $('.image-upload-wrap').removeClass('image-dropping');
         });
+        
+        function openWindow()
+        {
+            windowWidth = ($(window).width()/2)-10;
+            windowHeight = $(window).height(); 
+            window.open('https://dastjar-admin.s3-eu-west-1.amazonaws.com/uploads/stripe-account-activation-form.pdf', '_blank', 'height='+windowHeight+',width='+windowWidth+',top=0,left='+windowWidth)
+        }
     </script>
 
    <script type="text/javascript">
