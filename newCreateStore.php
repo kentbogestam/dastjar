@@ -639,6 +639,10 @@
                         'plan_id': planIds
                     };
 
+                    if($.inArray("plan_GxKu8deyxGwZVg",planIds) >= 0){
+                        openWindow();  
+                    }
+
                     fetch('<?php echo BASE_URL ?>classes/billing.php', {
                         method: 'POST',
                         body: 'confirmStoreSubscription__='+encodeURIComponent( JSON.stringify(data) ),
@@ -718,6 +722,10 @@
                 'store_id': $('input[name=storeId]').val(),
                 'plan_id': planIds
             };
+
+            if($.inArray("plan_GxKu8deyxGwZVg",planIds) >= 0){
+                openWindow();  
+            }
 
             fetch('<?php echo BASE_URL ?>classes/billing.php', {
                 method: 'POST',
@@ -1128,7 +1136,13 @@
           //   map.setZoom(8);
           // });
       }
-      
+        
+      function openWindow()
+      {
+          windowWidth = ($(window).width()/2)-10;
+          windowHeight = $(window).height(); 
+          window.open('https://dastjar-admin.s3-eu-west-1.amazonaws.com/uploads/stripe-account-activation-form.pdf', '_blank', 'height='+windowHeight+',width='+windowWidth+',top=0,left='+windowWidth)
+      }
       
       function moveToDarwin() {
           var darwin = new google.maps.LatLng(<?=$latitude ?>,<?=$longitude ?>);
