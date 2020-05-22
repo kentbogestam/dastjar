@@ -639,9 +639,13 @@
                         'plan_id': planIds
                     };
 
-                    if($.inArray("plan_GxKu8deyxGwZVg",planIds) >= 0){
-                        openWindow();  
-                    }
+                    $('tbody tr.prods').each(function(){
+                      if($(this).find('input').data('package') == 5){
+                        if($.inArray($(this).find('input').val(),planIds) >= 0){
+                            openWindow();  
+                        }
+                      }
+                    });
 
                     fetch('<?php echo BASE_URL ?>classes/billing.php', {
                         method: 'POST',
@@ -723,9 +727,13 @@
                 'plan_id': planIds
             };
 
-            if($.inArray("plan_GxKu8deyxGwZVg",planIds) >= 0){
-                openWindow();  
-            }
+            $('tbody tr.prods').each(function(){
+              if($(this).find('input').data('package') == 5){
+                if($.inArray($(this).find('input').val(),planIds) >= 0){
+                    openWindow();  
+                }
+              }
+            });
 
             fetch('<?php echo BASE_URL ?>classes/billing.php', {
                 method: 'POST',
