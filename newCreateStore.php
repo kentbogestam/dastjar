@@ -576,7 +576,7 @@
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
    <!-- <script src="https://checkout.stripe.com/checkout.js"></script> -->
    <script src="https://js.stripe.com/v3/"></script>
-    <script>
+    <script>        
         $('#catering_open_close_row').hide();      
         $("#catering_open_close").change(function() {
             catering_option=$('#catering_open_close').is(":checked"); 
@@ -638,6 +638,14 @@
                         'store_name': $('#storeName').val(),
                         'plan_id': planIds
                     };
+
+                    $('tbody tr.prods').each(function(){
+                      if($(this).find('input').data('package') == 5){
+                        if($.inArray($(this).find('input').val(),planIds) >= 0){
+                            openWindow();  
+                        }
+                      }
+                    });
 
                     fetch('<?php echo BASE_URL ?>classes/billing.php', {
                         method: 'POST',
@@ -718,6 +726,14 @@
                 'store_id': $('input[name=storeId]').val(),
                 'plan_id': planIds
             };
+
+            $('tbody tr.prods').each(function(){
+              if($(this).find('input').data('package') == 5){
+                if($.inArray($(this).find('input').val(),planIds) >= 0){
+                    openWindow();  
+                }
+              }
+            });
 
             fetch('<?php echo BASE_URL ?>classes/billing.php', {
                 method: 'POST',
@@ -1128,7 +1144,13 @@
           //   map.setZoom(8);
           // });
       }
-      
+        
+      function openWindow()
+      {
+          windowWidth = ($(window).width()/2)-10;
+          windowHeight = $(window).height(); 
+          window.open('https://dastjar-admin.s3-eu-west-1.amazonaws.com/uploads/stripe-account-activation-form.pdf', '_blank', 'height='+windowHeight+',width='+windowWidth+',top=0,left='+windowWidth)
+      }
       
       function moveToDarwin() {
           var darwin = new google.maps.LatLng(<?=$latitude ?>,<?=$longitude ?>);
