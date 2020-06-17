@@ -49,6 +49,7 @@ $selected_tab_css = ' style="background-color:#ADDFFF" ';
 <!--<li><a <?=$user?> href="viewNewUser.php" >User</a></li>-->
 <!--<li><a <?=$brand?> href="getBrandView.php" >Brand</a></li>-->
 <!--<li><a <?=$aboutUs?> href="aboutUs.php" >About Us</a></li>-->
+<!-- <li><a <?=$domain?> href="list-domain.php" >Domain</a></li> -->
 </ul>
 </div>
 <? if($menu=="offer"){?>

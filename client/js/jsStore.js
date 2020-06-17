@@ -50,6 +50,14 @@ $(document).ready(function(){
 
         }
 
+        var patt = /^[a-zA-Z0-9- _]+$/i;
+        if( !patt.test($("#storeName").val()) )
+        {
+            var errorMsg = "Please Enter Valid Location Name.<br />";
+            $("#error_storeName").html(errorMsg);
+            error = "true";
+        }
+
         if(($.trim($("#opencloseTimeing").val()).length == 0))
         {
 
