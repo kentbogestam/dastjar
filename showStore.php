@@ -155,17 +155,17 @@
                                  <tr align="center" height="26" style="font-weight:bold;">
                                     <!--<td width="4%" class="bg_darkgray1" align="left">&nbsp;</td>
                                        <td width="4%"  class="bg_darkgray1" align="center">S.No.</td>-->
-                                    <td width="9%" align="center" nowrap class="bg_darkgray1">Location Name</td>
-                                    <td width="9%" align="center" nowrap class="bg_darkgray1">StoreIcon</td>
-                                    <td width="8%" align="center" class="bg_darkgray1">Email</td>
+                                    <td width="10%" align="center" nowrap class="bg_darkgray1">Location Name</td>
+                                    <td width="10%" align="center" nowrap class="bg_darkgray1">StoreIcon</td>
+                                    <td width="10%" align="center" class="bg_darkgray1">Email</td>
                                     <td width="10%" align="center" class="bg_darkgray1">Phone No.</td>
-                                    <td width="8%" class="bg_darkgray1"> Street</td>
-                                    <td width="8%"  class="bg_darkgray1" align="center">City</td>
-                                    <td width="8%" align="center" class="bg_darkgray1">Country</td>
+                                    <td width="10%" class="bg_darkgray1"> Street</td>
+                                    <td width="10%"  class="bg_darkgray1" align="center">City</td>
+                                    <td width="10%" align="center" class="bg_darkgray1">Country</td>
                                     <!--<td width="5%" class="bg_darkgray1"> Type</td>-->
                                     <!--<td width="5%" align="center" class="bg_darkgray1">Link</td>-->
                                     <!--<td width="12%" class="bg_darkgray1"> Map</td>-->
-                                    <td width="10%" class="bg_darkgray1">Action</td>
+                                    <td width="20%" class="bg_darkgray1">Action</td>
                                  </tr>
                                  <?php
                                     $i = 1 + $pager->get_limit_offset();
@@ -214,7 +214,8 @@
                                           ?>
                                        <?php } else {
                                           ?>|
-                                       <a href="editStore.php?storeId=<?=$data1['store_id']; ?>" class="a2" title="Edit"><img src="lib/grid/images/edite.gif"></a>
+                                       <a href="editStore.php?storeId=<?=$data1['store_id']; ?>" class="a2" title="Edit"><img src="lib/grid/images/edite.gif"></a> | 
+                                       <a href="getButtonStore.php?storeId=<?=$data1['store_id']; ?>" class="a2" title="Get Button"><img src="lib/grid/images/plus.png"></a>
                                        <?php } ?>|
                                        <input type="checkbox" name="s_activ" value="<?php echo $data1['store_id']; ?>" <?php echo ($data1['s_activ'] == 1) ? 'checked="checked"' : ''; ?>>
                                     </td>

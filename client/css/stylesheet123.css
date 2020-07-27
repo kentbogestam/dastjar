@@ -105,3 +105,8 @@ h2 { font-size:20px; }
 
 /* =================== popup design code here ====================== */
 
+button.planeButton { margin:7px 0px; background-color: transparent; padding: 5px 5px; border-radius: 10px; border-width: 1px; }
+
+#tooltip { display: none; position: fixed; z-index: 1; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); }
+#tooltiptext { position: relative; margin: 0px auto; top: 25%; padding: 20px; background-color: black; width: 200px; border-radius: 5px; color: white; text-align: center; font-weight: 600; font-size: 20px; }
+.copyFromHere{ width: 1px; border: none; outline: 0px; font-size: 1px; }
