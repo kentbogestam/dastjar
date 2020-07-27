@@ -82,7 +82,8 @@ define("PRODUCTNUMBER_TEXT","If no EAN/GTIN code exists for your product, you ma
 
 // Page CreateStore.php
 
-define("SNAME_OF_LOCATION_TEXT","This is the category types your dishes will be visible under");
+define("SNAME_OF_DISH_TEXT","This is the category types your dishes will be visible under");
+define("SNAME_OF_LOCATION_TEXT","This is how the name of of your restaurant will look like");
 define("STORE_EMAIL_TEXT","The email address where your customer can reach you.");
 define("LINK_TO_THE_LOCATION_HOME_TEXT","The content of this link will appear when the user select the detailed campaign/product description and selects more info. Your page will appear under Product information.");
 define("PHONE_NUMBER_TEXT","The phone number where your customer can reach you.");

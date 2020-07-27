@@ -70,7 +70,7 @@
                      ?>">
                   <div id='error_dishName' class="error"></div>
                </td>
-               <td align="right"><a title="<?=SNAME_OF_LOCATION_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
+               <td align="right"><a title="<?=SNAME_OF_DISH_TEXT?>" class="vtip"><b><small>?</small></b></a></td>
             </tr>
          </table>
          <div align="center">

@@ -209,7 +209,7 @@
    include_once("main.php");
    ?>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByLiizP2XW9JUAiD92x57u7lFvU3pS630&sensor=false"></script>
-<script language="JavaScript" src="client/js/jsStoreEdit.js" type="text/javascript"></script>
+<script language="JavaScript" src="client/js/jsStoreEdit.js?v=1" type="text/javascript"></script>
 
 <script type="text/javascript" src="client/js/newJs/jquery-1.11.1.js"></script>
 <link rel="stylesheet" type="text/css" href="client/js/newJs/mdp.css">
@@ -253,6 +253,7 @@
                 <span class='mandatory'>*</span>:</label>
             <div class="col-sm-6">
                 <input class="form-control"  type=text name="storeName" id ="storeName" value="<?=$data[0]['store_name']?>">
+                <small><i>Note*- Only letters, numbers and dash (-) allowed</i></small>
                 <div id='error_storeName' class="error"></div>
             </div>
             <div class="col-sm-1">
@@ -802,6 +803,28 @@
                     $('#modal-loading').modal('hide');
                     $('#continue').prop('disabled', false);
                 } else {
+                    // Check if it has the Payment package, open Stripe create account help PDF 
+                    let packages = '';
+
+                    $('input[name="plan_id[]"]:checked').each(function() {
+                        if(packages)
+                        {
+                            packages += ','+$(this).data('package');
+                        }
+                        else
+                        {
+                            packages += $(this).data('package');
+                        }
+                    });
+
+                    packages = packages.toString().split(',');
+
+                    if( packages.indexOf('5') != -1 )
+                    {
+                        openWindow();
+                    }
+
+                    // 
                     $('#stripe_token').val(result.token.id);
 
                     let data = {
@@ -810,15 +833,6 @@
                         'store_name': $('#storeName').val(),
                         'plan_id': planIds
                     };
-
-                    $('tbody tr.prods').each(function(){
-                      if($(this).find('input').data('package') == 5){
-                        if($.inArray($(this).find('input').val(),planIds) >= 0){
-                            openWindow();  
-                        }
-                      }
-                    });
-                    
                     
                     fetch('<?php echo BASE_URL ?>classes/billing.php', {
                         method: 'POST',
@@ -886,6 +900,29 @@
         if( $('input[name=payment_method_id]:checked').length && $('input[name="plan_id[]"]:checked').not('[disabled]').length )
         {
             ev.preventDefault();
+
+            // Check if it has the Payment package, open Stripe create account help PDF 
+            let packages = '';
+
+            $('input[name="plan_id[]"]:checked').each(function() {
+                if(packages)
+                {
+                    packages += ','+$(this).data('package');
+                }
+                else
+                {
+                    packages += $(this).data('package');
+                }
+            });
+
+            packages = packages.toString().split(',');
+
+            if( packages.indexOf('5') != -1 )
+            {
+                openWindow();
+            }
+
+            // 
             $('#modal-loading').modal('show');
             $('#continue').prop('disabled', true);
             let planIds = $('input[name="plan_id[]"]:checked').not('[disabled]').map(function () {
@@ -897,14 +934,6 @@
                 'store_id': $('input[name=storeId]').val(),
                 'plan_id': planIds
             };
-
-            $('tbody tr.prods').each(function(){
-              if($(this).find('input').data('package') == 5){
-                if($.inArray($(this).find('input').val(),planIds) >= 0){
-                    openWindow();  
-                }
-              }
-            });
             
             fetch('<?php echo BASE_URL ?>classes/billing.php', {
                 method: 'POST',
@@ -1061,14 +1090,17 @@
         // Update total
         $('input[name="plan_id[]"]').change(function() {
             var inputFields = '';
+            var packages = ($(this).data('package')).toString().split(',');
             var checkedValue = $(this).is(':checked') ? true : false;
 
-            if($(this).data('package') == '5') // Update 'onlinePayment' fields
+            // if($(this).data('package') == '5') // Update 'onlinePayment' fields
+            if(packages.indexOf('5') != -1) // Update 'onlinePayment' fields
             {
                 inputFields = 'onlinePayment';
                 $('input[name="'+inputFields+'"]').prop('checked', checkedValue);
             }
-            else if($(this).data('package') == '4') // Update 'typeofrestrurant'
+            // else if($(this).data('package') == '4') // Update 'typeofrestrurant'
+            else if(packages.indexOf('4') != -1) // Update 'typeofrestrurant'
             {
                 if(checkedValue)
                 {
@@ -1079,6 +1111,11 @@
                     $('#typeofrestrurant').val('1');
                 }
             }
+            // else if(checkedValue && $(this).data('package') == '16')
+            else if(checkedValue && packages.indexOf('16') != -1)
+            {
+                alert("From admin@datjar.com: \nYou will get a mail from us as soon the new website is available. \nIt can take from 10 minutes up to a couple of hours to finish the process so we can send the mail. \nYou can then login with you userid and password and select your website and select your wanted template. \nYou can also change domain etc in settings");
+            }
 
             // Update total
             updateTotal();
@@ -1086,54 +1123,23 @@
             // Check if added plan including payment plan, and Stripe payment not been added before
             if(checkedValue && stripePayment == 'No')
             {
-                var packages = ($(this).data('package')).toString().split(',');
-                
-                if(packages.indexOf("5") != -1)
+                if(packages.indexOf('5') != -1)
                 {
                     alert("Stripe & IBAN\nYou will be redirected to our payment partner Stripe to get your company account details. Stripe is one of the most reliable payment systems in the World. Please follow the instructions and fill in the required information. \n\n- Step 1 Company card details\nWe are using electronic invoice. Please fill in your company card details.\nYou’ll receive a confirmation for each invoice on your e-mail. By doing so, we’ll contribute to a better environment for all of us.\n\n- Step 2 This information is needed for transferring all customer payments to your company account.\n\nNote: Stripe requires IBAN (International Bank Account Number). You can find IBAN, either in your internet bank or call your bank to help you.");
                 }
             }
         });
 
-        // Initialize Stripe
-        /*var handler = StripeCheckout.configure({
-            key: "<?php echo STRPIE_PUB_KEY; ?>",
-            image: "https://stripe.com/img/documentation/checkout/marketplace.png",
-            name: "Dastjar",
-            description: "<?=$_SESSION['username'];?>",
-            locale: "auto",
-            allowRememberMe: false,
-            token: function(token) {
-                $('#stripe_token').val(token.id);
-                $('#registerform').submit();
-            }
-        });*/
+        if(typeof("<?=$data[0]['store_image']?>") != "undefined" && "<?=$data[0]['store_image']?>" !== null){
+            $('.image-upload-wrap').hide();
+            $('.file-upload-image').attr('src', "<?=$data[0]['store_image']?>");
+            $('.file-upload-image').attr('alt', "<?=$data[0]['store_name']?>");
+            $('.file-upload-content').show();
+            $('.image-title').html("Image");
+        }
 
-        // Ask for detail before submit the location
-        /*$('#registerform').submit(function(e){
-            if( !$('#stripe_token').val().length && $('input[name="plan_id[]"]:checked').not('[disabled]').length ){
-                e.preventDefault();
-                
-                var totalAmount = parseFloat($('.plan-total').html());
-
-                //
-                handler.open({
-                    currency: 'sek',
-                    amount: (totalAmount*100)
-                });
-            }
-        });*/
-
-          if(typeof("<?=$data[0]['store_image']?>") != "undefined" && "<?=$data[0]['store_image']?>" !== null){
-                  $('.image-upload-wrap').hide();
-                  $('.file-upload-image').attr('src', "<?=$data[0]['store_image']?>");
-                  $('.file-upload-image').attr('alt', "<?=$data[0]['store_name']?>");
-                  $('.file-upload-content').show();
-                  $('.image-title').html("Image");
-          }
-
-          // Tooltip
-          $('[data-toggle="tooltip"]').tooltip();
+        // Tooltip
+        $('[data-toggle="tooltip"]').tooltip();
       });
 
      $(function(){
@@ -1576,6 +1582,7 @@
             $('.image-upload-wrap').removeClass('image-dropping');
         });
         
+        // 
         function openWindow()
         {
             windowWidth = ($(window).width()/2)-10;
