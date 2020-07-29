@@ -1,6 +1,7 @@
 {
     "require": {
         "stripe/stripe-php": "^6.41",
-        "aws/aws-sdk-php": "^3.135"
+        "aws/aws-sdk-php": "^3.135",
+        "google/apiclient": "^2.7"
     }
 }

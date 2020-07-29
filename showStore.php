@@ -161,11 +161,11 @@
                                     <td width="10%" align="center" class="bg_darkgray1">Phone No.</td>
                                     <td width="8%" class="bg_darkgray1"> Street</td>
                                     <td width="8%"  class="bg_darkgray1" align="center">City</td>
-                                    <td width="8%" align="center" class="bg_darkgray1">Country</td>
+                                    <!-- <td width="8%" align="center" class="bg_darkgray1">Country</td> -->
                                     <!--<td width="5%" class="bg_darkgray1"> Type</td>-->
                                     <!--<td width="5%" align="center" class="bg_darkgray1">Link</td>-->
                                     <!--<td width="12%" class="bg_darkgray1"> Map</td>-->
-                                    <td width="10%" class="bg_darkgray1">Action</td>
+                                    <td width="12%" class="bg_darkgray1">Action</td>
                                  </tr>
                                  <?php
                                     $i = 1 + $pager->get_limit_offset();
@@ -193,7 +193,7 @@
                                     <td align="center"><?php echo $data1['phone']; ?></td>
                                     <td align="center"><?php echo $data1['street']; ?></td>
                                     <td align="center"><?php echo $data1['city']; ?></td>
-                                    <td align="center"><?php echo $data1['country']; ?></td>
+                                    <!-- <td align="center"><?php echo $data1['country']; ?></td> -->
                                     <!--<td align="center"><?php echo $data1['coupon_delivery_type']; ?></td>-->
                                     <!--<td align="center"><?php echo $data1['link']; ?></td>-->
                                     <!--<td align="center"><a href="map.php?lat=<?=$data1['latitude'] ?>&lang=<?=$data['longitude'] ?>&zoom=16" rel="lyteframe" rev="width: 650px; height: 600px; scrolling: no;" >View Store on Map</a></td>-->
@@ -217,6 +217,7 @@
                                        <a href="editStore.php?storeId=<?=$data1['store_id']; ?>" class="a2" title="Edit"><img src="lib/grid/images/edite.gif"></a>
                                        <?php } ?>|
                                        <input type="checkbox" name="s_activ" value="<?php echo $data1['store_id']; ?>" <?php echo ($data1['s_activ'] == 1) ? 'checked="checked"' : ''; ?>>
+                                       |<a href="store-my-business.php?storeId=<?=$data1['store_id']; ?>" class="a2" title="View"><img src="lib/grid/images/view.gif"></a>
                                     </td>
                                  </tr>
                                  <?

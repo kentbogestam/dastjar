@@ -1724,6 +1724,62 @@ class store {
 
         return $status;
     }
+
+    // Get 'store_business_location' if exist
+    function getStoreBusinessLocation($store_id = null)
+    {
+        $db = new db();
+        $conn = $db->makeConnection();
+
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+
+        // 
+        $data = array();
+
+        if($store_id)
+        {
+            $query = "SELECT * FROM store_business_location WHERE store_id='{$store_id}'";
+            $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+            $data = mysqli_fetch_array($res);
+        }
+
+        return $data;
+    }
+
+    // Insert into 'store_business_location' if location get created on Google MyBusiness
+    function createStoreBusinessLocation($store_id, $location_name)
+    {
+        $db = new db();
+        $conn = $db->makeConnection();
+
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+
+        $storeUniqueId = uuid();
+        $query = "INSERT INTO store_business_location(`id`, `store_id`, `location_name`)
+                 VALUES('".$storeUniqueId."', '".$store_id."', '".$location_name."')";
+        $res = mysqli_query($conn , $query) or die(mysqli_error($conn));
+    }
+
+    // Delete from 'store_business_location' if location get deleted from Google MyBusiness
+    function deleteStoreBusinessLocation($store_id = null)
+    {
+        $db = new db();
+        $conn = $db->makeConnection();
+
+        // Check connection
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+
+        $q2 = "DELETE FROM store_business_location WHERE store_id = '{$store_id}'";
+        $res = mysqli_query($conn , $q2) or die(mysqli_error($conn));
+    }
 }
 
 ?>
