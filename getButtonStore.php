@@ -23,6 +23,11 @@ else
 include_once("main.php");
 ?>
 <link href="lib/grid/css/grid.css" rel="stylesheet" type="text/css" />
+<style>
+    .planeButton,.direct-order-button{
+        cursor:pointer;
+    }
+</style>
 <script language="JavaScript" src="client/js/jsStore.js" type="text/javascript"></script>
 <body>
 <div class="center">
@@ -57,7 +62,7 @@ include_once("main.php");
                     <p>Copy the button above and paste it into Html code of you web site</p>
                     <h3> A Link to make  you Facebook Business page ready for online ordering</h3>
                     <p>Add a button to your Facebook page to make ordering instant</p>
-                    <p>Check this Video description on how to add it!</p>
+                    <p><b><a href="https://www.facebook.com/business/learn/lessons/add-a-call-to-action-button-on-facebook" style="color:dodgerblue">Check this Video description on how to add it!</a></b>&nbsp;&nbsp;<img src="lib/grid/images/leftArrow.gif" style="vertical-align: top;width:20px;height:15px"></p>
                     <p>To add a CTA button, start on your Page. Below you page's cover photo, click Edit. You'll see a Preview section at the top that shows what you button look like. Select a button to see how to add it will look. if you want people to make a purchase from your shop, click Shop with you.  Add following link.</p>
                     <button onclick="myFunction('eatNowLink')" class="planeButton" type="button"><b>Eat now - </b> Click to copy the link</button><br>
                     <button onclick="myFunction('eatLaterLink')" class="planeButton" type="button"><b>Eat later - </b> Click to copy the link</button> 
