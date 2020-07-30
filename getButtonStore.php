@@ -40,7 +40,7 @@ include_once("main.php");
         <tr>
             <td>
                 <div>
-                    <h2>Buttons for ordering from restraunts web pages and FB</h2>
+                    <h2>Buttons to make online ordering from restraunts web pages and Facebook Business Page available to you customers</h2>
                     <p>A button to copy for web pages</p>
                     <p>Get a button for your web page to make ordeing instant</p>
                     <h4>A Button for Eat-now</h4>
@@ -48,20 +48,28 @@ include_once("main.php");
                         <div style="float:left;width:40%;">
                             <a href="https://anar.dastjar.com/restro-menu-list/<?=$data[0]['store_id'] ?>"><button type="button" class="direct-order-button" style="color: #fff; background-color: #28a745; border: none; padding: 8px 11px; font-size: 0.875rem; border-radius: 4px; font-family: sans-serif; font-weight: 600; box-shadow: 4px 4px 6px gray;">Beställ och betala direkt online</button></a>
                         </div>
-                        <div style="float:left;width:60%;">
+                        <div style="float:left;width:20%;">
                             <button onclick="myFunction('eatNowCode')" class="planeButton" type="button"><b>Copy this button !</b></button>
                         </div>
+                        <div style="float:left;width:40%;">
+                            <button onclick="myFunction('eatNowLink')" class="planeButton" type="button"><b>Eat now - </b> Click to copy the link</button>
+                        </div>
                     </div>
+                    <div style="clear:both;">
                     <p>Copy the button above and paste it into Html code of you web site</p>
                     <h4>A Button for Eat-later</h4>
                     <div style="width:100%;clear:both;">
                         <div style="float:left;width:40%;">
                             <a href="https://anar.dastjar.com/iframe/eat-later-datetime/<?=$data[0]['store_id'] ?>"><button type="button" class="direct-order-button" style="color: #fff; background-color: #28a745; border: none; padding: 8px 11px; font-size: 0.875rem; border-radius: 4px; font-family: sans-serif; font-weight: 600; box-shadow: 4px 4px 6px gray;">Beställ & betala direkt online</button></a>
                         </div>
-                        <div style="float:left;width:60%;">
+                        <div style="float:left;width:20%;">
                             <button onclick="myFunction('eatLaterCode')" class="planeButton" type="button"><b>Copy this button !</b></button>
                         </div>
+                        <div style="float:left;width:40%;">
+                            <button onclick="myFunction('eatLaterLink')" class="planeButton" type="button"><b>Eat later - </b> Click to copy the link</button>
+                        </div>
                     </div>
+                    <div style="clear:both;">
                     <p>Copy the button above and paste it into Html code of you web site</p><br><br>
                     <h2> A Link to make  you Facebook Business page ready for online ordering</h2>
                     <p>Add a button to your Facebook page to make ordering instant</p>
