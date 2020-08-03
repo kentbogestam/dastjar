@@ -263,8 +263,8 @@ class handleWebhook {
                         // Send thank-you email
                         $template = file_get_contents(BASEPATH.'email-templates/subscription-confirmation-email.html');
 
-                        $find = array('{{orgNo}}', '{{userName}}', '{{companyName}}', '{{companyAddress}}', '{{storeName}}', '{{theContent}}', '{{storeId}}, {{userAppBaseUrl}}, {{basePath}}');
-                        $replace = array($user['orgnr'], $user['userName'], $user['company_name'], $user['companyAddress'], $subsDetail['store_name'], $emailContent, $subsDetail['store_id'], USER_APP_BASE_URL, BASEPATH);
+                        $find = array('{{orgNo}}', '{{userName}}', '{{companyName}}', '{{companyAddress}}', '{{storeName}}', '{{theContent}}', '{{storeId}}', '{{userAppBaseUrl}}', '{{baseUrl}}');
+                        $replace = array($user['orgnr'], $user['userName'], $user['company_name'], $user['companyAddress'], $subsDetail['store_name'], $emailContent, $subsDetail['store_id'], USER_APP_BASE_URL, BASE_URL);
                         $template = str_replace($find, $replace, $template);
                         $subject = 'Thank you for subscription!';
                         $to = [$user['email']];
