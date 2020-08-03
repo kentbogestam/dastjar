@@ -218,7 +218,7 @@ class handleWebhook {
 			$str .= "Subscription ID: {$subscriptionId}\n";
 
 			// Check if Subscription exist in DB
-			$query = "SELECT UP.id, UP.user_id, S.store_name FROM user_plan UP INNER JOIN store S ON UP.store_id = S.store_id WHERE UP.subscription_id = '{$subscriptionId}'";
+			$query = "SELECT UP.id, UP.user_id, S.store_name, S.store_id FROM user_plan UP INNER JOIN store S ON UP.store_id = S.store_id WHERE UP.subscription_id = '{$subscriptionId}'";
 			$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 
 			if( mysqli_num_rows($res) )
@@ -263,8 +263,8 @@ class handleWebhook {
                         // Send thank-you email
                         $template = file_get_contents(BASEPATH.'email-templates/subscription-confirmation-email.html');
 
-                        $find = array('{{orgNo}}', '{{userName}}', '{{companyName}}', '{{companyAddress}}', '{{storeName}}', '{{theContent}}');
-                        $replace = array($user['orgnr'], $user['userName'], $user['company_name'], $user['companyAddress'], $subsDetail['store_name'], $emailContent);
+                        $find = array('{{orgNo}}', '{{userName}}', '{{companyName}}', '{{companyAddress}}', '{{storeName}}', '{{theContent}}', '{{storeId}}, {{userAppBaseUrl}}, {{basePath}}');
+                        $replace = array($user['orgnr'], $user['userName'], $user['company_name'], $user['companyAddress'], $subsDetail['store_name'], $emailContent, $subsDetail['store_id'], USER_APP_BASE_URL, BASEPATH);
                         $template = str_replace($find, $replace, $template);
                         $subject = 'Thank you for subscription!';
                         $to = [$user['email']];
