@@ -23,6 +23,7 @@ class Billing{
     $currency = $_POST['currency'];
     $description = $_POST['description'];
     $usageType = $_POST['usage_type'];
+    $productType = $_POST['product_type'];
 
     \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
     // Creates a subscription plan. This can also be done through the Stripe dashboard.
@@ -54,7 +55,7 @@ class Billing{
     $date = date("Y-m-d h:i:s",$time);
 
     // Insert into billing product
-    $query = "insert into billing_products(product_id, product_name, plan_id, plan_nickname, currency, price, trial_period, billing_interval, usage_type, description, created_at, updated_at, s_activ) values('$productId', '$productName', '$planId', '$planNickname', '$currency', '$price', '$trialPeriod', '$billing_interval', '$usageType', '$description', '$date', '$date', 1)";
+    $query = "insert into billing_products(product_id, product_name, plan_id, plan_nickname, currency, price, trial_period, billing_interval, usage_type, product_type, description, created_at, updated_at, s_activ) values('$productId', '$productName', '$planId', '$planNickname', '$currency', '$price', '$trialPeriod', '$billing_interval', '$usageType', '$productType', '$description', '$date', '$date', 1)";
 
     $res = $db->query($query);
 
@@ -94,6 +95,7 @@ class Billing{
         $currency = $_POST['currency'];
         $description = $_POST['description'];
         $usageType = $_POST['usage_type'];
+        $productType = $_POST['product_type'];
 
         // echo '<pre>'; print_r($editId); exit;
 
@@ -115,7 +117,7 @@ class Billing{
         $db->makeConnection();
 
         // Update billing product packages
-        $query = "update billing_products set product_name='$productName', plan_nickname='$planNickname', trial_period='$trialPeriod', usage_type='$usageType', description='$description' where id='$editId'";
+        $query = "update billing_products set product_name='$productName', plan_nickname='$planNickname', trial_period='$trialPeriod', usage_type='$usageType', product_type='$productType', description='$description' where id='$editId'";
         // echo $query; exit;
 
         $res = $db->query($query);
@@ -1434,6 +1436,24 @@ on user_plan.user_id=user.u_id group by user.u_id";
         }
 
         return $sub;
+    }
+
+    // Update billing product_type
+    function updateProductType($data)
+    {
+        $db = new db();
+        $db->makeConnection();
+
+        $status = 0;
+
+        if( isset($data['billing_product_id']) && isset($data['product_type']) )
+        {
+            $query = "UPDATE billing_products SET product_type={$data['product_type']} WHERE id='{$data['billing_product_id']}' ";
+            $res = $db->query($query);
+            $status = 1;
+        }
+
+        return $status;
     }
 }
 

@@ -205,6 +205,21 @@ input:read-only {
                         <div id='error_usage_type' class="error"></div></td>
                 </tr>
 
+                <?php
+                $product_type = isset($data[0]['product_type']) ? $data[0]['product_type'] : '1';
+                ?>
+                <tr>
+                    <td align="left" class="inner_grid">Product Type<span class='mandatory'>*</span>:</td>
+                    <td align="left">
+                        <select class="text_field_new" type="test" name="product_type" id="product_type" value="<?=$data[0]['product_type']?>">
+                            <option value="1" <?php echo ($product_type == '1') ? 'selected' : ''; ?>>Normal</option>
+                            <option value="2" <?php echo ($product_type == '2') ? 'selected' : ''; ?>>Sale</option>
+                        </select>
+                        <a title="<?=BILLING_PRODUCT_TYPE?>" class="vtip"><b><small>?</small></b></a><br/>
+                        <div id='error_product_type' class="error"></div>
+                    </td>
+                </tr>
+
 
        <td align="left">&nbsp;</td>
        <td align="left">&nbsp;</td></tr>

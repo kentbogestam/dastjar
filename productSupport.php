@@ -12,6 +12,15 @@
   $menu = "account";
   $account = 'class="selected"';
 
+    // Update store status 'active/inactive'
+    if( isset($_GET['updateProductType']) )
+    {
+        $billingObj = new billing();
+        $resp = $billingObj->updateProductType($_GET);
+        echo $resp;
+        exit;
+    }
+
    include("Paging.php");
    include("mainSupport.php");
 
@@ -54,6 +63,12 @@
 <link href="lib/grid/css/grid.css" rel="stylesheet" type="text/css" />
 <link href="client/css/stylesheet123.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" src="lib/grid/js/grid.js" type="text/javascript"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <body>
   <div class="frm_cls">
 <table border="0" align="center" cellpadding="0" cellspacing="0" style="width: 500px">
@@ -137,13 +152,14 @@
                  </td>
               </tr>
            </table>
-           <table width="100%" border="0" cellpadding="2" cellspacing="2" class="border" bgcolor="#CCCCCC">
+           <table class="table table-bordered">
               <tr align="center">
                  <td width="10%" height="20" align="center"  class="bg_darkgray1"><strong>S. No.</strong></td>
-                 <td width="30%" height="20" align="center"  class="bg_darkgray1"><strong>Product Name</strong></td>
-                 <td width="25%" height="20" align="center"  class="bg_darkgray1"><strong>Plan Name</strong></td>
+                 <td width="25%" height="20" align="center"  class="bg_darkgray1"><strong>Product Name</strong></td>
+                 <td width="20%" height="20" align="center"  class="bg_darkgray1"><strong>Plan Name</strong></td>
                  <td width="10%" height="20" align="center" class="bg_darkgray1"><strong>Currency</strong></td>
                  <td width="10%" height="20" align="center" class="bg_darkgray1"><strong>Price</strong></td>
+                 <td width="10%" height="20" align="center" class="bg_darkgray1"><strong>Type</strong></td>
                  <td width="15%" height="20" class="bg_darkgray1"><strong>Action</strong></td>
               </tr>
 
@@ -168,8 +184,16 @@
                  <td align="center"><?php echo $data1['plan_nickname']; ?></td>
                  <td align="center"><?php echo $data1['currency']; ?></td>
                  <td align="center"><?php echo $data1['price']; ?></td>
-                 
                  <td align="center">
+                    <input type="checkbox" data-toggle="toggle" data-on="Regular" data-off="Sale" data-size="mini" data-id="<?=$data1['id'];?>" <?php echo ($data1['product_type'] == '1') ? 'checked' : ''; ?> class="product_type">
+                </td>
+                <td align="center">
+                    <a href="viewBillingProduct.php?uId=<?=$data1['id'];?>" class="a2" title="View"><img src="lib/grid/images/view.gif" width="11" height="11"></a> |
+                    <a href="createEditBillingProduct.php?editId=<?=$data1['id'];?>" class="a2" title="Edit"> <img src="lib/grid/images/edite.gif" width="15" height="15"></a> |
+                    <a href="javascript:delete_plan('uId=<?=$data1['id']; ?>')" onClick="" class="a2" title="Delete"><img src="lib/grid/images/delete.gif" width="11" height="11"></a>
+                </td>
+                 
+                 <!-- <td align="center">
                     <table border="0" align="center" cellpadding="0" cellspacing="0">
                        <tr>
                           <td>
@@ -187,7 +211,7 @@
                           <td></td>
                        </tr>
                     </table>
-                 </td>
+                 </td> -->
               </tr>
               <?
                  $i++; $cnt++;
@@ -383,4 +407,26 @@
           window.location = url;
       }
   }
+
+    $('.product_type').on('change', function() {
+        let product_type = 1;
+        let billing_product_id = $(this).data('id');
+
+
+        if( !$(this).is(':checked') )
+        {
+           product_type = 2;
+        }
+
+        $.ajax({
+           url: 'productSupport.php',
+           data: {
+              'updateProductType': 1,
+              'billing_product_id': billing_product_id,
+              'product_type': product_type
+           }
+        }).done(function(response) {
+           console.log(response);
+        });
+    });
 </script>
