@@ -42,12 +42,12 @@ include_once("main.php");
 <body>
 <div class="center">
 <form name="editStore form" action="" id="registerform" method="POst">
-    <div style="margin-top:15px;" ><h1><b>Get a <b>free order online button</b> for your Business/Restraunt!</b></h1></div>
+    <div style="margin-top:15px;" ><h1><b>Get a <b>free order online button</b> for your Business/Restaurant!</b></h1></div>
     <table BORDER=0  width="100%">
         <tr>
             <td>
                 <div>
-                    <h2>Having an <b>Order Online Button</b> on your restraunt <b>Web-site</b> or <b>Face book page</b>, gives your customers the opportunity to Order directly from several Media/Channels!</h2>
+                    <h2>Having an <b>Order Online Button</b> on your restaurant <b>Web-site</b> or <b>Face book page</b>, gives your customers the opportunity to Order directly from several Media/Channels!</h2>
                     <h4>Order Online Button for EAT NOW</h4>
                     <div style="width:100%;clear:both;">
                         <div style="float:left;width:40%;">
@@ -89,7 +89,7 @@ include_once("main.php");
         <tr>
             <td>
                 <div align="center">
-                    <INPUT type="button" value="Back" name="" class="button" id="continue" onClick="javascript:location.href='<?=$_SERVER[HTTP_REFERER]; ?>';">
+                    <INPUT type="button" value="Back" name="" class="button" id="continue" onClick="window.history.go(-1); return false;">
                     <br>
                 </div>
             </td>
