@@ -86,16 +86,9 @@ include_once("main.php");
                 </div>
             </td>
         </tr>
-        <tr>
-            <td>
-                <div align="center">
-                    <INPUT type="button" value="Back" name="" class="button" id="continue" onClick="window.history.go(-1); return false;">
-                    <br>
-                </div>
-            </td>
-        </tr>
     </table>
 </form>
+<br>
 </div>
 <input type="text" class="copyFromHere" value='<div style="width:100%;clear:both"><a href="<?=USER_APP_BASE_URL?>restro-menu-list/<?=$data[0]['store_id'] ?>"><button type="button" class="direct-order-button" style="color: #fff; background-color: #28a745; border: none; padding: 8px 11px; font-size: 0.875rem; border-radius: 4px; font-family: sans-serif; font-weight: 600; box-shadow: 4px 4px 6px gray;">Beställ och betala direkt online</button></a></div>' id="eatNowCode">
 <input type="text" class="copyFromHere" value='<div style="width:100%;clear:both"><a href="<?=USER_APP_BASE_URL?>iframe/eat-later-datetime/<?=$data[0]['store_id'] ?>"><button type="button" class="direct-order-button" style="color: #fff; background-color: #28a745; border: none; padding: 8px 11px; font-size: 0.875rem; border-radius: 4px; font-family: sans-serif; font-weight: 600; box-shadow: 4px 4px 6px gray;">Beställ & betala direkt online</button></a></div>' id="eatLaterCode">
