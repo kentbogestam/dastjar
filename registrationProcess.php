@@ -15,7 +15,18 @@
    $inoutObj = new inOut();
 
    if (!isset($_SESSION['userid']) && !isset($_SESSION['REG_STEP'])) {
-   
+    if( isset($_GET['campaign']) && !empty($_GET['campaign']) )
+    {
+      $objStoreCampaign = new storeCampaign();
+
+      // Check if campaign exist and valid
+      $campaign = $objStoreCampaign->isCampaignValid($_GET['campaign']);
+
+      if($campaign['status'])
+      {
+        $_SESSION['storeCampaign'] = $_GET['campaign'];
+      }
+    } 
    } else {
        $url = BASE_URL . 'registrationStep.php';
        $inoutObj->reDirectUrl($url);

@@ -554,6 +554,10 @@
                                                 $total = 0;
                                                 $i = 1;
                                                 foreach ($products as $key => $product) {
+                                                  if($product['product_type'] == 1 && !is_numeric($product['up_id']))
+                                                  {
+                                                    continue;
+                                                  }
                                                 ?>
                                                     <tr class="prods">
                                                         <td align="left">

@@ -7,6 +7,7 @@
    include_once("cumbari.php");
    $storeObj = new store();
    $regObj = new registration();
+   $objStoreCampaign = new storeCampaign();
    $data = $storeObj->getCompanyDetail($_SESSION['userid']);
    $data1 = $storeObj->getEmailId($_SESSION['userid']);
    $countryList = $regObj->getCountryList();
@@ -50,6 +51,13 @@
                 $products[$key] = $row;
             }
         }
+   }
+
+   //
+   $campaignProducts = array(); 
+   if( isset($_SESSION['storeCampaign']) )
+   {
+    $campaignProducts = $objStoreCampaign->getCampaignProducts($_SESSION['storeCampaign']);
    }
 
    // echo '<pre>'; print_r($products); exit;
@@ -394,10 +402,14 @@
                                                 $total = 0;
                                                 $i = 1;
                                                 foreach ($products as $key => $product) {
+                                                  if($product['product_type'] == 1)
+                                                  {
+                                                    continue;
+                                                  }
                                                 ?>
                                                     <tr class="prods">
                                                         <td align="left">
-                                                            <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo ($product['package_ids'] == '1') ? "checked='checked' readonly" : '' ?> data-amount="<?php echo $product['price']; ?>" data-package="<?php echo $product['package_ids']; ?>" data-tax="25">
+                                                            <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo (($product['package_ids'] == '1') || in_array($product['plan_id'], $campaignProducts)) ? "checked='checked' readonly" : '' ?> data-amount="<?php echo $product['price']; ?>" data-package="<?php echo $product['package_ids']; ?>" data-tax="25">
                                                         </td>
                                                         <td><?php echo $i; ?></td>
                                                         <td align="left" colspan="2" style="padding-right: 10px; padding-left: 10px">

@@ -167,7 +167,7 @@ class Billing{
         $db->makeConnection();
         $data = array();
 
-        $query = "SELECT bp.id, GROUP_CONCAT(bpp.package_id) AS package_ids, bp.product_id, bp.product_name, bp.plan_id, bp.plan_nickname, bp.currency, bp.price, bp.trial_period, bp.description FROM billing_products bp INNER JOIN billing_product_packages bpp ON bp.id = bpp.billing_product_id INNER JOIN anar_packages AP ON AP.id = bpp.package_id WHERE bp.s_activ != 2 AND AP.status = '1' GROUP BY bp.id ORDER BY AP.id, bp.id";
+        $query = "SELECT bp.id, GROUP_CONCAT(bpp.package_id) AS package_ids, bp.product_id, bp.product_name, bp.plan_id, bp.plan_nickname, bp.currency, bp.price, bp.trial_period, bp.product_type, bp.description FROM billing_products bp INNER JOIN billing_product_packages bpp ON bp.id = bpp.billing_product_id INNER JOIN anar_packages AP ON AP.id = bpp.package_id WHERE bp.s_activ != 2 AND AP.status = '1' GROUP BY bp.id ORDER BY AP.id, bp.id";
         $res = $db->query($query);
 
         while ($rs = mysqli_fetch_assoc($res)) {
@@ -198,6 +198,7 @@ class Billing{
                 'currency' => $rs['currency'],
                 'price' => $rs['price'],
                 'trial_period' => $rs['trial_period'],
+                'product_type' => $rs['product_type'],
                 'description' => $rs['description'],
                 'mappedPackages' => $mappedPackages,
             );
