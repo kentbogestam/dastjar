@@ -1077,7 +1077,7 @@ on user_plan.user_id=user.u_id group by user.u_id";
                         {
                             $arrSubsCreate['default_payment_method'] = $card->id;
                         }
-                        else
+                        elseif( isset($data->payment_method_id) && !empty($data->payment_method_id) )
                         {
                             $arrSubsCreate['default_payment_method'] = $data->payment_method_id;
                         }
@@ -1108,7 +1108,7 @@ on user_plan.user_id=user.u_id group by user.u_id";
                         {
                             $arrSubsCreate['default_payment_method'] = $card->id;
                         }
-                        else
+                        elseif( isset($data->payment_method_id) && !empty($data->payment_method_id) )
                         {
                             $arrSubsCreate['default_payment_method'] = $data->payment_method_id;
                         }

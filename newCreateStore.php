@@ -498,7 +498,7 @@
                                     <small>Note*: The total value of (SUM)  will be deducted from you account after end of trial period.</small>
                                 </div>
                             </div>
-                            <div class="panel panel-info">
+                            <div class="panel panel-info panel-make-payment">
                                 <div class="panel-heading">Make payment</div>
                                 <div class="panel-body">
                                     <div class="row">
@@ -618,81 +618,96 @@
     // Pay with Card
     // var cardholderName = document.getElementById('cardholder-name');
     var cardButton = document.getElementById('card-button');
-    // var clientSecret = cardButton.dataset.secret;
-
     cardButton.addEventListener('click', function(ev) {
+        ev.preventDefault();
+
         if( !$('#stripe_token').val().length && $('input[name="plan_id[]"]:checked').not('[disabled]').length )
         {
-            ev.preventDefault();
             $('#modal-loading').modal('show');
             $('#continue').prop('disabled', true);
             let planIds = $('input[name="plan_id[]"]:checked').not('[disabled]').map(function () {
                 return this.value;
             }).get();
+            let isError = true;
+            let totalAmount = parseFloat($('.subscription-total').html());
 
-            // stripe.createPaymentMethod('card', cardElement).then(function(result) {
-            stripe.createToken(cardElement).then(function(result) {
-                if (result.error) {
-                    // Display error.message in your UI.
-                    let message = result.error;
-                    if( typeof(result.error) == 'object' ) {
-                        message = result.error.message;
-                    }
-                    $('.row-new-card').find('div.card-errors').html(message);
-                    $('#stripe_token').val('');
-                    $('#modal-loading').modal('hide');
-                    $('#continue').prop('disabled', false);
-                } else {
-                    // Check if it has the Payment package, open Stripe create account help PDF 
-                    let packages = '';
+            if(totalAmount)
+            {
+              let tokenId;
+              // stripe.createPaymentMethod('card', cardElement).then(function(result) {
+              stripe.createToken(cardElement).then(function(result) {
+                  if (result.error) {
+                      isError = true;
 
-                    $('input[name="plan_id[]"]:checked').each(function() {
-                        if(packages)
-                        {
-                            packages += ','+$(this).data('package');
-                        }
-                        else
-                        {
-                            packages += $(this).data('package');
-                        }
-                    });
+                      // Display error.message in your UI.
+                      let message = result.error;
+                      if( typeof(result.error) == 'object' ) {
+                          message = result.error.message;
+                      }
+                      $('.row-new-card').find('div.card-errors').html(message);
+                      $('#stripe_token').val('');
+                      $('#modal-loading').modal('hide');
+                      $('#continue').prop('disabled', false);
+                  } else {
+                      isError = false;
+                      tokenId = result.token.id;
+                  }
+              });
+            }
 
-                    packages = packages.toString().split(',');
+            if(!isError || !totalAmount)
+            {
+              // Check if it has the Payment package, open Stripe create account help PDF 
+              let packages = '';
 
-                    if( packages.indexOf('5') != -1 )
-                    {
-                        openWindow();
-                    }
+              $('input[name="plan_id[]"]:checked').each(function() {
+                  if(packages)
+                  {
+                      packages += ','+$(this).data('package');
+                  }
+                  else
+                  {
+                      packages += $(this).data('package');
+                  }
+              });
 
-                    // 
-                    $('#stripe_token').val(result.token.id);
+              packages = packages.toString().split(',');
 
-                    let data = {
-                        'stripe_token': $('#stripe_token').val(),
-                        'store_id': $('input[name=storeId]').val(),
-                        'store_name': $('#storeName').val(),
-                        'plan_id': planIds
-                    };
+              if( packages.indexOf('5') != -1 )
+              {
+                  openWindow();
+              }
 
-                    fetch('<?php echo BASE_URL ?>classes/billing.php', {
-                        method: 'POST',
-                        body: 'confirmStoreSubscription__='+encodeURIComponent( JSON.stringify(data) ),
-                        headers: {
-                          "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-                        },
-                    }).then(function(result) {
-                        // Handle server response (see Step 3)
-                        result.json().then(function(json) {
-                            // console.log(json);
-                            handleServerResponse(json);
-                        })
-                    });
-                }
-            });
-        }
-        else
-        {
-            // $('#registerform').submit();
+              // 
+              let data = {
+                  // 'stripe_token': $('#stripe_token').val(),
+                  'store_id': $('input[name=storeId]').val(),
+                  'store_name': $('#storeName').val(),
+                  'plan_id': planIds
+              };
+
+              // 
+              if(!isError)
+              {
+                $('#stripe_token').val(tokenId);
+                data.stripe_token = $('#stripe_token').val();
+              }
+
+              // 
+              fetch('<?php echo BASE_URL ?>classes/billing.php', {
+                  method: 'POST',
+                  body: 'confirmStoreSubscription__='+encodeURIComponent( JSON.stringify(data) ),
+                  headers: {
+                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                  },
+              }).then(function(result) {
+                  // Handle server response (see Step 3)
+                  result.json().then(function(json) {
+                      // console.log(json);
+                      handleServerResponse(json);
+                  })
+              });
+            }
         }
     });
 
@@ -739,10 +754,10 @@
 
     // Pay with PaymentMethod (saved card)
     $('#charging-saved-cards').on('click', function(ev) {
+        ev.preventDefault();
+
         if( $('input[name=payment_method_id]:checked').length && $('input[name="plan_id[]"]:checked').not('[disabled]').length )
         {
-            ev.preventDefault();
-
             // Check if it has the Payment package, open Stripe create account help PDF 
             let packages = '';
 
@@ -771,12 +786,21 @@
                 return this.value;
             }).get();
 
+            // 
             let data = {
-                'payment_method_id': $('input[name=payment_method_id]:checked').val(),
+                // 'payment_method_id': $('input[name=payment_method_id]:checked').val(),
                 'store_id': $('input[name=storeId]').val(),
                 'plan_id': planIds
             };
 
+            let totalAmount = parseFloat($('.subscription-total').html());
+
+            if(totalAmount)
+            {
+              data.payment_method_id = $('input[name=payment_method_id]:checked').val();
+            }
+
+            // 
             fetch('<?php echo BASE_URL ?>classes/billing.php', {
                 method: 'POST',
                 body: 'confirmStoreSubscription__='+encodeURIComponent( JSON.stringify(data) ),
@@ -1131,6 +1155,15 @@
         $('.subscription-sub-total').html(subTotal.toFixed(2));
         $('.subscription-tax').html(taxTotal.toFixed(2));
         $('.subscription-total').html(totalAmount.toFixed(2));
+
+        if(totalAmount)
+        {
+          $('.panel-make-payment').show();
+        }
+        else
+        {
+          $('.panel-make-payment').hide();
+        }
      }
    </script>
    <script type="text/javascript">
