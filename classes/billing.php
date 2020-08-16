@@ -344,11 +344,15 @@ class Billing{
 
         \Stripe\Stripe::setApiKey(STRPIE_CLIENT_SECRET);
 
-        $plan = \Stripe\Plan::retrieve($planId);
-        $plan->delete();
+        try {
+            $plan = \Stripe\Plan::retrieve($planId);
+            $plan->delete();
 
-        $product = \Stripe\Product::retrieve($productId);
-        $product->delete();
+            $product = \Stripe\Product::retrieve($productId);
+            $product->delete();
+        } catch (Exception $e) {
+            
+        }
 
         $query = "update billing_products set s_activ=2 where id=$id";
         $res = $db->query($query);
