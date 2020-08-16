@@ -18,6 +18,7 @@ class Billing{
     $productName = $_POST['product_name'];
     $planNickname = $_POST['plan_nickname'];
     $price = trim($_POST['price']);
+    $price_type = trim($_POST['price_type']);
     $billing_interval = $_POST['billing_interval'];
     $trialPeriod = is_numeric($_POST['trial_period']) ? $_POST['trial_period'] : 0;
     $currency = $_POST['currency'];
@@ -55,7 +56,7 @@ class Billing{
     $date = date("Y-m-d h:i:s",$time);
 
     // Insert into billing product
-    $query = "insert into billing_products(product_id, product_name, plan_id, plan_nickname, currency, price, trial_period, billing_interval, usage_type, product_type, description, created_at, updated_at, s_activ) values('$productId', '$productName', '$planId', '$planNickname', '$currency', '$price', '$trialPeriod', '$billing_interval', '$usageType', '$productType', '$description', '$date', '$date', 1)";
+    $query = "insert into billing_products(product_id, product_name, plan_id, plan_nickname, currency, price, price_type trial_period, billing_interval, usage_type, product_type, description, created_at, updated_at, s_activ) values('$productId', '$productName', '$planId', '$planNickname', '$currency', '$price', '$price_type', '$trialPeriod', '$billing_interval', '$usageType', '$productType', '$description', '$date', '$date', 1)";
 
     $res = $db->query($query);
 
@@ -91,6 +92,7 @@ class Billing{
         $productName = $_POST['product_name'];
         $planNickname = $_POST['plan_nickname'];
         $price = trim($_POST['price']);
+        $price_type = trim($_POST['price_type']);
         $trialPeriod = is_numeric($_POST['trial_period']) ? $_POST['trial_period'] : 0;
         $currency = $_POST['currency'];
         $description = $_POST['description'];
@@ -117,7 +119,7 @@ class Billing{
         $db->makeConnection();
 
         // Update billing product packages
-        $query = "update billing_products set product_name='$productName', plan_nickname='$planNickname', trial_period='$trialPeriod', usage_type='$usageType', product_type='$productType', description='$description' where id='$editId'";
+        $query = "update billing_products set product_name='$productName', plan_nickname='$planNickname', price_type='$price_type', trial_period='$trialPeriod', usage_type='$usageType', product_type='$productType', description='$description' where id='$editId'";
         // echo $query; exit;
 
         $res = $db->query($query);

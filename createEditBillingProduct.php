@@ -102,6 +102,16 @@ input:read-only {
                 </tr>
 
                 <tr>
+                    <td align="left" class="inner_grid">Product Price Type<span class='mandatory'>*</span>:</td>
+                    <td align="left">
+                        <select class="text_field_new" type="test" name="price_type" id="price_type" value="<?=$data[0]['price_type']?>">
+                            <option value="1" <?php echo ($data[0]['price_type'] == '1') ? 'selected' : ''; ?>>Recurring</option>
+                            <option value="2" <?php echo ($data[0]['price_type'] == '2') ? 'selected' : ''; ?>>One time</option>
+                        </select>
+                        <a title="<?=BILLING_PRODUCT_PRICE_TYPE?>" class="vtip"><b><small>?</small></b></a><br/>
+                    </td>
+                </tr>
+                <tr>
 
                     <td width="50%" align="left" class="inner_grid">Product Name<span class='mandatory'>*</span>
                         :</td>
