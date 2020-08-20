@@ -760,12 +760,12 @@
                 else
                 {
                     $('#modal-loading').modal('hide');
-                    // $('#registerform').submit();
+                    $('#registerform').submit();
                 }
             });
         } else {
             $('#modal-loading').modal('hide');
-            // $('#registerform').submit();
+            $('#registerform').submit();
         }
     }
 
