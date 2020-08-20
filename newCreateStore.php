@@ -371,200 +371,215 @@
                 <div id='warning-store-image' class="warning"></div>          
             </div>
         </div> 
-        <div class="form-group">
-             &nbsp;
-        </div>     
-            <table width="100%" border="0" cellspacing="15">
-            <tr>
-                <td colspan="2">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Add Subscription</div>
-                        <div class="panel-body">
-                            <table width="100%" cellspacing="2" border="0" >
-                                <tr>
-                                    <td valign="top" >
-                                        <!-- <input type="hidden" name="m" value="savecomp">
-                                        <input type="hidden" name="checkResult" id="checkResult" value="yes"/> -->
-                                        <table BORDER=0 width="100%" class="prod_table table table-striped" cellspacing="10" cellpadding="10">
-                                            <thead>
-                                                <tr>
-                                                    <th></th>
-                                                    <th>S. No.</th>
-                                                    <th colspan="2" style="padding-bottom: 10px; padding-right: 10px">Product Description</th>
-                                                    <th>Trial Period</th>
-                                                    <th>Unit Price(kr)</th>
-                                                    <th>Amount</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                $total = 0;
-                                                $i = 1;
-                                                foreach ($products as $key => $product) {
-                                                  if($product['product_type'] == 1)
-                                                  {
-                                                    continue;
-                                                  }
-                                                ?>
-                                                    <tr class="prods">
-                                                        <td align="left">
-                                                            <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo (($product['package_ids'] == '1') || in_array($product['plan_id'], $campaignProducts)) ? "checked='checked' readonly" : '' ?> data-amount="<?php echo $product['price']; ?>" data-package="<?php echo $product['package_ids']; ?>" data-tax="25">
-                                                        </td>
-                                                        <td><?php echo $i; ?></td>
-                                                        <td align="left" colspan="2" style="padding-right: 10px; padding-left: 10px">
-                                                            <?php
-                                                            if($product['package_ids'] == '1' || !empty($product['mappedPackages'])){ 
-                                                                $total += floatval($product['price']);
-                                                            ?>
-                                                                <div class="panel-group">
-                                                                    <div class="panel panel-default">
-                                                                        <div class="panel-heading">
-                                                                            <h4 class="panel-title">
-                                                                            <a data-toggle="collapse" href="#collapse<?php echo $product['id'] ?>"><?php echo $product['product_name']; ?><span class="caret pull-right"></span></a>
-                                                                            </h4>
-                                                                        </div>
-                                                                        <div id="collapse<?php echo $product['id'] ?>" class="panel-collapse collapse">
-                                                                            <ul class="list-group">
-                                                                                <?php
-                                                                                if(!empty($product['mappedPackages']))
-                                                                                {
-                                                                                    foreach($product['mappedPackages'] as $row)
-                                                                                    {
-                                                                                        ?>
-                                                                                        <li class="list-group-item">
-                                                                                            <?php echo $row; ?>
-                                                                                        </li>
-                                                                                        <?php
-                                                                                    }
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    ?>
-                                                                                    <li class="list-group-item">Order status (incoming and delivered orders)</li><li class="list-group-item">Delivery and Payment confirmation</li><li class="list-group-item">Menu (Edit and add new dishes to Menu)</li><li class="list-group-item">Administration support (Change company setting and information)</li><li class="list-group-item">Additional features under “More” ooo</li>
-                                                                                    <?php
-                                                                                }
-                                                                                ?>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            <?php }else{ ?>   
-                                                                <?=$product['product_name']?>
-                                                            <?php } ?>
-                                                        </td>
-                                                        <td>
-                                                            <?php echo ($product['trial_period']) ? $product['trial_period'].' Days' : 'No'; ?>
-                                                        </td>
-                                                        <td align="left">
-                                                            <?= number_format(($product['price']), 2, '.', '')." (" .$product['currency'].")"?>
-                                                        </td>
-                                                        <td align="left">
-                                                            <?php  echo number_format(($product['price']*1), 2, '.', ''); ?>
-                                                        </td>
-                                                        <td>
-                                                            <a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="<?php echo $product['description']; ?>">
-                                                                <span class="glyphicon glyphicon-info-sign"></span>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                <?php
-                                                    $i++;
-                                                }
-                                                ?>
-                                                <!-- <tr>
-                                                    <td align="left" colspan="4" style="padding-right: 10px; padding-left: 10px">&nbsp;</td>
-                                                    <td align="left"><strong>Total: </strong></td>
-                                                    <td align="left" colspan="2" class="subscription-total"><?=number_format($total, 2, '.', '');?></td>
-                                                </tr> -->
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                            <div class="block-total row">
-                                <div class="col-md-9 text-right"><strong>Sub Total: </strong></div>
-                                <div class="col-md-3 subscription-sub-total" style="padding-left: 90px;"><?=number_format($total, 2, '.', '');?></div>
-                                <div class="col-md-9 text-right"><strong>Tax: </strong></div>
-                                <div class="col-md-3 subscription-tax" style="padding-left: 90px;"><?=number_format($total, 2, '.', '');?></div>
-                                <div class="col-md-9 text-right"><strong>Total: </strong></div>
-                                <div class="col-md-3 subscription-total" style="padding-left: 90px;"><?=number_format($total, 2, '.', '');?></div>
-                                <div class="col-md-12">
-                                    <strong>Total Services fee per month: 
-                                        <span class="subscription-total"><?=number_format($total, 2, '.', '');?></span> SEK (Valid after free introduction period)
-                                    </strong>
-                                </div>
-                                <div class="col-md-12">
-                                    <small>Note*: The total value of (SUM)  will be deducted from you account after end of trial period.</small>
-                                </div>
-                            </div>
-                            <div class="panel panel-info panel-make-payment">
-                                <div class="panel-heading">Make payment</div>
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <?php
-                                        $isCardDefault = false;
-                                        if(isset($paymentMethod->data))
-                                        {
-                                            $i = 0;
-                                            if( count($paymentMethod->data) == 1 )
-                                            {
-                                                $isCardDefault = true;
-                                            }
-                                            ?>
-                                            <div class="col-md-12 row-saved-cards">
-                                                <?php
-                                                foreach($paymentMethod->data as $row)
-                                                {
-                                                    ?>
-                                                    <div class="radio">
-                                                        <label>
-                                                            <input type="radio" name="payment_method_id" id="payment-method-<?=$i;?>" value="<?=$row->id;?>" <?php echo ($isCardDefault) ? 'checked' : ''; ?>>
-                                                            <i class="fa fa-cc-visa" aria-hidden="true"></i>
-                                                            <i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i><i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i><i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i><i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i>
-                                                            <?php echo $row->card->last4; ?>
-                                                        </label>
-                                                        <button type="button" class="btn btn-link btn-xs" onclick="deleteSource('<?php echo $row->id; ?>', this)">Delete</button>
-                                                    </div>
-                                                    <?php
-                                                    $i++;
-                                                }
-                                                ?>
-                                                <div class="card-errors"></div>
-                                                <button type="button" id="charging-saved-cards" class="hidden">Pay Securely</button>
+        <div class="form-group">&nbsp;</div>
+        <div class="panel panel-default">
+          <div class="panel-heading">Add Subscription</div>
+          <div class="panel-body">
+              <table BORDER=0 width="100%" class="prod_table table table-striped" cellspacing="10" cellpadding="10">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>S. No.</th>
+                        <th colspan="2" style="padding-bottom: 10px; padding-right: 10px">Product Description</th>
+                        <th>Trial Period</th>
+                        <th>Unit Price(kr)</th>
+                        <th>Fee / Month (kr)</th>
+                        <th>One time (kr)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $total = 0;
+                    $i = 1;
+                    foreach ($products as $key => $product) {
+                      if($product['product_type'] == 1)
+                      {
+                        continue;
+                      }
+                    ?>
+                        <tr class="prods">
+                            <td align="left">
+                                <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo (($product['package_ids'] == '1') || in_array($product['plan_id'], $campaignProducts)) ? "checked='checked' readonly" : '' ?> data-amount="<?php echo $product['price']; ?>" data-package="<?php echo $product['package_ids']; ?>" data-tax="25" data-price_type="<?php echo $product['price_type']; ?>">
+                            </td>
+                            <td><?php echo $i; ?></td>
+                            <td align="left" colspan="2" style="padding-right: 10px; padding-left: 10px">
+                                <?php
+                                if($product['package_ids'] == '1' || !empty($product['mappedPackages'])){ 
+                                    $total += floatval($product['price']);
+                                ?>
+                                    <div class="panel-group">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                <a data-toggle="collapse" href="#collapse<?php echo $product['id'] ?>"><?php echo $product['product_name']; ?><span class="caret pull-right"></span></a>
+                                                </h4>
                                             </div>
-                                            <?php
-                                        }
-                                        ?>
-                                        <div class="col-md-12 row-new-card">
-                                            <label>
-                                                <input type="radio" name="pay-options" id="pay-options" <?php echo ($isCardDefault == false) ? 'checked' : ''; ?>> Credit card / Debit card
-                                            </label>
-                                            <div class="section-pay-with-card<?php echo ($isCardDefault == false) ? '' : ' hidden'; ?>">
-                                                <div id="card-element"></div>
-                                                <div class="card-errors"></div>
-                                                <button type="button" id="card-button" class="hidden">Pay</button>
+                                            <div id="collapse<?php echo $product['id'] ?>" class="panel-collapse collapse">
+                                                <ul class="list-group">
+                                                    <?php
+                                                    if(!empty($product['mappedPackages']))
+                                                    {
+                                                        foreach($product['mappedPackages'] as $row)
+                                                        {
+                                                            ?>
+                                                            <li class="list-group-item">
+                                                                <?php echo $row; ?>
+                                                            </li>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <li class="list-group-item">Order status (incoming and delivered orders)</li><li class="list-group-item">Delivery and Payment confirmation</li><li class="list-group-item">Menu (Edit and add new dishes to Menu)</li><li class="list-group-item">Administration support (Change company setting and information)</li><li class="list-group-item">Additional features under “More” ooo</li>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </ul>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div>
-                                <label><input type="checkbox" name="terms" id="terms" value="terms" required> I agree to <a href="<?php echo BASE_URL.'terms.php' ?>" target="_blank">Terms & Condition</a></label> 
-                                <span class="mandatory">*</span>
-                                <input type="hidden" id="stripe_token" name="stripe_token" value="">
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-         </table>
-         <div align="center">
-            <input type="checkbox" name="onlinePayment" value="1" style="display: none;" />
-            <input style="margin-left:700px;" type="button" value="Submit" name="continue" id="continue" class="button">
-            <br />
-            <br />
-         </div>
+                                <?php }else{ ?>   
+                                    <?=$product['product_name']?>
+                                <?php } ?>
+                            </td>
+                            <td>
+                                <?php echo ($product['trial_period'] && ($product['price_type'] == '1')) ? $product['trial_period'].' Days' : 'No'; ?>
+                            </td>
+                            <td align="left">
+                                <?= number_format(($product['price']), 2, '.', '')." (" .$product['currency'].")"?>
+                            </td>
+                            <td align="left">
+                                <?php
+                                if($product['price_type'] == '1')
+                                {
+                                  echo number_format(($product['price']*1), 2, '.', '');
+                                }
+                                ?>
+                            </td>
+                            <td align="left">
+                                <?php
+                                if($product['price_type'] == '2')
+                                {
+                                  echo number_format(($product['price']*1), 2, '.', '');
+                                }
+                                ?>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="<?php echo $product['description']; ?>">
+                                    <span class="glyphicon glyphicon-info-sign"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php
+                        $i++;
+                    }
+                    ?>
+                    <tr>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td align="left">
+                        <div><strong>Sub Total: </strong></div>
+                        <div><strong>Tax: </strong></div>
+                        <div><strong>Total: </strong></div>
+                      </td>
+                      <td>
+                        <div class="display-sub-total-recurring"><?=number_format($total, 2, '.', '');?></div>
+                        <div class="display-tax-recurring"><?=number_format($total, 2, '.', '');?></div>
+                        <div class="display-total-recurring"><?=number_format($total, 2, '.', '');?></div>
+                      </td>
+                      <td>
+                        <div class="display-sub-total-onetime"><?=number_format($total, 2, '.', '');?></div>
+                        <div class="display-tax-onetime"><?=number_format($total, 2, '.', '');?></div>
+                        <div class="display-total-onetime"><?=number_format($total, 2, '.', '');?></div>
+                      </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="block-total row hidden">
+                <div class="col-md-9 text-right"><strong>Sub Total: </strong></div>
+                <div class="col-md-3 subscription-sub-total" style="padding-left: 90px;"><?=number_format($total, 2, '.', '');?></div>
+                <div class="col-md-9 text-right"><strong>Tax: </strong></div>
+                <div class="col-md-3 subscription-tax" style="padding-left: 90px;"><?=number_format($total, 2, '.', '');?></div>
+                <div class="col-md-9 text-right"><strong>Total: </strong></div>
+                <div class="col-md-3 subscription-total" style="padding-left: 90px;"><?=number_format($total, 2, '.', '');?></div>
+                <div class="col-md-12">
+                    <strong>Total Services fee per month: 
+                        <span class="subscription-total"><?=number_format($total, 2, '.', '');?></span> SEK (Valid after free introduction period)
+                    </strong>
+                </div>
+                <div class="col-md-12">
+                    <small>Note*: The total value of (SUM)  will be deducted from you account after end of trial period.</small>
+                </div>
+            </div>
+              <div class="panel panel-info panel-make-payment">
+                  <div class="panel-heading">Make payment</div>
+                  <div class="panel-body">
+                      <div class="row">
+                          <?php
+                          $isCardDefault = false;
+                          if(isset($paymentMethod->data))
+                          {
+                              $i = 0;
+                              if( count($paymentMethod->data) == 1 )
+                              {
+                                  $isCardDefault = true;
+                              }
+                              ?>
+                              <div class="col-md-12 row-saved-cards">
+                                  <?php
+                                  foreach($paymentMethod->data as $row)
+                                  {
+                                      ?>
+                                      <div class="radio">
+                                          <label>
+                                              <input type="radio" name="payment_method_id" id="payment-method-<?=$i;?>" value="<?=$row->id;?>" <?php echo ($isCardDefault) ? 'checked' : ''; ?>>
+                                              <i class="fa fa-cc-visa" aria-hidden="true"></i>
+                                              <i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i><i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i><i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i><i class="fa fa-circle" aria-hidden="true" style="font-size: 9px;"></i>
+                                              <?php echo $row->card->last4; ?>
+                                          </label>
+                                          <button type="button" class="btn btn-link btn-xs" onclick="deleteSource('<?php echo $row->id; ?>', this)">Delete</button>
+                                      </div>
+                                      <?php
+                                      $i++;
+                                  }
+                                  ?>
+                                  <div class="card-errors"></div>
+                                  <button type="button" id="charging-saved-cards" class="hidden">Pay Securely</button>
+                              </div>
+                              <?php
+                          }
+                          ?>
+                          <div class="col-md-12 row-new-card">
+                              <label>
+                                  <input type="radio" name="pay-options" id="pay-options" <?php echo ($isCardDefault == false) ? 'checked' : ''; ?>> Credit card / Debit card
+                              </label>
+                              <div class="section-pay-with-card<?php echo ($isCardDefault == false) ? '' : ' hidden'; ?>">
+                                  <div id="card-element"></div>
+                                  <div class="card-errors"></div>
+                                  <button type="button" id="card-button" class="hidden">Pay</button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div>
+                  <label><input type="checkbox" name="terms" id="terms" value="terms" required> I agree to <a href="<?php echo BASE_URL.'terms.php' ?>" target="_blank">Terms & Condition</a></label> 
+                  <span class="mandatory">*</span>
+                  <input type="hidden" id="stripe_token" name="stripe_token" value="">
+              </div>
+          </div>
+      </div>
+        <div align="center">
+          <input type="checkbox" name="onlinePayment" value="1" style="display: none;" />
+          <input style="margin-left:700px;" type="button" value="Submit" name="continue" id="continue" class="button">
+          <br />
+          <br />
+        </div>
       </form>
       <div>
          <span class='mandatory'>* These Fields Are Mandatory</span>
@@ -628,7 +643,6 @@
             let planIds = $('input[name="plan_id[]"]:checked').not('[disabled]').map(function () {
                 return this.value;
             }).get();
-            let isError = true;
             let totalAmount = parseFloat($('.subscription-total').html());
 
             if(totalAmount)
@@ -637,8 +651,6 @@
               // stripe.createPaymentMethod('card', cardElement).then(function(result) {
               stripe.createToken(cardElement).then(function(result) {
                   if (result.error) {
-                      isError = true;
-
                       // Display error.message in your UI.
                       let message = result.error;
                       if( typeof(result.error) == 'object' ) {
@@ -649,67 +661,72 @@
                       $('#modal-loading').modal('hide');
                       $('#continue').prop('disabled', false);
                   } else {
-                      isError = false;
                       tokenId = result.token.id;
+                      confirmStoreSubscription(planIds, tokenId);
                   }
               });
             }
-
-            if(!isError || !totalAmount)
+            else
             {
-              // Check if it has the Payment package, open Stripe create account help PDF 
-              let packages = '';
-
-              $('input[name="plan_id[]"]:checked').each(function() {
-                  if(packages)
-                  {
-                      packages += ','+$(this).data('package');
-                  }
-                  else
-                  {
-                      packages += $(this).data('package');
-                  }
-              });
-
-              packages = packages.toString().split(',');
-
-              if( packages.indexOf('5') != -1 )
-              {
-                  openWindow();
-              }
-
-              // 
-              let data = {
-                  // 'stripe_token': $('#stripe_token').val(),
-                  'store_id': $('input[name=storeId]').val(),
-                  'store_name': $('#storeName').val(),
-                  'plan_id': planIds
-              };
-
-              // 
-              if(!isError)
-              {
-                $('#stripe_token').val(tokenId);
-                data.stripe_token = $('#stripe_token').val();
-              }
-
-              // 
-              fetch('<?php echo BASE_URL ?>classes/billing.php', {
-                  method: 'POST',
-                  body: 'confirmStoreSubscription__='+encodeURIComponent( JSON.stringify(data) ),
-                  headers: {
-                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-                  },
-              }).then(function(result) {
-                  // Handle server response (see Step 3)
-                  result.json().then(function(json) {
-                      // console.log(json);
-                      handleServerResponse(json);
-                  })
-              });
+              confirmStoreSubscription(planIds);
             }
         }
     });
+
+    // 
+    function confirmStoreSubscription(planIds, tokenId)
+    {
+      // Check if it has the Payment package, open Stripe create account help PDF 
+      let packages = '';
+
+      $('input[name="plan_id[]"]:checked').each(function() {
+          if(packages)
+          {
+              packages += ','+$(this).data('package');
+          }
+          else
+          {
+              packages += $(this).data('package');
+          }
+      });
+
+      packages = packages.toString().split(',');
+
+      if( packages.indexOf('5') != -1 )
+      {
+          openWindow();
+      }
+
+      // 
+      let data = {
+          // 'stripe_token': $('#stripe_token').val(),
+          'store_id': $('input[name=storeId]').val(),
+          'store_name': $('#storeName').val(),
+          'plan_id': planIds
+      };
+
+      // 
+      if(tokenId)
+      {
+        $('#stripe_token').val(tokenId);
+        data.stripe_token = $('#stripe_token').val();
+      }
+
+      // 
+      fetch('<?php echo BASE_URL ?>classes/billing.php', {
+          method: 'POST',
+          body: 'confirmStoreSubscription__='+encodeURIComponent( JSON.stringify(data) ),
+          headers: {
+            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+          },
+      }).then(function(result) {
+          // Handle server response (see Step 3)
+          result.json().then(function(json) {
+              // console.log(json);
+              handleServerResponse(json);
+          })
+      });
+    }
 
     // Handle subscription response
     function handleServerResponse(response) {
@@ -743,12 +760,12 @@
                 else
                 {
                     $('#modal-loading').modal('hide');
-                    $('#registerform').submit();
+                    // $('#registerform').submit();
                 }
             });
         } else {
             $('#modal-loading').modal('hide');
-            $('#registerform').submit();
+            // $('#registerform').submit();
         }
     }
 
@@ -1143,14 +1160,42 @@
      // Sum amount of selected packages and update total
      function updateTotal()
      {
-        var subTotal = taxTotal = 0;
+        var subTotal = taxTotal = tax = amount = priceType = 0;
+        var subTotalRecurring = taxTotalRecurring = 0;
+        var subTotalOnetime = taxTotalOnetime = 0;
 
         $('input[name="plan_id[]"]:checked').each(function() {
-            taxTotal += ( $(this).data('amount') * $(this).data('tax') ) / 100;
-            subTotal += parseFloat($(this).data('amount'));
+            tax = ( $(this).data('amount') * $(this).data('tax') ) / 100;
+            amount = parseFloat($(this).data('amount'));
+            
+            priceType = $(this).data('price_type');
+
+            if(priceType == '1')
+            {
+              subTotalRecurring += amount;
+              taxTotalRecurring += tax;
+            }
+            else if(priceType == '2')
+            {
+              subTotalOnetime += amount;
+              taxTotalOnetime += tax;
+            }
+
+            taxTotal += tax;
+            subTotal += amount;
         });
 
         var totalAmount = subTotal + taxTotal;
+        var totalAmountRecurring = subTotalRecurring + taxTotalRecurring;
+        var totalAmountOnetime = subTotalOnetime + taxTotalOnetime;
+
+        $('.display-sub-total-recurring').html(subTotalRecurring.toFixed(2));
+        $('.display-tax-recurring').html(taxTotalRecurring.toFixed(2));
+        $('.display-total-recurring').html(totalAmountRecurring.toFixed(2));
+
+        $('.display-sub-total-onetime').html(subTotalOnetime.toFixed(2));
+        $('.display-tax-onetime').html(taxTotalOnetime.toFixed(2));
+        $('.display-total-onetime').html(totalAmountOnetime.toFixed(2));
 
         $('.subscription-sub-total').html(subTotal.toFixed(2));
         $('.subscription-tax').html(taxTotal.toFixed(2));
