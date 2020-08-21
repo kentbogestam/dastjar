@@ -400,7 +400,18 @@
                     ?>
                         <tr class="prods">
                             <td align="left">
-                                <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo (($product['package_ids'] == '1') || in_array($product['plan_id'], $campaignProducts)) ? "checked='checked' readonly" : '' ?> data-amount="<?php echo $product['price']; ?>" data-package="<?php echo $product['package_ids']; ?>" data-tax="25" data-price_type="<?php echo $product['price_type']; ?>">
+                              <?php
+                              $isChecked = '';
+                              if( $product['package_ids'] == '1' )
+                              {
+                                $isChecked = "checked='checked' readonly";
+                              }
+                              elseif( in_array($product['plan_id'], $campaignProducts) )
+                              {
+                                $isChecked = "checked='checked'";
+                              }
+                              ?>
+                              <input type="checkbox" name="plan_id[]" value="<?=$product['plan_id']?>" <?php echo $isChecked ?> data-amount="<?php echo $product['price']; ?>" data-package="<?php echo $product['package_ids']; ?>" data-tax="25" data-price_type="<?php echo $product['price_type']; ?>">
                             </td>
                             <td><?php echo $i; ?></td>
                             <td align="left" colspan="2" style="padding-right: 10px; padding-left: 10px">
@@ -945,14 +956,15 @@
             var packages = ($(this).data('package')).toString().split(',');
             var checkedValue = $(this).is(':checked') ? true : false;
 
-            // if($(this).data('package') == '5') // Update 'onlinePayment' fields
-            if(packages.indexOf('5') != -1) // Update 'onlinePayment' fields
+            // Update 'onlinePayment' fields
+            if(packages.indexOf('5') != -1)
             {
                 inputFields = 'onlinePayment';
                 $('input[name="'+inputFields+'"]').prop('checked', checkedValue);
             }
-            // else if($(this).data('package') == '4') // Update 'typeofrestrurant'
-            else if(packages.indexOf('4') != -1) // Update 'typeofrestrurant'
+
+            // Update 'typeofrestrurant'
+            if(packages.indexOf('4') != -1)
             {
                 if(checkedValue)
                 {
@@ -963,9 +975,27 @@
                     $('#typeofrestrurant').val('1');
                 }
             }
-            // else if(checkedValue && $(this).data('package') == '16')
-            else if(checkedValue && packages.indexOf('16') != -1)
-            {   
+
+            // Home delivery
+            if(packages.indexOf('12') != -1)
+            {
+              let selectedDeliveryTypes = $('#delivery_type').val();
+
+              if(checkedValue)
+              {
+                selectedDeliveryTypes.push('3');
+              }
+              else
+              {
+                let index = selectedDeliveryTypes.indexOf('3');
+                selectedDeliveryTypes.splice(index);
+              }
+              
+              $('#delivery_type').val(selectedDeliveryTypes);
+            }
+
+            if(checkedValue && packages.indexOf('16') != -1)
+            {
                 alert("From admin@datjar.com: \nYou will get a mail from us as soon the new website is available. \nIt can take from 10 minutes up to a couple of hours to finish the process so we can send the mail. \nYou can then login with you userid and password and select your website and select your wanted template. \nYou can also change domain etc in settings");
             }
 
@@ -1143,7 +1173,7 @@
             addPlan.push('4'); // Add 'Catering package'
         }
 
-        $('input[name="plan_id[]"]:not([readonly])').prop('checked', false);
+        // $('input[name="plan_id[]"]:not([readonly])').prop('checked', false);
 
         if(addPlan.length)
         {
