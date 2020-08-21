@@ -45,7 +45,7 @@ class storeCampaign {
 		$query = "SELECT plan_id FROM store_campaign SC INNER JOIN store_campaign_product SCP ON SC.id = SCP.campaign_id WHERE SC.campaign_id = '{$campaign_id}'";
     	$res = mysqli_query($conn, $query);
 
-    	if($res->num_rows > 1)
+    	if($res->num_rows >= 1)
         {
             while ($rs = mysqli_fetch_assoc($res))
             {
