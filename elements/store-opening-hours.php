@@ -277,9 +277,25 @@ else
         </div>
         <div class="panel-body">
             <?php
-            $strOptionsForOpenCloseingTime = '';
+            $strOptionsForOpenTime = $strOptionsForCloseingTime = '';
             foreach($openCloseingTime as $key =>$value) {
-                $strOptionsForOpenCloseingTime .= "<option value='{$value['close_time']}'>{$value['close_time']}</option>";
+                // Open Time
+                $isSelected = '';
+                if($value['close_time'] == '10:00:00')
+                {
+                    $isSelected = "selected";
+                }
+
+                $strOptionsForOpenTime .= "<option value='{$value['close_time']}' {$isSelected}>{$value['close_time']}</option>";
+
+                // Close Time
+                $isSelected = '';
+                if($value['close_time'] == '22:00:00')
+                {
+                    $isSelected = "selected";
+                }
+
+                $strOptionsForCloseingTime .= "<option value='{$value['close_time']}' {$isSelected}>{$value['close_time']}</option>";
             }
             ?>
             <div class="row all1">
@@ -288,7 +304,7 @@ else
                         <label for="allOpen">Opening Time:</label>
                         <select class="form-control input-sm" id="allOpen">
                             <option value="">Select Opening Time</option>
-                            <?php echo $strOptionsForOpenCloseingTime; ?>
+                            <?php echo $strOptionsForOpenTime; ?>
                         </select>
                     </div>
                 </div>
@@ -297,7 +313,7 @@ else
                         <label for="allClose">Closing Time:</label>
                         <select class="form-control input-sm" id="allClose">
                             <option value="">Select Closing Time</option>
-                            <?php echo $strOptionsForOpenCloseingTime; ?>
+                            <?php echo $strOptionsForCloseingTime; ?>
                         </select>
                     </div>
                 </div>
@@ -308,7 +324,7 @@ else
                         <label for="monOpen">Monday Opening Time:</label>
                         <select class="form-control input-sm" id="monOpen">
                             <option value="">Monday Opening Time</option>
-                            <?php echo $strOptionsForOpenCloseingTime; ?>
+                            <?php echo $strOptionsForOpenTime; ?>
                         </select>
                     </div>
                 </div>
@@ -317,7 +333,7 @@ else
                         <label for="monClose">Monday Closing Time:</label>
                         <select class="form-control input-sm" id="monClose">
                             <option value="">Monday Closing Time</option>
-                            <?php echo $strOptionsForOpenCloseingTime; ?>
+                            <?php echo $strOptionsForCloseingTime; ?>
                         </select>
                     </div>
                 </div>
@@ -326,7 +342,7 @@ else
                         <label for="tueOpen">Tuesday Opening Time:</label>
                         <select class="form-control input-sm" id="tueOpen">
                             <option value="">Tuesday Opening Time</option>
-                            <?php echo $strOptionsForOpenCloseingTime; ?>
+                            <?php echo $strOptionsForOpenTime; ?>
                         </select>
                     </div>
                 </div>
@@ -335,7 +351,7 @@ else
                         <label for="tueClose">Tuesday Closing Time:</label>
                         <select class="form-control input-sm" id="tueClose">
                             <option value="">Tuesday Closing Time</option>
-                            <?php echo $strOptionsForOpenCloseingTime; ?>
+                            <?php echo $strOptionsForCloseingTime; ?>
                         </select>
                     </div>
                 </div>
@@ -344,7 +360,7 @@ else
                         <label for="wedOpen">Wednesday Opening Time:</label>
                         <select class="form-control input-sm" id="wedOpen">
                             <option value="">Wednesday Opening Time</option>
-                            <?php echo $strOptionsForOpenCloseingTime; ?>
+                            <?php echo $strOptionsForOpenTime; ?>
                         </select>
                     </div>
                 </div>
@@ -353,7 +369,7 @@ else
                         <label for="wedClose">Wednesday Closing Time:</label>
                         <select class="form-control input-sm" id="wedClose">
                             <option value="">Wednesday Closing Time</option>
-                            <?php echo $strOptionsForOpenCloseingTime; ?>
+                            <?php echo $strOptionsForCloseingTime; ?>
                         </select>
                     </div>
                 </div>
@@ -362,7 +378,7 @@ else
                         <label for="thuOpen">Thursday Opening Time:</label>
                         <select class="form-control input-sm" id="thuOpen">
                             <option value="">Thursday Opening Time</option>
-                            <?php echo $strOptionsForOpenCloseingTime; ?>
+                            <?php echo $strOptionsForOpenTime; ?>
                         </select>
                     </div>
                 </div>
@@ -371,7 +387,7 @@ else
                         <label for="thuClose">Thursday Closing Time:</label>
                         <select class="form-control input-sm" id="thuClose">
                             <option value="">Thursday Closing Time</option>
-                            <?php echo $strOptionsForOpenCloseingTime; ?>
+                            <?php echo $strOptionsForCloseingTime; ?>
                         </select>
                     </div>
                 </div>
@@ -380,7 +396,7 @@ else
                         <label for="friOpen">Friday Opening Time:</label>
                         <select class="form-control input-sm" id="friOpen">
                             <option value="">Friday Opening Time</option>
-                            <?php echo $strOptionsForOpenCloseingTime; ?>
+                            <?php echo $strOptionsForOpenTime; ?>
                         </select>
                     </div>
                 </div>
@@ -389,7 +405,7 @@ else
                         <label for="friClose">Friday Closing Time:</label>
                         <select class="form-control input-sm" id="friClose">
                             <option value="">Friday Closing Time</option>
-                            <?php echo $strOptionsForOpenCloseingTime; ?>
+                            <?php echo $strOptionsForCloseingTime; ?>
                         </select>
                     </div>
                 </div>
@@ -398,7 +414,7 @@ else
                         <label for="satOpen">Saturday Opening Time:</label>
                         <select class="form-control input-sm" id="satOpen">
                             <option value="">Saturday Opening Time</option>
-                            <?php echo $strOptionsForOpenCloseingTime; ?>
+                            <?php echo $strOptionsForOpenTime; ?>
                         </select>
                     </div>
                 </div>
@@ -407,7 +423,7 @@ else
                         <label for="satClose">Saturday Closing Time:</label>
                         <select class="form-control input-sm" id="satClose">
                             <option value="">Saturday Closing Time</option>
-                            <?php echo $strOptionsForOpenCloseingTime; ?>
+                            <?php echo $strOptionsForCloseingTime; ?>
                         </select>
                     </div>
                 </div>
@@ -416,7 +432,7 @@ else
                         <label for="sunOpen">Sunday Opening Time:</label>
                         <select class="form-control input-sm" id="sunOpen">
                             <option value="">Sunday Opening Time</option>
-                            <?php echo $strOptionsForOpenCloseingTime; ?>
+                            <?php echo $strOptionsForOpenTime; ?>
                         </select>
                     </div>
                 </div>
@@ -425,7 +441,7 @@ else
                         <label for="sunClose">Sunday Closing Time:</label>
                         <select class="form-control input-sm" id="sunClose">
                             <option value="">Sunday Closing Time</option>
-                            <?php echo $strOptionsForOpenCloseingTime; ?>
+                            <?php echo $strOptionsForCloseingTime; ?>
                         </select>
                     </div>
                 </div>

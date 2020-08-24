@@ -1113,6 +1113,9 @@
      // Update plan on load
      $(window).load(function() {
         updatePlan();
+
+        // Set default open/close time
+        $('[id=allOpen]').trigger('change');
      });
 
      // Update plan
