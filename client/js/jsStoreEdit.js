@@ -49,7 +49,8 @@ $(document).ready(function(){
 
         }
 
-        var patt = /^[a-zA-Z0-9- _]+$/i;
+        // var patt = /^[a-zA-Z0-9- _]+$/i;
+        var patt = /^[a-zA-Z0-9- _åäöÅÄÖ]+$/i;
         if( !patt.test($("#storeName").val()) )
         {
             var errorMsg = "Please Enter Valid Location Name.<br />";

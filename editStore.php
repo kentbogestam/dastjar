@@ -221,7 +221,7 @@
    include_once("main.php");
    ?>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByLiizP2XW9JUAiD92x57u7lFvU3pS630&sensor=false"></script>
-<script language="JavaScript" src="client/js/jsStoreEdit.js?v=1" type="text/javascript"></script>
+<script language="JavaScript" src="client/js/jsStoreEdit.js?v=11" type="text/javascript"></script>
 
 <script type="text/javascript" src="client/js/newJs/jquery-1.11.1.js"></script>
 <link rel="stylesheet" type="text/css" href="client/js/newJs/mdp.css">

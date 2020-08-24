@@ -36,6 +36,12 @@
        $pager = new pager($total_records, $records_per_page, @$_GET['_p']);
        $paging_limit = $pager->get_limit();
        $data = $storeObj->svrStoreDflt($paging_limit);
+       // echo count($data); die;
+
+       if( count($data) == 0 )
+       {
+         header("location:newCreateStore.php");
+       }
    //print_r($data); die();
    } else {
        $_SESSION['MESSAGE'] = "Please Login";
