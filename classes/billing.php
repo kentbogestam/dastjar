@@ -169,7 +169,7 @@ class Billing{
         $db->makeConnection();
         $data = array();
 
-        $query = "SELECT bp.id, GROUP_CONCAT(bpp.package_id) AS package_ids, bp.product_id, bp.product_name, bp.plan_id, bp.plan_nickname, bp.currency, bp.price, bp.trial_period, bp.product_type, bp.description FROM billing_products bp INNER JOIN billing_product_packages bpp ON bp.id = bpp.billing_product_id INNER JOIN anar_packages AP ON AP.id = bpp.package_id WHERE bp.s_activ != 2 AND AP.status = '1' GROUP BY bp.id ORDER BY AP.id, bp.id";
+        $query = "SELECT bp.id, GROUP_CONCAT(bpp.package_id) AS package_ids, bp.product_id, bp.product_name, bp.plan_id, bp.plan_nickname, bp.currency, bp.price, bp.price_type, bp.trial_period, bp.product_type, bp.description FROM billing_products bp INNER JOIN billing_product_packages bpp ON bp.id = bpp.billing_product_id INNER JOIN anar_packages AP ON AP.id = bpp.package_id WHERE bp.s_activ != 2 AND AP.status = '1' GROUP BY bp.id ORDER BY AP.id, bp.id";
         $res = $db->query($query);
 
         while ($rs = mysqli_fetch_assoc($res)) {
@@ -199,6 +199,7 @@ class Billing{
                 'plan_nickname' => $rs['plan_nickname'],
                 'currency' => $rs['currency'],
                 'price' => $rs['price'],
+                'price_type' => $rs['price_type'],
                 'trial_period' => $rs['trial_period'],
                 'product_type' => $rs['product_type'],
                 'description' => $rs['description'],
@@ -263,18 +264,27 @@ class Billing{
     {
         $db = new db();
         $db->makeConnection();
-        $data = array();
+        $recurring = $oneTime = array();
 
         $date = date('Y-m-d H:i:s');
 
+        // 
         $query = "SELECT UP.subscription_id, USI.plan_id, USI.subscription_item, GROUP_CONCAT(BPP.package_id) AS package_ids FROM user_plan UP INNER JOIN user_subscription_items USI ON USI.subscription_id = UP.subscription_id INNER JOIN billing_products BP ON BP.plan_id = USI.plan_id INNER JOIN billing_product_packages BPP ON BPP.billing_product_id = BP.id INNER JOIN anar_packages AP ON AP.id = BPP.package_id WHERE UP.store_id='{$storeId}' AND UP.subscription_start_at <= '{$date}' AND UP.subscription_end_at >= '{$date}' AND UP.status='1' AND USI.status = '1' GROUP BY USI.plan_id ORDER BY AP.id";
         $res = $db->query($query);
 
         while ($rs = mysqli_fetch_assoc($res)) {
-            $data[] = $rs;
+            $recurring[] = $rs;
         }
 
-        return $data;
+        // 
+        $query = "SELECT SSO.subscription_id, SSOI.plan_id, SSOI.subscription_item, GROUP_CONCAT(BPP.package_id) AS package_ids FROM store_subs_onetime SSO INNER JOIN store_subs_onetime_items SSOI ON SSOI.subscription_id = SSO.subscription_id INNER JOIN billing_products BP ON BP.plan_id = SSOI.plan_id INNER JOIN billing_product_packages BPP ON BPP.billing_product_id = BP.id INNER JOIN anar_packages AP ON AP.id = BPP.package_id WHERE SSO.store_id='{$storeId}' AND SSO.start_at <= '{$date}' AND SSO.end_at >= '{$date}' GROUP BY SSOI.plan_id ORDER BY AP.id";
+        $res = $db->query($query);
+
+        while ($rs = mysqli_fetch_assoc($res)) {
+            $oneTime[] = $rs;
+        }
+
+        return $data = array('recurring' => $recurring, 'oneTime' => $oneTime);
     }
 
    function showPlan(){
@@ -1024,18 +1034,25 @@ on user_plan.user_id=user.u_id group by user.u_id";
                 $planIds = $data->plan_id;
                 if($customer_id && !empty($planIds))
                 {
-                    $items = $subsProductPackages = array();
+                    $items = $itemsOnetime = $subsProductPackages = array();
                     $billingInterval = 'month';
                     $emailContent = ''; $subTotal = $tax = $total = 0;
                     $planIds = join("','", $planIds);
 
                     // Get plan detail to subscribe
-                    $query = "SELECT BP.product_name, BP.plan_id, BP.price, BP.trial_period, BP.billing_interval, GROUP_CONCAT(BPP.package_id) AS package_ids FROM billing_products BP LEFT JOIN billing_product_packages BPP ON BP.id = BPP.billing_product_id WHERE BP.plan_id IN ('{$planIds}') GROUP BY BP.id ORDER BY BP.trial_period";
+                    $query = "SELECT BP.product_name, BP.plan_id, BP.price, BP.price_type, BP.trial_period, BP.billing_interval, GROUP_CONCAT(BPP.package_id) AS package_ids FROM billing_products BP LEFT JOIN billing_product_packages BPP ON BP.id = BPP.billing_product_id WHERE BP.plan_id IN ('{$planIds}') GROUP BY BP.id ORDER BY BP.trial_period";
                     $res = $db->query($query);
 
                     while ($rs = mysqli_fetch_array($res))
                     {
-                        $items[] = array('plan' => $rs['plan_id']);
+                        if($rs['price_type'] == '2')
+                        {
+                            $itemsOnetime[] = array('plan' => $rs['plan_id']);
+                        }
+                        else
+                        {
+                            $items[] = array('plan' => $rs['plan_id']);
+                        }
 
                         // 
                         if($rs['billing_interval'] == 'day')
@@ -1066,46 +1083,164 @@ on user_plan.user_id=user.u_id group by user.u_id";
                         }
                     }
 
-                    // Update if store already has subscription or create new subscription
-                    $query = "SELECT subscription_id FROM user_plan WHERE store_id = '{$data->store_id}' AND status = '1'";
-                    $res = $db->query($query);
-                    $userPlan = mysqli_fetch_array($res);
-
-                    if( !empty($userPlan) && is_array($userPlan) )
+                    // Subscription recurring
+                    if( !empty($items) )
                     {
-                        $arrSubsCreate = array(
-                            'items' => $items,
-                            'prorate' => false
-                        );
+                        // Update if store already has subscription or create new subscription
+                        $query = "SELECT subscription_id FROM user_plan WHERE store_id = '{$data->store_id}' AND status = '1'";
+                        $res = $db->query($query);
+                        $userPlan = mysqli_fetch_array($res);
 
-                        // Assign 'payment method' to subscription
-                        if( isset($card) )
+                        if( !empty($userPlan) && is_array($userPlan) )
                         {
-                            $arrSubsCreate['default_payment_method'] = $card->id;
+                            $arrSubsCreate = array(
+                                'items' => $items,
+                                'prorate' => false
+                            );
+
+                            // Assign 'payment method' to subscription
+                            if( isset($card) )
+                            {
+                                $arrSubsCreate['default_payment_method'] = $card->id;
+                            }
+                            elseif( isset($data->payment_method_id) && !empty($data->payment_method_id) )
+                            {
+                                $arrSubsCreate['default_payment_method'] = $data->payment_method_id;
+                            }
+
+                            // Update subscription
+                            $subscription = \Stripe\Subscription::update(
+                                $userPlan['subscription_id'],
+                                $arrSubsCreate
+                            );
                         }
-                        elseif( isset($data->payment_method_id) && !empty($data->payment_method_id) )
+                        else
                         {
-                            $arrSubsCreate['default_payment_method'] = $data->payment_method_id;
+                            // 
+                            $arrSubsCreate = array(
+                                'customer'          => $customer_id,
+                                'items'             => $items,
+                                'payment_behavior'  => 'allow_incomplete',
+                                'metadata'          => array('StoreID' => $data->store_id),
+                                'tax_percent'       => 25, // Need to set dynamically value later
+                                'expand'            => ['latest_invoice.payment_intent'],
+                                'off_session'       => true,
+                                'billing_cycle_anchor' => strtotime($billing_cycle_anchor_date),
+                                'prorate' => false,
+                            );
+
+                            // Assign 'payment method' to subscription
+                            if( isset($card) )
+                            {
+                                $arrSubsCreate['default_payment_method'] = $card->id;
+                            }
+                            elseif( isset($data->payment_method_id) && !empty($data->payment_method_id) )
+                            {
+                                $arrSubsCreate['default_payment_method'] = $data->payment_method_id;
+                            }
+
+                            // Create subscription
+                            $subscription = \Stripe\Subscription::create($arrSubsCreate);
                         }
 
-                        // Update subscription
-                        $subscription = \Stripe\Subscription::update(
-                            $userPlan['subscription_id'],
-                            $arrSubsCreate
-                        );
+                        // 
+                        if($subscription)
+                        {
+                            // Check if user action required and set response
+                            if( ($subscription->status == 'incomplete' && $subscription->latest_invoice->payment_intent->status == 'requires_source_action') )
+                            {
+                                $response = array(
+                                    'requires_action' => true,
+                                    'payment_intent_client_secret' => $subscription->latest_invoice->payment_intent->client_secret,
+                                    'storeId' => $data->store_id
+                                );
+                            }
+                            else
+                            {
+                                $response = array('success' => true, 'storeId' => $data->store_id);
+                            }
+
+                            // Add subscription and its detail in DB
+                            if( empty($userPlan) )
+                            {
+                                $current_period_start = date('Y-m-d H:i:s', $subscription->current_period_start);
+                                $current_period_end = date('Y-m-d H:i:s', $subscription->current_period_end);
+
+                                $query = "INSERT INTO user_plan(user_id, store_id, subscription_id, subscription_start_at, subscription_end_at) VALUES('{$uId}', '{$data->store_id}', '{$subscription->id}', '{$current_period_start}', '{$current_period_end}')";
+                                $resInsert = $db->query($query);
+                            }
+
+                            // Get the subscribed plan
+                            $subscriptionItems = $subscription->items->data;
+
+                            if( !empty($subscriptionItems) )
+                            {
+                                foreach($subscriptionItems as $item)
+                                {
+                                    // Check if plan is not already added into 'user_subscription_items' table
+                                    $query = "SELECT id FROM user_subscription_items WHERE subscription_id = '{$subscription->id}' AND plan_id = '{$item->plan->id}' AND status = '1'";
+                                    $res = $db->query($query);
+                                    $subscriptionItem = mysqli_fetch_array($res);
+
+                                    if( empty($subscriptionItem) )
+                                    {
+                                        if( is_numeric($item->plan->trial_period_days) && $item->plan->trial_period_days > 0 )
+                                        {
+                                            // Set trial according to 'billing_interval'
+                                            if($billingInterval == 'month')
+                                            {
+                                                $months = ($item->plan->trial_period_days/30);
+                                                $coupon_trial_from = date('Y-m-d 00:00:00', strtotime($billing_cycle_anchor_date));
+
+                                                if($months >= 1)
+                                                {
+                                                    $coupon_trial_to = date('Y-m-d 00:00:00', strtotime("+{$months} months", strtotime($billing_cycle_anchor_date)));
+                                                }
+                                                else
+                                                {
+                                                    $days = $item->plan->trial_period_days;
+                                                    $coupon_trial_to = date('Y-m-d 00:00:00', strtotime("+{$days} days", strtotime($billing_cycle_anchor_date)));
+                                                }
+                                            }
+                                            else
+                                            {
+                                                $days = $item->plan->trial_period_days;
+                                                $coupon_trial_from = date('Y-m-d 00:00:00', strtotime($billing_cycle_anchor_date));
+                                                $coupon_trial_to = date('Y-m-d 00:00:00', strtotime("+{$days} days", strtotime($billing_cycle_anchor_date)));
+                                            }
+
+                                            $query = "INSERT INTO user_subscription_items(subscription_id, plan_id, subscription_item, coupon_trial_from, coupon_trial_to) VALUES('{$subscription->id}', '{$item->plan->id}', '{$item->id}', '{$coupon_trial_from}', '$coupon_trial_to')";
+                                        }
+                                        else
+                                        {
+                                            $query = "INSERT INTO user_subscription_items(subscription_id, plan_id, subscription_item) VALUES('{$subscription->id}', '{$item->plan->id}', '{$item->id}')";
+                                        }
+
+                                        // Insert plan into 'user_subscription_items' table
+                                        $resInsert = $db->query($query);
+                                    }
+                                }
+                            }
+
+                            // 
+                            $response['error'] = $this->applyDiscountOnSubscription($subscription->id);
+                        }
                     }
-                    else
+                    
+                    // Subscription one-time
+                    if( !empty($itemsOnetime) )
                     {
                         // 
                         $arrSubsCreate = array(
                             'customer'          => $customer_id,
-                            'items'             => $items,
+                            'items'             => $itemsOnetime,
                             'payment_behavior'  => 'allow_incomplete',
                             'metadata'          => array('StoreID' => $data->store_id),
                             'tax_percent'       => 25, // Need to set dynamically value later
                             'expand'            => ['latest_invoice.payment_intent'],
                             'off_session'       => true,
-                            'billing_cycle_anchor' => strtotime($billing_cycle_anchor_date),
+                            // 'billing_cycle_anchor' => strtotime($billing_cycle_anchor_date),
+                            'cancel_at_period_end' => true,
                             'prorate' => false,
                         );
 
@@ -1120,90 +1255,29 @@ on user_plan.user_id=user.u_id group by user.u_id";
                         }
 
                         // Create subscription
-                        $subscription = \Stripe\Subscription::create($arrSubsCreate);
-                    }
+                        $subscriptionOnetime = \Stripe\Subscription::create($arrSubsCreate);
 
-                    // 
-                    if($subscription)
-                    {
-                        // Check if user action required and set response
-                        if( ($subscription->status == 'incomplete' && $subscription->latest_invoice->payment_intent->status == 'requires_source_action') )
+                        if($subscriptionOnetime)
                         {
-                            $response = array(
-                                'requires_action' => true,
-                                'payment_intent_client_secret' => $subscription->latest_invoice->payment_intent->client_secret,
-                                'storeId' => $data->store_id
-                            );
-                        }
-                        else
-                        {
-                            $response = array('success' => true, 'storeId' => $data->store_id);
-                        }
+                            // Add subscription and its detail in DB
+                            $start_at = date('Y-m-d H:i:s', $subscriptionOnetime->current_period_start);
+                            $end_at = date('Y-m-d H:i:s', $subscriptionOnetime->current_period_end);
 
-                        // Add subscription and its detail in DB
-                        if( empty($userPlan) )
-                        {
-                            $current_period_start = date('Y-m-d H:i:s', $subscription->current_period_start);
-                            $current_period_end = date('Y-m-d H:i:s', $subscription->current_period_end);
-
-                            $query = "INSERT INTO user_plan(user_id, store_id, subscription_id, subscription_start_at, subscription_end_at) VALUES('{$uId}', '{$data->store_id}', '{$subscription->id}', '{$current_period_start}', '{$current_period_end}')";
+                            $query = "INSERT INTO store_subs_onetime(store_id, subscription_id, start_at, end_at, status) VALUES('{$data->store_id}', '{$subscriptionOnetime->id}', '{$start_at}', '{$end_at}', '{$subscriptionOnetime->status}')";
                             $resInsert = $db->query($query);
-                        }
 
-                        // Get the subscribed plan
-                        $subscriptionItems = $subscription->items->data;
+                            // Get the subscribed plan
+                            $subscriptionItems = $subscriptionOnetime->items->data;
 
-                        if( !empty($subscriptionItems) )
-                        {
-                            foreach($subscriptionItems as $item)
+                            if( !empty($subscriptionItems) )
                             {
-                                // Check if plan is not already added into 'user_subscription_items' table
-                                $query = "SELECT id FROM user_subscription_items WHERE subscription_id = '{$subscription->id}' AND plan_id = '{$item->plan->id}' AND status = '1'";
-                                $res = $db->query($query);
-                                $subscriptionItem = mysqli_fetch_array($res);
-
-                                if( empty($subscriptionItem) )
+                                foreach($subscriptionItems as $item)
                                 {
-                                    if( is_numeric($item->plan->trial_period_days) && $item->plan->trial_period_days > 0 )
-                                    {
-                                        // Set trial according to 'billing_interval'
-                                        if($billingInterval == 'month')
-                                        {
-                                            $months = ($item->plan->trial_period_days/30);
-                                            $coupon_trial_from = date('Y-m-d 00:00:00', strtotime($billing_cycle_anchor_date));
-
-                                            if($months >= 1)
-                                            {
-                                                $coupon_trial_to = date('Y-m-d 00:00:00', strtotime("+{$months} months", strtotime($billing_cycle_anchor_date)));
-                                            }
-                                            else
-                                            {
-                                                $days = $item->plan->trial_period_days;
-                                                $coupon_trial_to = date('Y-m-d 00:00:00', strtotime("+{$days} days", strtotime($billing_cycle_anchor_date)));
-                                            }
-                                        }
-                                        else
-                                        {
-                                            $days = $item->plan->trial_period_days;
-                                            $coupon_trial_from = date('Y-m-d 00:00:00', strtotime($billing_cycle_anchor_date));
-                                            $coupon_trial_to = date('Y-m-d 00:00:00', strtotime("+{$days} days", strtotime($billing_cycle_anchor_date)));
-                                        }
-
-                                        $query = "INSERT INTO user_subscription_items(subscription_id, plan_id, subscription_item, coupon_trial_from, coupon_trial_to) VALUES('{$subscription->id}', '{$item->plan->id}', '{$item->id}', '{$coupon_trial_from}', '$coupon_trial_to')";
-                                    }
-                                    else
-                                    {
-                                        $query = "INSERT INTO user_subscription_items(subscription_id, plan_id, subscription_item) VALUES('{$subscription->id}', '{$item->plan->id}', '{$item->id}')";
-                                    }
-
-                                    // Insert plan into 'user_subscription_items' table
+                                    $query = "INSERT INTO store_subs_onetime_items(subscription_id, plan_id, subscription_item) VALUES('{$subscriptionOnetime->id}', '{$item->plan->id}', '{$item->id}')";
                                     $resInsert = $db->query($query);
                                 }
                             }
                         }
-
-                        // 
-                        $response['error'] = $this->applyDiscountOnSubscription($subscription->id);
                     }
                 }
             } catch (\Stripe\Error\Base $e) {
