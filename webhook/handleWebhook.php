@@ -310,7 +310,7 @@ class handleWebhook {
 					$endAt = date('Y-m-d H:i:s', $subscription->current_period_end);
 					$str .= "Subscription end at: {$endAt}\n";
 					
-					$query = "UPDATE user_plan SET subscription_end_at = '{$endAt}' WHERE subscription_id = '{$subscriptionId}'";
+					$query = "UPDATE user_plan SET subscription_end_at = '{$endAt}', status = '1' WHERE subscription_id = '{$subscriptionId}'";
 					$res = mysqli_query($conn , $query) or die(mysqli_error($conn));
 					$str .= "Query: {$query}\n";
 				}
