@@ -56,7 +56,7 @@ class Billing{
     $date = date("Y-m-d h:i:s",$time);
 
     // Insert into billing product
-    $query = "insert into billing_products(product_id, product_name, plan_id, plan_nickname, currency, price, price_type trial_period, billing_interval, usage_type, product_type, description, created_at, updated_at, s_activ) values('$productId', '$productName', '$planId', '$planNickname', '$currency', '$price', '$price_type', '$trialPeriod', '$billing_interval', '$usageType', '$productType', '$description', '$date', '$date', 1)";
+    $query = "insert into billing_products(product_id, product_name, plan_id, plan_nickname, currency, price, price_type, trial_period, billing_interval, usage_type, product_type, description, created_at, updated_at, s_activ) values('$productId', '$productName', '$planId', '$planNickname', '$currency', '$price', '$price_type', '$trialPeriod', '$billing_interval', '$usageType', '$productType', '$description', '$date', '$date', 1)";
 
     $res = $db->query($query);
 
