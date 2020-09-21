@@ -959,7 +959,7 @@
             // Update 'onlinePayment' fields
             if(packages.indexOf('5') != -1)
             {
-                if(checkedValue && !confirm("Note: There is a transaction fee on payments! \nThe fee is  5% + the cost for card transaction so the total fee will be 8%.") )
+                if(checkedValue && !confirm("Note: There is a transaction fee on payments! \nThe fee is  5% + card transaction fee. \nThe total fee will be 8%") )
                 {
                   checkedValue = false;
                   $(this).prop('checked', checkedValue);
