@@ -1430,15 +1430,22 @@ on user_plan.user_id=user.u_id group by user.u_id";
                         }
                         else
                         {
-                            // Retrieve and delete SI
-                            $subscription_item = \Stripe\SubscriptionItem::retrieve($subscriptionItem);
-                            $response = $subscription_item->delete(['proration_behavior' => 'none']);
+                            try {
+                                // Retrieve and delete SI
+                                $subscription_item = \Stripe\SubscriptionItem::retrieve($subscriptionItem);
+                                $response = $subscription_item->delete(['proration_behavior' => 'none']);
+
+                                /*// Update SI status in DB
+                                if( isset($response->deleted) && $response->deleted )
+                                {
+                                    $res = $db->query("UPDATE user_subscription_items SET status = '2' WHERE subscription_item = '{$subscriptionItem}'");
+                                }*/
+                            } catch (Exception $e) {
+
+                            }
                             
                             // Update SI status in DB
-                            if( isset($response->deleted) && $response->deleted )
-                            {
-                                $res = $db->query("UPDATE user_subscription_items SET status = '2' WHERE subscription_item = '{$subscriptionItem}'");
-                            }
+                            $res = $db->query("UPDATE user_subscription_items SET status = '2' WHERE subscription_item = '{$subscriptionItem}'");
                         }
                     }
                 }
